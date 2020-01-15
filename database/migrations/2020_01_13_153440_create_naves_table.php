@@ -15,6 +15,8 @@ class CreateNavesTable extends Migration
     {
         Schema::create('naves', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('nombre');
+            $table->text('descripcion')->nullable();
             $table->timestamps();
         });
     }

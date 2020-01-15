@@ -12,11 +12,31 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/hom', function () {
     return view('principal');
 });
 
+Route::get('/homeWork', function () {
+    return view('principal');
+});
+
+#Estacion
+Route::resource('estacion', 'EstacionController');
+
+#Cliente
 Route::get('/homee', 'ClienteController@index');
+
+#Ot
+Route::get('/otAbierta', 'OtController@obtenerOtAbierta');
+
+#Producto
+Route::get('/productosOt/{id}', 'ProductoController@obtenerProductosOt');
+
+#Usuario
+Route::get('/trabajadores/{id}', 'UsuarioController@obtenerTrabajadoresPorEstacion');
+
+
+
+/*  <!--@foreach ($clientes as $cliente)
+            <p>{{ $cliente->nombre }}</p>
+            <p>{{ $cliente->codigo }}</p>
+        @endforeach--> */

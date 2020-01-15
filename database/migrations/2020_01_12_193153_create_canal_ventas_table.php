@@ -15,6 +15,8 @@ class CreateCanalVentasTable extends Migration
     {
         Schema::create('canal_ventas', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('nombre');
+            $table->text('descripcion')->nullable();
             $table->timestamps();
         });
     }

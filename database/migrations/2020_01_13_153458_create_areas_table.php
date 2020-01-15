@@ -15,6 +15,12 @@ class CreateAreasTable extends Migration
     {
         Schema::create('areas', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('nombre');
+            $table->text('descripcion')->nullable();
+            $table->BigInteger('nave_id')->unsigned();
+
+            $table->foreign('nave_id')->references('id')->on('naves');
+
             $table->timestamps();
         });
     }

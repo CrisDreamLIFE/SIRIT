@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSesionUsuariosTable extends Migration
+class CreateSesionTrabajoUsuariosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,13 @@ class CreateSesionUsuariosTable extends Migration
      */
     public function up()
     {
-        Schema::create('sesion_usuarios', function (Blueprint $table) {
+        Schema::create('sesion_trabajo_usuarios', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->BigInteger('usuario_id')->unsigned();
+            $table->BigInteger('sesion_trabajo_id')->unsigned();
+
+            $table->foreign('usuario_id')->references('id')->on('usuarios');
+            $table->foreign('sesion_trabajo_id')->references('id')->on('sesion_trabajos');
             $table->timestamps();
         });
     }

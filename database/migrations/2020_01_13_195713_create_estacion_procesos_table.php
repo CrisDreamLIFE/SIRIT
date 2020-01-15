@@ -15,6 +15,11 @@ class CreateEstacionProcesosTable extends Migration
     {
         Schema::create('estacion_procesos', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->BigInteger('estacion_id')->unsigned();
+            $table->BigInteger('proceso_id')->unsigned();
+
+            $table->foreign('estacion_id')->references('id')->on('estacions');
+            $table->foreign('proceso_id')->references('id')->on('procesos');
             $table->timestamps();
         });
     }

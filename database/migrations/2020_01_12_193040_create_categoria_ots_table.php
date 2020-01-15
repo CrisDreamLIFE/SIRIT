@@ -15,6 +15,8 @@ class CreateCategoriaOtsTable extends Migration
     {
         Schema::create('categoria_ots', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('nombre');
+            $table->text('descripcion')->nullable();
             $table->timestamps();
         });
     }

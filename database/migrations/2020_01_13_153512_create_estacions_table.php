@@ -15,6 +15,11 @@ class CreateEstacionsTable extends Migration
     {
         Schema::create('estacions', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('codigo');
+            $table->text('descripcion')->nullable();
+            $table->BigInteger('area_id')->unsigned();
+
+            $table->foreign('area_id')->references('id')->on('areas');
             $table->timestamps();
         });
     }

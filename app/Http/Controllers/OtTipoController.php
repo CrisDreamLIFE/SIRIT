@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\TipoOt;
 use Illuminate\Http\Request;
 
-class TipoOtController extends Controller
+class OtTipoController extends Controller
 {
     /**
      * Display a listing of the resource.

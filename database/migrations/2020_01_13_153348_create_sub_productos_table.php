@@ -15,6 +15,12 @@ class CreateSubProductosTable extends Migration
     {
         Schema::create('sub_productos', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('nombre');
+            $table->text('descripcion')->nullable();
+            $table->BigInteger('tipo_material_id')->unsigned();
+
+            $table->foreign('tipo_material_id')->references('id')->on('tipo_materials');
+
             $table->timestamps();
         });
     }

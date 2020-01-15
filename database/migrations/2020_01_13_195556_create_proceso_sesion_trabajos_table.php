@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProcesoSesionsTable extends Migration
+class CreateProcesoSesionTrabajosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,13 @@ class CreateProcesoSesionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('proceso_sesions', function (Blueprint $table) {
+        Schema::create('proceso_sesion_trabajos', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->BigInteger('proceso_id')->unsigned();
+            $table->BigInteger('sesion_trabajo_id')->unsigned();
+
+            $table->foreign('proceso_id')->references('id')->on('procesos');
+            $table->foreign('sesion_trabajo_id')->references('id')->on('sesion_trabajos');
             $table->timestamps();
         });
     }

@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TipoOt extends Model
+class OtSesionTrabajo extends Model
 {
     //
 }

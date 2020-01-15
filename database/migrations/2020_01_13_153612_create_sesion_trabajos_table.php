@@ -15,6 +15,13 @@ class CreateSesionTrabajosTable extends Migration
     {
         Schema::create('sesion_trabajos', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->date('fecha_inicio');
+            $table->date('fecha_termino');
+            $table->time('hora_inicio');
+            $table->time('hora_termino');
+            $table->BigInteger('estacion_id')->unsigned();
+
+            $table->foreign('estacion_id')->references('id')->on('estacions');
             $table->timestamps();
         });
     }

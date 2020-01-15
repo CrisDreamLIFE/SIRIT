@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProductoSubProductosTable extends Migration
+class CreateProductoSesionTrabajosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,13 @@ class CreateProductoSubProductosTable extends Migration
      */
     public function up()
     {
-        Schema::create('producto_sub_productos, function (Blueprint $table) {
+        Schema::create('producto_sesion_trabajos', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->BigInteger('sub_producto_id')->unsigned();
+            $table->BigInteger('sesion_trabajo_id')->unsigned();
             $table->BigInteger('producto_id')->unsigned();
 
-            $table->foreign('sub_producto_id')->references('id')->on('sub_productos');
+            $table->foreign('sesion_trabajo_id')->references('id')->on('sesion_trabajos');
             $table->foreign('producto_id')->references('id')->on('productos');
-            
             $table->timestamps();
         });
     }
@@ -32,6 +31,6 @@ class CreateProductoSubProductosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('producto_sub_productos');
+        Schema::dropIfExists('producto_sesions');
     }
 }

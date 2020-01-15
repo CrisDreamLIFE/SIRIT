@@ -15,6 +15,9 @@ class CreateProcesosTable extends Migration
     {
         Schema::create('procesos', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('nombre');
+            $table->text('descripcion')->nullable();
+            $table->boolean('activo')->default(TRUE); //inicializar;
             $table->timestamps();
         });
     }

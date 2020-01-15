@@ -15,6 +15,11 @@ class CreateRolUsuariosTable extends Migration
     {
         Schema::create('rol_usuarios', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->BigInteger('usuario_id')->unsigned();
+            $table->BigInteger('rol_id')->unsigned();
+
+            $table->foreign('usuario_id')->references('id')->on('usuarios');
+            $table->foreign('rol_id')->references('id')->on('rols');
             $table->timestamps();
         });
     }

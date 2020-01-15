@@ -12,9 +12,17 @@ class OtController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function obtenerOtAbierta()
+    {
+        $ots = Ot::where('abierta',1)->get();
+        return $ots;
+    }
+
     public function index()
     {
         //
+      
     }
 
     /**

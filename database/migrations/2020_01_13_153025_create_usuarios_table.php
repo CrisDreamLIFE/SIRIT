@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOtSesionsTable extends Migration
+class CreateUsuariosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class CreateOtSesionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('ot_sesions', function (Blueprint $table) {
+        Schema::create('usuarios', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('nombre');
+            $table->string('rut');
+            $table->boolean('activo')->default(TRUE);  //inicializar
             $table->timestamps();
         });
     }
@@ -26,6 +29,6 @@ class CreateOtSesionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ot_sesions');
+        Schema::dropIfExists('usuarios');
     }
 }

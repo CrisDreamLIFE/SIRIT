@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Usuario;
+use App\Rol;
+use App\RolUsuario;
+use App\Area;
+use App\Estacion;
 use Illuminate\Http\Request;
 
 class UsuarioController extends Controller
@@ -12,6 +16,34 @@ class UsuarioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function obtenerTrabajadoresPorEstacion($id){
+        $estacion = Estacion::where('id',$id)->get();
+        $area = $estacion[0]->area;
+        $usuarios = $area->usuarios;
+        $trabajadores = array();
+        $idRol = Rol::where('nombre',"rol 1")->first(); //ojo con esto, queda estatico.
+        foreach ($usuarios as $usuario){
+            $rolesUsuario = RolUsuario::where('usuario_id',$idRol->id)->get();
+            foreach($rolesUsuario as $rolUsuario){
+                if($rolUsuario->rol_id == $idRol->id){ 
+                    $trabajadores[] = $usuario;
+                }
+            }
+        }
+        return $trabajadores;
+    }
+ 
+    public function obtenerTrabajadores()
+    {
+        $rol = Rol::where('nombre', "trabajador")->get();
+        //echo $rol[0];
+        $usuarios = Usuario::all();
+        //echo $rol[0]->usuarios;
+        return $rol[0]->usuarios;
+       
+        
+    }
+
     public function index()
     {
         //

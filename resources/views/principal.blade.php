@@ -18,21 +18,19 @@
                         <div class="col-sm-6">
                             <label class= "lavelFont font-weight-bold" for="exampleFormControlSelect1">Seleccione Estación:</label>
                             <select class="form-control" id="exampleFormControlSelect1">
-                                <option>Corte Laser</option>
-                                <option>Soladura-Robot-1</option>
-                                <option>Soladura-Robot-2</option>
-                                <option>Soladura-Robot-3</option>
-                                <option>Soladura-Robot-4</option>
+                                @foreach ($estaciones as $estacion)
+                                    <option>{{ $estacion->codigo }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="col-sm-6">
-                            <label class= "lavelFont font-weight-bold" for="exampleFormControlSelect1">Seleccione Área:</label>
+                            <label class= "lavelFont font-weight-bold" for="exampleFormControlSelect1">Seleccione Trabajadores:</label>
                             <select class="form-control" id="exampleFormControlSelect1">
-                                <option>Corte Laser</option>
-                                <option>Área Armado</option>
-                                <option>Área 2</option>>
-                                <option>Área 3</option>
-                                <option>Área 4</option>
+                                <option>Camilo Pino Olmos</option>
+                                <option>José Cousiño Tapia</option>
+                                <option>Cristóbal Serrano Verdugo</option>>
+                                <option>Manuel Veloso Figueroa</option>
+                                <option>Roberto Labra Mancilla</option>
                             </select>
                         </div>
                     </div>
@@ -59,19 +57,7 @@
                                 </select>
                             </div>
                         </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <label class= "lavelFont font-weight-bold" for="exampleFormControlSelect1">Seleccione Trabajadores:</label>
-                            <select class="form-control" id="exampleFormControlSelect1">
-                                <option>Camilo Pino Olmos</option>
-                                <option>José Cousiño Tapia</option>
-                                <option>Cristóbal Serrano Verdugo</option>>
-                                <option>Manuel Veloso Figueroa</option>
-                                <option>Roberto Labra Mancilla</option>
-                            </select>
-                        </div>
-                    </div>                    
+                    <br>                   
                 </div>
             </form>
         </div>
@@ -92,10 +78,6 @@
                 </div>
             </div>
         </div>
-        @foreach ($clientes as $cliente)
-            <p>{{ $cliente->nombre }}</p>
-            <p>{{ $cliente->codigo }}</p>
-        @endforeach
         <br><br>
         <div class="row justify-content-center">
             <button type="button" class="btn btn-primary  colorBoton">Primary</button>
@@ -134,3 +116,9 @@
         background-color:da9833;
     }
 </style>
+
+<script>
+    var app = @json($array);
+
+    var app = @json($array, JSON_PRETTY_PRINT);
+</script>

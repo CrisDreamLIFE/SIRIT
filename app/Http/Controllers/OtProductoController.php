@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\ProductoOt;
 use Illuminate\Http\Request;
 
-class ProductoOtController extends Controller
+class OtProductoController extends Controller
 {
     /**
      * Display a listing of the resource.
