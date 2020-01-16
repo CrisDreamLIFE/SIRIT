@@ -15,9 +15,10 @@ class EstacionController extends Controller
     public function index()
     {
         $estaciones = Estacion::all();
-        return view('principal')->with([
+        /*return view('principal')->with([
             'estaciones'=>$estaciones
-        ]);
+        ]);*/
+        return $estaciones;
     }
 
     /**

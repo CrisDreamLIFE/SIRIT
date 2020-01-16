@@ -18,17 +18,18 @@
                         <div class="col-sm-6">
                             <label class= "lavelFont font-weight-bold" for="exampleFormControlSelect1">Seleccione Estación:</label>
                             <select class="form-control" id="exampleFormControlSelect1">
-                                @foreach ($estaciones as $estacion)
-                                    <option>{{ $estacion->codigo }}</option>
-                                @endforeach
-                            </select>
+                                <option>Estación 1</option>
+                                <option>José Cousiño Tapia</option>
+                                <option>Cristóbal Serrano Verdugo</option>>h
+                            </select>  
+                    
                         </div>
                         <div class="col-sm-6">
                             <label class= "lavelFont font-weight-bold" for="exampleFormControlSelect1">Seleccione Trabajadores:</label>
                             <select class="form-control" id="exampleFormControlSelect1">
                                 <option>Camilo Pino Olmos</option>
                                 <option>José Cousiño Tapia</option>
-                                <option>Cristóbal Serrano Verdugo</option>>
+                                <option>Cristóbal Serrano Verdugo</option>
                                 <option>Manuel Veloso Figueroa</option>
                                 <option>Roberto Labra Mancilla</option>
                             </select>
@@ -47,6 +48,7 @@
                             </select>
                         </div>
                             <div class="col-sm-6">
+
                                 <label class= "lavelFont font-weight-bold" for="exampleFormControlSelect1">Seleccione Producto:</label>
                                 <select class="form-control" id="exampleFormControlSelect1">
                                     <option>Malla con Dam</option>
@@ -80,9 +82,12 @@
         </div>
         <br><br>
         <div class="row justify-content-center">
-            <button type="button" class="btn btn-primary  colorBoton">Primary</button>
+            <button type="button" class="colorBoton btn-primary btn ">Primary</button>
         </div>
+        
         <br><br><br><br>
+        <example-component></example-component><!--Añadimos nuestro componente vuejs-->
+
         
 @endsection
 
@@ -113,12 +118,9 @@
         color: 3c70a4;
     }
     .colorBoton{
-        background-color:da9833;
+        color:white;
+        background:#638cb5;
     }
 </style>
 
-<script>
-    var app = @json($array);
 
-    var app = @json($array, JSON_PRETTY_PRINT);
-</script>

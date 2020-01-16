@@ -11,7 +11,6 @@ class ProductoController extends Controller
     public function obtenerProductosOt($id)//id de la ot
     {
         $productos= OtProducto::where('ot_id', $id)->get();
-        echo ($productos);
         if(count($productos) == 0){
             return 0;
         }

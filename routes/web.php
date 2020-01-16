@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('principal');
+    return view('welcome');
 });
 
 Route::get('/homeWork', function () {
@@ -40,3 +40,7 @@ Route::get('/trabajadores/{id}', 'UsuarioController@obtenerTrabajadoresPorEstaci
             <p>{{ $cliente->nombre }}</p>
             <p>{{ $cliente->codigo }}</p>
         @endforeach--> */
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
