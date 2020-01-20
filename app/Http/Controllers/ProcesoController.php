@@ -3,15 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Proceso;
+use App\Estacion;
 use Illuminate\Http\Request;
 
 class ProcesoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function obtenerProcesosPorEstacion($id)
+    {
+        $procesos= Estacion::find($id)->procesos;
+        return $procesos;
+    }
+
     public function index()
     {
         //

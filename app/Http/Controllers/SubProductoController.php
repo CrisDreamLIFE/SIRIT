@@ -3,15 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\SubProducto;
+use App\ProductoSubProducto;
 use Illuminate\Http\Request;
 
 class SubProductoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function subProductosDeProducto($id)
+    {
+        $subProductos= ProductoSubProducto::where('producto_id', $id)->get();
+        if(count($subProductos) == 0){
+            return 0;
+        }
+        $subProductosCompleto = [];
+        foreach($subProductos as $i){
+            $sub = SubProducto::find($i->sub_producto_id);
+            $subProductosCompleto[] = $sub;
+        }
+        return $subProductosCompleto;
+    }
+
     public function index()
     {
         //
