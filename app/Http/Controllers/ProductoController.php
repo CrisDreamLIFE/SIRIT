@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Producto;
+use App\SubProducto;
 use App\OtProducto;
 use Illuminate\Http\Request;
 
@@ -27,6 +28,18 @@ class ProductoController extends Controller
             $productosCompletos[] = $prod;
         }
         return $productosCompletos;
+    }
+
+    public function obtenerCantidadPorOt(Request $request)
+    {;
+        $todo = $request->input('todo');
+        $cantidades = array();
+        foreach($todo as $e){
+            $idProd = $e[1]['id'];
+            $aux = OtProducto::where('producto_id', $e[1]['id'])->where('ot_id',$e[0]['id'])->get();;
+            $cantidades[] = $aux[0]['cantidad'];
+        }
+        return $cantidades;
     }
 
     public function index()

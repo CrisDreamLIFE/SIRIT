@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\SesionTrabajo;
+use App\OtSesionTrabajo;
+use App\ProcesoSesionTrabajo;
+use App\ProductoSesionTrabajo;
+use App\SesionTrabajoSubProducto;
+use App\DetalleSesion;
 use App\SesionTrabajoUsuario;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -38,39 +43,121 @@ class SesionTrabajoController extends Controller
 
     public function storeFinal(Request $request)
     {
-        //
+        $sesion_id = $request->input('id_sesion');
+        $otProductoArray = $request->input('otProducto');
+        $procesosIdArray = $request->input('procesos');
+        $piezasArray = $request->input('piezas');
+        $cantidadProcesosArray = $request->input('cantidadProcesos');
+        $ots = $request->input('ots');
+        $fechaActual = Carbon::now(); 
+
+        #buscamos la sesion:
+        $sesion = SesionTrabajo::find($sesion_id);
+
+        #guardamos sus datos faltantes:
+        $sesion->fecha_termino = $fechaActual;
+        $sesion->hora_termino = $fechaActual;
+        $horaInicial = $sesion->created_at;
+        $diferencia = $horaInicial->diff();
+        $sesion->duracion = $diferencia->format('días: %a, horas: %h, minutos: %i, segundos: %s');
+        $sesion->save();
+        error_log("guarde la sesion");
+
+        #OT-SESION  
+        foreach($ots as $ot ){
+            $otSesion = new OtSesionTrabajo;
+            $otSesion->ot_id = $ot;
+            $otSesion->sesion_trabajo_id = $sesion_id;
+            $otSesion->save();
+            error_log("guarde la ot-sesion");
+        }
+    
+        #PRODUCTO-SESION  SUBPRODUCTO-SESION  
+        foreach($otProductoArray as $linea ){
+            $proSesion = new ProductoSesionTrabajo;
+            $proSesion->producto_id = $linea[1]['id'];
+            $proSesion->sesion_trabajo_id = $sesion_id;
+            $proSesion->save();
+            error_log("guarde la producto-sesion");
+            foreach($linea[2] as $sub){
+                $subSesion = new SesionTrabajoSubProducto;
+                $subSesion->sub_producto_id = $sub['id'];
+                $subSesion->sesion_trabajo_id = $sesion_id;
+                $subSesion->save();
+                error_log("guarde la subprod-sesion");
+            }
+        }
+
+        #PROCESO-SESION
+        foreach($procesosIdArray as $proceso ){
+            $procesoSesion = new ProcesoSesionTrabajo;
+            $procesoSesion->proceso_id = $proceso;
+            $procesoSesion->sesion_trabajo_id = $sesion_id;
+            $procesoSesion->save();
+            error_log("guarde proceso-sesion");
+        }
+
+        
+        #guardamos las tablas intermedias: son como 1000 :v
+        #detalleSesion:
+        $i=0;
+        foreach($otProductoArray as $linea ){
+            $j=0;
+            error_log("a");
+            foreach($linea[2] as $sub ){
+                $k=0;
+                error_log("b");
+                foreach($procesosIdArray as $proceso ){
+                    error_log("largo de procesosarray:");
+                    error_log(count($procesosIdArray));
+                    $nuevo = new DetalleSesion;
+                    $nuevo->sesion_trabajo_id = $sesion->id;
+                    $nuevo->ot_id = $linea[0]['id']; 
+                    $nuevo->producto_id = $linea[1]['id'];
+                    $nuevo->sub_producto_id = $sub['id'];  //creo que es ele objeto, en vola es el id nomas
+                    error_log("d");
+                    error_log("piezasArray[1][1]");
+                    error_log(implode(", ",$piezasArray[$i][$j]));
+                    $nuevo->numero_pieza = implode(", ",$piezasArray[$i][$j]);
+                    error_log("f");
+                    error_log("$proceso");
+                    $nuevo->proceso_id = $proceso;
+                    error_log($cantidadProcesosArray[0][0][0]);
+                    error_log($i);
+                    error_log($j);
+                    error_log($k);
+                    $nuevo->cantidad = intval($cantidadProcesosArray[$i][$j][$k]);
+                    error_log("g");
+                    $nuevo->save();
+                    error_log("guarde detalle");
+                    $k=$k+1;
+                }
+                $j=$j+1;
+            }
+            $i=$i+1;
+        }
+        return "CORRECTO";
     }
 
     public function store(Request $request)
     {
-        error_log("111111111");
         $estacion_id = $request->input('id_estacion');
         $trabajadoresArray = $request->input('trabajadores');
-        $fechaActual = Carbon::now();
-        error_log("2222");       
-        
+        $fechaActual = Carbon::now();   
 
         #creamos la sesion
-        error_log("3333");
         $sesion = new SesionTrabajo;
          
         $sesion->estacion_id = $estacion_id;
-        error_log("44"); 
         $sesion->fecha_inicio = $fechaActual;
         $sesion->hora_inicio = $fechaActual;
-        $sesion->save();
-
-        error_log("555");  
+        $sesion->save(); 
 
         #creamos la sesion-usuario
         foreach($trabajadoresArray as $trabajador ){
             $nuevo = new SesionTrabajoUsuario;
-            error_log("666"); 
             $nuevo->usuario_id = $trabajador['id']; //aqui se cae
-            error_log("777"); 
             $nuevo->sesion_trabajo_id = $sesion->id;
-            error_log("888"); 
-
             $nuevo->save();
         }
 

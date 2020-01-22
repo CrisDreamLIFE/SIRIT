@@ -15,4 +15,9 @@ class Proceso extends Model
         {
             return $this->belongsToMany(Estacion::class, 'estacion_procesos');
         }
+        
+    public function detalleSesions()
+        {
+            return $this->belongsToMany(SesionTrabajo::class, 'detalle_sesions');
+        }
 }

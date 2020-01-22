@@ -12,6 +12,12 @@ class TipoMaterialController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function obtenerIdFiltrador()
+    {
+        $tipoFiltrador = TipoMaterial::where('detallePieza',1)->get();
+        return $tipoFiltrador[0]->id;
+    }
+
     public function index()
     {
         //

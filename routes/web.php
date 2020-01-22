@@ -22,6 +22,9 @@ Route::get('/homeWork', function () {
 #Estacion
 Route::resource('estacion', 'EstacionController');
 
+#Rol
+Route::resource('rol', 'RolController');
+
 #Sesion
 Route::resource('sesion', 'SesionTrabajoController');
 Route::post('/sesionFinal', 'SesionTrabajoController@storeFinal');
@@ -34,14 +37,19 @@ Route::get('/otAbierta', 'OtController@obtenerOtAbierta');
 
 #Producto
 Route::get('/productosOt/{id}', 'ProductoController@obtenerProductosOt');
+Route::post('/cantidadProducto', 'ProductoController@obtenerCantidadPorOt');
 
 #SubProducto 
 Route::get('/subProductos/{id}', 'SubProductoController@subProductosDeProducto');
 
 #Proceso
 Route::get('/procesos/{id}','ProcesoController@obtenerProcesosPorEstacion');
+
 #Usuario
 Route::get('/trabajadores/{id}', 'UsuarioController@obtenerTrabajadoresPorEstacion');
+
+#TipoMaterial
+Route::get('/tipoMaterialFiltrador', 'TipoMaterialController@obtenerIdFiltrador');
 
 
 

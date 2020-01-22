@@ -25,4 +25,9 @@ class Producto extends Model
     {
         return $this->belongsToMany(SesionTrabajo::class, 'producto_sesion_trabajos');
     }
+
+    public function detalleSesions()
+    {
+        return $this->belongsToMany(SesionTrabajo::class, 'detalle_sesions');
+    }
 }

@@ -18,7 +18,7 @@ class CreateOtProductosTable extends Migration
             $table->string('codigo_cliente');
             $table->integer('numero_pieza');
             $table->integer('cantidad');
-            $table->text('descripcion');
+            $table->text('descripcion')->nullable();
             $table->BigInteger('ot_id')->unsigned();
             $table->BigInteger('producto_id')->unsigned();
 

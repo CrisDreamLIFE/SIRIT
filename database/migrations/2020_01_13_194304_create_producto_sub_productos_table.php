@@ -13,7 +13,7 @@ class CreateProductoSubProductosTable extends Migration
      */
     public function up()
     {
-        Schema::create('producto_sub_productos, function (Blueprint $table) {
+        Schema::create('producto_sub_productos', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->BigInteger('sub_producto_id')->unsigned();
             $table->BigInteger('producto_id')->unsigned();

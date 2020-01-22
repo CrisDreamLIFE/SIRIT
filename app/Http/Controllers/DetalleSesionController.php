@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Rol;
+use App\DetalleSesion;
 use Illuminate\Http\Request;
 
-class RolController extends Controller
+class DetalleSesionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +14,7 @@ class RolController extends Controller
      */
     public function index()
     {
-        $roles = Rol::all();
-        return $roles;
+        //
     }
 
     /**
@@ -25,7 +24,7 @@ class RolController extends Controller
      */
     public function create()
     {
-        
+        //
     }
 
     /**
@@ -36,34 +35,27 @@ class RolController extends Controller
      */
     public function store(Request $request)
     {
-        $rol = new Rol;
-        $rol->nombre = $request->nombre;
-        if($request->descripcion){
-            $rol->descripcion = $request->descripcion;
-        }
-        $rol->save();
-        error_log("guarde el coso");
-        return 'CORRECTO';
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Rol  $rol
+     * @param  \App\DetalleSesion  $detalleSesion
      * @return \Illuminate\Http\Response
      */
-    public function show(Rol $rol)
+    public function show(DetalleSesion $detalleSesion)
     {
-
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Rol  $rol
+     * @param  \App\DetalleSesion  $detalleSesion
      * @return \Illuminate\Http\Response
      */
-    public function edit(Rol $rol)
+    public function edit(DetalleSesion $detalleSesion)
     {
         //
     }
@@ -72,10 +64,10 @@ class RolController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Rol  $rol
+     * @param  \App\DetalleSesion  $detalleSesion
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Rol $rol)
+    public function update(Request $request, DetalleSesion $detalleSesion)
     {
         //
     }
@@ -83,10 +75,10 @@ class RolController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Rol  $rol
+     * @param  \App\DetalleSesion  $detalleSesion
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Rol $rol)
+    public function destroy(DetalleSesion $detalleSesion)
     {
         //
     }

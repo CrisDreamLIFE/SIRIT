@@ -84,7 +84,7 @@
                         <button type="button" v-on:click= "comenzarTrabajo()" class="btn btn-success btn-lg colorBoton">Comenzar</button>
                     </div>
                     <div class="col col-sm-6 ">
-                        <button data-toggle="modal" data-target="#exampleModal" type="button" v-on:click= "terminarTrabajo()" class="btn btn-danger btn-lg colorBoton">Terminar</button>             
+                        <button data-toggle="modal" data-target="#exampleModal" :disabled="!trabajoComenzado" type="button" v-on:click= "terminarTrabajo()" class="btn btn-danger btn-lg colorBoton">Terminar</button>             
                     </div>
                     <!-- Modal -->
                     <div v-if="botonTerminar" class="modal fade aa" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -97,7 +97,7 @@
                                 </button>
                             </div>
                             <div class="modal-body" v-for="(linea,indexG) in otProducto" v-bind:key="indexG">
-                                <label for="">OT {{otProducto[indexG][0].id}}</label>
+                                <label for="">OT {{otProducto[indexG][0].id}} PRODUCTO {{otProducto[indexG][1].nombre}}</label>
 
                                 <div class="container" v-for="(subProd,indexM) in otProducto[indexG][2]" v-bind:key="indexM">
                                     <label for="">{{subProd.nombre}}</label>
@@ -105,40 +105,38 @@
                                     <div class="container" v-for="(proceso,index) in procesosSeleccionados" v-bind:key="index">
                                             <div class="row container">
                                                 <div class="col col-sm-4">
-                                                    {{procesos[index].nombre}} 
+                                                    {{procesos[index].nombre}} {{proceso.nombre}} 
                                                 </div>
                                                 <div class="col col-sm-8" >
                                                     <div class="row">
                                                         <div class="col col-sm-6">
                                                             <label for="">Cantidad:</label>
                                                         </div>
-                                                        <div class="col col-sm-6">
-                                                            <input>
+                                                        <div class="col col-sm-5">
+                                                            <input onkeypress="solonumeros(event);" min="1" pattern="^[0-9]+" type="number" v-model="cantidadProcesos[indexG][indexM][index]" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="row" v-if="otProducto[indexG][1].tipo_material_id==1">
-                                                    <div class="col col-xl-2">
-                                                        pieza:
-                                                    </div>
-                                                    <div class="">
-                                                        <div v-for="(pro,indexK) in procesos" v-bind:key="indexK" class="form-check form-check-inline">  <!--:id="index+pro.nombre+otProducto[indexG][2][indexM].nombre + otProducto[indexG][0].id -->
-                                                            <input class="form-check-input" type="checkbox" :id="indexG*indexM+indexK+pro.id+proceso.nombre+subProd.nombre" v-model= aux> <!--valor for mas arriba -->
-                                                            <label class="aa form-check-label" :for="indexG*indexM+indexK+pro.id+proceso.nombre+subProd.nombre">
-                                                                {{pro.id}} -{{index+indexG*pro.id+pro.nombre}} 
-                                                            </label>
-                                                            <br>
-                                                        </div> 
-                                                    </div> 
-                                                </div>
                                             </div>
                                             <br>
+                                    </div>
+                                    <div class="row" v-if="otProducto[indexG][1].tipo_material_id==filtradoMaterial">
+                                        <div class="col col-xl-2">
+                                            Pieza N°:
+                                        </div>
+                                        <div v-for="n in cantidadesProductos[indexG]" v-bind:value="n" v-bind:key="n" class="form-check-inline">  <!--:id="index+pro.nombre+otProducto[indexG][2][indexM].nombre + otProducto[indexG][0].id -->
+                                            <input class="form-check-input" type="checkbox" :id="n+procesos[indexM].id"  :value="n" v-model="aux[indexG][indexM]"> <!--valor for mas arriba -->
+                                            <label class="form-check-label" :for="n+procesos[indexM].id">
+                                                {{n}}
+                                            </label>
+                                            <br>
+                                        </div> 
                                     </div>
                                 </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
+                                <button type="button" class="btn btn-primary"  v-on:click= "guardarTrabajo()" >Save changes</button>
                             </div>
                             </div>
                         </div>
@@ -230,16 +228,13 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-5">
+                                <div class="col-sm-6">
                                     <select  v-model="otSeleccionada" @change="onChangeOt()" class="form-control" >
                                     <option disabled selected >orden de trabajo</option>
                                     <option v-for="(ot,index) in ots" v-bind:key="index" v-bind:value="index">
                                         {{ ot.id }}
                                     </option>
                                     </select>     
-                                </div>
-                                <div class="col-sm-1">
-                                    <button type="button"  v-on:click= "agregarOt()" class="btn btn-success">+</button>
                                 </div>
                                     <div class="col-sm-5">
                                         <select  :disabled="!otSeleccionadaBool" v-model="productoSeleccionado" class="form-control" >
@@ -330,15 +325,20 @@
                 botonContinuar: false,
                 botonResumen:false,
                 botonTerminar: false,
+                trabajoComenzado: false,
                 otProducto: [],
                 subProductos: [],
                 procesos: [],
                 procesosSeleccionados:[],
                 aux:[],
+                aux2: [],
                 h: 0,
                 m: 0,
                 s: 0,
-                id_sesion: null
+                id_sesion: null,
+                filtradoMaterial: null,
+                cantidadesProductos: [],
+                cantidadProcesos: []
             };
         },
         mounted() {
@@ -381,23 +381,59 @@
                     .then(response => {
                         this.id_sesion = response.data;
                         console.log(this.id_sesion);})
+                var productosSelec = {
+                    todo: this.otProducto
+                };
+                console.log(productosSelec);
+                axios
+                    .post('http://localhost:8000/cantidadProducto', productosSelec)
+                    .then(response => {
+                        this.cantidadesProductos = response.data;
+                        this.trabajoComenzado = true;
+                        console.log(this.cantidadesProductos);})
+                //Obtener las piezas de cada producto
+                //subProducto->producto->ot-producto('cantidad') perfecto
+                //otProducto[[ot,producto,subs], [ot2,producto2,subs2], [ot3,producto3,subs3]]
+                //send[o, producto 4, productoX] -> return:  [cantidad1, cantidad4, cantidadX]
+
             },
             terminarTrabajo(){
-                this.aux = [ot,producto, ]
+               // this.aux = [ot,producto, ]
                 this.botonTerminar = true;    
             },
             guardarTrabajo(){
+                if(this.aux == this.aux2){
+                    toastr.error("No ha ingresado Nombre","Aviso!");
+                        return false;
+                    }
+                var otResumen = []
+                for (var p = 0; p < this.otProducto.length; p++) {
+                    if(!otResumen.includes(this.otProducto[p][0].id)){
+                        otResumen.push(this.otProducto[p][0].id);
+                    }
+                }
+
+                var procesosSend = []
+                for (var p = 0; p < this.procesosSeleccionados.length; p++) {
+                    procesosSend.push(this.procesos[this.procesosSeleccionados[p]].id);
+                }
+                console.log("piezas[0][0]:" + this.aux[0][0]);
+                console.log("cantidadProcesos[0][0][0]:" + this.cantidadProcesos[0][0][0]);
                 var params = {
                     id_sesion: this.id_sesion,
                     otProducto: this.otProducto,
-                    procesos: this.procesosSeleccionados
+                    procesos: procesosSend,
+                    piezas: this.aux,
+                    cantidadProcesos: this.cantidadProcesos,
+                    ots: otResumen
                     //agregar las cantidades y tipo de pieza:
                 };
                 console.log(params);
                 axios
-                    .post('http://localhost:8000/sesion', params)
+                    .post('http://localhost:8000/sesionFinal', params)
                     .then(response => {
-                        console.log("hice todos los push:");})
+                        console.log("guarde toda la basura");
+                        location.reload();})
             },
             atrasSubProductos(){
                 this.botonContinuar = false;
@@ -405,23 +441,89 @@
             atrasResumen(){
                 this.botonResumen = false;
             },
-            continuarClick(){
-                console.log(this.otProducto);
-                console.log("procesos");
-                console.log(this.procesos);
-                this.botonContinuar = true;
+            continuarClick(){ 
+                axios
+                .get('http://localhost:8000/tipoMaterialFiltrador')
+                .then(response => {
+                    this.filtradoMaterial = response.data;
+                    this.botonContinuar = true;
+                    })
+                console.log("procesosSeleccionados.lenght:");
+                console.log(this.otProducto.length);
+                //esto debe ser por subProducto :V       
             },
             continuarResumen(){
                 /*Se debe cargar un componente extra, quitar estos y poner el otro, ooo, lo que
                 lo haria mas rapido es ponero igual en esta vista, lo cuual tendria sentido pero
                 le chantamos unos if para verlo, en todo caso no es mucho, asi que hagamos eso :) */
+                /*var otResumen = []
+                for (var p = 0; p < this.otProducto.length; p++) {
+                    console.log("for")
+                    if(!otResumen.includes(this.otProducto[p][0].id)){
+                        console.log("if")
+                        otResumen.push(this.otProducto[p][0].id);
+                        console.log("otProducti[0][0].id= " + this.otProducto[p][0].id)
+                    }
+                    console.log("otResumen[p]: "+ otResumen[p])
+                }
+                for (var l = 0; l < otResumen.length; l++) {
+                    console.log("AUX ::::")
+                    console.log(this.aux)
+                    this.aux.push([])
+                    this.cantidadProcesos.push([]);
+                    console.log("aux1 = ") 
+                    var poner = 0;
+                    for (var i = 0; i < this.otProducto.length; i++) {
+                        console.log("tResumen[l] = " + otResumen[l])
+                        console.log(" this.otProducto[l] = " +  this.otProducto[i][0].id)
+                        if(otResumen[l]== this.otProducto[i][0].id){
+                            
+                            console.log("aux3 = ")
+                            this.aux[l].push([]);
+                            this.cantidadProcesos[l].push([]);
+                            for (var j = 0; j < this.otProducto[i][2].length; j++) {
+                                console.log("aux4 = ")
+                                this.aux[l][i-poner].push([]);   
+                                this.cantidadProcesos[l][i-poner].push([]);
+                                for (var k = 0; k < this.procesosSeleccionados.length; k++) {
+                                    console.log("aux5 = ")
+                                    this.aux[l][i-poner][j].push([]);
+                                    this.cantidadProcesos[l][i-poner][j].push([]);    
+                                } 
+                            }
+                        }
+                        else{
+                            poner = poner+1;
+                        }
+                        
+                    }
+                }*/
+                for (var i = 0; i < this.otProducto.length; i++) {
+                    console.log("for1");
+                    this.cantidadProcesos.push([]);
+                    this.aux.push([]);
+                    this.aux2.push([]);
+                    for (var j = 0; j < this.otProducto[i][2].length; j++){
+                        console.log("for1");
+                        this.cantidadProcesos[i].push([]);
+                        this.aux[i].push([]);
+                        this.aux2[i].push([]);
+                        console.log("cantidadProcesos:")
+                        console.log(this.cantidadProcesos);
+                        for (var k = 0; k < this.procesosSeleccionados.length; k++){
+                            this.cantidadProcesos[i][j].push([]);
+
+                        }
+
+                    }
+                }
+                    
                 this.botonResumen = true;
             },
             agregarTrabajador(){
-                this.trabajadoresSeleccionados.push(this.trabajadores[this.trabajadorSeleccionado])
-            },
-            agregarOt(){
-                this.otsSeleccionadas.push(this.ots[this.otSeleccionada-1])
+                if(!this.trabajadoresSeleccionados.includes(this.trabajadores[this.trabajadorSeleccionado])){
+                    this.trabajadoresSeleccionados.push(this.trabajadores[this.trabajadorSeleccionado])
+                }
             },
             agregarProducto(){
               //  this.productosSeleccionados.push(this.productos[this.productoSeleccionado]);
@@ -430,6 +532,7 @@
                 console.log("antes del push")
                 combinacion.push(this.ots[this.otSeleccionada]);  //ot completa
                 combinacion.push(this.productos[this.productoSeleccionado]); //producto completo
+                //this.productosSeleccionados.push(this.productos[this.productoSeleccionado].id);
                 console.log()
                 //hacer un push  de las subproductos del producto seleccionado
                 var subProductos= null;
@@ -464,7 +567,13 @@
                         this.procesos = response.data;})
                 }
             },
-             onChangeOt(){
+            solonumeros(e){
+                var key = window.event ? e.which : e.keyCode;
+                if(key < 48 || key > 57){
+                    e.preventDefault();
+                }
+            },
+            onChangeOt(){
                 if(this.otSeleccionada != null){
                     console.log("ot seleccionada: ")
                     console.log(this.otSeleccionada)

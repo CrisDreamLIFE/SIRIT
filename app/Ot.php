@@ -48,6 +48,11 @@ class Ot extends Model
             return $this->belongsToMany(SesionTrabajo::class, 'ot_sesion_trabajos');
         }
 
+    public function detalleSesions()
+        {
+            return $this->belongsToMany(SesionTrabajo::class, 'detalle_sesions');
+        }
+
 
     protected $dates = [
     'fecha_recepción', 'fecha_entrega_oc','fecha_real_entrega', 'fecha_despacho'

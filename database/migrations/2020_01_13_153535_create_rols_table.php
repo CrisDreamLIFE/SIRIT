@@ -17,6 +17,7 @@ class CreateRolsTable extends Migration
             $table->bigIncrements('id');
             $table->string('nombre');
             $table->text('descripcion')->nullable();
+            $table->boolean('filtrador');
             $table->timestamps();
         });
     }
