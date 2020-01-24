@@ -58,10 +58,15 @@ class SesionTrabajoController extends Controller
         $sesion->fecha_termino = $fechaActual;
         $sesion->hora_termino = $fechaActual;
         $horaInicial = $sesion->created_at;
-        $diferencia = $horaInicial->diff();
-        $sesion->duracion = $diferencia->format('días: %a, horas: %h, minutos: %i, segundos: %s');
+        $diferencia = $horaInicial->diffInMinutes();
+        $dias = $diferencia*0.000694444444;
+        //$sesion->duracion = $diferencia->format('días: %a, horas: %h, minutos: %i, segundos: %s');
+        $sesion->duracion = $dias;
         $sesion->save();
         error_log("guarde la sesion");
+
+        //poner que la hora sea como HTOT/24, ahora bien, deberia quizas obtner los minutos
+        //probar en Tinker si un trabajo de media hora me marco 0.5 horas.
 
         #OT-SESION  
         foreach($ots as $ot ){

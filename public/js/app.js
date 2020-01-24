@@ -2272,6 +2272,51 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(function () {
+  'use strict';
+
+  window.addEventListener('load', function () {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByClassName('needs-validation'); // Loop over them and prevent submission
+
+    var validation = Array.prototype.filter.call(forms, function (form) {
+      form.addEventListener('submit', function (event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2292,6 +2337,9 @@ __webpack_require__.r(__webpack_exports__);
       botonResumen: false,
       botonTerminar: false,
       trabajoComenzado: false,
+      botonTrabajoComenzado: false,
+      trabajadorSeleccionadoBool: false,
+      productoSeleccionadoBool: false,
       otProducto: [],
       subProductos: [],
       procesos: [],
@@ -2304,7 +2352,8 @@ __webpack_require__.r(__webpack_exports__);
       id_sesion: null,
       filtradoMaterial: null,
       cantidadesProductos: [],
-      cantidadProcesos: []
+      cantidadProcesos: [],
+      etiqueta: "a"
     };
   },
   mounted: function mounted() {
@@ -2362,6 +2411,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       //console.log(".-.")
+      this.botonTrabajoComenzado = true;
       document.getElementById("hms").innerHTML = "00:00:00";
       this.escribir();
       setInterval(this.escribir, 1000); //post de sesion
@@ -2383,19 +2433,38 @@ __webpack_require__.r(__webpack_exports__);
         _this2.cantidadesProductos = response.data;
         _this2.trabajoComenzado = true;
         console.log(_this2.cantidadesProductos);
-      }); //Obtener las piezas de cada producto
-      //subProducto->producto->ot-producto('cantidad') perfecto
-      //otProducto[[ot,producto,subs], [ot2,producto2,subs2], [ot3,producto3,subs3]]
-      //send[o, producto 4, productoX] -> return:  [cantidad1, cantidad4, cantidadX]
+      });
     },
     terminarTrabajo: function terminarTrabajo() {
       // this.aux = [ot,producto, ]
       this.botonTerminar = true;
     },
-    guardarTrabajo: function guardarTrabajo() {
-      if (this.aux == this.aux2) {
-        toastr.error("No ha ingresado Nombre", "Aviso!");
-        return false;
+    guardarTrabajo: function guardarTrabajo(index) {
+      document.getElementsByName(this.etiqueta).innerHTML = "";
+      console.log("verificando lo que metio :v");
+      console.log(this.cantidadProcesos);
+      var e = window.event;
+      e.preventDefault();
+
+      for (var p = 0; p < this.cantidadProcesos.length; p++) {
+        for (var q = 0; q < this.cantidadProcesos[p].length; q++) {
+          for (var r = 0; r < this.cantidadProcesos[p][q].length; r++) {
+            console.log(this.cantidadProcesos[p][q][r]);
+            var num = parseInt(this.cantidadProcesos[p][q][r]);
+
+            if (num < 0) {
+              document.getElementById(this.etiqueta).innerHTML = "Ingrese valor positivo";
+              document.getElementById(this.etiqueta).setAttribute("style", "color:red;");
+              return false;
+            }
+
+            if (!Number.isInteger(num)) {
+              document.getElementById(this.etiqueta).innerHTML = "Llene este campo";
+              document.getElementById(this.etiqueta).setAttribute("style", "color:red;");
+              return false;
+            }
+          }
+        }
       }
 
       var otResumen = [];
@@ -2446,52 +2515,6 @@ __webpack_require__.r(__webpack_exports__);
       console.log(this.otProducto.length); //esto debe ser por subProducto :V       
     },
     continuarResumen: function continuarResumen() {
-      /*Se debe cargar un componente extra, quitar estos y poner el otro, ooo, lo que
-      lo haria mas rapido es ponero igual en esta vista, lo cuual tendria sentido pero
-      le chantamos unos if para verlo, en todo caso no es mucho, asi que hagamos eso :) */
-
-      /*var otResumen = []
-      for (var p = 0; p < this.otProducto.length; p++) {
-          console.log("for")
-          if(!otResumen.includes(this.otProducto[p][0].id)){
-              console.log("if")
-              otResumen.push(this.otProducto[p][0].id);
-              console.log("otProducti[0][0].id= " + this.otProducto[p][0].id)
-          }
-          console.log("otResumen[p]: "+ otResumen[p])
-      }
-      for (var l = 0; l < otResumen.length; l++) {
-          console.log("AUX ::::")
-          console.log(this.aux)
-          this.aux.push([])
-          this.cantidadProcesos.push([]);
-          console.log("aux1 = ") 
-          var poner = 0;
-          for (var i = 0; i < this.otProducto.length; i++) {
-              console.log("tResumen[l] = " + otResumen[l])
-              console.log(" this.otProducto[l] = " +  this.otProducto[i][0].id)
-              if(otResumen[l]== this.otProducto[i][0].id){
-                  
-                  console.log("aux3 = ")
-                  this.aux[l].push([]);
-                  this.cantidadProcesos[l].push([]);
-                  for (var j = 0; j < this.otProducto[i][2].length; j++) {
-                      console.log("aux4 = ")
-                      this.aux[l][i-poner].push([]);   
-                      this.cantidadProcesos[l][i-poner].push([]);
-                      for (var k = 0; k < this.procesosSeleccionados.length; k++) {
-                          console.log("aux5 = ")
-                          this.aux[l][i-poner][j].push([]);
-                          this.cantidadProcesos[l][i-poner][j].push([]);    
-                      } 
-                  }
-              }
-              else{
-                  poner = poner+1;
-              }
-              
-          }
-      }*/
       for (var i = 0; i < this.otProducto.length; i++) {
         console.log("for1");
         this.cantidadProcesos.push([]);
@@ -2518,6 +2541,12 @@ __webpack_require__.r(__webpack_exports__);
       if (!this.trabajadoresSeleccionados.includes(this.trabajadores[this.trabajadorSeleccionado])) {
         this.trabajadoresSeleccionados.push(this.trabajadores[this.trabajadorSeleccionado]);
       }
+    },
+    quitarTrabajador: function quitarTrabajador(index) {
+      this.trabajadoresSeleccionados.splice(index, 1);
+    },
+    quitarProducto: function quitarProducto(index) {
+      this.otProducto.splice(index, 1);
     },
     agregarProducto: function agregarProducto() {
       var _this4 = this;
@@ -2550,12 +2579,12 @@ __webpack_require__.r(__webpack_exports__);
     onChangeEstación: function onChangeEstaciN() {
       var _this5 = this;
 
+      this.estacionSeleccionadaBool = false; //this.trabajadorSeleccionadoBool = false;
+
       var i;
       var index = -1;
 
       if (this.estacionSeleccionada != null) {
-        console.log("el valor de index: ");
-        console.log(index);
         axios.get('http://localhost:8000/trabajadores/' + this.estacionSeleccionada).then(function (response) {
           _this5.trabajadores = response.data;
           console.log(_this5.trabajadores);
@@ -2566,7 +2595,7 @@ __webpack_require__.r(__webpack_exports__);
         });
       }
     },
-    solonumeros: function solonumeros(e) {
+    solonumeros: function solonumeros(event) {
       var key = window.event ? e.which : e.keyCode;
 
       if (key < 48 || key > 57) {
@@ -2575,6 +2604,8 @@ __webpack_require__.r(__webpack_exports__);
     },
     onChangeOt: function onChangeOt() {
       var _this6 = this;
+
+      this.otSeleccionadaBool = false; //this.productoSeleccionadoBool = false;
 
       if (this.otSeleccionada != null) {
         console.log("ot seleccionada: ");
@@ -2586,6 +2617,12 @@ __webpack_require__.r(__webpack_exports__);
           _this6.otSeleccionadaBool = true;
         });
       }
+    },
+    onChangeTrabajador: function onChangeTrabajador() {
+      this.trabajadorSeleccionadoBool = true;
+    },
+    onChangeProducto: function onChangeProducto() {
+      this.productoSeleccionadoBool = true;
     }
   }
 });
@@ -7135,7 +7172,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.color[data-v-835bc6ee]{\n    margin-top:  20px;\n    background-color:#3c70a4;\n    border-color: #64b2cd;\n    border-radius: 5px;\n    border: 2px solid #000;\n}\n.color2[data-v-835bc6ee]{\n    margin-top:  20px;\n    background-color:#ffffff;\n    border-color: 64b2cd;\n    border-radius: 5px;\n    border: 2px solid #000;\n    color: #3c70a4;\n}\n.lavelFont[data-v-835bc6ee]{\n    font-size: 20px;\n    color: #da9833;\n}\n.lavelFont2[data-v-835bc6ee]{\n    font-size: 20px;\n    color: white;\n}\n.colorNav[data-v-835bc6ee]{\n    background-color: 64b2cd;\n}\n.h2[data-v-835bc6ee]{\n    color: #3c70a4;\n}\n.aa[data-v-835bc6ee]{\n    color: #000;\n}\n.h3[data-v-835bc6ee]{\n    color: #da9833;\n}\n.colorBoton[data-v-835bc6ee]{\n    color: white;\n}\n.style3[data-v-835bc6ee]{\n    border-top: 1px dashed #8c8b8b;\n}\n", ""]);
+exports.push([module.i, "\n.color[data-v-835bc6ee]{\n    margin-top:  20px;\n    background-color:#3c70a4;\n    border-color: #64b2cd;\n    border-radius: 5px;\n    border: 2px solid #000;\n}\n.color2[data-v-835bc6ee]{\n    margin-top:  20px;\n    background-color:#ffffff;\n    border-color: 64b2cd;\n    border-radius: 5px;\n    border: 2px solid #000;\n    color: #3c70a4;\n}\n.lavelFont[data-v-835bc6ee]{\n    font-size: 20px;\n    color: #da9833;\n}\n.lavelFont2[data-v-835bc6ee]{\n    font-size: 20px;\n    color: white;\n}\n.colorNav[data-v-835bc6ee]{\n    background-color: 64b2cd;\n}\n.h2[data-v-835bc6ee]{\n    color: #3c70a4;\n}\n.aa[data-v-835bc6ee]{\n    color: #000;\n}\n.h3[data-v-835bc6ee]{\n    color: #da9833;\n}\n.colorBoton[data-v-835bc6ee]{\n    color: white;\n}\n.style3[data-v-835bc6ee]{\n    border-top: 1px dashed #8c8b8b;\n}\ninput[data-v-835bc6ee]:invalid {\n    border: 1px solid red;\n}\ninput[data-v-835bc6ee]:valid {\n    border: 1px solid green;\n}\n", ""]);
 
 // exports
 
@@ -38795,7 +38832,10 @@ var render = function() {
                     "button",
                     {
                       staticClass: "btn btn-success btn-lg colorBoton",
-                      attrs: { type: "button" },
+                      attrs: {
+                        type: "button",
+                        disabled: _vm.botonTrabajoComenzado
+                      },
                       on: {
                         click: function($event) {
                           return _vm.comenzarTrabajo()
@@ -38899,140 +38939,401 @@ var render = function() {
                                                     },
                                                     [
                                                       _c(
-                                                        "div",
+                                                        "form",
                                                         {
                                                           staticClass:
-                                                            "row container"
+                                                            "needs-validation",
+                                                          attrs: {
+                                                            novalidate: ""
+                                                          }
                                                         },
                                                         [
                                                           _c(
                                                             "div",
                                                             {
                                                               staticClass:
-                                                                "col col-sm-4"
-                                                            },
-                                                            [
-                                                              _vm._v(
-                                                                "\n                                                " +
-                                                                  _vm._s(
-                                                                    _vm
-                                                                      .procesos[
-                                                                      index
-                                                                    ].nombre
-                                                                  ) +
-                                                                  " " +
-                                                                  _vm._s(
-                                                                    proceso.nombre
-                                                                  ) +
-                                                                  " \n                                            "
-                                                              )
-                                                            ]
-                                                          ),
-                                                          _vm._v(" "),
-                                                          _c(
-                                                            "div",
-                                                            {
-                                                              staticClass:
-                                                                "col col-sm-8"
+                                                                "form-row container"
                                                             },
                                                             [
                                                               _c(
                                                                 "div",
                                                                 {
                                                                   staticClass:
-                                                                    "row"
+                                                                    "col col-sm-4"
                                                                 },
                                                                 [
-                                                                  _vm._m(
-                                                                    4,
-                                                                    true
-                                                                  ),
-                                                                  _vm._v(" "),
+                                                                  _vm._v(
+                                                                    "\n                                                " +
+                                                                      _vm._s(
+                                                                        _vm
+                                                                          .procesos[
+                                                                          index
+                                                                        ].nombre
+                                                                      ) +
+                                                                      " " +
+                                                                      _vm._s(
+                                                                        proceso.nombre
+                                                                      ) +
+                                                                      " \n                                            "
+                                                                  )
+                                                                ]
+                                                              ),
+                                                              _vm._v(" "),
+                                                              _c(
+                                                                "div",
+                                                                {
+                                                                  staticClass:
+                                                                    "col col-sm-8"
+                                                                },
+                                                                [
                                                                   _c(
                                                                     "div",
                                                                     {
                                                                       staticClass:
-                                                                        "col col-sm-5"
+                                                                        "form-row"
                                                                     },
                                                                     [
+                                                                      _vm._m(
+                                                                        4,
+                                                                        true
+                                                                      ),
+                                                                      _vm._v(
+                                                                        " "
+                                                                      ),
                                                                       _c(
-                                                                        "input",
+                                                                        "div",
                                                                         {
-                                                                          directives: [
-                                                                            {
-                                                                              name:
-                                                                                "model",
-                                                                              rawName:
-                                                                                "v-model",
-                                                                              value:
-                                                                                _vm
-                                                                                  .cantidadProcesos[
-                                                                                  indexG
-                                                                                ][
-                                                                                  indexM
-                                                                                ][
-                                                                                  index
-                                                                                ],
-                                                                              expression:
-                                                                                "cantidadProcesos[indexG][indexM][index]"
-                                                                            }
-                                                                          ],
                                                                           staticClass:
-                                                                            "form-control",
-                                                                          attrs: {
-                                                                            onkeypress:
-                                                                              "solonumeros(event);",
-                                                                            min:
-                                                                              "1",
-                                                                            pattern:
-                                                                              "^[0-9]+",
-                                                                            type:
-                                                                              "number",
-                                                                            "aria-label":
-                                                                              "Sizing example input",
-                                                                            "aria-describedby":
-                                                                              "inputGroup-sizing-sm"
-                                                                          },
-                                                                          domProps: {
-                                                                            value:
-                                                                              _vm
-                                                                                .cantidadProcesos[
-                                                                                indexG
-                                                                              ][
-                                                                                indexM
-                                                                              ][
-                                                                                index
-                                                                              ]
-                                                                          },
-                                                                          on: {
-                                                                            input: function(
-                                                                              $event
-                                                                            ) {
-                                                                              if (
-                                                                                $event
-                                                                                  .target
-                                                                                  .composing
-                                                                              ) {
-                                                                                return
-                                                                              }
-                                                                              _vm.$set(
-                                                                                _vm
-                                                                                  .cantidadProcesos[
-                                                                                  indexG
-                                                                                ][
-                                                                                  indexM
-                                                                                ],
-                                                                                index,
-                                                                                $event
-                                                                                  .target
-                                                                                  .value
+                                                                            "col col-sm-6"
+                                                                        },
+                                                                        [
+                                                                          _vm
+                                                                            .cantidadesProductos[
+                                                                            indexG
+                                                                          ] == 0
+                                                                            ? _c(
+                                                                                "input",
+                                                                                {
+                                                                                  directives: [
+                                                                                    {
+                                                                                      name:
+                                                                                        "model",
+                                                                                      rawName:
+                                                                                        "v-model",
+                                                                                      value:
+                                                                                        _vm
+                                                                                          .cantidadProcesos[
+                                                                                          indexG
+                                                                                        ][
+                                                                                          indexM
+                                                                                        ][
+                                                                                          index
+                                                                                        ],
+                                                                                      expression:
+                                                                                        "cantidadProcesos[indexG][indexM][index]"
+                                                                                    }
+                                                                                  ],
+                                                                                  staticClass:
+                                                                                    "form-control",
+                                                                                  attrs: {
+                                                                                    for: index,
+                                                                                    required:
+                                                                                      "",
+                                                                                    min:
+                                                                                      "0",
+                                                                                    pattern:
+                                                                                      "^[0-9]+",
+                                                                                    type:
+                                                                                      "number",
+                                                                                    "aria-label":
+                                                                                      "Sizing example input",
+                                                                                    "aria-describedby":
+                                                                                      "inputGroup-sizing-sm"
+                                                                                  },
+                                                                                  domProps: {
+                                                                                    value:
+                                                                                      _vm
+                                                                                        .cantidadProcesos[
+                                                                                        indexG
+                                                                                      ][
+                                                                                        indexM
+                                                                                      ][
+                                                                                        index
+                                                                                      ]
+                                                                                  },
+                                                                                  on: {
+                                                                                    onchangue: function(
+                                                                                      $event
+                                                                                    ) {
+                                                                                      return _vm.solonumeros(
+                                                                                        index
+                                                                                      )
+                                                                                    },
+                                                                                    input: function(
+                                                                                      $event
+                                                                                    ) {
+                                                                                      if (
+                                                                                        $event
+                                                                                          .target
+                                                                                          .composing
+                                                                                      ) {
+                                                                                        return
+                                                                                      }
+                                                                                      _vm.$set(
+                                                                                        _vm
+                                                                                          .cantidadProcesos[
+                                                                                          indexG
+                                                                                        ][
+                                                                                          indexM
+                                                                                        ],
+                                                                                        index,
+                                                                                        $event
+                                                                                          .target
+                                                                                          .value
+                                                                                      )
+                                                                                    }
+                                                                                  }
+                                                                                }
                                                                               )
+                                                                            : _c(
+                                                                                "input",
+                                                                                {
+                                                                                  directives: [
+                                                                                    {
+                                                                                      name:
+                                                                                        "model",
+                                                                                      rawName:
+                                                                                        "v-model",
+                                                                                      value:
+                                                                                        _vm
+                                                                                          .cantidadProcesos[
+                                                                                          indexG
+                                                                                        ][
+                                                                                          indexM
+                                                                                        ][
+                                                                                          index
+                                                                                        ],
+                                                                                      expression:
+                                                                                        "cantidadProcesos[indexG][indexM][index]"
+                                                                                    }
+                                                                                  ],
+                                                                                  staticClass:
+                                                                                    "form-control",
+                                                                                  attrs: {
+                                                                                    for: index,
+                                                                                    required:
+                                                                                      "",
+                                                                                    min:
+                                                                                      "0",
+                                                                                    max:
+                                                                                      _vm
+                                                                                        .cantidadesProductos[
+                                                                                        indexG
+                                                                                      ],
+                                                                                    pattern:
+                                                                                      "^[0-9]+",
+                                                                                    type:
+                                                                                      "number",
+                                                                                    "aria-label":
+                                                                                      "Sizing example input",
+                                                                                    "aria-describedby":
+                                                                                      "inputGroup-sizing-sm"
+                                                                                  },
+                                                                                  domProps: {
+                                                                                    value:
+                                                                                      _vm
+                                                                                        .cantidadProcesos[
+                                                                                        indexG
+                                                                                      ][
+                                                                                        indexM
+                                                                                      ][
+                                                                                        index
+                                                                                      ]
+                                                                                  },
+                                                                                  on: {
+                                                                                    onchangue: function(
+                                                                                      $event
+                                                                                    ) {
+                                                                                      return _vm.solonumeros(
+                                                                                        index
+                                                                                      )
+                                                                                    },
+                                                                                    input: function(
+                                                                                      $event
+                                                                                    ) {
+                                                                                      if (
+                                                                                        $event
+                                                                                          .target
+                                                                                          .composing
+                                                                                      ) {
+                                                                                        return
+                                                                                      }
+                                                                                      _vm.$set(
+                                                                                        _vm
+                                                                                          .cantidadProcesos[
+                                                                                          indexG
+                                                                                        ][
+                                                                                          indexM
+                                                                                        ],
+                                                                                        index,
+                                                                                        $event
+                                                                                          .target
+                                                                                          .value
+                                                                                      )
+                                                                                    }
+                                                                                  }
+                                                                                }
+                                                                              ),
+                                                                          _vm._v(
+                                                                            " "
+                                                                          ),
+                                                                          _c(
+                                                                            "div",
+                                                                            {
+                                                                              staticClass:
+                                                                                "valid-feedback"
+                                                                            },
+                                                                            [
+                                                                              _vm._v(
+                                                                                "valido"
+                                                                              )
+                                                                            ]
+                                                                          ),
+                                                                          _vm._v(
+                                                                            " "
+                                                                          ),
+                                                                          _c(
+                                                                            "div",
+                                                                            {
+                                                                              staticClass:
+                                                                                "invalid-feedback"
+                                                                            },
+                                                                            [
+                                                                              _vm._v(
+                                                                                "complete"
+                                                                              )
+                                                                            ]
+                                                                          ),
+                                                                          _vm._v(
+                                                                            " "
+                                                                          ),
+                                                                          _c(
+                                                                            "label",
+                                                                            {
+                                                                              staticClass:
+                                                                                "errorEmail",
+                                                                              attrs: {
+                                                                                id: index
+                                                                              },
+                                                                              model: {
+                                                                                value:
+                                                                                  _vm.etiqueta,
+                                                                                callback: function(
+                                                                                  $$v
+                                                                                ) {
+                                                                                  _vm.etiqueta = $$v
+                                                                                },
+                                                                                expression:
+                                                                                  "etiqueta"
+                                                                              }
                                                                             }
-                                                                          }
-                                                                        }
+                                                                          )
+                                                                        ]
                                                                       )
                                                                     ]
-                                                                  )
+                                                                  ),
+                                                                  _vm._v(" "),
+                                                                  _vm
+                                                                    .otProducto[
+                                                                    indexG
+                                                                  ][1]
+                                                                    .tipo_material_id ==
+                                                                  _vm.filtradoMaterial
+                                                                    ? _c(
+                                                                        "div",
+                                                                        {
+                                                                          staticClass:
+                                                                            "form-row"
+                                                                        },
+                                                                        [
+                                                                          _c(
+                                                                            "div",
+                                                                            {
+                                                                              staticClass:
+                                                                                "col col-sm-2"
+                                                                            },
+                                                                            [
+                                                                              _vm._v(
+                                                                                "\n                                                        Pieza N°:\n                                                    "
+                                                                              )
+                                                                            ]
+                                                                          ),
+                                                                          _vm._v(
+                                                                            " "
+                                                                          ),
+                                                                          _vm._l(
+                                                                            _vm
+                                                                              .cantidadesProductos[
+                                                                              indexG
+                                                                            ],
+                                                                            function(
+                                                                              n
+                                                                            ) {
+                                                                              return _c(
+                                                                                "div",
+                                                                                {
+                                                                                  key: n,
+                                                                                  staticClass:
+                                                                                    "form-check-inline",
+                                                                                  attrs: {
+                                                                                    value: n
+                                                                                  }
+                                                                                },
+                                                                                [
+                                                                                  _c(
+                                                                                    "input",
+                                                                                    {
+                                                                                      staticClass:
+                                                                                        "form-check-input",
+                                                                                      attrs: {
+                                                                                        type:
+                                                                                          "checkbox"
+                                                                                      }
+                                                                                    }
+                                                                                  ),
+                                                                                  _vm._v(
+                                                                                    " "
+                                                                                  ),
+                                                                                  _c(
+                                                                                    "label",
+                                                                                    {
+                                                                                      staticClass:
+                                                                                        "form-check-label"
+                                                                                    },
+                                                                                    [
+                                                                                      _vm._v(
+                                                                                        "\n                                                            " +
+                                                                                          _vm._s(
+                                                                                            n
+                                                                                          ) +
+                                                                                          "  \n                                                        "
+                                                                                      )
+                                                                                    ]
+                                                                                  ),
+                                                                                  _vm._v(
+                                                                                    " "
+                                                                                  ),
+                                                                                  _c(
+                                                                                    "br"
+                                                                                  )
+                                                                                ]
+                                                                              )
+                                                                            }
+                                                                          )
+                                                                        ],
+                                                                        2
+                                                                      )
+                                                                    : _vm._e()
                                                                 ]
                                                               )
                                                             ]
@@ -39044,201 +39345,7 @@ var render = function() {
                                                     ]
                                                   )
                                                 }
-                                              ),
-                                              _vm._v(" "),
-                                              _vm.otProducto[indexG][1]
-                                                .tipo_material_id ==
-                                              _vm.filtradoMaterial
-                                                ? _c(
-                                                    "div",
-                                                    { staticClass: "row" },
-                                                    [
-                                                      _c(
-                                                        "div",
-                                                        {
-                                                          staticClass:
-                                                            "col col-xl-2"
-                                                        },
-                                                        [
-                                                          _vm._v(
-                                                            "\n                                        Pieza N°:\n                                    "
-                                                          )
-                                                        ]
-                                                      ),
-                                                      _vm._v(" "),
-                                                      _vm._l(
-                                                        _vm.cantidadesProductos[
-                                                          indexG
-                                                        ],
-                                                        function(n) {
-                                                          return _c(
-                                                            "div",
-                                                            {
-                                                              key: n,
-                                                              staticClass:
-                                                                "form-check-inline",
-                                                              attrs: {
-                                                                value: n
-                                                              }
-                                                            },
-                                                            [
-                                                              _c("input", {
-                                                                directives: [
-                                                                  {
-                                                                    name:
-                                                                      "model",
-                                                                    rawName:
-                                                                      "v-model",
-                                                                    value:
-                                                                      _vm.aux[
-                                                                        indexG
-                                                                      ][indexM],
-                                                                    expression:
-                                                                      "aux[indexG][indexM]"
-                                                                  }
-                                                                ],
-                                                                staticClass:
-                                                                  "form-check-input",
-                                                                attrs: {
-                                                                  type:
-                                                                    "checkbox",
-                                                                  id:
-                                                                    n +
-                                                                    _vm
-                                                                      .procesos[
-                                                                      indexM
-                                                                    ].id
-                                                                },
-                                                                domProps: {
-                                                                  value: n,
-                                                                  checked: Array.isArray(
-                                                                    _vm.aux[
-                                                                      indexG
-                                                                    ][indexM]
-                                                                  )
-                                                                    ? _vm._i(
-                                                                        _vm.aux[
-                                                                          indexG
-                                                                        ][
-                                                                          indexM
-                                                                        ],
-                                                                        n
-                                                                      ) > -1
-                                                                    : _vm.aux[
-                                                                        indexG
-                                                                      ][indexM]
-                                                                },
-                                                                on: {
-                                                                  change: function(
-                                                                    $event
-                                                                  ) {
-                                                                    var $$a =
-                                                                        _vm.aux[
-                                                                          indexG
-                                                                        ][
-                                                                          indexM
-                                                                        ],
-                                                                      $$el =
-                                                                        $event.target,
-                                                                      $$c = $$el.checked
-                                                                        ? true
-                                                                        : false
-                                                                    if (
-                                                                      Array.isArray(
-                                                                        $$a
-                                                                      )
-                                                                    ) {
-                                                                      var $$v = n,
-                                                                        $$i = _vm._i(
-                                                                          $$a,
-                                                                          $$v
-                                                                        )
-                                                                      if (
-                                                                        $$el.checked
-                                                                      ) {
-                                                                        $$i <
-                                                                          0 &&
-                                                                          _vm.$set(
-                                                                            _vm
-                                                                              .aux[
-                                                                              indexG
-                                                                            ],
-                                                                            indexM,
-                                                                            $$a.concat(
-                                                                              [
-                                                                                $$v
-                                                                              ]
-                                                                            )
-                                                                          )
-                                                                      } else {
-                                                                        $$i >
-                                                                          -1 &&
-                                                                          _vm.$set(
-                                                                            _vm
-                                                                              .aux[
-                                                                              indexG
-                                                                            ],
-                                                                            indexM,
-                                                                            $$a
-                                                                              .slice(
-                                                                                0,
-                                                                                $$i
-                                                                              )
-                                                                              .concat(
-                                                                                $$a.slice(
-                                                                                  $$i +
-                                                                                    1
-                                                                                )
-                                                                              )
-                                                                          )
-                                                                      }
-                                                                    } else {
-                                                                      _vm.$set(
-                                                                        _vm.aux[
-                                                                          indexG
-                                                                        ],
-                                                                        indexM,
-                                                                        $$c
-                                                                      )
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }),
-                                                              _vm._v(" "),
-                                                              _c(
-                                                                "label",
-                                                                {
-                                                                  staticClass:
-                                                                    "form-check-label",
-                                                                  attrs: {
-                                                                    for:
-                                                                      n +
-                                                                      _vm
-                                                                        .procesos[
-                                                                        indexM
-                                                                      ].id
-                                                                  }
-                                                                },
-                                                                [
-                                                                  _vm._v(
-                                                                    "\n                                            " +
-                                                                      _vm._s(
-                                                                        n
-                                                                      ) +
-                                                                      "\n                                        "
-                                                                  )
-                                                                ]
-                                                              ),
-                                                              _vm._v(" "),
-                                                              _c("br")
-                                                            ]
-                                                          )
-                                                        }
-                                                      )
-                                                    ],
-                                                    2
-                                                  )
-                                                : _vm._e()
+                                              )
                                             ],
                                             2
                                           )
@@ -39266,7 +39373,12 @@ var render = function() {
                                     "button",
                                     {
                                       staticClass: "btn btn-primary",
-                                      attrs: { type: "button" },
+                                      attrs: {
+                                        type: "submit",
+                                        "aria-label": "Sizing example input",
+                                        "aria-describedby":
+                                          "inputGroup-sizing-sm"
+                                      },
                                       on: {
                                         click: function($event) {
                                           return _vm.guardarTrabajo()
@@ -39500,7 +39612,7 @@ var render = function() {
                                     _vm._v(
                                       "\n                                " +
                                         _vm._s(proceso.nombre) +
-                                        "   \n                                "
+                                        "  \n                                "
                                     )
                                   ]
                                 )
@@ -39647,21 +39759,26 @@ var render = function() {
                                 disabled: !_vm.estacionSeleccionadaBool
                               },
                               on: {
-                                change: function($event) {
-                                  var $$selectedVal = Array.prototype.filter
-                                    .call($event.target.options, function(o) {
-                                      return o.selected
-                                    })
-                                    .map(function(o) {
-                                      var val =
-                                        "_value" in o ? o._value : o.value
-                                      return val
-                                    })
-                                  _vm.trabajadorSeleccionado = $event.target
-                                    .multiple
-                                    ? $$selectedVal
-                                    : $$selectedVal[0]
-                                }
+                                change: [
+                                  function($event) {
+                                    var $$selectedVal = Array.prototype.filter
+                                      .call($event.target.options, function(o) {
+                                        return o.selected
+                                      })
+                                      .map(function(o) {
+                                        var val =
+                                          "_value" in o ? o._value : o.value
+                                        return val
+                                      })
+                                    _vm.trabajadorSeleccionado = $event.target
+                                      .multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  },
+                                  function($event) {
+                                    return _vm.onChangeTrabajador()
+                                  }
+                                ]
                               }
                             },
                             [
@@ -39697,7 +39814,10 @@ var render = function() {
                             "button",
                             {
                               staticClass: "btn btn-success",
-                              attrs: { type: "button" },
+                              attrs: {
+                                type: "button",
+                                disabled: !_vm.trabajadorSeleccionadoBool
+                              },
                               on: {
                                 click: function($event) {
                                   return _vm.agregarTrabajador()
@@ -39789,21 +39909,26 @@ var render = function() {
                               staticClass: "form-control",
                               attrs: { disabled: !_vm.otSeleccionadaBool },
                               on: {
-                                change: function($event) {
-                                  var $$selectedVal = Array.prototype.filter
-                                    .call($event.target.options, function(o) {
-                                      return o.selected
-                                    })
-                                    .map(function(o) {
-                                      var val =
-                                        "_value" in o ? o._value : o.value
-                                      return val
-                                    })
-                                  _vm.productoSeleccionado = $event.target
-                                    .multiple
-                                    ? $$selectedVal
-                                    : $$selectedVal[0]
-                                }
+                                change: [
+                                  function($event) {
+                                    var $$selectedVal = Array.prototype.filter
+                                      .call($event.target.options, function(o) {
+                                        return o.selected
+                                      })
+                                      .map(function(o) {
+                                        var val =
+                                          "_value" in o ? o._value : o.value
+                                        return val
+                                      })
+                                    _vm.productoSeleccionado = $event.target
+                                      .multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  },
+                                  function($event) {
+                                    return _vm.onChangeProducto()
+                                  }
+                                ]
                               }
                             },
                             [
@@ -39836,7 +39961,10 @@ var render = function() {
                             "button",
                             {
                               staticClass: "btn btn-success",
-                              attrs: { type: "button" },
+                              attrs: {
+                                type: "button",
+                                disabled: !_vm.productoSeleccionadoBool
+                              },
                               on: {
                                 click: function($event) {
                                   return _vm.agregarProducto()
@@ -39871,7 +39999,29 @@ var render = function() {
                           index
                         ) {
                           return _c("div", { key: index }, [
-                            _c("p", [_vm._v("- " + _vm._s(trabajador.nombre))])
+                            _c("div", { staticClass: "row" }, [
+                              _c("div", { staticClass: "col-sm-10" }, [
+                                _c("p", [
+                                  _vm._v("- " + _vm._s(trabajador.nombre))
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "col-sm-2" }, [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-danger",
+                                    attrs: { type: "button", value: index },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.quitarTrabajador(index)
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("-")]
+                                )
+                              ])
+                            ])
                           ])
                         })
                       ],
@@ -39889,7 +40039,7 @@ var render = function() {
                   _c("div", { staticClass: "row" }, [
                     _c(
                       "div",
-                      { staticClass: "col-sm-6" },
+                      { staticClass: "col-sm-5" },
                       [
                         _c("br"),
                         _vm._v(" "),
@@ -39908,7 +40058,7 @@ var render = function() {
                     _vm._v(" "),
                     _c(
                       "div",
-                      { staticClass: "col-sm-6" },
+                      { staticClass: "col-sm-5" },
                       [
                         _c("br"),
                         _vm._v(" "),
@@ -39919,6 +40069,33 @@ var render = function() {
                                 "* " + _vm._s(_vm.otProducto[index][1].nombre)
                               )
                             ])
+                          ])
+                        })
+                      ],
+                      2
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "col-sm-2" },
+                      [
+                        _c("br"),
+                        _vm._v(" "),
+                        _vm._l(_vm.otProducto, function(linea, index) {
+                          return _c("div", { key: index }, [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-danger",
+                                attrs: { type: "button", value: index },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.quitarProducto(index)
+                                  }
+                                }
+                              },
+                              [_vm._v("-")]
+                            )
                           ])
                         })
                       ],

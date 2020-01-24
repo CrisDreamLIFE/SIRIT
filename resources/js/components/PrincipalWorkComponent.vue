@@ -81,12 +81,13 @@
             <div class="container">
                 <div class="row justify-content-md-center colorBoton">
                     <div class="col col-sm-6">
-                        <button type="button" v-on:click= "comenzarTrabajo()" class="btn btn-success btn-lg colorBoton">Comenzar</button>
+                        <button type="button" v-on:click= "comenzarTrabajo()" :disabled="botonTrabajoComenzado" class="btn btn-success btn-lg colorBoton">Comenzar</button>
                     </div>
                     <div class="col col-sm-6 ">
                         <button data-toggle="modal" data-target="#exampleModal" :disabled="!trabajoComenzado" type="button" v-on:click= "terminarTrabajo()" class="btn btn-danger btn-lg colorBoton">Terminar</button>             
                     </div>
                     <!-- Modal -->
+                    
                     <div v-if="botonTerminar" class="modal fade aa" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-xl" role="document">
                             <div class="modal-content">
@@ -103,44 +104,54 @@
                                     <label for="">{{subProd.nombre}}</label>
                                     
                                     <div class="container" v-for="(proceso,index) in procesosSeleccionados" v-bind:key="index">
-                                            <div class="row container">
+                                            <form class="needs-validation" novalidate> 
+
+
+                                            <div class="form-row container">
                                                 <div class="col col-sm-4">
                                                     {{procesos[index].nombre}} {{proceso.nombre}} 
                                                 </div>
                                                 <div class="col col-sm-8" >
-                                                    <div class="row">
+                                                    <div class="form-row">
                                                         <div class="col col-sm-6">
                                                             <label for="">Cantidad:</label>
                                                         </div>
-                                                        <div class="col col-sm-5">
-                                                            <input onkeypress="solonumeros(event);" min="1" pattern="^[0-9]+" type="number" v-model="cantidadProcesos[indexG][indexM][index]" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                                        <div class="col col-sm-6">
+                                                            <input v-if="cantidadesProductos[indexG]==0" :for="index" required  min="0"  pattern="^[0-9]+" @onchangue="solonumeros(index);" type="number" v-model="cantidadProcesos[indexG][indexM][index]" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                                            <input v-else :for="index" required  min="0" :max="cantidadesProductos[indexG]" pattern="^[0-9]+" @onchangue="solonumeros(index);" type="number" v-model="cantidadProcesos[indexG][indexM][index]" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                                            <div class="valid-feedback">valido</div>
+                                                            <div class="invalid-feedback">complete</div>
+                                                            <label class="errorEmail" :id="index" v-model="etiqueta"></label>
                                                         </div>
+                                                    </div>
+                                                    <div class="form-row" v-if="otProducto[indexG][1].tipo_material_id==filtradoMaterial">
+                                                        <div class="col col-sm-2">
+                                                            Pieza N°:
+                                                        </div>
+                                                        <div v-for="n in cantidadesProductos[indexG]" v-bind:value="n" v-bind:key="n" class="form-check-inline">  <!--:id="index+pro.nombre+otProducto[indexG][2][indexM].nombre + otProducto[indexG][0].id -->
+                                                            <input class="form-check-input" type="checkbox" > <!--valor for mas arriba -->
+                                                            <label class="form-check-label" > <!-- - {{'order_by_'+indexG+''+indexM+''+index+''+n}} -->
+                                                                {{n}}  
+                                                            </label>
+                                                            <br>
+                                                        </div> 
                                                     </div>
                                                 </div>
                                             </div>
+                                            </form>
                                             <br>
-                                    </div>
-                                    <div class="row" v-if="otProducto[indexG][1].tipo_material_id==filtradoMaterial">
-                                        <div class="col col-xl-2">
-                                            Pieza N°:
-                                        </div>
-                                        <div v-for="n in cantidadesProductos[indexG]" v-bind:value="n" v-bind:key="n" class="form-check-inline">  <!--:id="index+pro.nombre+otProducto[indexG][2][indexM].nombre + otProducto[indexG][0].id -->
-                                            <input class="form-check-input" type="checkbox" :id="n+procesos[indexM].id"  :value="n" v-model="aux[indexG][indexM]"> <!--valor for mas arriba -->
-                                            <label class="form-check-label" :for="n+procesos[indexM].id">
-                                                {{n}}
-                                            </label>
-                                            <br>
-                                        </div> 
                                     </div>
                                 </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary"  v-on:click= "guardarTrabajo()" >Save changes</button>
+                                <button type="submit" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" class="btn btn-primary"  v-on:click= "guardarTrabajo()" >Save changes</button>
                             </div>
                             </div>
                         </div>
                     </div>
+                    <!-- -->
+
                 </div>
             </div>
         </div>
@@ -169,7 +180,7 @@
                                 <div v-for="(proceso,indexP) in procesos" v-bind:key="indexP" v-bind:value="procesos[indexP].id"  class="form-check-inline">  <!--aqui va el otro for -->
                                     <input class="form-check-input" type="checkbox" :id="indexP+proceso.id+proceso.nombre" :value="indexP"   v-model="procesosSeleccionados"> <!--valor for mas arriba -->
                                     <label class="form-check-label lavelFont2" :for="indexP+proceso.id+proceso.nombre" >
-                                    {{proceso.nombre}}   
+                                    {{proceso.nombre}}  
                                     </label>
                                 </div> 
                                 <br>
@@ -207,7 +218,7 @@
                                     </select>  
                                 </div>
                                 <div class="col-sm-5">
-                                    <select  :disabled="!estacionSeleccionadaBool" v-model="trabajadorSeleccionado" class="form-control" >
+                                    <select  :disabled="!estacionSeleccionadaBool" @change="onChangeTrabajador()" v-model="trabajadorSeleccionado" class="form-control" >
                                     <option disabled selected >Trabajadores</option>
                                     <option v-for="(trabajador,index) in trabajadores" v-bind:key="index" v-bind:value="index">
                                         {{ trabajador.nombre }}
@@ -215,7 +226,7 @@
                                     </select>     
                                 </div>
                                 <div class="col-sm-1">
-                                    <button type="button"  v-on:click= "agregarTrabajador()" class="btn btn-success">+</button>
+                                    <button type="button"  v-on:click= "agregarTrabajador()" :disabled="!trabajadorSeleccionadoBool" class="btn btn-success">+</button>
                                 </div>
                             </div>
                             <br>
@@ -237,7 +248,7 @@
                                     </select>     
                                 </div>
                                     <div class="col-sm-5">
-                                        <select  :disabled="!otSeleccionadaBool" v-model="productoSeleccionado" class="form-control" >
+                                        <select  :disabled="!otSeleccionadaBool" @change="onChangeProducto()" v-model="productoSeleccionado" class="form-control" >
                                         <option disabled selected >Productos</option>
                                         <option v-for="(producto, index) in productos" v-bind:key="index" v-bind:value="index">
                                         {{ producto.nombre }}
@@ -245,7 +256,7 @@
                                         </select> 
                                     </div>
                                     <div class="col-sm-1">
-                                        <button type="button"  v-on:click= "agregarProducto()" class="btn btn-success">+</button>
+                                        <button type="button" :disabled="!productoSeleccionadoBool" v-on:click= "agregarProducto()" class="btn btn-success">+</button>
                                     </div>
                                 </div>
                             <br>                   
@@ -263,7 +274,14 @@
                         <div class="container color2">
                             <br>
                             <div v-for="(trabajador,index) in trabajadoresSeleccionados" v-bind:key="index">
-                                <p>- {{trabajador.nombre}}</p>
+                                <div class="row">
+                                    <div class="col-sm-10">
+                                        <p>- {{trabajador.nombre}}</p>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <button type="button" :value="index"  v-on:click= "quitarTrabajador(index)" class="btn btn-danger">-</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -279,17 +297,23 @@
                 </div>
                 <div class="container color2">
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-5">
                             <br>
                             <div v-for="(linea,index) in otProducto" v-bind:key="index">
                                 <p>* OT {{otProducto[index][0].id}}</p>
                             </div>    
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-5"> 
                             <br>
                             <div v-for="(linea,index) in otProducto" v-bind:key="index">
                                 <p>* {{otProducto[index][1].nombre}}</p> 
                             </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <br>
+                            <div v-for="(linea,index) in otProducto" v-bind:key="index">
+                                <button type="button" :value="index"  v-on:click= "quitarProducto(index)" class="btn btn-danger">-</button>
+                            </div>    
                         </div>
                     </div>
                 </div>
@@ -306,6 +330,24 @@
 </template>
 
 <script>
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
     export default {
         data(){
             return {
@@ -326,6 +368,9 @@
                 botonResumen:false,
                 botonTerminar: false,
                 trabajoComenzado: false,
+                botonTrabajoComenzado: false,
+                trabajadorSeleccionadoBool:false,
+                productoSeleccionadoBool: false,
                 otProducto: [],
                 subProductos: [],
                 procesos: [],
@@ -338,7 +383,8 @@
                 id_sesion: null,
                 filtradoMaterial: null,
                 cantidadesProductos: [],
-                cantidadProcesos: []
+                cantidadProcesos: [],
+                etiqueta:"a"
             };
         },
         mounted() {
@@ -367,6 +413,7 @@
             },
             comenzarTrabajo(){
                //console.log(".-.")
+                this.botonTrabajoComenzado = true;
                 document.getElementById("hms").innerHTML="00:00:00";
                 this.escribir();
                 setInterval(this.escribir,1000);
@@ -391,21 +438,35 @@
                         this.cantidadesProductos = response.data;
                         this.trabajoComenzado = true;
                         console.log(this.cantidadesProductos);})
-                //Obtener las piezas de cada producto
-                //subProducto->producto->ot-producto('cantidad') perfecto
-                //otProducto[[ot,producto,subs], [ot2,producto2,subs2], [ot3,producto3,subs3]]
-                //send[o, producto 4, productoX] -> return:  [cantidad1, cantidad4, cantidadX]
-
             },
             terminarTrabajo(){
                // this.aux = [ot,producto, ]
                 this.botonTerminar = true;    
             },
-            guardarTrabajo(){
-                if(this.aux == this.aux2){
-                    toastr.error("No ha ingresado Nombre","Aviso!");
-                        return false;
+            guardarTrabajo(index){
+                document.getElementsByName(this.etiqueta).innerHTML="";
+                console.log("verificando lo que metio :v");
+                console.log(this.cantidadProcesos);
+                var e = window.event;
+                e.preventDefault();
+                for (var p = 0; p < this.cantidadProcesos.length; p++) {
+                    for (var q = 0; q < this.cantidadProcesos[p].length; q++) {
+                        for (var r = 0; r < this.cantidadProcesos[p][q].length; r++) {
+                            console.log(this.cantidadProcesos[p][q][r]);
+                            var num = parseInt(this.cantidadProcesos[p][q][r]);
+                            if(num < 0){
+                                document.getElementById(this.etiqueta).innerHTML= "Ingrese valor positivo";
+                                document.getElementById(this.etiqueta).setAttribute("style","color:red;");
+                                return false;
+                            }
+                            if(!Number.isInteger(num)){
+                                document.getElementById(this.etiqueta).innerHTML= "Llene este campo";
+                                document.getElementById(this.etiqueta).setAttribute("style","color:red;");
+                                return false;
+                            }
+                        }
                     }
+                }
                 var otResumen = []
                 for (var p = 0; p < this.otProducto.length; p++) {
                     if(!otResumen.includes(this.otProducto[p][0].id)){
@@ -433,7 +494,8 @@
                     .post('http://localhost:8000/sesionFinal', params)
                     .then(response => {
                         console.log("guarde toda la basura");
-                        location.reload();})
+                        location.reload();
+                        })
             },
             atrasSubProductos(){
                 this.botonContinuar = false;
@@ -453,51 +515,6 @@
                 //esto debe ser por subProducto :V       
             },
             continuarResumen(){
-                /*Se debe cargar un componente extra, quitar estos y poner el otro, ooo, lo que
-                lo haria mas rapido es ponero igual en esta vista, lo cuual tendria sentido pero
-                le chantamos unos if para verlo, en todo caso no es mucho, asi que hagamos eso :) */
-                /*var otResumen = []
-                for (var p = 0; p < this.otProducto.length; p++) {
-                    console.log("for")
-                    if(!otResumen.includes(this.otProducto[p][0].id)){
-                        console.log("if")
-                        otResumen.push(this.otProducto[p][0].id);
-                        console.log("otProducti[0][0].id= " + this.otProducto[p][0].id)
-                    }
-                    console.log("otResumen[p]: "+ otResumen[p])
-                }
-                for (var l = 0; l < otResumen.length; l++) {
-                    console.log("AUX ::::")
-                    console.log(this.aux)
-                    this.aux.push([])
-                    this.cantidadProcesos.push([]);
-                    console.log("aux1 = ") 
-                    var poner = 0;
-                    for (var i = 0; i < this.otProducto.length; i++) {
-                        console.log("tResumen[l] = " + otResumen[l])
-                        console.log(" this.otProducto[l] = " +  this.otProducto[i][0].id)
-                        if(otResumen[l]== this.otProducto[i][0].id){
-                            
-                            console.log("aux3 = ")
-                            this.aux[l].push([]);
-                            this.cantidadProcesos[l].push([]);
-                            for (var j = 0; j < this.otProducto[i][2].length; j++) {
-                                console.log("aux4 = ")
-                                this.aux[l][i-poner].push([]);   
-                                this.cantidadProcesos[l][i-poner].push([]);
-                                for (var k = 0; k < this.procesosSeleccionados.length; k++) {
-                                    console.log("aux5 = ")
-                                    this.aux[l][i-poner][j].push([]);
-                                    this.cantidadProcesos[l][i-poner][j].push([]);    
-                                } 
-                            }
-                        }
-                        else{
-                            poner = poner+1;
-                        }
-                        
-                    }
-                }*/
                 for (var i = 0; i < this.otProducto.length; i++) {
                     console.log("for1");
                     this.cantidadProcesos.push([]);
@@ -520,10 +537,16 @@
                     
                 this.botonResumen = true;
             },
-            agregarTrabajador(){
+            agregarTrabajador(){ 
                 if(!this.trabajadoresSeleccionados.includes(this.trabajadores[this.trabajadorSeleccionado])){
                     this.trabajadoresSeleccionados.push(this.trabajadores[this.trabajadorSeleccionado])
                 }
+            },
+            quitarTrabajador(index){ 
+                this.trabajadoresSeleccionados.splice( index, 1 );
+            },
+            quitarProducto(index){ 
+                this.otProducto.splice( index, 1 );
             },
             agregarProducto(){
               //  this.productosSeleccionados.push(this.productos[this.productoSeleccionado]);
@@ -549,11 +572,11 @@
                         console.log("hice todos los push:");})  //RECORDAR ELIMINAR ESTO MISMO CUANDO SE BORRE UN PRODUCTO, OT, ETC     
             },
             onChangeEstación(){
+                this.estacionSeleccionadaBool = false;
+                //this.trabajadorSeleccionadoBool = false;
                 var i;
                 var index = -1;
                 if(this.estacionSeleccionada != null){
-                    console.log("el valor de index: ")
-                    console.log(index)
                     axios
                     .get('http://localhost:8000/trabajadores/'+this.estacionSeleccionada)
                     .then(response => {
@@ -567,13 +590,15 @@
                         this.procesos = response.data;})
                 }
             },
-            solonumeros(e){
+            solonumeros(event){
                 var key = window.event ? e.which : e.keyCode;
                 if(key < 48 || key > 57){
                     e.preventDefault();
                 }
             },
             onChangeOt(){
+                this.otSeleccionadaBool = false;
+                //this.productoSeleccionadoBool = false;
                 if(this.otSeleccionada != null){
                     console.log("ot seleccionada: ")
                     console.log(this.otSeleccionada)
@@ -587,6 +612,12 @@
                     })
                     
                 }
+            },
+            onChangeTrabajador(){ 
+                this.trabajadorSeleccionadoBool = true;
+            },
+            onChangeProducto(){ 
+                this.productoSeleccionadoBool = true;
             }
         }
     }
@@ -633,6 +664,12 @@
     }
     .style3{
         border-top: 1px dashed #8c8b8b;
+    }
+    input:invalid {
+        border: 1px solid red;
+    }
+    input:valid {
+        border: 1px solid green;
     }
 </style>
 

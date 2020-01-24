@@ -19,7 +19,7 @@ class CreateSesionTrabajosTable extends Migration
             $table->date('fecha_termino')->nullable();
             $table->time('hora_inicio');
             $table->time('hora_termino')->nullable();
-            $table->string('duracion')->nullable();
+            $table->float('duracion')->nullable();
             $table->BigInteger('estacion_id')->unsigned();
 
             $table->foreign('estacion_id')->references('id')->on('estacions');

@@ -19,9 +19,9 @@ class CreateDetalleSesionsTable extends Migration
             $table->BigInteger('ot_id')->unsigned();
             $table->BigInteger('producto_id')->unsigned();
             $table->BigInteger('sub_producto_id')->unsigned();
-            $table->string('numero_pieza')->unsigned();
+            $table->string('numero_pieza')->unsigned()->default(0);
             $table->BigInteger('proceso_id')->unsigned();
-            $table->integer('cantidad');
+            $table->integer('cantidad')->default(0);
 
             $table->foreign('sesion_trabajo_id')->references('id')->on('sesion_trabajos');
             $table->foreign('ot_id')->references('id')->on('ots');
