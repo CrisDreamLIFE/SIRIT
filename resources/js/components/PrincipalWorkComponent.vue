@@ -118,7 +118,8 @@
                                                         </div>
                                                         <div class="col col-sm-6">
                                                             <input v-if="cantidadesProductos[indexG]==0" :for="index" required  min="0"  pattern="^[0-9]+" @onchangue="solonumeros(index);" type="number" v-model="cantidadProcesos[indexG][indexM][index]" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                                                            <input v-else :for="index" required  min="0" :max="cantidadesProductos[indexG]" pattern="^[0-9]+" @onchangue="solonumeros(index);" type="number" v-model="cantidadProcesos[indexG][indexM][index]" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                                            <input v-else :for="index" required  min="0" :max="cantidadesProductos[indexG]" pattern="^[0-9]+" @blur="solonumeros(indexG,indexM,index)" type="number" v-model="cantidadProcesos[indexG][indexM][index]" class="form-control inputCantidad" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                                            <span v-if="mensajeError">{{textoError}}</span>
                                                             <div class="valid-feedback">valido</div>
                                                             <div class="invalid-feedback">complete</div>
                                                             <label class="errorEmail" :id="index" v-model="etiqueta"></label>
@@ -590,11 +591,10 @@
                         this.procesos = response.data;})
                 }
             },
-            solonumeros(event){
-                var key = window.event ? e.which : e.keyCode;
-                if(key < 48 || key > 57){
-                    e.preventDefault();
-                }
+            solonumeros(indexG,indexM,index){
+                //validar el cantidadProcesos[indexG][indexM][index]
+                
+
             },
             onChangeOt(){
                 this.otSeleccionadaBool = false;
