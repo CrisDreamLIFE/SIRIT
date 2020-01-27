@@ -23,7 +23,7 @@
                     <img src="https://siom.bigscience.cl/wp-content/uploads/2019/10/LOGO-SIOM-OFICIAL-2018_Mesa-de-trabajo-1.png" width="50" height="50" alt="">
                     </a>
                 </nav>
-                <principal-work-component></principal-work-component>
+                <ingreso-component></ingreso-component>
             </div>
         </div>
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -51,11 +51,11 @@
         border-color: 64b2cd;
         border-radius: 5px;
         border: 2px solid #000;
-        color: 3c70a4;
+        color: #3c70a4;
     }
     .lavelFont{
         font-size: 20px;
-        color: da9833;
+        color: #da9833;
     }
     .colorNav{
         background-color: #64b2cd;

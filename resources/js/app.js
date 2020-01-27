@@ -20,6 +20,7 @@ window.Vue = require('vue');
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('principal-work-component', require('./components/PrincipalWorkComponent.vue').default);
+Vue.component('ingreso-component', require('./components/IngresoComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

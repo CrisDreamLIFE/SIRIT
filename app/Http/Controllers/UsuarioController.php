@@ -16,12 +16,30 @@ class UsuarioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function buscarConRut(Request $request){
+        $rut = $request->input('rut');
+        $pass = $request->input('contraseña');
+        $usuario = Usuario::where('rut', $rut)->get();
+        if($usuario->isEmpty()){
+            return 0;
+        }
+        
+        elseif($usuario->first()->contraseña != $pass){
+            return 1;
+        }
+        else{
+            $usuario = $usuario->first();
+            return $usuario;
+        }
+        
+    }
+
     public function obtenerTrabajadoresPorEstacion($id){
         $estacion = Estacion::where('id',$id)->get();
         $area = $estacion[0]->area;
         $usuarios = $area->usuarios;
         $trabajadores = array();
-        $idRol = Rol::where('nombre',"rol 1")->first(); //ojo con esto, queda estatico.
+        $idRol = Rol::where('filtrador',1)->first(); //ojo con esto, queda estatico.
         foreach ($usuarios as $usuario){
             $rolesUsuario = RolUsuario::where('usuario_id',$idRol->id)->get();
             foreach($rolesUsuario as $rolUsuario){

@@ -17,6 +17,7 @@ class CreateUsuariosTable extends Migration
             $table->bigIncrements('id');
             $table->string('nombre');
             $table->string('rut');
+            $table->string('password');
             $table->boolean('activo')->default(TRUE);  //inicializar
             $table->timestamps();
         });

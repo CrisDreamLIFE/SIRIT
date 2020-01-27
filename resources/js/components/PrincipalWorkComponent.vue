@@ -97,14 +97,14 @@
                                 <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <div class="modal-body" v-for="(linea,indexG) in otProducto" v-bind:key="indexG">
+                            <div class="modal-body form-group" v-for="(linea,indexG) in otProducto" v-bind:key="indexG">
                                 <label for="">OT {{otProducto[indexG][0].id}} PRODUCTO {{otProducto[indexG][1].nombre}}</label>
 
-                                <div class="container" v-for="(subProd,indexM) in otProducto[indexG][2]" v-bind:key="indexM">
+                                <div class="container form-group" v-for="(subProd,indexM) in otProducto[indexG][2]" v-bind:key="indexM">
                                     <label for="">{{subProd.nombre}}</label>
-                                    
-                                    <div class="container" v-for="(proceso,index) in procesosSeleccionados" v-bind:key="index">
-                                            <form class="needs-validation" novalidate> 
+                                    <form class="needs-validation" novalidate> 
+                                        <div class="container form-group" v-for="(proceso,index) in procesosSeleccionados" v-bind:key="index">
+                                            
 
 
                                             <div class="form-row container">
@@ -117,20 +117,18 @@
                                                             <label for="">Cantidad:</label>
                                                         </div>
                                                         <div class="col col-sm-6">
-                                                            <input v-if="cantidadesProductos[indexG]==0" :for="index" required  min="0"  pattern="^[0-9]+" @onchangue="solonumeros(index);" type="number" v-model="cantidadProcesos[indexG][indexM][index]" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                                                            <input v-else :for="index" required  min="0" :max="cantidadesProductos[indexG]" pattern="^[0-9]+" @blur="solonumeros(indexG,indexM,index)" type="number" v-model="cantidadProcesos[indexG][indexM][index]" class="form-control inputCantidad" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                                                            <span v-if="mensajeError">{{textoError}}</span>
-                                                            <div class="valid-feedback">valido</div>
-                                                            <div class="invalid-feedback">complete</div>
-                                                            <label class="errorEmail" :id="index" v-model="etiqueta"></label>
+                                                            <input v-if="cantidadesProductos[indexG]==0" v-bind:id="index+indexG+indexM" required  min="0"  pattern="^[0-9]+" @input="solonumeros(indexG,indexM,index)" type="number" v-model="cantidadProcesos[indexG][indexM][index]" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                                            <input v-else v-bind:id="''+index+indexG+indexM" required  min="0" :max="cantidadesProductos[indexG]" pattern="^[0-9]+" @input="solonumeros(indexG,indexM,index)" type="number" v-model="cantidadProcesos[indexG][indexM][index]" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                                            <span v-bind:for="''+index+indexG+indexM" v-if="!inputValido[indexG][indexM][index]"> {{mensajeError}}</span>   <!--{{mensajeError[indexG][indexM][index]}}</span> -->
                                                         </div>
+                                                  
                                                     </div>
-                                                    <div class="form-row" v-if="otProducto[indexG][1].tipo_material_id==filtradoMaterial">
+                                                    <div class="form-row" v-if="subProd.tipo_material_id==filtradoMaterial">
                                                         <div class="col col-sm-2">
                                                             Pieza N°:
                                                         </div>
                                                         <div v-for="n in cantidadesProductos[indexG]" v-bind:value="n" v-bind:key="n" class="form-check-inline">  <!--:id="index+pro.nombre+otProducto[indexG][2][indexM].nombre + otProducto[indexG][0].id -->
-                                                            <input class="form-check-input" type="checkbox" > <!--valor for mas arriba -->
+                                                            <input class="form-check-input" type="checkbox" :id="n+procesos[indexM].id"  :value="n" v-model="aux[indexG][indexM][index]" > <!--valor for mas arriba -->
                                                             <label class="form-check-label" > <!-- - {{'order_by_'+indexG+''+indexM+''+index+''+n}} -->
                                                                 {{n}}  
                                                             </label>
@@ -139,9 +137,10 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            </form>
+                                            
                                             <br>
-                                    </div>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -350,15 +349,16 @@
   }, false);
 })();
     export default {
+        props: ['estaciones', 'ots'],
         data(){
             return {
-                estaciones: [],
+              
                 estacionSeleccionada: null,
                 estacionSeleccionadaBool: false,
                 trabajadores:[],
                 trabajadorSeleccionado: null,
                 trabajadoresSeleccionados: [],
-                ots: [],
+               
                 otSeleccionada: null,
                 otSeleccionadaBool: false,
                 otsSeleccionadas: [],
@@ -385,11 +385,14 @@
                 filtradoMaterial: null,
                 cantidadesProductos: [],
                 cantidadProcesos: [],
-                etiqueta:"a"
+                mensajeErrorNumerico: "",
+                inputValido:[],
+                mensajeErrorRango:"",
+                mensajeError:""
             };
         },
         mounted() {
-            axios
+            /* axios
             .get('http://localhost:8000/estacion')
             .then(response => (this.estaciones = response.data))
             console.log('Component mounted.')  
@@ -397,7 +400,7 @@
             axios
             .get('http://localhost:8000/otAbierta')
             .then(response => (this.ots = response.data))
-            console.log('Component mounted.')
+            console.log('Component mounted.') */
         },
         methods:{
             escribir(){
@@ -444,37 +447,47 @@
                // this.aux = [ot,producto, ]
                 this.botonTerminar = true;    
             },
-            guardarTrabajo(index){
-                document.getElementsByName(this.etiqueta).innerHTML="";
-                console.log("verificando lo que metio :v");
-                console.log(this.cantidadProcesos);
-                var e = window.event;
-                e.preventDefault();
-                for (var p = 0; p < this.cantidadProcesos.length; p++) {
-                    for (var q = 0; q < this.cantidadProcesos[p].length; q++) {
-                        for (var r = 0; r < this.cantidadProcesos[p][q].length; r++) {
-                            console.log(this.cantidadProcesos[p][q][r]);
-                            var num = parseInt(this.cantidadProcesos[p][q][r]);
-                            if(num < 0){
-                                document.getElementById(this.etiqueta).innerHTML= "Ingrese valor positivo";
-                                document.getElementById(this.etiqueta).setAttribute("style","color:red;");
-                                return false;
-                            }
-                            if(!Number.isInteger(num)){
-                                document.getElementById(this.etiqueta).innerHTML= "Llene este campo";
-                                document.getElementById(this.etiqueta).setAttribute("style","color:red;");
-                                return false;
+            validarCheck(){
+                for (var p = 0; p < this.inputValido.length; p++){
+                    for(var r=0;r<this.inputValido[p].length;r++){
+                            for(var t=0;t<this.inputValido[p][r].length;t++){
+                                if(this.cantidadProcesos[p][r][t] != this.aux[p][r][t].length){
+                                    return false;
+                                }
                             }
                         }
-                    }
                 }
+                return true;      
+            },
+            validarEnteros(){
+                for (var p = 0; p < this.inputValido.length; p++){
+                    for(var r=0;r<this.inputValido[p].length;r++){
+                            for(var t=0;t<this.inputValido[p][r].length;t++){
+                                if(!this.inputValido[p][r][t]){
+                                    return false;
+                                }
+                            }
+                        }
+                }
+                return true;      
+            },
+            guardarTrabajo(index){
+                
                 var otResumen = []
+                console.log(this.inputValido[0][0][0]);
                 for (var p = 0; p < this.otProducto.length; p++) {
                     if(!otResumen.includes(this.otProducto[p][0].id)){
                         otResumen.push(this.otProducto[p][0].id);
                     }
                 }
-
+                if(!this.validarEnteros()){
+                    console.log("error con los enteros")
+                    return false;
+                }
+                if(!this.validarCheck()){
+                    console.log("error con los checkboxes")
+                    return false;
+                }
                 var procesosSend = []
                 for (var p = 0; p < this.procesosSeleccionados.length; p++) {
                     procesosSend.push(this.procesos[this.procesosSeleccionados[p]].id);
@@ -495,7 +508,7 @@
                     .post('http://localhost:8000/sesionFinal', params)
                     .then(response => {
                         console.log("guarde toda la basura");
-                        location.reload();
+                        //location.reload();
                         })
             },
             atrasSubProductos(){
@@ -518,19 +531,25 @@
             continuarResumen(){
                 for (var i = 0; i < this.otProducto.length; i++) {
                     console.log("for1");
+                    this.inputValido.push([])
+                   // this.mensajeError.push([])
                     this.cantidadProcesos.push([]);
                     this.aux.push([]);
                     this.aux2.push([]);
                     for (var j = 0; j < this.otProducto[i][2].length; j++){
                         console.log("for1");
                         this.cantidadProcesos[i].push([]);
+                        this.inputValido[i].push([]);
+                     //   this.mensajeError[i].push([]);
                         this.aux[i].push([]);
                         this.aux2[i].push([]);
                         console.log("cantidadProcesos:")
                         console.log(this.cantidadProcesos);
                         for (var k = 0; k < this.procesosSeleccionados.length; k++){
                             this.cantidadProcesos[i][j].push([]);
-
+                            this.aux[i][j].push([]);
+                            this.inputValido[i][j].push(true);
+                      //      this.mensajeError[i][j].push("");
                         }
 
                     }
@@ -591,10 +610,39 @@
                         this.procesos = response.data;})
                 }
             },
+            checkBox(indexG,indexM,index){
+                //tipicos mensajes de: agregue una alternativa, faltan seleccionar checkox y cosas
+            },
             solonumeros(indexG,indexM,index){
-                //validar el cantidadProcesos[indexG][indexM][index]
-                
-
+                console.log("entre a la funcion de revisar los input: "+indexG +' '+indexM+' '+index+'lo que darde:'
+                + this.cantidadProcesos[indexG][indexM][index]);
+                var num= parseInt(this.cantidadProcesos[indexG][indexM][index]);                
+                 if(!Number.isInteger(num)){
+                     console.log("estoy malo primero")
+                     this.mensajeError =  "Ingrese valor numérico"
+                    this.inputValido[indexG][indexM][index]= false;
+                    
+                    //this.mensajeErrorNumerico= "Ingrese valor numérico";
+                    //this.mensajeErrorRango= "";         
+                 }
+                 else{
+                     if(num<=this.cantidadesProductos[indexG] && num>=0){
+                        console.log("estoy weno");
+                       // this.mensajeErrorRango="";
+                        //this.mensajeErrorNumerico="";
+                        this.inputValido[indexG][indexM][index]=true;
+                        this.mensajeError=null
+                                                                       
+                     }
+                     else{
+                        console.log("estoy malo segundo")
+                        this.inputValido[indexG][indexM][index]= false;
+                       // this.mensajeErrorNumerico="";
+                        //this.mensajeErrorRango= "Error en número de pieza";           
+                        this.mensajeError = "Error en número de pieza";
+                     }                   
+                 }
+                 console.log(this.inputValido);
             },
             onChangeOt(){
                 this.otSeleccionadaBool = false;

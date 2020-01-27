@@ -47,6 +47,7 @@ Route::get('/procesos/{id}','ProcesoController@obtenerProcesosPorEstacion');
 
 #Usuario
 Route::get('/trabajadores/{id}', 'UsuarioController@obtenerTrabajadoresPorEstacion');
+Route::post('/usuarios/login', 'UsuarioController@buscarConRut');
 
 #TipoMaterial
 Route::get('/tipoMaterialFiltrador', 'TipoMaterialController@obtenerIdFiltrador');
