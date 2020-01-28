@@ -133,8 +133,12 @@
                                                                 {{n}}  
                                                             </label>
                                                             <br>
-                                                        </div> 
+                                                        </div>
+                                                        {{inputValido}} 
                                                     </div>
+                                                    {{cantidadProcesos}}
+                                                    --
+                                                    {{aux}}
                                                 </div>
                                             </div>
                                             
@@ -178,8 +182,8 @@
                         <h3 class="h3">Seleccion de Procesos a realizar:</h3>
                         <div class="container color">  
                                 <div v-for="(proceso,indexP) in procesos" v-bind:key="indexP" v-bind:value="procesos[indexP].id"  class="form-check-inline">  <!--aqui va el otro for -->
-                                    <input class="form-check-input" type="checkbox" :id="indexP+proceso.id+proceso.nombre" :value="indexP"   v-model="procesosSeleccionados"> <!--valor for mas arriba -->
-                                    <label class="form-check-label lavelFont2" :for="indexP+proceso.id+proceso.nombre" >
+                                    <input class="form-check-input" type="checkbox" :id="''+indexP+proceso.id+proceso.nombre" :value="indexP"   v-model="procesosSeleccionados"> <!--valor for mas arriba -->
+                                    <label class="form-check-label lavelFont2" :for="''+indexP+proceso.id+proceso.nombre" >
                                     {{proceso.nombre}}  
                                     </label>
                                 </div> 
@@ -354,7 +358,7 @@
             return {
               
                 estacionSeleccionada: null,
-                estacionSeleccionadaBool: false,
+                estacionSeleccionadaBool: false, 
                 trabajadores:[],
                 trabajadorSeleccionado: null,
                 trabajadoresSeleccionados: [],
@@ -404,16 +408,18 @@
         },
         methods:{
             escribir(){
-                var hAux, mAux, sAux;
-                this.s++;
-                if (this.s>59){this.m++;this.s=0;}
-                if (this.m>59){this.h++;this.m=0;}
-                if (this.h>24){this.h=0;}
-                if (this.s<10){sAux="0"+this.s;}else{sAux=this.s;}
-                if (this.m<10){mAux="0"+this.m;}else{mAux=this.m;}
-                if (this.h<10){hAux="0"+this.h;}else{hAux=this.h;}
+                if(this.comenzarTrabajo){
+                    var hAux, mAux, sAux;
+                    this.s++;
+                    if (this.s>59){this.m++;this.s=0;}
+                    if (this.m>59){this.h++;this.m=0;}
+                    if (this.h>24){this.h=0;}
+                    if (this.s<10){sAux="0"+this.s;}else{sAux=this.s;}
+                    if (this.m<10){mAux="0"+this.m;}else{mAux=this.m;}
+                    if (this.h<10){hAux="0"+this.h;}else{hAux=this.h;}
 
-                document.getElementById("hms").innerHTML = hAux + ":" + mAux + ":" + sAux;
+                    document.getElementById("hms").innerHTML = hAux + ":" + mAux + ":" + sAux;
+                }
             },
             comenzarTrabajo(){
                //console.log(".-.")
@@ -451,7 +457,7 @@
                 for (var p = 0; p < this.inputValido.length; p++){
                     for(var r=0;r<this.inputValido[p].length;r++){
                             for(var t=0;t<this.inputValido[p][r].length;t++){
-                                if(this.cantidadProcesos[p][r][t] != this.aux[p][r][t].length){
+                                if(this.cantidadProcesos[p][r][t] != this.aux[p][r][t].length && this.aux[p][r][t][0]!=0){
                                     return false;
                                 }
                             }
@@ -460,10 +466,12 @@
                 return true;      
             },
             validarEnteros(){
+                console.log("inputValido=");
+                console.log(this.inputValido);
                 for (var p = 0; p < this.inputValido.length; p++){
                     for(var r=0;r<this.inputValido[p].length;r++){
                             for(var t=0;t<this.inputValido[p][r].length;t++){
-                                if(!this.inputValido[p][r][t]){
+                                if(!this.inputValido[p][r][t] ){
                                     return false;
                                 }
                             }
@@ -508,8 +516,19 @@
                     .post('http://localhost:8000/sesionFinal', params)
                     .then(response => {
                         console.log("guarde toda la basura");
-                        //location.reload();
+                       // this.$emit('terminarTrabajo');   
                         })
+                        this.$emit('terminarTrabajo'); 
+                        /*this.comenzarTrabajo=false;
+                        this.botonContinuar= false;
+                        this.botonResumen=false;
+                        this.botonTerminar= false;
+                        this.trabajoComenzado= false;
+                        this.botonTrabajoComenzado= false;
+                        this.estacionSeleccionada=false;
+                        this.otSeleccionadaBool=false;
+                        this.trabajadorSeleccionadoBool=false;
+                        this.productoSeleccionadoBool=false;*/
             },
             atrasSubProductos(){
                 this.botonContinuar = false;
@@ -541,7 +560,7 @@
                         this.cantidadProcesos[i].push([]);
                         this.inputValido[i].push([]);
                      //   this.mensajeError[i].push([]);
-                        this.aux[i].push([]);
+                        this.aux[i].push([]);                           
                         this.aux2[i].push([]);
                         console.log("cantidadProcesos:")
                         console.log(this.cantidadProcesos);
@@ -549,6 +568,10 @@
                             this.cantidadProcesos[i][j].push([]);
                             this.aux[i][j].push([]);
                             this.inputValido[i][j].push(true);
+                            if(this.otProducto[i][2][j].tipo_material_id!=this.filtradoMaterial){
+                                this.aux[i][j][k].push(0);    
+                            }
+                        
                       //      this.mensajeError[i][j].push("");
                         }
 
@@ -626,20 +649,20 @@
                     //this.mensajeErrorRango= "";         
                  }
                  else{
-                     if(num<=this.cantidadesProductos[indexG] && num>=0){
-                        console.log("estoy weno");
-                       // this.mensajeErrorRango="";
-                        //this.mensajeErrorNumerico="";
-                        this.inputValido[indexG][indexM][index]=true;
-                        this.mensajeError=null
-                                                                       
-                     }
-                     else{
+                     if((num>this.cantidadesProductos[indexG] || num<0) && this.otProducto[indexG][2][indexM].tipo_material_id == this.filtradoMaterial){
                         console.log("estoy malo segundo")
                         this.inputValido[indexG][indexM][index]= false;
                        // this.mensajeErrorNumerico="";
                         //this.mensajeErrorRango= "Error en número de pieza";           
                         this.mensajeError = "Error en número de pieza";
+                                                                       
+                     }
+                    else{
+                        console.log("estoy weno");
+                        // this.mensajeErrorRango="";
+                        //this.mensajeErrorNumerico="";
+                        this.inputValido[indexG][indexM][index]=true;
+                        this.mensajeError=null
                      }                   
                  }
                  console.log(this.inputValido);

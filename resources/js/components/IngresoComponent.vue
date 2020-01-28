@@ -29,11 +29,25 @@
             </form>
         </div>
     </div>
-    <div  v-else>  
-        <principal-work-component
-        :estaciones = "estaciones"
-        :ots = "ots">
-        </principal-work-component>
+    <div  v-else> 
+        <div v-if="!iniciarTrabajoBool">
+            <principal-menu-component
+            @botonIniciarTrabajo="iniciarTrabajo"
+            :usuario = "usuario"
+            :roles = "roles">
+            </principal-menu-component>
+            <!--<principal-work-component
+            :estaciones = "estaciones"
+            :ots = "ots">
+            </principal-work-component>-->
+        </div>
+        <div :key='componentKey' v-else>
+            <principal-work-component
+            @terminarTrabajo="forceRender"
+            :estaciones = "estaciones"
+            :ots = "ots">
+            </principal-work-component>
+        </div> 
     </div>
 
 </template>
@@ -43,14 +57,18 @@ export default {
         data(){
             return {
                 usuario: null,
+                roles:[],
                 logeado: false,
                 rut: null,
                 contraseña:null,
                 estaciones:[],
-                ots:[]
+                ots:[],
+                iniciarTrabajoBool: false,
+                componentKey:0
                 };
         },
         mounted() {
+            
             axios
             .get('http://localhost:8000/estacion')
             .then(response => (this.estaciones = response.data))
@@ -62,6 +80,12 @@ export default {
             console.log('Component mounted.')
         },
         methods:{ 
+            forceRerender(){
+                this.componentKey += 1;  
+            },
+            iniciarTrabajo(){
+                this.iniciarTrabajoBool=true;
+            },
             logear(){
                 console.log("ahora me logeo:v")
                 if(!this.validarRut(this.rut)){
@@ -85,7 +109,12 @@ export default {
                             console.log("contraseña invalida");
                         }
                         else{
-                            this.usuario=response.data;
+                            this.usuario=response.data.usuario;
+                            var aux=[]
+                            for(var i =0;i< response.data.usuario.roles.length;i++){
+                                aux.push(response.data.usuario.roles[i].nombre);
+                            }
+                            this.roles = aux;
                             this.logeado = true;
                         }
                         })

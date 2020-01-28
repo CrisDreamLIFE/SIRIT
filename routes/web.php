@@ -15,9 +15,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/homeWork', function () {
-    return view('principal');
-});
+//Route::get('/homeWork', function () {
+    //return view('principal');
+//});
 
 #Estacion
 Route::resource('estacion', 'EstacionController');

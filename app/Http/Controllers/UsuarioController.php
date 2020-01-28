@@ -8,6 +8,7 @@ use App\RolUsuario;
 use App\Area;
 use App\Estacion;
 use Illuminate\Http\Request;
+use phpDocumentor\Reflection\Types\Object_;
 
 class UsuarioController extends Controller
 {
@@ -28,8 +29,13 @@ class UsuarioController extends Controller
             return 1;
         }
         else{
+            $allData = new Object_();  
             $usuario = $usuario->first();
-            return $usuario;
+            $roles = $usuario->roles;
+            $allData->usuario = $usuario;
+            //$allData->roles = $roles;
+            $allData = json_encode($allData);
+            return $allData;
         }
         
     }
