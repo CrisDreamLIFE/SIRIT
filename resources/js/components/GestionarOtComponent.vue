@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <button  @click="accionTrabajar"  type="button" class="btn btn-secondary btn-lg btn-block">Iniciar Trabajo</button>        
+        <button  @click="accionGestionar" type="button" class="btn btn-secondary btn-lg btn-block">Gestionar OT</button>        
     </div>
 </template>
 
@@ -10,8 +10,8 @@
             console.log('Component mounted.')
         },
         methods:{ 
-            accionTrabajar(){
-                this.$emit('botonIniciarTrabajo')
+            accionGestionar(){
+                this.$emit('botonGestionarOT')
             }
         }
     }

@@ -30,9 +30,10 @@
         </div>
     </div>
     <div  v-else> 
-        <div v-if="!iniciarTrabajoBool">
+        <div v-if="!algoSeleccionado">
             <principal-menu-component
             @botonIniciarTrabajo="iniciarTrabajo"
+            @botonGestionarOT="iniciarGestionOT"
             :usuario = "usuario"
             :roles = "roles">
             </principal-menu-component>
@@ -41,12 +42,25 @@
             :ots = "ots">
             </principal-work-component>-->
         </div>
-        <div :key='componentKey' v-else>
-            <principal-work-component
-            @terminarTrabajo="forceRender"
-            :estaciones = "estaciones"
-            :ots = "ots">
-            </principal-work-component>
+        <div v-else  > <!--aqui mostramos los componentes de las acciones-->
+            <!----------------------------------->
+            <div v-if="iniciarTrabajoBool">
+                <principal-work-component
+                :key="componentKey" 
+                :estaciones = "estaciones"
+                :ots = "ots"
+                @botonGuardar="auxMetodo">
+                </principal-work-component>
+            </div>
+            <!----------------------------------->
+            <div v-if="iniciarGestionOTBool">
+                <principal-gestion-ot-component
+                :otsTodas="otsTodas">
+                </principal-gestion-ot-component>
+            </div>
+            <!----------------------------------->
+            <!----------------------------------->
+            <!----------------------------------->
         </div> 
     </div>
 
@@ -57,13 +71,17 @@ export default {
         data(){
             return {
                 usuario: null,
+                componentKey: 0,
                 roles:[],
                 logeado: false,
-                rut: null,
-                contraseña:null,
+                rut: "19.313.751-2",
+                contraseña:"11",
                 estaciones:[],
                 ots:[],
+                otsTodas:[],
+                algoSeleccionado:false,
                 iniciarTrabajoBool: false,
+                iniciarGestionOTBool:false,
                 componentKey:0
                 };
         },
@@ -80,10 +98,21 @@ export default {
             console.log('Component mounted.')
         },
         methods:{ 
-            forceRerender(){
-                this.componentKey += 1;  
+            auxMetodo(){
+                console.log("entre al auuuux");
+                this.componentKey += 1;    
+            },
+            iniciarGestionOT(){
+                axios
+                .get('http://localhost:8000/ot')
+                .then(response =>{
+                    console.log(response.data)
+                    this.otsTodas = response.data
+                    this.algoSeleccionado=true;
+                    this.iniciarGestionOTBool=true;})
             },
             iniciarTrabajo(){
+                this.algoSeleccionado=true;
                 this.iniciarTrabajoBool=true;
             },
             logear(){

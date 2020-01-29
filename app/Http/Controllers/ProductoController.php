@@ -31,7 +31,7 @@ class ProductoController extends Controller
     }
 
     public function obtenerCantidadPorOt(Request $request)
-    {;
+    {
         $todo = $request->input('todo');
         $cantidades = array();
         foreach($todo as $e){

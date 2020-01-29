@@ -16,10 +16,10 @@ class CreateOtsTable extends Migration
     {
         Schema::create('ots', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('ot_Perú')->nullable(); 
-            $table->date('fecha_recepción');  //no null
+            $table->bigInteger('ot_Peru')->nullable(); 
+            $table->date('fecha_recepcion');  //no null
             $table->string('orden_compra')->nullable();
-            $table->string('numero_cotización')->nullable();
+            $table->string('numero_cotizacion')->nullable();
             $table->text('observacion')->nullable();
             $table->date('fecha_entrega_oc');
             $table->date('fecha_real_entrega')->nullable();
@@ -34,7 +34,7 @@ class CreateOtsTable extends Migration
             
             $table->BigInteger('canal_venta_id')->unsigned();
             $table->BigInteger('ot_tipo_id')->unsigned();
-            $table->BigInteger('responsable_id')->unsigned();
+            $table->BigInteger('usuario_id')->unsigned();
             $table->BigInteger('centro_costo_id')->unsigned();
             $table->BigInteger('categoria_ot_id')->unsigned();
             $table->BigInteger('cliente_id')->unsigned();

@@ -19,11 +19,22 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-Vue.component('principal-work-component', require('./components/PrincipalWorkComponent.vue').default);
+
+//login y menu principal
 Vue.component('ingreso-component', require('./components/IngresoComponent.vue').default);
 Vue.component('principal-menu-component', require('./components/PrincipalMenuComponent.vue').default);
-Vue.component('iniciar-trabajo-component', require('./components/IniciarTrabajoComponent.vue').default);
 
+//acciones netas
+Vue.component('principal-work-component', require('./components/PrincipalWorkComponent.vue').default);
+Vue.component('principal-gestion-ot-component', require('./components/PrincipalGestionOtComponent.vue').default);
+
+//opciones de boton
+Vue.component('iniciar-trabajo-component', require('./components/IniciarTrabajoComponent.vue').default);
+Vue.component('gestionar-ot-component', require('./components/GestionarOtComponent.vue').default);
+
+//atomicos
+Vue.component('modal-ot-component', require('./components/ModalOtComponent.vue').default);
+Vue.component('modal-ot-edit-component', require('./components/ModalOtEditComponent.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

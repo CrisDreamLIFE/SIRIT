@@ -29,11 +29,16 @@ Route::resource('rol', 'RolController');
 Route::resource('sesion', 'SesionTrabajoController');
 Route::post('/sesionFinal', 'SesionTrabajoController@storeFinal');
 
-#Cliente
-Route::get('/homee', 'ClienteController@index');
+
 
 #Ot
-Route::get('/otAbierta', 'OtController@obtenerOtAbierta');
+Route::resource('ot','OtController');
+Route::get('/otAbierta', 'OtController@obtenerOtAbierta'); 
+Route::get('/productosYCantidadOt/{id}', 'OtController@obtenerProductos');
+Route::get('/obtenerClienteOt/{id}', 'OtController@obtenerClienteOt');
+Route::get('/obtenerCanalOt/{id}', 'OtController@obtenerCanalVentaOt');
+Route::get('/obtenerTipoOt/{id}', 'OtController@obtenerTipoOt');
+Route::get('/obtenerResponsableOt/{id}', 'OtController@obtenerResponsableOt');
 
 #Producto
 Route::get('/productosOt/{id}', 'ProductoController@obtenerProductosOt');

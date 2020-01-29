@@ -133,12 +133,8 @@
                                                                 {{n}}  
                                                             </label>
                                                             <br>
-                                                        </div>
-                                                        {{inputValido}} 
+                                                        </div> 
                                                     </div>
-                                                    {{cantidadProcesos}}
-                                                    --
-                                                    {{aux}}
                                                 </div>
                                             </div>
                                             
@@ -149,7 +145,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" class="btn btn-primary"  v-on:click= "guardarTrabajo()" >Save changes</button>
+                <!--deberia ir la confirmacion-->                <button data-dismiss="modal" type="submit" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" class="btn btn-primary"  v-on:click="guardarTrabajo" >Save changes</button>
                             </div>
                             </div>
                         </div>
@@ -214,7 +210,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <select  v-model="estacionSeleccionada" @change="onChangeEstación()" class="form-control">
+                                    <select id="selectEstacion" v-model="estacionSeleccionada" @change="onChangeEstación()" class="form-control">
                                     <option disabled selected >Estaciones</option>
                                     <option v-for="estacion in estaciones" v-bind:key="estacion.id" v-bind:value="estacion.id">
                                         {{ estacion.codigo }}
@@ -222,7 +218,7 @@
                                     </select>  
                                 </div>
                                 <div class="col-sm-5">
-                                    <select  :disabled="!estacionSeleccionadaBool" @change="onChangeTrabajador()" v-model="trabajadorSeleccionado" class="form-control" >
+                                    <select id="selectTrabajador" :disabled="!estacionSeleccionadaBool" @change="onChangeTrabajador()" v-model="trabajadorSeleccionado" class="form-control" >
                                     <option disabled selected >Trabajadores</option>
                                     <option v-for="(trabajador,index) in trabajadores" v-bind:key="index" v-bind:value="index">
                                         {{ trabajador.nombre }}
@@ -244,7 +240,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <select  v-model="otSeleccionada" @change="onChangeOt()" class="form-control" >
+                                    <select  id="selectOt" v-model="otSeleccionada" @change="onChangeOt()" class="form-control" >
                                     <option disabled selected >orden de trabajo</option>
                                     <option v-for="(ot,index) in ots" v-bind:key="index" v-bind:value="index">
                                         {{ ot.id }}
@@ -252,7 +248,7 @@
                                     </select>     
                                 </div>
                                     <div class="col-sm-5">
-                                        <select  :disabled="!otSeleccionadaBool" @change="onChangeProducto()" v-model="productoSeleccionado" class="form-control" >
+                                        <select id="selectProducto" :disabled="!otSeleccionadaBool" @change="onChangeProducto()" v-model="productoSeleccionado" class="form-control" >
                                         <option disabled selected >Productos</option>
                                         <option v-for="(producto, index) in productos" v-bind:key="index" v-bind:value="index">
                                         {{ producto.nombre }}
@@ -408,7 +404,7 @@
         },
         methods:{
             escribir(){
-                if(this.comenzarTrabajo){
+                if(this.botonTrabajoComenzado){
                     var hAux, mAux, sAux;
                     this.s++;
                     if (this.s>59){this.m++;this.s=0;}
@@ -480,7 +476,7 @@
                 return true;      
             },
             guardarTrabajo(index){
-                
+                this.botonTrabajoComenzado = false;
                 var otResumen = []
                 console.log(this.inputValido[0][0][0]);
                 for (var p = 0; p < this.otProducto.length; p++) {
@@ -515,20 +511,37 @@
                 axios
                     .post('http://localhost:8000/sesionFinal', params)
                     .then(response => {
+                        this.$emit('botonGuardar')
                         console.log("guarde toda la basura");
                        // this.$emit('terminarTrabajo');   
-                        })
-                        this.$emit('terminarTrabajo'); 
-                        /*this.comenzarTrabajo=false;
-                        this.botonContinuar= false;
-                        this.botonResumen=false;
+                       /* this.otSeleccionada=undefined;
+                        this.estacionSeleccionada=undefined;
+                        this.productoSeleccionado=undefined;
+                        this.trabajadorSeleccionado=undefined;
+                        this.trabajadoresSeleccionados=[];
+                        this.otProducto=[]
+                        this.procesosSeleccionados=[];
+                        this.aux=[];
+                        this.h= 0;
+                        this.m= 0;
+                        this.s= 0;
+                        this.inputValido=[];
+                        this.cantidadProcesos=[];
+                        this.subProductos=[];
+
                         this.botonTerminar= false;
+                        this.comenzarTrabajo=false;
+                        this.botonContinuar= false;
+                        this.botonResumen=false;    
                         this.trabajoComenzado= false;
                         this.botonTrabajoComenzado= false;
-                        this.estacionSeleccionada=false;
+                        this.estacionSeleccionadaBool=false;
                         this.otSeleccionadaBool=false;
                         this.trabajadorSeleccionadoBool=false;
-                        this.productoSeleccionadoBool=false;*/
+                        this.productoSeleccionadoBool=false;
+                        $('#myModal').modal('hide')*/
+                        })
+                        
             },
             atrasSubProductos(){
                 this.botonContinuar = false;
