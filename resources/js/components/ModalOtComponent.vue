@@ -75,17 +75,27 @@
                                 </div>
                                 <div class="row">
                                     <div class="col"><b>Canal de Venta:</b>
-                                        <span style="padding-left:30px;" >{{canalVenta.nombre}}</span>
+                                        <span style="padding-left:30px;" >{{canal_venta.nombre}}</span>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col"><b>Tipo de OT:</b>
-                                        <span style="padding-left:30px;" >{{tipoOt.nombre}}</span>
+                                        <span style="padding-left:30px;" >{{ot_tipo.nombre}}</span>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col"><b>Responsable:</b>
-                                        <span style="padding-left:30px;" >{{responsable.nombre}}</span>
+                                        <span style="padding-left:30px;" >{{usuario.nombre}}</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col"><b>Centro de Costos:</b>
+                                        <span style="padding-left:30px;" >{{centro_costo.nombre}}</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col"><b>Categoría OT:</b>
+                                        <span style="padding-left:30px;" >{{categoria_ot.nombre}}</span>
                                     </div>
                                 </div>
                             </div>
@@ -124,7 +134,7 @@
 
 <script>
     export default {
-        props: ['ot','cliente','productos','cantidadXProducto','cliente','canalVenta','tipoOt','responsable'],
+        props: ['ot','centro_costo','cliente','productos','cantidadXProducto','cliente','canal_venta','ot_tipo','usuario','categoria_ot'],
         mounted() {
             console.log('Component mounted.')
         }

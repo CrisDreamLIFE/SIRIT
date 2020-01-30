@@ -47,7 +47,7 @@ class UsuarioController extends Controller
         $trabajadores = array();
         $idRol = Rol::where('filtrador',1)->first(); //ojo con esto, queda estatico.
         foreach ($usuarios as $usuario){
-            $rolesUsuario = RolUsuario::where('usuario_id',$idRol->id)->get();
+            $rolesUsuario = RolUsuario::where('usuario_id',$usuario->id)->get();
             foreach($rolesUsuario as $rolUsuario){
                 if($rolUsuario->rol_id == $idRol->id){ 
                     $trabajadores[] = $usuario;

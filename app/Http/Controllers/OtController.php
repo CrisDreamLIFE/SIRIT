@@ -32,6 +32,18 @@ class OtController extends Controller
         return $allData;
     }
 
+    public function obtenerTodoOt($id)
+    {
+        $ot = Ot::where('id',$id)->get();
+        $canal = $ot[0]->canalVenta;
+        $tipo = $ot[0]->otTipo;
+        $user = $ot[0]->usuario;
+        $cliente = $ot[0]->cliente;
+        $centro = $ot[0]->centroCosto;
+        $categoria = $ot[0]->categoriaOt;
+        return $ot[0];
+    }
+
     public function obtenerCanalVentaOt($id)
     {
         $ot = Ot::where('id',$id)->get();
@@ -52,6 +64,7 @@ class OtController extends Controller
         $user = $ot[0]->usuario;
         return $user;
     }
+
 
     public function obtenerClienteOt($id)
     {

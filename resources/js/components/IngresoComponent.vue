@@ -1,21 +1,28 @@
 <template>
     <div v-if="!logeado">
-        <p>Bienvenido al Sistema de Recopilación de Trabajo (SIRIT), para continuar Ingrese su RUT:</p>
-        <div class="container color">
+        <br>
+        <div class="container text-center">
+            <h2>Bienvenido al Sistema de Recopilación de Información de Trabajo (SIRIT)</h2>
+        </div>
+        <br><br>
+        <div class="container wrapper fadeInDown " id="formContent">
+            
             <form action="">
+                <br>
                 <div class="form-row">
-                    <div class="col-sm-6">
+                    <div class="col-sm-7">
                         <label class= "lavelFont font-weight-bold" >Ingrese Rut:</label>
                     </div>
-                    <div class="col-sm-6"> 
-                        <label class= "lavelFont font-weight-bold" >Ingrese Contraseña:</label>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="col-sm-6">
+                    <div class="col-sm-5">
                         <input @input="validarRut(rut)" placeholder="11.222.333-4" class="form-control" type="text"  v-model="rut">
                     </div>
-                    <div class="col-sm-6">
+                    
+                </div>
+                <div class="form-row">
+                    <div class="col-sm-7"> 
+                        <label class= "lavelFont font-weight-bold" >Ingrese Contraseña:</label>
+                    </div>
+                    <div class="col-sm-5">
                         <input  class="form-control" type="password" v-model="contraseña">
                     </div>
                 </div>
@@ -28,12 +35,14 @@
                 <br>
             </form>
         </div>
+        <br><br><br><br><br>
     </div>
     <div  v-else> 
         <div v-if="!algoSeleccionado">
             <principal-menu-component
             @botonIniciarTrabajo="iniciarTrabajo"
             @botonGestionarOT="iniciarGestionOT"
+            @botonGestionarMaterial="iniciarGestionMaterial"
             :usuario = "usuario"
             :roles = "roles">
             </principal-menu-component>
@@ -59,6 +68,11 @@
                 </principal-gestion-ot-component>
             </div>
             <!----------------------------------->
+            <div v-if="iniciarGestionMaterialBool">
+                <principal-gestion-material-component
+                :productos="productos">
+                </principal-gestion-material-component>
+            </div>
             <!----------------------------------->
             <!----------------------------------->
         </div> 
@@ -79,9 +93,11 @@ export default {
                 estaciones:[],
                 ots:[],
                 otsTodas:[],
+                productos:[],
                 algoSeleccionado:false,
                 iniciarTrabajoBool: false,
                 iniciarGestionOTBool:false,
+                iniciarGestionMaterialBool:false,
                 componentKey:0
                 };
         },
@@ -101,6 +117,15 @@ export default {
             auxMetodo(){
                 console.log("entre al auuuux");
                 this.componentKey += 1;    
+            },
+            iniciarGestionMaterial(){
+                axios
+                .get('http://localhost:8000/producto')
+                .then(response =>{
+                    console.log(response.data)
+                    this.productos=response.data;
+                    this.algoSeleccionado=true;
+                    this.iniciarGestionMaterialBool=true;}) 
             },
             iniciarGestionOT(){
                 axios
@@ -220,4 +245,28 @@ export default {
         border-radius: 5px;
         border: 2px solid #000;
     }
+    .wrapper {
+        display: flex;
+        align-items: center;
+        flex-direction: column; 
+        justify-content: center;
+        width: 100%;
+        min-height: 100%;
+        padding: 20px;
+        border: 2px solid #000;
+    }
+    #formContent {
+        -webkit-border-radius: 10px 10px 10px 10px;
+        border-radius: 10px 10px 10px 10px;
+        background-color:#3c70a4;
+        padding: 30px;
+        width: 90%;
+        max-width: 450px;
+        position: relative;
+        padding: 0px;
+        -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+        box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+        text-align: center;
+        }
+    
 </style>

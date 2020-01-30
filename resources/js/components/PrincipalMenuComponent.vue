@@ -1,14 +1,20 @@
 <template>
     <div class="container">
         <div class="row">
-            {{roles}}
             <h1>Funcionalidades:</h1>
         </div>
-        <div v-if="roles.includes('gestor')||roles.includes('administrador')" class="row">
-            <iniciar-trabajo-component @botonIniciarTrabajo="iniciarTrabajo"></iniciar-trabajo-component>
-        </div>
-        <div v-if="roles.includes('gestor')||roles.includes('administrador')" class="row">
-            <gestionar-ot-component @botonGestionarOT="iniciarGestionarOT"></gestionar-ot-component>
+        <div class="container">
+            <div v-if="roles.includes('gestor')||roles.includes('administrador')" class="row">
+                <iniciar-trabajo-component @botonIniciarTrabajo="iniciarTrabajo"></iniciar-trabajo-component>
+            </div>
+            <br>
+            <div v-if="roles.includes('gestor')||roles.includes('administrador')" class="row">
+                <gestionar-ot-component @botonGestionarOT="iniciarGestionarOT"></gestionar-ot-component>
+            </div>
+            <br>
+            <div v-if="roles.includes('gestor')||roles.includes('administrador')" class="row">
+                <gestionar-material-component @botonGestionarMaterial="iniciarGestionarMateriales"></gestionar-material-component>
+            </div>
         </div>
     </div>
 </template>
@@ -30,7 +36,11 @@
             },
             iniciarGestionarOT(){
                 this.$emit('botonGestionarOT')
+            },
+            iniciarGestionarMateriales(){
+                this.$emit('botonGestionarMaterial')
             }
+
         }
     }
 </script>

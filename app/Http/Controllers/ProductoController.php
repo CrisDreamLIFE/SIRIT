@@ -44,7 +44,8 @@ class ProductoController extends Controller
 
     public function index()
     {
-        //
+        $productos = Producto::all();
+        return $productos;
     }
 
     /**

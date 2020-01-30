@@ -27,10 +27,13 @@ Vue.component('principal-menu-component', require('./components/PrincipalMenuCom
 //acciones netas
 Vue.component('principal-work-component', require('./components/PrincipalWorkComponent.vue').default);
 Vue.component('principal-gestion-ot-component', require('./components/PrincipalGestionOtComponent.vue').default);
+Vue.component('principal-gestion-material-component', require('./components/PrincipalGestionMaterialComponent.vue').default);
+
 
 //opciones de boton
 Vue.component('iniciar-trabajo-component', require('./components/IniciarTrabajoComponent.vue').default);
 Vue.component('gestionar-ot-component', require('./components/GestionarOtComponent.vue').default);
+Vue.component('gestionar-material-component', require('./components/GestionarMaterialComponent.vue').default);
 
 //atomicos
 Vue.component('modal-ot-component', require('./components/ModalOtComponent.vue').default);

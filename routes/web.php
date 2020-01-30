@@ -39,8 +39,10 @@ Route::get('/obtenerClienteOt/{id}', 'OtController@obtenerClienteOt');
 Route::get('/obtenerCanalOt/{id}', 'OtController@obtenerCanalVentaOt');
 Route::get('/obtenerTipoOt/{id}', 'OtController@obtenerTipoOt');
 Route::get('/obtenerResponsableOt/{id}', 'OtController@obtenerResponsableOt');
+Route::get('/obtenerTodoOt/{id}', 'OtController@obtenerTodoOt');
 
 #Producto
+Route::resource('producto','ProductoController');
 Route::get('/productosOt/{id}', 'ProductoController@obtenerProductosOt');
 Route::post('/cantidadProducto', 'ProductoController@obtenerCantidadPorOt');
 

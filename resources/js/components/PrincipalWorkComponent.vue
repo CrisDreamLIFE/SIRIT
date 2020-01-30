@@ -45,7 +45,7 @@
             <br><br>
             <div class="row">
                 <div class="col-sm-6">
-                    <h3 class="h3">Trabajador:</h3>
+                    <h3 class="h3">Operador:</h3>
                 </div>
                 <div class="col-sm-6">
                     <h3 class="h3">Proceso:</h3>
@@ -87,70 +87,73 @@
                         <button data-toggle="modal" data-target="#exampleModal" :disabled="!trabajoComenzado" type="button" v-on:click= "terminarTrabajo()" class="btn btn-danger btn-lg colorBoton">Terminar</button>             
                     </div>
                     <!-- Modal -->
-                    
-                    <div v-if="botonTerminar" class="modal fade aa" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-xl" role="document">
-                            <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Trabajo Finalizado</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body form-group" v-for="(linea,indexG) in otProducto" v-bind:key="indexG">
-                                <label for="">OT {{otProducto[indexG][0].id}} PRODUCTO {{otProducto[indexG][1].nombre}}</label>
+                    <div v-if="!cerrar">  
+                        <div v-if="botonTerminar" ref="modalRef" class="modal fade aa" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-xl" role="document">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Trabajo Finalizado</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body form-group" v-for="(linea,indexG) in otProducto" v-bind:key="indexG">
+                                    <label for="">OT {{otProducto[indexG][0].id}} PRODUCTO {{otProducto[indexG][1].nombre}}</label>
 
-                                <div class="container form-group" v-for="(subProd,indexM) in otProducto[indexG][2]" v-bind:key="indexM">
-                                    <label for="">{{subProd.nombre}}</label>
-                                    <form class="needs-validation" novalidate> 
-                                        <div class="container form-group" v-for="(proceso,index) in procesosSeleccionados" v-bind:key="index">
-                                            
+                                    <div class="container form-group" v-for="(subProd,indexM) in otProducto[indexG][2]" v-bind:key="indexM">
+                                        <label for="">{{subProd.nombre}}</label>
+                                        <form class="needs-validation" novalidate> 
+                                            <div class="container form-group" v-for="(proceso,index) in procesosSeleccionados" v-bind:key="index">
+                                                
 
 
-                                            <div class="form-row container">
-                                                <div class="col col-sm-4">
-                                                    {{procesos[index].nombre}} {{proceso.nombre}} 
-                                                </div>
-                                                <div class="col col-sm-8" >
-                                                    <div class="form-row">
-                                                        <div class="col col-sm-6">
-                                                            <label for="">Cantidad:</label>
-                                                        </div>
-                                                        <div class="col col-sm-6">
-                                                            <input v-if="cantidadesProductos[indexG]==0" v-bind:id="index+indexG+indexM" required  min="0"  pattern="^[0-9]+" @input="solonumeros(indexG,indexM,index)" type="number" v-model="cantidadProcesos[indexG][indexM][index]" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                                                            <input v-else v-bind:id="''+index+indexG+indexM" required  min="0" :max="cantidadesProductos[indexG]" pattern="^[0-9]+" @input="solonumeros(indexG,indexM,index)" type="number" v-model="cantidadProcesos[indexG][indexM][index]" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                                                            <span v-bind:for="''+index+indexG+indexM" v-if="!inputValido[indexG][indexM][index]"> {{mensajeError}}</span>   <!--{{mensajeError[indexG][indexM][index]}}</span> -->
-                                                        </div>
-                                                  
+                                                <div class="form-row container">
+                                                    <div class="col col-sm-4">
+                                                        {{procesos[index].nombre}} {{proceso.nombre}} 
                                                     </div>
-                                                    <div class="form-row" v-if="subProd.tipo_material_id==filtradoMaterial">
-                                                        <div class="col col-sm-2">
-                                                            Pieza N°:
+                                                    <div class="col col-sm-8" >
+                                                        <div class="form-row">
+                                                            <div class="col col-sm-6">
+                                                                <label for="">Cantidad:</label>
+                                                            </div>
+                                                            <div class="col col-sm-6">
+                                                                <input v-if="cantidadesProductos[indexG]==0" v-bind:id="''+index+indexG+indexM" required  min="0"  pattern="^[0-9]+" @input="solonumeros(indexG,indexM,index)" type="number" v-model="cantidadProcesos[indexG][indexM][index]" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                                                <input v-else v-bind:id="''+index+indexG+indexM" required  min="0" :max="cantidadesProductos[indexG]" pattern="^[0-9]+" @input="solonumeros(indexG,indexM,index)" type="number" v-model="cantidadProcesos[indexG][indexM][index]" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                                                <span class ="error" v-bind:for="''+index+indexG+indexM" v-if="inputValido[indexG][indexM][index]==1"> {{mensajeError1}}</span>   <!--{{mensajeError[indexG][indexM][index]}}</span> -->
+                                                                <span class ="error" v-bind:for="''+index+indexG+indexM" v-if="inputValido[indexG][indexM][index]==2"> {{mensajeError2}}</span>
+                                                                <span class ="error" v-bind:for="''+index+indexG+indexM" v-if="inputValido[indexG][indexM][index]==3"> {{mensajeError3}}</span>
+                                                        
+                                                            </div>
+                                                    
                                                         </div>
-                                                        <div v-for="n in cantidadesProductos[indexG]" v-bind:value="n" v-bind:key="n" class="form-check-inline">  <!--:id="index+pro.nombre+otProducto[indexG][2][indexM].nombre + otProducto[indexG][0].id -->
-                                                            <input class="form-check-input" type="checkbox" :id="n+procesos[indexM].id"  :value="n" v-model="aux[indexG][indexM][index]" > <!--valor for mas arriba -->
-                                                            <label class="form-check-label" > <!-- - {{'order_by_'+indexG+''+indexM+''+index+''+n}} -->
-                                                                {{n}}  
-                                                            </label>
-                                                            <br>
-                                                        </div> 
+                                                        <div class="form-row" v-if="subProd.tipo_material_id==filtradoMaterial">
+                                                            <div class="col col-sm-2">
+                                                                Pieza N°:
+                                                            </div>
+                                                            <div v-for="n in cantidadesProductos[indexG]" v-bind:value="n" v-bind:key="n" class="form-check-inline">  <!--:id="index+pro.nombre+otProducto[indexG][2][indexM].nombre + otProducto[indexG][0].id -->
+                                                                <input class="form-check-input" type="checkbox" v-bind:id="''+index+indexG+indexM+n"  :value="n" v-model="aux[indexG][indexM][index]" > <!--valor for mas arriba -->
+                                                                <label class="form-check-label" v-bind:for="''+index+indexG+indexM+n"> <!-- - {{'order_by_'+indexG+''+indexM+''+index+''+n}} -->
+                                                                    {{n}}  
+                                                                </label>
+                                                                <br>
+                                                            </div> 
+                                                        </div>
                                                     </div>
                                                 </div>
+                                                
+                                                <br>
                                             </div>
-                                            
-                                            <br>
-                                        </div>
-                                    </form>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="modal-footer"><!--data-dismiss="modal" -->
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button  type="submit" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" class="btn btn-primary"  v-on:click="guardarTrabajo" >Save changes</button>
+                                </div>
                                 </div>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <!--deberia ir la confirmacion-->                <button data-dismiss="modal" type="submit" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" class="btn btn-primary"  v-on:click="guardarTrabajo" >Save changes</button>
-                            </div>
-                            </div>
                         </div>
-                    </div>
-                    <!-- -->
+                    </div> 
 
                 </div>
             </div>
@@ -205,7 +208,7 @@
                                     <label class= "lavelFont font-weight-bold" for="exampleFormControlSelect1">Seleccione Estación:</label>
                                 </div>
                                 <div class="col-sm-6">
-                                    <label  class= "lavelFont font-weight-bold" for="exampleFormControlSelect1">Seleccione Trabajadores:</label>
+                                    <label  class= "lavelFont font-weight-bold" for="exampleFormControlSelect1">Seleccione Operadores:</label>
                                 </div>
                             </div>
                             <div class="row">
@@ -219,7 +222,7 @@
                                 </div>
                                 <div class="col-sm-5">
                                     <select id="selectTrabajador" :disabled="!estacionSeleccionadaBool" @change="onChangeTrabajador()" v-model="trabajadorSeleccionado" class="form-control" >
-                                    <option disabled selected >Trabajadores</option>
+                                    <option disabled selected >Operador</option>
                                     <option v-for="(trabajador,index) in trabajadores" v-bind:key="index" v-bind:value="index">
                                         {{ trabajador.nombre }}
                                     </option>
@@ -266,7 +269,7 @@
                 <br><br>
                 <div class="row">
                     <div class="col-sm-6">
-                        <h3 class="h3">Lista de trabajadores seleccionados:</h3>
+                        <h3 class="h3">Lista de Operadores seleccionados:</h3>
                     </div>
                 </div>
                 <div class="row">
@@ -388,7 +391,10 @@
                 mensajeErrorNumerico: "",
                 inputValido:[],
                 mensajeErrorRango:"",
-                mensajeError:""
+                mensajeError1:"",
+                mensajeError2:"",
+                mensajeError3:"" ,
+                cerrar:false
             };
         },
         mounted() {
@@ -454,6 +460,7 @@
                     for(var r=0;r<this.inputValido[p].length;r++){
                             for(var t=0;t<this.inputValido[p][r].length;t++){
                                 if(this.cantidadProcesos[p][r][t] != this.aux[p][r][t].length && this.aux[p][r][t][0]!=0){
+                                    alert('error con los números de pieza');
                                     return false;
                                 }
                             }
@@ -467,7 +474,8 @@
                 for (var p = 0; p < this.inputValido.length; p++){
                     for(var r=0;r<this.inputValido[p].length;r++){
                             for(var t=0;t<this.inputValido[p][r].length;t++){
-                                if(!this.inputValido[p][r][t] ){
+                                if(this.inputValido[p][r][t]==1||this.inputValido[p][r][t]==2||this.inputValido[p][r][t]==3 ){
+                                     alert('error con la cantidad ingresada');
                                     return false;
                                 }
                             }
@@ -476,7 +484,6 @@
                 return true;      
             },
             guardarTrabajo(index){
-                this.botonTrabajoComenzado = false;
                 var otResumen = []
                 console.log(this.inputValido[0][0][0]);
                 for (var p = 0; p < this.otProducto.length; p++) {
@@ -486,10 +493,12 @@
                 }
                 if(!this.validarEnteros()){
                     console.log("error con los enteros")
+                    this.botonTerminar= true;
                     return false;
                 }
                 if(!this.validarCheck()){
                     console.log("error con los checkboxes")
+                    this.botonTerminar= true;
                     return false;
                 }
                 var procesosSend = []
@@ -507,10 +516,17 @@
                     ots: otResumen
                     //agregar las cantidades y tipo de pieza:
                 };
-                console.log(params);
+                var mensaje;
+                    var opcion = confirm("Clicka en Aceptar o Cancelar");
+                    if (opcion == true) {
+                        console.log(params);
                 axios
                     .post('http://localhost:8000/sesionFinal', params)
                     .then(response => {
+                        this.cerrar = true;
+                        $('#exampleModal').modal('hide');
+                        $('.modal-backdrop').hide();
+                        this.botonTrabajoComenzado = false;
                         this.$emit('botonGuardar')
                         console.log("guarde toda la basura");
                        // this.$emit('terminarTrabajo');   
@@ -541,6 +557,10 @@
                         this.productoSeleccionadoBool=false;
                         $('#myModal').modal('hide')*/
                         })
+                    } else {
+                        return 0;
+                    }
+                
                         
             },
             atrasSubProductos(){
@@ -580,7 +600,7 @@
                         for (var k = 0; k < this.procesosSeleccionados.length; k++){
                             this.cantidadProcesos[i][j].push([]);
                             this.aux[i][j].push([]);
-                            this.inputValido[i][j].push(true);
+                            this.inputValido[i][j].push(0);
                             if(this.otProducto[i][2][j].tipo_material_id!=this.filtradoMaterial){
                                 this.aux[i][j][k].push(0);    
                             }
@@ -655,27 +675,39 @@
                 var num= parseInt(this.cantidadProcesos[indexG][indexM][index]);                
                  if(!Number.isInteger(num)){
                      console.log("estoy malo primero")
-                     this.mensajeError =  "Ingrese valor numérico"
-                    this.inputValido[indexG][indexM][index]= false;
-                    
+                     this.mensajeError1 =  "Ingrese valor numérico"
+                    this.inputValido[indexG][indexM][index]= 1;
+                    return 0;
                     //this.mensajeErrorNumerico= "Ingrese valor numérico";
                     //this.mensajeErrorRango= "";         
                  }
                  else{
                      if((num>this.cantidadesProductos[indexG] || num<0) && this.otProducto[indexG][2][indexM].tipo_material_id == this.filtradoMaterial){
                         console.log("estoy malo segundo")
-                        this.inputValido[indexG][indexM][index]= false;
+                        this.inputValido[indexG][indexM][index]= 2;
                        // this.mensajeErrorNumerico="";
                         //this.mensajeErrorRango= "Error en número de pieza";           
-                        this.mensajeError = "Error en número de pieza";
+                        this.mensajeError2 = "Error en cantidad indicada";
+                        return 0;
                                                                        
+                     }
+                     else if( this.otProducto[indexG][2][indexM].tipo_material_id != this.filtradoMaterial && num<0){
+                      console.log("estoy malo tercero")
+                        this.inputValido[indexG][indexM][index]= 3;
+                       // this.mensajeErrorNumerico="";
+                        //this.mensajeErrorRango= "Error en número de pieza";           
+                        this.mensajeError3 = "Ingrese un valor positivo";  
+                        return 0; 
                      }
                     else{
                         console.log("estoy weno");
                         // this.mensajeErrorRango="";
                         //this.mensajeErrorNumerico="";
-                        this.inputValido[indexG][indexM][index]=true;
-                        this.mensajeError=null
+                        this.inputValido[indexG][indexM][index]=0;
+                        //this.mensajeError1=""
+                        //this.mensajeError2=""
+                        //this.mensajeError3=""
+                        return 0;
                      }                   
                  }
                  console.log(this.inputValido);
@@ -748,6 +780,9 @@
     }
     .style3{
         border-top: 1px dashed #8c8b8b;
+    }
+    .error{
+         color: red;
     }
     input:invalid {
         border: 1px solid red;
