@@ -47,6 +47,7 @@ Route::get('/productosOt/{id}', 'ProductoController@obtenerProductosOt');
 Route::post('/cantidadProducto', 'ProductoController@obtenerCantidadPorOt');
 
 #SubProducto 
+Route::resource('subProducto','ProductoController');
 Route::get('/subProductos/{id}', 'SubProductoController@subProductosDeProducto');
 
 #Proceso
@@ -57,6 +58,7 @@ Route::get('/trabajadores/{id}', 'UsuarioController@obtenerTrabajadoresPorEstaci
 Route::post('/usuarios/login', 'UsuarioController@buscarConRut');
 
 #TipoMaterial
+Route::resource('tipoMaterial','TipoMaterialController');
 Route::get('/tipoMaterialFiltrador', 'TipoMaterialController@obtenerIdFiltrador');
 
 

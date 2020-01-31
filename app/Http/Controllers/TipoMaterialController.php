@@ -20,7 +20,8 @@ class TipoMaterialController extends Controller
 
     public function index()
     {
-        //
+        $materiales = TipoMaterial::all();
+        return $materiales;
     }
 
     /**

@@ -21,6 +21,7 @@
                 <div class="col-sm"></div>
                 <div class="col-sm"></div>   
             </div>    
+            <hr style="border:1px dotted gray; " />
             <div v-for="(ot,index) in otsTodas" :key="index">
                 <div class="row">
                     <div class="col-sm">{{ot.id}}</div>

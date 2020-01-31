@@ -24,7 +24,8 @@ class SubProductoController extends Controller
 
     public function index()
     {
-        //
+        $subproductos = SubProducto::all();
+        return $subproductos;
     }
 
     /**
@@ -45,7 +46,18 @@ class SubProductoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $nombreSend = $request->input('nombre');;
+        $descripcionSend = $request->input('descripcion');
+        $tipoIdSend = $request->input('tipoMaterial');
+        #creamos el nuevo producto
+        $subproducto = new SubProducto;
+        #asigamos los atributos al producto
+        $subproducto->nombre = $nombreSend;
+        $subproducto->descripcion = $descripcionSend;
+        $subproducto->tipo_material_id = $tipoIdSend;
+        #guardamos el producto
+        $subproducto->save();
+        return 'CORRECTO';
     }
 
     /**
@@ -79,7 +91,19 @@ class SubProductoController extends Controller
      */
     public function update(Request $request, SubProducto $subProducto)
     {
-        //
+        $nombreSend = $request->input('nombre');
+        $descripcionSend = $request->input('descripcion');
+        $tipoIdSend = $request->input('tipoMaterial');
+        #obtenemos el producto
+        $subproducto = SubProducto::find($subProducto->id);
+        #$producto = $producto[0];
+        #editamos el producto
+        $subproducto->nombre = $nombreSend;
+        $subproducto->descripcion = $descripcionSend;
+        $subproducto->tipo_material_id = $tipoIdSend;
+        #guardamos el producto
+        $subproducto->save();
+        return 'CORRECTO';
     }
 
     /**
@@ -90,6 +114,8 @@ class SubProductoController extends Controller
      */
     public function destroy(SubProducto $subProducto)
     {
-        //
+        $prod = SubProducto::find($subProducto->id);
+        $prod->delete();
+        return "CORRECTO";
     }
 }

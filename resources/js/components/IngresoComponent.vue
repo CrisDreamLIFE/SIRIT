@@ -52,7 +52,7 @@
             </principal-work-component>-->
         </div>
         <div v-else  > <!--aqui mostramos los componentes de las acciones-->
-            <!----------------------------------->
+            <!--------TRABAJO--------------------------->
             <div v-if="iniciarTrabajoBool">
                 <principal-work-component
                 :key="componentKey" 
@@ -61,19 +61,32 @@
                 @botonGuardar="auxMetodo">
                 </principal-work-component>
             </div>
-            <!----------------------------------->
+            <!--------OT--------------------------->
             <div v-if="iniciarGestionOTBool">
                 <principal-gestion-ot-component
                 :otsTodas="otsTodas">
                 </principal-gestion-ot-component>
             </div>
-            <!----------------------------------->
+            <!--------MATERIAL--------------------------->
             <div v-if="iniciarGestionMaterialBool">
                 <principal-gestion-material-component
-                :productos="productos">
+                :key="gestionMaterialN"
+                :productos="productos"
+                @botonGuardarEdicionMaterial="recargarMateriales"
+                @botonGuardarCreacionMaterial="recargarMateriales"
+                @botonEliminarCreacionMaterial="recargarMateriales">
                 </principal-gestion-material-component>
             </div>
-            <!----------------------------------->
+            <!----------SUB-MATERIAL------------------------->botonGestionarSubMaterial
+            <div v-if="iniciarGestionSubMaterialBool">
+                <principal-gestion-sub-material-component
+                :key="gestionSubMaterialN"
+                :subProductos="subProductos"
+                @botonGuardarEdicionMaterial="recargarSubMateriales"
+                @botonGuardarCreacionMaterial="recargarSubMateriales"
+                @botonEliminarCreacionMaterial="recargarSubMateriales">
+                </principal-gestion-sub-material-component>
+            </div>
             <!----------------------------------->
         </div> 
     </div>
@@ -86,6 +99,8 @@ export default {
             return {
                 usuario: null,
                 componentKey: 0,
+                gestionMaterialN:0,
+                gestionSubMaterialN:0,
                 roles:[],
                 logeado: false,
                 rut: "19.313.751-2",
@@ -94,10 +109,12 @@ export default {
                 ots:[],
                 otsTodas:[],
                 productos:[],
+                subProductos:[],
                 algoSeleccionado:false,
                 iniciarTrabajoBool: false,
                 iniciarGestionOTBool:false,
                 iniciarGestionMaterialBool:false,
+                iniciarGestionSubMaterialBool:false,
                 componentKey:0
                 };
         },
@@ -114,6 +131,29 @@ export default {
             console.log('Component mounted.')
         },
         methods:{ 
+            recargarMateriales(){
+                axios
+                .get('http://localhost:8000/producto')
+                .then(response =>{
+                    this.productos= response.data;
+                    console.log("recargue los materiales ;v");
+                    this.gestionMaterialN +=1;
+                    this.iniciarGestionMaterialBool=true;
+                    console.log(this.gestionMaterialN);
+                })
+                
+            },
+            recargarSubMateriales(){
+                axios
+                .get('http://localhost:8000/subProducto')
+                .then(response =>{
+                    this.subProductos= response.data;
+                    console.log("recargue los materiales ;v");
+                    this.gestionSubMaterialN +=1;
+                    this.iniciarGestionSubMaterialBool=true;
+                })
+                
+            },
             auxMetodo(){
                 console.log("entre al auuuux");
                 this.componentKey += 1;    

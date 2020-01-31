@@ -66,7 +66,23 @@ class ProductoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $nombreSend = $request->input('nombre');
+        $codigoSiomSend = $request->input('codigoSiom');
+        $numeroPlanoSend = $request->input('numeroPlano');
+        $descripcionSend = $request->input('descripcion');
+        $tipoIdSend = $request->input('tipoMaterial');
+        #creamos el nuevo producto
+        $producto = new Producto;
+        #asigamos los atributos al producto
+        $producto->nombre = $nombreSend;
+        $producto->codigo_siom = $codigoSiomSend;
+        $producto->numero_plano = $numeroPlanoSend;
+        $producto->descripcion = $descripcionSend;
+        $producto->tipo_material_id = $tipoIdSend;
+        #guardamos el producto
+        $producto->save();
+        return 'CORRECTO';
+        
     }
 
     /**
@@ -100,7 +116,23 @@ class ProductoController extends Controller
      */
     public function update(Request $request, Producto $producto)
     {
-        //
+        $nombreSend = $request->input('nombre');
+        $codigoSiomSend = $request->input('codigoSiom');
+        $numeroPlanoSend = $request->input('numeroPlano');
+        $descripcionSend = $request->input('descripcion');
+        $tipoIdSend = $request->input('tipoMaterial');
+        #obtenemos el producto
+        $producto = Producto::find($producto->id);
+        #$producto = $producto[0];
+        #editamos el producto
+        $producto->nombre = $nombreSend;
+        $producto->codigo_siom = $codigoSiomSend;
+        $producto->numero_plano = $numeroPlanoSend;
+        $producto->descripcion = $descripcionSend;
+        $producto->tipo_material_id = $tipoIdSend;
+        #guardamos el producto
+        $producto->save();
+        return 'CORRECTO';
     }
 
     /**
@@ -111,6 +143,8 @@ class ProductoController extends Controller
      */
     public function destroy(Producto $producto)
     {
-        //
+        $prod = Producto::find($producto->id);
+        $prod->delete();
+        return "CORRECTO";
     }
 }

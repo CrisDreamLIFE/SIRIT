@@ -15,6 +15,10 @@
             <div v-if="roles.includes('gestor')||roles.includes('administrador')" class="row">
                 <gestionar-material-component @botonGestionarMaterial="iniciarGestionarMateriales"></gestionar-material-component>
             </div>
+            <br>
+            <div v-if="roles.includes('gestor')||roles.includes('administrador')" class="row">
+                <gestionar-sub-material-component @botonGestionarSubMaterial="iniciarGestionarSubMateriales"></gestionar-sub-material-component>
+            </div>
         </div>
     </div>
 </template>
@@ -39,6 +43,9 @@
             },
             iniciarGestionarMateriales(){
                 this.$emit('botonGestionarMaterial')
+            },
+            iniciarGestionarSubMateriales(){
+                this.$emit('botonGestionarSubMaterial')
             }
 
         }

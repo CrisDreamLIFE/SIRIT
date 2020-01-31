@@ -28,16 +28,23 @@ Vue.component('principal-menu-component', require('./components/PrincipalMenuCom
 Vue.component('principal-work-component', require('./components/PrincipalWorkComponent.vue').default);
 Vue.component('principal-gestion-ot-component', require('./components/PrincipalGestionOtComponent.vue').default);
 Vue.component('principal-gestion-material-component', require('./components/PrincipalGestionMaterialComponent.vue').default);
+Vue.component('principal-gestion-sub-material-component', require('./components/PrincipalGestionSubMaterialComponent.vue').default);
 
 
 //opciones de boton
 Vue.component('iniciar-trabajo-component', require('./components/IniciarTrabajoComponent.vue').default);
 Vue.component('gestionar-ot-component', require('./components/GestionarOtComponent.vue').default);
 Vue.component('gestionar-material-component', require('./components/GestionarMaterialComponent.vue').default);
+Vue.component('gestionar-sub-material-component', require('./components/GestionarSubMaterialComponent.vue').default);
 
 //atomicos
 Vue.component('modal-ot-component', require('./components/ModalOtComponent.vue').default);
 Vue.component('modal-ot-edit-component', require('./components/ModalOtEditComponent.vue').default);
+Vue.component('modal-material-edit-component', require('./components/ModalMaterialEditComponent.vue').default);
+Vue.component('modal-material-create-component', require('./components/ModalMaterialCreateComponent.vue').default);
+Vue.component('modal-sub-material-edit-component', require('./components/ModalSubMaterialEditComponent.vue').default);
+Vue.component('modal-sub-material-create-component', require('./components/ModalSubMaterialCreateComponent.vue').default);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
