@@ -82,6 +82,10 @@ class OtController extends Controller
     public function index()
     {
         $ots = Ot::orderBy('id','desc')->get();
+        foreach($ots as $ot){
+            $ot->usuario;
+            $ot->productos;
+        }
         $paginas = count($ots) /10;
         $otsFinal = $ots[0]->paginate((int)$paginas+1);
         error_log("3");

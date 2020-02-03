@@ -69,7 +69,7 @@ class SesionSubProductoController extends Controller
      */
     public function update(Request $request, SesionSubProducto $sesionSubProducto)
     {
-        //
+
     }
 
     /**

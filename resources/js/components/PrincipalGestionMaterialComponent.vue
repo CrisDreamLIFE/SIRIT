@@ -1,14 +1,39 @@
 <template>
     <div class="container">
         <br>
-        <button type="button" @click="crearMaterial()" data-target="#modalCreateMaterial" data-toggle="modal" class="btn btn-success">Crear Producto</button>
-        <br><br>
-        <div v-if="crearMaterialBool"> <!-- CREATE -->
-            <modal-material-create-component
-            :key="creacionN"
-            :tipoMaterial="tipoMaterial"
-            @botonGuardarCreacionMaterial="guardarCreacionMaterial">
-            </modal-material-create-component> 
+        <div class="row">
+            <div class="col-sm">
+                <button type="button" @click="crearMaterial()" data-target="#modalCreateMaterial" data-toggle="modal" class="btn btn-success">Crear Producto</button>
+                <br><br>
+                <div v-if="crearMaterialBool"> <!-- CREATE -->
+                    <modal-material-create-component
+                    :key="creacionN"
+                    :tipoMaterial="tipoMaterial"
+                    @botonGuardarCreacionMaterial="guardarCreacionMaterial">
+                    </modal-material-create-component> 
+                </div>
+            </div>
+            <div class="col-sm">
+                <button type="button" @click="asociarMaterial()" data-target="#modalAsociarMaterial" data-toggle="modal" class="btn btn-secondary">Asociar Materiales</button>
+                <div v-if="asociarMaterialBool"> <!-- asociarMateriales -->
+                    <modal-asociar-material-component
+                    :key="asociacionN"
+                    :productos="productos"
+                    :subProductos="subProductos"
+                    @botonGuardarAsociacionMaterial="guardarAsociacionMaterial">
+                    </modal-asociar-material-component>
+                </div>
+            </div>
+            <div class="col-sm">
+                <button type="button" @click="desasociarMaterial()" data-target="#modalDesasociarMaterial" data-toggle="modal" class="btn btn-secondary">Desasociar Materiales</button>
+                <div v-if="desasociarMaterialBool"> <!-- desasociarMateriales -->
+                    <modal-desasociar-material-component
+                    :key="desasociacionN"
+                    :productos="productos"
+                    @botonGuardarDesasociacionMaterial="guardarDesasociacionMaterial">
+                    </modal-desasociar-material-component>
+                </div>
+            </div>
         </div>
         <div v-if="editarMaterialBool"> <!-- EDIT -->
             <modal-material-edit-component
@@ -56,9 +81,14 @@
                 editarMaterialBool:false,
                 crearMaterialBool:false,
                 materialSeleccionado:null,
+                asociarMaterialBool:false,
+                desasociarMaterialBool:false,
                 tipoMaterial:[],
+                subProductos:[],
                 edicionN:0,
-                creacionN:0
+                creacionN:0,
+                asociacionN:0,
+                desasociacionN:0
             }
         },
         mounted() {
@@ -92,6 +122,24 @@
                                 })
                 this.crearMaterialBool = true; 
             },
+            asociarMaterial(){
+                axios
+                .get('http://localhost:8000/subProducto') //solicitar tipo material
+                            .then(response => {
+                                this.subProductos = response.data;
+                                console.log(this.subProductos);
+                                })
+                this.asociarMaterialBool = true;
+            },
+            desasociarMaterial(){
+              /*  axios
+                .get('http://localhost:8000/producto') //solicitar tipo material
+                .then(response => {
+                    this.productos = response.data;
+                    console.log(this.productos);
+                    })*/
+                this.desasociarMaterialBool = true;
+            },
             guardarCreacionMaterial(){
                 this.creacionN +=1;
                 this.$emit('botonGuardarCreacionMaterial')
@@ -100,6 +148,15 @@
                 this.edicionN +=1;
                 this.$emit('botonGuardarEdicionMaterial')
                 
+            },
+            guardarAsociacionMaterial(){
+                this.asociacionN +=1;
+                this.$emit('botonGuardarAsociacionMaterial')//no se hace
+            },
+            guardarDesasociacionMaterial(){
+                console.log("reeplazo la wea")
+                this.desasociacionN +=1;
+                //no se hace
             }
         } 
     }

@@ -44,6 +44,9 @@ Vue.component('modal-material-edit-component', require('./components/ModalMateri
 Vue.component('modal-material-create-component', require('./components/ModalMaterialCreateComponent.vue').default);
 Vue.component('modal-sub-material-edit-component', require('./components/ModalSubMaterialEditComponent.vue').default);
 Vue.component('modal-sub-material-create-component', require('./components/ModalSubMaterialCreateComponent.vue').default);
+Vue.component('modal-asociar-material-component', require('./components/ModalAsociarMaterialComponent.vue').default);
+Vue.component('modal-desasociar-material-component', require('./components/ModalDesasociarMaterialComponent.vue').default);
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

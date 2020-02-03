@@ -43,11 +43,15 @@ Route::get('/obtenerTodoOt/{id}', 'OtController@obtenerTodoOt');
 
 #Producto
 Route::resource('producto','ProductoController');
+Route::resource('productoSubProducto','ProductoSubProductoController'); 
+Route::get('/subProductosOP/{id}','ProductoSubProductoController@subProductosOP');
 Route::get('/productosOt/{id}', 'ProductoController@obtenerProductosOt');
 Route::post('/cantidadProducto', 'ProductoController@obtenerCantidadPorOt');
+Route::delete('productoSubProductoww/{id}','ProductoSubProductoController@destroya'); 
+
 
 #SubProducto 
-Route::resource('subProducto','ProductoController');
+Route::resource('subProducto','SubProductoController');
 Route::get('/subProductos/{id}', 'SubProductoController@subProductosDeProducto');
 
 #Proceso

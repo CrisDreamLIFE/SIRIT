@@ -72,10 +72,11 @@
         methods:{
             guardarCambios(){
                 var params={
-                    nombre: this.nombreMaterial,
+                    nombre: this.nombreSubMaterial,
                     descripcion: this.descripcionSubMaterial,
                     tipoMaterial: this.tipoMaterialSubMaterial
                 }
+                console.log(params);
                 axios
                     .post('http://localhost:8000/subProducto/', params)
                     .then(response => {

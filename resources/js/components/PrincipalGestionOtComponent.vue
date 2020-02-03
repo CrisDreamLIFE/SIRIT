@@ -12,21 +12,29 @@
             :categoria_ot="categoria_ot"
             :centro_costo="centro_costo"></modal-ot-component>
         </div>
+        <br>
         <div class="card card-body" > 
             <div class="row">
-                <div class="col-sm"><h3>OT</h3></div>
-                <div class="col-sm"><h3>Fecha Recepción</h3></div>    
-                <div class="col-sm"><h3>Estado</h3></div>
+                <div class="col-sm"><h5>OT</h5></div>
+                <div class="col-sm"><h5>OT Perú</h5></div>    
+                <div class="col-sm"><h5>Orden de Compra</h5></div>
+                <div class="col-sm-2"><h5>Materiales</h5></div>
+                <div class="col-sm"><h5>Cantidad</h5></div>
+                <div class="col-sm-2"><h5>Responsable</h5></div>
                 <div class="col-sm"></div>
                 <div class="col-sm"></div>
-                <div class="col-sm"></div>   
+                <div class="col-sm"></div>
+            
             </div>    
             <hr style="border:1px dotted gray; " />
             <div v-for="(ot,index) in otsTodas" :key="index">
                 <div class="row">
                     <div class="col-sm">{{ot.id}}</div>
-                    <div class="col-sm">{{ot.fecha_recepcion}}</div>
-                    <div class="col-sm"><span v-if="ot.abierta==1">Abierta</span><span v-else>Cerrada</span></div>
+                    <div class="col-sm">{{ot.ot_Peru}}""</div>
+                    <div class="col-sm">{{ot.orden_compra}}</div>
+                    <div class="col-sm-2">materiales</div>
+                    <div class="col-sm">cantidades</div>
+                    <div class="col-sm-2">{{ot.usuario.nombre}}</div>
                     <div class="col-sm">
                         <button type="button" data-toggle="modal" data-target="#exampleModal"  @click="masInformacion(index)" class="btn btn-info">informacion</button>
                     </div>
@@ -36,6 +44,7 @@
                     <div class="col-sm">
                         <button type="button" class="btn btn-danger">eliminar</button>
                     </div>
+                    <div class="col-sm"></div>
                 </div>
             </div>
         </div>   

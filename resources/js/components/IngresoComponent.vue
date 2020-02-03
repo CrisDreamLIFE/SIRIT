@@ -43,6 +43,7 @@
             @botonIniciarTrabajo="iniciarTrabajo"
             @botonGestionarOT="iniciarGestionOT"
             @botonGestionarMaterial="iniciarGestionMaterial"
+            @botonGestionarSubMaterial="iniciarGestionSubMaterial"
             :usuario = "usuario"
             :roles = "roles">
             </principal-menu-component>
@@ -72,21 +73,22 @@
                 <principal-gestion-material-component
                 :key="gestionMaterialN"
                 :productos="productos"
+                :subProductos="subProductos"
                 @botonGuardarEdicionMaterial="recargarMateriales"
                 @botonGuardarCreacionMaterial="recargarMateriales"
                 @botonEliminarCreacionMaterial="recargarMateriales">
                 </principal-gestion-material-component>
             </div>
-            <!----------SUB-MATERIAL------------------------->botonGestionarSubMaterial
+            <!----------SUB-MATERIAL------------------------->
             <div v-if="iniciarGestionSubMaterialBool">
                 <principal-gestion-sub-material-component
                 :key="gestionSubMaterialN"
                 :subProductos="subProductos"
-                @botonGuardarEdicionMaterial="recargarSubMateriales"
-                @botonGuardarCreacionMaterial="recargarSubMateriales"
-                @botonEliminarCreacionMaterial="recargarSubMateriales">
+                @botonGuardarEdicionSubMaterial="recargarSubMateriales"
+                @botonGuardarCreacionSubMaterial="recargarSubMateriales"
+                @botonEliminarCreacionSubMaterial="recargarSubMateriales">
                 </principal-gestion-sub-material-component>
-            </div>
+            </div> 
             <!----------------------------------->
         </div> 
     </div>
@@ -166,6 +168,15 @@ export default {
                     this.productos=response.data;
                     this.algoSeleccionado=true;
                     this.iniciarGestionMaterialBool=true;}) 
+            },
+            iniciarGestionSubMaterial(){
+                axios
+                .get('http://localhost:8000/subProducto')
+                .then(response =>{
+                    console.log(response.data)
+                    this.subProductos =response.data;
+                    this.algoSeleccionado=true;
+                    this.iniciarGestionSubMaterialBool=true;}) 
             },
             iniciarGestionOT(){
                 axios

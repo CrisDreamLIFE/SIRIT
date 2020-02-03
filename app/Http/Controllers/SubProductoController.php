@@ -46,17 +46,22 @@ class SubProductoController extends Controller
      */
     public function store(Request $request)
     {
-        $nombreSend = $request->input('nombre');;
+        $nombreSend = $request->input('nombre');
         $descripcionSend = $request->input('descripcion');
         $tipoIdSend = $request->input('tipoMaterial');
+        error_log($nombreSend);
         #creamos el nuevo producto
         $subproducto = new SubProducto;
+        error_log("2");
         #asigamos los atributos al producto
         $subproducto->nombre = $nombreSend;
         $subproducto->descripcion = $descripcionSend;
+        error_log("3");
         $subproducto->tipo_material_id = $tipoIdSend;
+        error_log("4");
         #guardamos el producto
         $subproducto->save();
+        error_log("5");
         return 'CORRECTO';
     }
 

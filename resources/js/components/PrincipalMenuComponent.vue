@@ -45,6 +45,7 @@
                 this.$emit('botonGestionarMaterial')
             },
             iniciarGestionarSubMateriales(){
+                console.log("iniciarGestionarSubMateriales");
                 this.$emit('botonGestionarSubMaterial')
             }
 

@@ -25,7 +25,7 @@
                                     <div class="col-md-6">
                                         <select id="selectEstacion" v-model="tipoMaterialSubMaterial"  class="form-control">
                                             <option disabled selected >Tipos de Material</option>
-                                            <option v-for="(tipo,index) in tipoSubMaterial" v-bind:key="index" v-bind:value="tipo.id">
+                                            <option v-for="(tipo,index) in tipoMaterial" v-bind:key="index" v-bind:value="tipo.id">
                                                 {{ tipo.nombre }}
                                             </option>
                                         </select>  
