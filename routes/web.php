@@ -59,13 +59,27 @@ Route::get('/procesos/{id}','ProcesoController@obtenerProcesosPorEstacion');
 
 #Usuario
 Route::get('/trabajadores/{id}', 'UsuarioController@obtenerTrabajadoresPorEstacion');
+Route::get('/obtenerGestores', 'UsuarioController@obtenerGestores');
 Route::post('/usuarios/login', 'UsuarioController@buscarConRut');
 
 #TipoMaterial
 Route::resource('tipoMaterial','TipoMaterialController');
 Route::get('/tipoMaterialFiltrador', 'TipoMaterialController@obtenerIdFiltrador');
 
+#CanalVentas
+Route::resource('canalVentas', 'CanalVentaController');
 
+#OtTipo
+Route::resource('otTipo','OtTipoController');
+
+#CentroCosto
+Route::resource('centroCosto','CentroCostoController');
+
+#CategoriaOt
+Route::resource('categoriaOt','CategoriaOtController');
+
+#Cliente
+Route::resource('cliente','ClienteController');
 
 /*  <!--@foreach ($clientes as $cliente)
             <p>{{ $cliente->nombre }}</p>

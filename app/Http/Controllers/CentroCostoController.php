@@ -14,7 +14,8 @@ class CentroCostoController extends Controller
      */
     public function index()
     {
-        //
+        $todo = CentroCosto::all();
+        return $todo;
     }
 
     /**

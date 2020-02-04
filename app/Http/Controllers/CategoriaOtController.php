@@ -14,7 +14,8 @@ class CategoriaOtController extends Controller
      */
     public function index()
     {
-        //
+        $todo = CategoriaOt::all();
+        return $todo;
     }
 
     /**

@@ -40,6 +40,7 @@ Vue.component('gestionar-sub-material-component', require('./components/Gestiona
 //atomicos
 Vue.component('modal-ot-component', require('./components/ModalOtComponent.vue').default);
 Vue.component('modal-ot-edit-component', require('./components/ModalOtEditComponent.vue').default);
+Vue.component('modal-ot-create-component', require('./components/ModalOtCreateComponent.vue').default);
 Vue.component('modal-material-edit-component', require('./components/ModalMaterialEditComponent.vue').default);
 Vue.component('modal-material-create-component', require('./components/ModalMaterialCreateComponent.vue').default);
 Vue.component('modal-sub-material-edit-component', require('./components/ModalSubMaterialEditComponent.vue').default);

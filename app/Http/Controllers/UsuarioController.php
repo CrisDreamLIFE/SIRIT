@@ -68,6 +68,13 @@ class UsuarioController extends Controller
         
     }
 
+    public function obtenerGestores()
+    {
+        $usuarios = Usuario::join("rol_usuarios","usuarios.id","=","rol_usuarios.usuario_id")
+        ->where("rol_usuarios.rol_id",6)->get();
+        return $usuarios;
+    }
+
     public function index()
     {
         //

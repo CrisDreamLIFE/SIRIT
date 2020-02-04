@@ -14,7 +14,8 @@ class CanalVentaController extends Controller
      */
     public function index()
     {
-        //
+        $todos = CanalVenta::all();
+        return $todos;
     }
 
     /**

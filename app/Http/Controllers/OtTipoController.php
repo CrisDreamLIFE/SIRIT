@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\TipoOt;
+use App\OtTipo;
 use Illuminate\Http\Request;
 
 class OtTipoController extends Controller
@@ -14,7 +14,8 @@ class OtTipoController extends Controller
      */
     public function index()
     {
-        //
+        $todo = OtTipo::all();
+        return $todo;
     }
 
     /**
