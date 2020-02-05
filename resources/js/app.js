@@ -47,6 +47,7 @@ Vue.component('modal-sub-material-edit-component', require('./components/ModalSu
 Vue.component('modal-sub-material-create-component', require('./components/ModalSubMaterialCreateComponent.vue').default);
 Vue.component('modal-asociar-material-component', require('./components/ModalAsociarMaterialComponent.vue').default);
 Vue.component('modal-desasociar-material-component', require('./components/ModalDesasociarMaterialComponent.vue').default);
+Vue.component('modal-cliente-create-component', require('./components/ModalClienteCreateComponent.vue').default);
 
 
 /**

@@ -10,4 +10,8 @@ class Cliente extends Model
         {
             return $this->hasMany(Ot::class);
         }
+    public function productos()
+        {
+            return $this->belongsToMany(Producto::class, 'cliente_productos');
+        }
 }

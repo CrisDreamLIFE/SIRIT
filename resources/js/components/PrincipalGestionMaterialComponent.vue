@@ -9,6 +9,7 @@
                     <modal-material-create-component
                     :key="creacionN"
                     :tipoMaterial="tipoMaterial"
+                    :clientes="clientes"
                     @botonGuardarCreacionMaterial="guardarCreacionMaterial">
                     </modal-material-create-component> 
                 </div>
@@ -84,6 +85,7 @@
                 asociarMaterialBool:false,
                 desasociarMaterialBool:false,
                 tipoMaterial:[],
+                clientes:[],
                 subProductos:[],
                 edicionN:0,
                 creacionN:0,
@@ -114,11 +116,16 @@
                                     })
                 this.editarMaterialBool = true;  
             },
-            crearMaterial(){
+            crearMaterial(){ 
                 axios
                 .get('http://localhost:8000/tipoMaterial') //solicitar tipo material
                             .then(response => {
                                 this.tipoMaterial = response.data;
+                                })
+                axios
+                .get('http://localhost:8000/cliente') //solicitar clientes
+                            .then(response => {
+                                this.clientes = response.data;
                                 })
                 this.crearMaterialBool = true; 
             },

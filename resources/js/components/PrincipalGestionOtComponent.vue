@@ -3,8 +3,9 @@
         <br>
         <div class="row container">
             <div class="col-sm">
-                <button type="button" @click="crearOT()" data-target="#modalCreateOt" data-toggle="modal" class="btn btn-success">Crear OT</button>
+                <button type="button" @click="crearOT()" data-target="#modalCreateOt" data-toggle="modal" class="btn btn-success">Nueva OT</button>
                 <div v-if="crearOtBool"> <!-- CREATE -->
+                aaa
                 <modal-ot-create-component 
                     :key="creacionN"
                     :canales="canales"
@@ -108,6 +109,7 @@
             crearOT(){
                 //cargar 6 cosas:
                 //canal de venta
+                console.log("entre")
                 axios
                     .get('http://localhost:8000/canalVentas/')
                     .then(response => {this.canales=response.data;})
@@ -136,7 +138,11 @@
                 axios
                     .get('http://localhost:8000/producto/')
                     .then(response => {this.productos=response.data;})
+                console.log("aqui activaré el bool");
                 this.crearOtBool=true;
+            },
+            guardarCreacionMaterial(){
+                console.log("como que debo refrescar la wea"); 
             },
             masInformacion(index){
                 console.log("mostare el modal")

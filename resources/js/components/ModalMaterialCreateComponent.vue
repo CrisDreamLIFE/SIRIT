@@ -52,6 +52,28 @@
                                 <br>
                             <div class="form-group">
                                 <div class="row">
+                                    <div class="col-md-6">
+                                        <label class= "lavelFont font-weight-bold">Cliente:</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class= "lavelFont font-weight-bold">Código de cliente:</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <select v-model="cliente"  class="form-control">
+                                            <option disabled selected >Clientes</option>
+                                            <option v-for="(cliente,index) in clientes" v-bind:key="index" v-bind:value="index">
+                                                {{ cliente.nombre }}
+                                            </option>
+                                        </select>  
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text"  class="form-control" aria-describedby="emailHelp" v-model="codigoCliente"> 
+                                    </div>
+                                </div>
+                            </div>
+                            <br>    
+                            <div class="form-group">
+                                <div class="row">
                                     <div class="col-md-12">
                                         <label class= "lavelFont font-weight-bold">Descripción:</label> 
                                     </div>
@@ -75,14 +97,16 @@
 
 <script>
     export default {
-        props: ['tipoMaterial',''],
+        props: ['tipoMaterial','clientes'],
         data(){
             return {
                 nombreMaterial: "",
                 codigoSiomMaterial: "",
                 numeroPlanoMaterial:"",
                 descripcionMaterial:"",
-                tipoMaterialMaterial: ""
+                tipoMaterialMaterial: "",
+                cliente: "",
+                codigoCliente:""
             }
         },
         mounted() { 
@@ -95,8 +119,11 @@
                     codigoSiom: this.codigoSiomMaterial,
                     numeroPlano: this.numeroPlanoMaterial,
                     descripcion: this.descripcionMaterial,
-                    tipoMaterial: this.tipoMaterialMaterial
+                    tipoMaterial: this.tipoMaterialMaterial,
+                    cliente: this.clientes[this.cliente].id,
+                    codigoCliente: this.codigoCliente
                 }
+                console.log(params);
                 axios
                     .post('http://localhost:8000/producto/', params)
                     .then(response => {

@@ -21,6 +21,11 @@ class Producto extends Model
         return $this->belongsToMany(SubProducto::class, 'producto_sub_productos');
     }
 
+    public function clientes()
+    {
+        return $this->belongsToMany(Cliente::class, 'cliente_productos');
+    }
+
     public function sesionTrabajos()
     {
         return $this->belongsToMany(SesionTrabajo::class, 'producto_sesion_trabajos');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Producto;
 use App\SubProducto;
 use App\OtProducto;
+use App\ClienteProducto;
 use Illuminate\Http\Request;
 
 class ProductoController extends Controller
@@ -71,6 +72,8 @@ class ProductoController extends Controller
         $numeroPlanoSend = $request->input('numeroPlano');
         $descripcionSend = $request->input('descripcion');
         $tipoIdSend = $request->input('tipoMaterial');
+        $clienteIdSend = $request->input('cliente');
+        $codigoClienteSend = $request->input('codigoCliente');
         #creamos el nuevo producto
         $producto = new Producto;
         #asigamos los atributos al producto
@@ -81,6 +84,13 @@ class ProductoController extends Controller
         $producto->tipo_material_id = $tipoIdSend;
         #guardamos el producto
         $producto->save();
+
+        #Ahora con la tabla intermedia
+        $linea = new ClienteProducto;
+        $linea->cliente_id = $clienteIdSend;
+        $linea->producto_id = $producto->id;
+        $linea->codigo_cliente = $codigoClienteSend;
+        $linea->save();
         return 'CORRECTO';
         
     }

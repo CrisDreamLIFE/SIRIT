@@ -15,7 +15,6 @@ class CreateOtProductosTable extends Migration
     {
         Schema::create('ot_productos', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('codigo_cliente');
             $table->integer('numero_pieza');
             $table->integer('cantidad');
             $table->text('descripcion')->nullable();

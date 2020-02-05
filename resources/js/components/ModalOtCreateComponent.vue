@@ -1,6 +1,5 @@
 <template>
 <div>
-    
     <div  class="modal " id="modalCreateOt" tabindex="-1" role="dialog" aria-labelledby="modalCreateOtLabel" aria-hidden="true">
                 <div class="modal-dialog-xl" role="document">
                     <div class="modal-content">
@@ -137,27 +136,40 @@
                             <br>
                             <div class="form-group">
                                 <div class="row">
-                                    <div class="col-md-5">
+                                    <div class="col-md-4">
+                                        <label class= "lavelFont font-weight-bold">Código de Cliente:</label>
+                                    </div>
+                                    <div class="col-md-4">
                                         <label class= "lavelFont font-weight-bold">Producto:</label>
                                     </div>
-                                    <div class="col-md-1"></div>
-                                    <div class="col-md-6">
-                                        <label class= "lavelFont font-weight-bold">Productos Seleccionados:</label>
+                                    <div class="col-md-2">
+                                        <label class= "lavelFont font-weight-bold">Cantidad:</label>
                                     </div>
-                                    <div class="col-md-5">
-                                        <br>
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-4">
+                                        <select required v-model="codigoCliente"  class="form-control">
+                                                <option disabled selected >Códigos de Cliente:</option>
+                                                <option v-for="(codigo,index) in codigosCliente" v-bind:key="index" v-bind:value="index">
+                                                    {{ codigo }}
+                                                </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
                                         <select required v-model="producto"  class="form-control">
                                                 <option disabled selected >Productos:</option>
                                                 <option v-for="(producto,index) in productos" v-bind:key="index" v-bind:value="index">
                                                     {{ producto.nombre }}
                                                 </option>
                                         </select>
+                                    </div>                                         
+                                    <div class="col-md-2">
+                                        <input required  min="1"  pattern="^[0-9]+" type="number" class="form-check-input" id="exampleCheck1"  v-model="cantidad">
                                     </div>
-                                    <div class="col-md-1">
-                                        <br>
+                                    <div class="col-md-2">
+                                       
                                         <button type="button"  v-on:click= "agregarProducto()" :disabled="1==3" class="btn btn-success">+</button>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="container color2">
                                             <br>
                                             <div v-for="(producto,index) in seleccionados" v-bind:key="index">
@@ -215,7 +227,10 @@
                 responsable:"",
                 producto: "",
                 seleccionados:[],
-                observacion:""
+                observacion:"",
+                codigoCliente:"",
+                codigosDeClientes:[],
+                cantidad: ""
             }
         },
         mounted() { 
@@ -225,7 +240,7 @@
             agregarProducto(){
                 this.seleccionados.push(this.producto);
             },
-            guardarCambios(){
+            guardarCambios(){/*
                 var params={
                     nombre: this.nombreMaterial,
                     codigoSiom: this.codigoSiomMaterial,
@@ -242,7 +257,7 @@
                         $('.modal-backdrop').hide();
                         this.$emit('botonGuardarCreacionMaterial');
                         alert("Material creado exitosamente");
-                    })
+                    })*/
             }
         }
     }
