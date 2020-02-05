@@ -70,9 +70,9 @@
                                         <label class= "lavelFont font-weight-bold">Tipo</label>
                                     </div>
                                     <div class="col-md-4">
-                                        <select required v-model="cliente"  class="form-control">
+                                        <select required v-model="cliente" @change="cambiarCliente" class="form-control">
                                             <option disabled selected >Clientes</option>
-                                            <option v-for="(cliente,index) in clientes" v-bind:key="index" v-bind:value="cliente.id">
+                                            <option v-for="(cliente,index) in clientes" v-bind:key="index" v-bind:value="index">
                                                 {{ cliente.nombre }}
                                             </option>
                                         </select>  
@@ -80,7 +80,7 @@
                                     <div class="col-md-4">
                                         <select required v-model="categoria"  class="form-control">
                                             <option disabled selected >Categorías</option>
-                                            <option v-for="(categoria,index) in categorias" v-bind:key="index" v-bind:value="categoria.id">
+                                            <option v-for="(categoria,index) in categorias" v-bind:key="index" v-bind:value="index">
                                                 {{ categoria.nombre }}
                                             </option>
                                         </select>
@@ -88,7 +88,7 @@
                                     <div class="col-md-4">
                                         <select required v-model="tipo"  class="form-control">
                                             <option disabled selected >Tipos de OT</option>
-                                            <option v-for="(tipo,index) in tipos" v-bind:key="index" v-bind:value="tipo.id">
+                                            <option v-for="(tipo,index) in tipos" v-bind:key="index" v-bind:value="index">
                                                 {{ tipo.nombre }}
                                             </option>
                                         </select>
@@ -110,7 +110,7 @@
                                     <div class="col-md-4">
                                         <select required v-model="responsable"  class="form-control">
                                             <option disabled selected >Responsables</option>
-                                            <option v-for="(responsable,index) in usuarios" v-bind:key="index" v-bind:value="responsable.id">
+                                            <option v-for="(responsable,index) in usuarios" v-bind:key="index" v-bind:value="index">
                                                 {{ responsable.nombre }}
                                             </option>
                                         </select>  
@@ -118,7 +118,7 @@
                                     <div class="col-md-4">
                                         <select required v-model="centro"  class="form-control">
                                             <option disabled selected >Centros de Costo</option>
-                                            <option v-for="(centro,index) in centros" v-bind:key="index" v-bind:value="centro.id">
+                                            <option v-for="(centro,index) in centros" v-bind:key="index" v-bind:value="index">
                                                 {{ centro.nombre }}
                                             </option>
                                         </select>
@@ -126,7 +126,7 @@
                                     <div class="col-md-4">
                                         <select required v-model="canal"  class="form-control">
                                             <option disabled selected >Canales de Venta</option>
-                                            <option v-for="(canal,index) in canales" v-bind:key="index" v-bind:value="canal.id">
+                                            <option v-for="(canal,index) in canales" v-bind:key="index" v-bind:value="centro">
                                                 {{ canal.nombre }}
                                             </option>
                                         </select>
@@ -147,7 +147,7 @@
                                     </div>
                                     <div class="col-md-2"></div>
                                     <div class="col-md-4">
-                                        <select required v-model="codigoCliente"  class="form-control">
+                                        <select required v-model="codigoCliente" @change="cambiarCodigo(codigoCliente)" class="form-control">
                                                 <option disabled selected >Códigos de Cliente:</option>
                                                 <option v-for="(codigo,index) in codigosCliente" v-bind:key="index" v-bind:value="index">
                                                     {{ codigo }}
@@ -158,24 +158,27 @@
                                         <select required v-model="producto"  class="form-control">
                                                 <option disabled selected >Productos:</option>
                                                 <option v-for="(producto,index) in productos" v-bind:key="index" v-bind:value="index">
-                                                    {{ producto.nombre }}
+                                                    {{ productos[index].nombre }}
                                                 </option>
                                         </select>
                                     </div>                                         
                                     <div class="col-md-2">
-                                        <input required  min="1"  pattern="^[0-9]+" type="number" class="form-check-input" id="exampleCheck1"  v-model="cantidad">
+                                        <input required  min="1"  pattern="^[0-9]+" type="number" class="form-check-input"  v-model="cantidad">
                                     </div>
                                     <div class="col-md-2">
                                        
                                         <button type="button"  v-on:click= "agregarProducto()" :disabled="1==3" class="btn btn-success">+</button>
                                     </div>
                                     <div class="col-md-12">
-                                        <div class="container color2">
+                                        <div class="containerf color2">
                                             <br>
                                             <div v-for="(producto,index) in seleccionados" v-bind:key="index">
                                                 <div class="row">
-                                                    <div class="col-sm-10">
-                                                        <p>* {{productos[producto].id}}-{{productos[producto].nombre}}</p>
+                                                    <div class="col-sm-8">
+                                                        <p>* {{producto[0].nombre}} </p>
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <p>{{producto[1]}} unidades</p>
                                                     </div>
                                                     <div class="col-sm-2">
                                                         <button type="button" :value="index"  v-on:click= "quitarProducto(index)" class="btn btn-danger">-</button>
@@ -229,35 +232,75 @@
                 seleccionados:[],
                 observacion:"",
                 codigoCliente:"",
-                codigosDeClientes:[],
-                cantidad: ""
+                codigosCliente:[],
+                cantidad: "",
+                aux:[]
             }
         },
         mounted() { 
             console.log('Component mounted.')
         },
         methods:{
-            agregarProducto(){
-                this.seleccionados.push(this.producto);
-            },
-            guardarCambios(){/*
-                var params={
-                    nombre: this.nombreMaterial,
-                    codigoSiom: this.codigoSiomMaterial,
-                    numeroPlano: this.numeroPlanoMaterial,
-                    descripcion: this.descripcionMaterial,
-                    tipoMaterial: this.tipoMaterialMaterial
-                }
+            cambiarCliente(){
                 axios
-                    .post('http://localhost:8000/producto/', params)
+                    .get('http://localhost:8000/obtenerCodigosCliente/'+this.clientes[this.cliente].id)
+                    .then(response => { 
+                        this.aux=response.data;
+                        console.log(this.aux)
+                        for(var j=0;j<this.aux.length;j++){
+                            this.codigosCliente.push(this.aux[j].codigo_cliente);
+                        }
+                    })   
+            },
+            cambiarCodigo(index){
+                for(var i =0;i<this.productos.length;i++){
+                    if(this.aux[index].producto_id == this.productos[i].id){
+                        this.producto = i;
+                        break;
+                    }
+                }
+              //  this.producto=aux[index].
+                /*
+                axios
+                    .get('http://localhost:8000/obtenerCodigosCliente/'+this.clientes[this.cliente].id)
+                    .then(response => { 
+                        this.codigosCliente=response.data.codigo_cliente;
+                    }) */  
+            },
+            agregarProducto(){
+                var aux = [];
+                aux.push(this.productos[this.producto]);
+                aux.push(this.cantidad);
+                this.seleccionados.push(aux);
+            },
+            guardarCambios(){
+                var params={
+                    otPeru: this.otPeru,
+                    orden: this.orden,
+                    numero: this.numero,
+                    guia: this.guia,
+                    factura: this.factura,
+                    fecha:  this.fecha,
+                    tipo: this.tipos[this.tipo],
+                    categoria: this.categorias[this.categoria],
+                    cliente: this.clientes[this.cliente],
+                    canal: this.canales[this.canal],
+                    centro: this.centros[this.centro],
+                    responsable: this.usuarios[this.responsable],
+                    seleccionados: this.seleccionados,
+                    observacion: this.observacion
+                }
+                console.log(params);
+                axios
+                    .post('http://localhost:8000/ot/', params)
                     .then(response => {
                         //actualizar los data con defecto, o algo asi quizas o ek key
                         console.log(response.data);
-                        $('#modalCreateMaterial').modal('hide');
-                        $('.modal-backdrop').hide();
-                        this.$emit('botonGuardarCreacionMaterial');
-                        alert("Material creado exitosamente");
-                    })*/
+                        //$('#modalCreateMaterial').modal('hide');
+                        //$('.modal-backdrop').hide();
+                        //this.$emit('botonGuardarCreacionMaterial');
+                        //alert("Material creado exitosamente");
+                    })
             }
         }
     }

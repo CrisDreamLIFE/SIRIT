@@ -3429,6 +3429,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['centros', 'canales', 'usuarios', 'tipos', 'categorias', 'clientes', 'productos'],
   data: function data() {
@@ -3449,36 +3452,74 @@ __webpack_require__.r(__webpack_exports__);
       seleccionados: [],
       observacion: "",
       codigoCliente: "",
-      codigosDeClientes: [],
-      cantidad: ""
+      codigosCliente: [],
+      cantidad: "",
+      aux: []
     };
   },
   mounted: function mounted() {
     console.log('Component mounted.');
   },
   methods: {
+    cambiarCliente: function cambiarCliente() {
+      var _this = this;
+
+      axios.get('http://localhost:8000/obtenerCodigosCliente/' + this.clientes[this.cliente].id).then(function (response) {
+        _this.aux = response.data;
+        console.log(_this.aux);
+
+        for (var j = 0; j < _this.aux.length; j++) {
+          _this.codigosCliente.push(_this.aux[j].codigo_cliente);
+        }
+      });
+    },
+    cambiarCodigo: function cambiarCodigo(index) {
+      for (var i = 0; i < this.productos.length; i++) {
+        if (this.aux[index].producto_id == this.productos[i].id) {
+          this.producto = i;
+          break;
+        }
+      } //  this.producto=aux[index].
+
+      /*
+      axios
+          .get('http://localhost:8000/obtenerCodigosCliente/'+this.clientes[this.cliente].id)
+          .then(response => { 
+              this.codigosCliente=response.data.codigo_cliente;
+          }) */
+
+    },
     agregarProducto: function agregarProducto() {
-      this.seleccionados.push(this.producto);
+      var aux = [];
+      aux.push(this.productos[this.producto]);
+      aux.push(this.cantidad);
+      this.seleccionados.push(aux);
     },
     guardarCambios: function guardarCambios() {
-      /*
-      var params={
-      nombre: this.nombreMaterial,
-      codigoSiom: this.codigoSiomMaterial,
-      numeroPlano: this.numeroPlanoMaterial,
-      descripcion: this.descripcionMaterial,
-      tipoMaterial: this.tipoMaterialMaterial
-      }
-      axios
-      .post('http://localhost:8000/producto/', params)
-      .then(response => {
-      //actualizar los data con defecto, o algo asi quizas o ek key
-      console.log(response.data);
-      $('#modalCreateMaterial').modal('hide');
-      $('.modal-backdrop').hide();
-      this.$emit('botonGuardarCreacionMaterial');
-      alert("Material creado exitosamente");
-      })*/
+      var params = {
+        otPeru: this.otPeru,
+        orden: this.orden,
+        numero: this.numero,
+        guia: this.guia,
+        factura: this.factura,
+        fecha: this.fecha,
+        tipo: this.tipos[this.tipo],
+        categoria: this.categorias[this.categoria],
+        cliente: this.clientes[this.cliente],
+        canal: this.canales[this.canal],
+        centro: this.centros[this.centro],
+        responsable: this.usuarios[this.responsable],
+        seleccionados: this.seleccionados,
+        observacion: this.observacion
+      };
+      console.log(params);
+      axios.post('http://localhost:8000/ot/', params).then(function (response) {
+        //actualizar los data con defecto, o algo asi quizas o ek key
+        console.log(response.data); //$('#modalCreateMaterial').modal('hide');
+        //$('.modal-backdrop').hide();
+        //this.$emit('botonGuardarCreacionMaterial');
+        //alert("Material creado exitosamente");
+      });
     }
   }
 });
@@ -44069,19 +44110,23 @@ var render = function() {
                             staticClass: "form-control",
                             attrs: { required: "" },
                             on: {
-                              change: function($event) {
-                                var $$selectedVal = Array.prototype.filter
-                                  .call($event.target.options, function(o) {
-                                    return o.selected
-                                  })
-                                  .map(function(o) {
-                                    var val = "_value" in o ? o._value : o.value
-                                    return val
-                                  })
-                                _vm.cliente = $event.target.multiple
-                                  ? $$selectedVal
-                                  : $$selectedVal[0]
-                              }
+                              change: [
+                                function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.cliente = $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                },
+                                _vm.cambiarCliente
+                              ]
                             }
                           },
                           [
@@ -44094,7 +44139,7 @@ var render = function() {
                             _vm._l(_vm.clientes, function(cliente, index) {
                               return _c(
                                 "option",
-                                { key: index, domProps: { value: cliente.id } },
+                                { key: index, domProps: { value: index } },
                                 [
                                   _vm._v(
                                     "\r\n                                                " +
@@ -44149,10 +44194,7 @@ var render = function() {
                             _vm._l(_vm.categorias, function(categoria, index) {
                               return _c(
                                 "option",
-                                {
-                                  key: index,
-                                  domProps: { value: categoria.id }
-                                },
+                                { key: index, domProps: { value: index } },
                                 [
                                   _vm._v(
                                     "\r\n                                                " +
@@ -44207,7 +44249,7 @@ var render = function() {
                             _vm._l(_vm.tipos, function(tipo, index) {
                               return _c(
                                 "option",
-                                { key: index, domProps: { value: tipo.id } },
+                                { key: index, domProps: { value: index } },
                                 [
                                   _vm._v(
                                     "\r\n                                                " +
@@ -44274,10 +44316,7 @@ var render = function() {
                             _vm._l(_vm.usuarios, function(responsable, index) {
                               return _c(
                                 "option",
-                                {
-                                  key: index,
-                                  domProps: { value: responsable.id }
-                                },
+                                { key: index, domProps: { value: index } },
                                 [
                                   _vm._v(
                                     "\r\n                                                " +
@@ -44332,7 +44371,7 @@ var render = function() {
                             _vm._l(_vm.centros, function(centro, index) {
                               return _c(
                                 "option",
-                                { key: index, domProps: { value: centro.id } },
+                                { key: index, domProps: { value: index } },
                                 [
                                   _vm._v(
                                     "\r\n                                                " +
@@ -44387,7 +44426,7 @@ var render = function() {
                             _vm._l(_vm.canales, function(canal, index) {
                               return _c(
                                 "option",
-                                { key: index, domProps: { value: canal.id } },
+                                { key: index, domProps: { value: _vm.centro } },
                                 [
                                   _vm._v(
                                     "\r\n                                                " +
@@ -44431,19 +44470,25 @@ var render = function() {
                             staticClass: "form-control",
                             attrs: { required: "" },
                             on: {
-                              change: function($event) {
-                                var $$selectedVal = Array.prototype.filter
-                                  .call($event.target.options, function(o) {
-                                    return o.selected
-                                  })
-                                  .map(function(o) {
-                                    var val = "_value" in o ? o._value : o.value
-                                    return val
-                                  })
-                                _vm.codigoCliente = $event.target.multiple
-                                  ? $$selectedVal
-                                  : $$selectedVal[0]
-                              }
+                              change: [
+                                function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.codigoCliente = $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                },
+                                function($event) {
+                                  return _vm.cambiarCodigo(_vm.codigoCliente)
+                                }
+                              ]
                             }
                           },
                           [
@@ -44515,7 +44560,7 @@ var render = function() {
                                 [
                                   _vm._v(
                                     "\r\n                                                    " +
-                                      _vm._s(producto.nombre) +
+                                      _vm._s(_vm.productos[index].nombre) +
                                       "\r\n                                                "
                                   )
                                 ]
@@ -44541,8 +44586,7 @@ var render = function() {
                             required: "",
                             min: "1",
                             pattern: "^[0-9]+",
-                            type: "number",
-                            id: "exampleCheck1"
+                            type: "number"
                           },
                           domProps: { value: _vm.cantidad },
                           on: {
@@ -44575,7 +44619,7 @@ var render = function() {
                       _c("div", { staticClass: "col-md-12" }, [
                         _c(
                           "div",
-                          { staticClass: "container color2" },
+                          { staticClass: "containerf color2" },
                           [
                             _c("br"),
                             _vm._v(" "),
@@ -44585,14 +44629,17 @@ var render = function() {
                             ) {
                               return _c("div", { key: index }, [
                                 _c("div", { staticClass: "row" }, [
-                                  _c("div", { staticClass: "col-sm-10" }, [
+                                  _c("div", { staticClass: "col-sm-8" }, [
                                     _c("p", [
                                       _vm._v(
-                                        "* " +
-                                          _vm._s(_vm.productos[producto].id) +
-                                          "-" +
-                                          _vm._s(_vm.productos[producto].nombre)
+                                        "* " + _vm._s(producto[0].nombre) + " "
                                       )
+                                    ])
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col-sm-2" }, [
+                                    _c("p", [
+                                      _vm._v(_vm._s(producto[1]) + " unidades")
                                     ])
                                   ]),
                                   _vm._v(" "),

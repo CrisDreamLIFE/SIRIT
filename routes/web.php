@@ -79,8 +79,8 @@ Route::resource('centroCosto','CentroCostoController');
 Route::resource('categoriaOt','CategoriaOtController');
 
 #Cliente
-Route::resource('cliente','ClienteController');
-
+Route::resource('cliente','ClienteController'); 
+Route::get('obtenerCodigosCliente/{id}','ClienteProductoController@obtenerCodigosCliente');
 /*  <!--@foreach ($clientes as $cliente)
             <p>{{ $cliente->nombre }}</p>
             <p>{{ $cliente->codigo }}</p>

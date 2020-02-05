@@ -12,6 +12,11 @@ class ClienteProductoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function obtenerCodigosCliente($id){
+        $codigos= ClienteProducto::where('cliente_id',$id)->get();
+        return $codigos;
+    }
+
     public function index()
     {
         //
