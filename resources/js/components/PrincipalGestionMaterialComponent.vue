@@ -3,7 +3,7 @@
         <br>
         <div class="row">
             <div class="col-sm">
-                <button type="button" @click="crearMaterial()" data-target="#modalCreateMaterial" data-toggle="modal" class="btn btn-success">Crear Producto</button>
+                <button type="button" @click="crearMaterial()" data-target="#modalCreateMaterial" data-toggle="modal" class="btn btn-success">Crear Material</button>
                 <br><br>
                 <div v-if="crearMaterialBool"> <!-- CREATE -->
                     <modal-material-create-component

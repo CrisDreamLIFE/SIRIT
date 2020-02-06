@@ -1,10 +1,18 @@
 <template>
 <div>
+    <div v-if="crearMaterialBool"> <!-- CREATE MATERIAL -->
+                    <modal-material-create-component
+                    :key="creacionN"
+                    :tipoMaterial="tipoMaterial"
+                    :clientes="clientes"
+                    @botonGuardarCreacionMaterial="guardarCreacionMaterial">
+                    </modal-material-create-component> 
+    </div>
     <div  class="modal " id="modalCreateOt" tabindex="-1" role="dialog" aria-labelledby="modalCreateOtLabel" aria-hidden="true">
                 <div class="modal-dialog-xl" role="document">
                     <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalCreateOtLabel">Creacion de nueva OT</h5>
+                        <h5 class="modal-title" id="modalCreateOtLabel">Creacion de nueva OT </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
@@ -14,8 +22,20 @@
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <label class= "lavelFont font-weight-bold">OT-Perú:</label>
+                                        <label class= "lavelFont font-weight-bold">País de Ot:</label>
                                     </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                     <select required v-model="otPeru" class="form-control">
+                                            <option disabled selected >Países</option>
+                                            <option  v-bind:value="false">Chile</option>
+                                            <option  v-bind:value="true">Perú</option>
+                                        </select>     
+                                    </div>  
+                                </div>
+                            
+                                <div class="row">
                                     <div class="col-md-4">
                                         <label class= "lavelFont font-weight-bold">Orden de Compra:</label>
                                     </div>
@@ -23,7 +43,7 @@
                                         <label class= "lavelFont font-weight-bold">Número de Cotización</label>
                                     </div>
                                     <div class="col-md-4">
-                                        <input type="checkbox" class="form-check-input" id="exampleCheck1" :value="1" v-model="otPeru">
+                                        <label class= "lavelFont font-weight-bold">Guía de Despacho</label>
                                     </div>
                                     <div class="col-md-4">
                                         <input type="text"  class="form-control" aria-describedby="emailHelp" v-model="orden">
@@ -31,26 +51,28 @@
                                     <div class="col-md-4">
                                         <input type="text"  class="form-control" aria-describedby="emailHelp" v-model="numero">
                                     </div>
+                                    <div class="col-md-4">
+                                        <input type="text"  class="form-control" aria-describedby="emailHelp" v-model="guia"> 
+                                    </div>
                                 </div>
                             </div>
                                 <br>
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-4">
-                                        {{otPeru}}
-                                        <label class= "lavelFont font-weight-bold">Guía de Despacho</label>
+                                        <label class= "lavelFont font-weight-bold">Factura:</label>
                                     </div>
                                     <div class="col-md-4">
-                                        <label class= "lavelFont font-weight-bold">Factura:</label>
+                                        <label class= "lavelFont font-weight-bold">Fecha de Recepción</label>
                                     </div>
                                     <div class="col-md-4">
                                         <label class= "lavelFont font-weight-bold">Fecha de Entrega:</label>
                                     </div>
                                     <div class="col-md-4">
-                                        <input type="text"  class="form-control" aria-describedby="emailHelp" v-model="guia"> 
+                                        <input type="text"  class="form-control" aria-describedby="emailHelp" v-model="factura"> 
                                     </div>
                                     <div class="col-md-4">
-                                        <input type="text"  class="form-control" aria-describedby="emailHelp" v-model="factura"> 
+                                        <input required type="date"  class="form-control" aria-describedby="emailHelp" v-model="recepcion"> 
                                     </div>
                                     <div class="col-md-4">
                                         <input required type="date"  class="form-control" aria-describedby="emailHelp" v-model="fecha"> 
@@ -126,7 +148,7 @@
                                     <div class="col-md-4">
                                         <select required v-model="canal"  class="form-control">
                                             <option disabled selected >Canales de Venta</option>
-                                            <option v-for="(canal,index) in canales" v-bind:key="index" v-bind:value="centro">
+                                            <option v-for="(canal,index) in canales" v-bind:key="index" v-bind:value="index">
                                                 {{ canal.nombre }}
                                             </option>
                                         </select>
@@ -142,13 +164,12 @@
                                     <div class="col-md-4">
                                         <label class= "lavelFont font-weight-bold">Producto:</label>
                                     </div>
+                                    <div class="col-md-1"></div>
                                     <div class="col-md-2">
-                                        <label class= "lavelFont font-weight-bold">Cantidad:</label>
                                     </div>
-                                    <div class="col-md-2"></div>
                                     <div class="col-md-4">
                                         <select required v-model="codigoCliente" @change="cambiarCodigo(codigoCliente)" class="form-control">
-                                                <option disabled selected >Códigos de Cliente:</option>
+                                                <option value="" selected >Nuevo</option>
                                                 <option v-for="(codigo,index) in codigosCliente" v-bind:key="index" v-bind:value="index">
                                                     {{ codigo }}
                                                 </option>
@@ -156,35 +177,56 @@
                                     </div>
                                     <div class="col-md-4">
                                         <select required v-model="producto"  class="form-control">
-                                                <option disabled selected >Productos:</option>
+                                                <option disabled selected >Material:</option>
                                                 <option v-for="(producto,index) in productos" v-bind:key="index" v-bind:value="index">
                                                     {{ productos[index].nombre }}
                                                 </option>
                                         </select>
                                     </div>                                         
-                                    <div class="col-md-2">
-                                        <input required  min="1"  pattern="^[0-9]+" type="number" class="form-check-input"  v-model="cantidad">
-                                    </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-1">
                                        
                                         <button type="button"  v-on:click= "agregarProducto()" :disabled="1==3" class="btn btn-success">+</button>
                                     </div>
+                                    <div class="col-md-3">
+                                        <button type="button" @click="crearMaterial()" data-target="#modalCreateMaterial" data-toggle="modal" class="btn btn-lg btn-block btn-secondary">Crear Material</button>
+                                    </div>
                                     <div class="col-md-12">
-                                        <div class="containerf color2">
+                                        <br><br>
+                                        <div class="row">
+                                            <div class="col-sm-4"><label class= "lavelFont2 font-weight-bold">Descripción:</label></div>
+                                            <div class="col-sm-2"><label class= "lavelFont2 font-weight-bold">Código de Cliente:</label></div>
+                                            <div class="col-sm-1"><label class= "lavelFont2 font-weight-bold">Cantidad:</label></div>
+                                            <div class="col-sm-2"><label class= "lavelFont2 font-weight-bold">Código Siom:</label></div>
+                                            <div class="col-sm-2"><label class= "lavelFont2 font-weight-bold">Número de plano:</label></div>
+                                            <div class="col-sm-1"><label class= "lavelFont2 font-weight-bold">Quitar:</label></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="containerf color3">
                                             <br>
                                             <div v-for="(producto,index) in seleccionados" v-bind:key="index">
                                                 <div class="row">
-                                                    <div class="col-sm-8">
+                                                    <div class="col-sm-4">
                                                         <p>* {{producto[0].nombre}} </p>
                                                     </div>
                                                     <div class="col-sm-2">
-                                                        <p>{{producto[1]}} unidades</p>
+                                                        <input required type="text"  class="form-control" aria-describedby="emailHelp" v-model="producto[2]"> 
+                                                    </div>
+                                                    <div class="col-sm-1">
+                                                        <input required type="number"  class="form-control" aria-describedby="emailHelp" v-model="producto[1]"> 
                                                     </div>
                                                     <div class="col-sm-2">
+                                                        <input required type="text"  class="form-control" aria-describedby="emailHelp" v-model="producto[0].codigo_siom"> 
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <input required type="text"  class="form-control" aria-describedby="emailHelp" v-model="producto[0].numero_plano"> 
+                                                    </div>
+                                                    <div class="col-sm-1">
                                                         <button type="button" :value="index"  v-on:click= "quitarProducto(index)" class="btn btn-danger">-</button>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <br>
                                         </div>
                                     </div>
                                 </div>
@@ -222,6 +264,7 @@
                 guia:"",
                 factura:"",
                 fecha:"",
+                recepcion:"",
                 tipo:"",
                 categoria:"",
                 cliente:"",
@@ -234,29 +277,59 @@
                 codigoCliente:"",
                 codigosCliente:[],
                 cantidad: "",
-                aux:[]
+                aux:[],
+                crearMaterialBool:false,
+                tipoMaterial:"",
+                creacionN:0
             }
         },
         mounted() { 
             console.log('Component mounted.')
         },
         methods:{
+            guardarCreacionMaterial(){
+
+                this.creacionN +=1;
+                this.cambiarCliente();
+                this.$emit('botonGuardarCreacionMaterial')
+            },
+            crearMaterial(){
+                $('#modalCreateOt').modal('hide');
+                $('.modal-backdrop').hide();
+                axios
+                .get('http://localhost:8000/tipoMaterial') //solicitar tipo material
+                            .then(response => {
+                                this.tipoMaterial = response.data;
+                                })
+                this.crearMaterialBool = true;
+            },
             cambiarCliente(){
+                console.log("entre a cambiar cliente");
                 axios
                     .get('http://localhost:8000/obtenerCodigosCliente/'+this.clientes[this.cliente].id)
                     .then(response => { 
                         this.aux=response.data;
                         console.log(this.aux)
+                        this.codigosCliente=[];
                         for(var j=0;j<this.aux.length;j++){
                             this.codigosCliente.push(this.aux[j].codigo_cliente);
                         }
                     })   
             },
             cambiarCodigo(index){
-                for(var i =0;i<this.productos.length;i++){
-                    if(this.aux[index].producto_id == this.productos[i].id){
-                        this.producto = i;
-                        break;
+                console.log(this.productos);
+                console.log("valor index: " )
+                console.log(index);
+                console.log(this.aux);
+                console.log(this.codigoCliente);
+                if(this.codigoCliente!= ""){
+                    console.log("i = ");
+                    console.log(i);
+                    for(var i =0;i<this.productos.length;i++){
+                        if(this.aux[index].producto_id == this.productos[i].id){
+                            
+                            break;
+                        }
                     }
                 }
               //  this.producto=aux[index].
@@ -271,7 +344,11 @@
                 var aux = [];
                 aux.push(this.productos[this.producto]);
                 aux.push(this.cantidad);
+                aux.push(this.codigosCliente[this.codigoCliente]);
                 this.seleccionados.push(aux);
+            },
+            quitarProducto(index){
+                this.seleccionados.splice(index,1);
             },
             guardarCambios(){
                 var params={
@@ -281,6 +358,7 @@
                     guia: this.guia,
                     factura: this.factura,
                     fecha:  this.fecha,
+                    recepcion: this.recepcion,
                     tipo: this.tipos[this.tipo],
                     categoria: this.categorias[this.categoria],
                     cliente: this.clientes[this.cliente],
@@ -296,10 +374,10 @@
                     .then(response => {
                         //actualizar los data con defecto, o algo asi quizas o ek key
                         console.log(response.data);
-                        //$('#modalCreateMaterial').modal('hide');
-                        //$('.modal-backdrop').hide();
-                        //this.$emit('botonGuardarCreacionMaterial');
-                        //alert("Material creado exitosamente");
+                        $('#modalCreateOt').modal('hide');
+                        $('.modal-backdrop').hide();
+                        this.$emit('botonGuardarCreacionOt');
+                        alert("OT creada exitosamente");
                     })
             }
         }

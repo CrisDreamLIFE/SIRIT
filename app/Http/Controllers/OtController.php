@@ -82,12 +82,17 @@ class OtController extends Controller
     public function index()
     {
         $ots = Ot::orderBy('id','desc')->get();
-        foreach($ots as $ot){
-            $ot->usuario;
-            $ot->productos;
+        error_log("1");
+        if(count($ots)>0){
+            error_log("2");
+            foreach($ots as $ot){
+                $ot->usuario;
+                $ot->productos;
+            }
         }
-        $paginas = count($ots) /10;
-        $otsFinal = $ots[0]->paginate((int)$paginas+1);
+        error_log("3");
+        //$paginas = count($ots) /10;
+        //$otsFinal = $ots[0]->paginate((int)$paginas+1);
         error_log("3");
         return $ots;
       
@@ -122,6 +127,7 @@ class OtController extends Controller
         $guia = $request->input('guia');
         $factura = $request->input('factura');
         $fecha = $request->input('fecha');
+        $recepcion = $request->input('recepcion');
         $tipo = $request->input('tipo');
         $categoria = $request->input('categoria');
         $cliente = $request->input('cliente');
@@ -130,25 +136,30 @@ class OtController extends Controller
         $responsable = $request->input('responsable');
         $seleccionadosArray = $request->input('seleccionados');
         $observacion = $request->input('observacion');
+        error_log("fecha");
+        error_log($fecha);
 
-        $i = 0;
+        $i = 1;
         $ultima = Ot::where('ot_Peru','!=',null )->orderBy('ot_Peru','desc')->get();
-        if(!empty($ultima)){
-            $i = $ultima[0]->ot_Peru;
+        error_log($ultima);
+        error_log("antes de peru");
+        if(count($ultima)>0){
+            error_log("entre al if");
+            $i = $ultima[0]->ot_Peru + 1;
         }
-
+    
         #Para la OT
         $ot = new Ot;
         if($otPeru){
             $ot->ot_Peru = $i;
         }
-        $ot->fecha_real_entrega = $fecha;
-        $ot->fecha_despacho = $fecha;
+        //$ot->fecha_real_entrega = $fecha;
+        //$ot->fecha_despacho = $fecha;
         $ot->fecha_entrega_oc = $fecha;
-        $ot->abierta = 1;
-        $ot->recepcionada = 0;
-        $ot->despachada = 0;
-        $ot->fecha_recepcion = $fecha;
+        //$ot->abierta = 1;
+        //$ot->recepcionada = 0;
+        //$ot->despachada = 0;
+        $ot->fecha_recepcion = $recepcion;
         $ot->orden_compra = $orden;
         $ot->numero_cotizacion = $numero;
         $ot->observacion = $observacion;
@@ -159,22 +170,31 @@ class OtController extends Controller
         error_log("2");
         $ot->ot_tipo_id = $tipo['id'];
         error_log("3");
-        $ot->usuario_id = $responsable['id'];
+        $ot->usuario_id = $responsable['usuario_id'];
         $ot->centro_costo_id = $centro['id'];
-        error_log("4");
         $ot->categoria_ot_id = $categoria['id'];
         error_log("5");
         $ot->cliente_id = $cliente['id'];
         error_log($ot->cliente_id);
         $ot->save();
         error_log("guarde la ot");
+
+    
         #Para la OtProducto
         foreach($seleccionadosArray as $prod){
             $otProducto = new OtProducto;
-            $otProducto->cantidad = $prod[1];
+            $otProducto->cantidad = (int)$prod[1];
             $otProducto->ot_id = $ot->id;
             $otProducto->producto_id = $prod[0]['id'];
             $otProducto->save();
+
+            #Para producto
+            $producto = Producto::find($prod[0]['id']);
+            $producto->codigo_siom = $prod[0]['codigo_siom'];
+            $producto->numero_plano = $prod[0]['numero_plano'];
+            $producto->save();
+
+            #para cliente si es que no lo tiene
         }
 
 

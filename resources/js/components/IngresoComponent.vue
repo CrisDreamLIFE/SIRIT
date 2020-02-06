@@ -65,7 +65,9 @@
             <!--------OT--------------------------->
             <div v-if="iniciarGestionOTBool">
                 <principal-gestion-ot-component
-                :otsTodas="otsTodas">
+                :otsTodas="otsTodas"
+                :key="gestionOtN"
+                @botonGuardarCreacionOt="recargarOt">
                 </principal-gestion-ot-component>
             </div>
             <!--------MATERIAL--------------------------->
@@ -103,6 +105,7 @@ export default {
                 componentKey: 0,
                 gestionMaterialN:0,
                 gestionSubMaterialN:0,
+                gestionOtN:0,
                 roles:[],
                 logeado: false,
                 rut: "19.313.751-2",
@@ -133,6 +136,16 @@ export default {
             console.log('Component mounted.')
         },
         methods:{ 
+            recargarOt(){
+                axios
+                .get('http://localhost:8000/ot')
+                .then(response =>{
+                    console.log("respuesta de ot:")
+                    console.log(response.data)
+                    this.otsTodas = response.data
+                    this.gestionOtN +=1;
+                    this.iniciarGestionOTBool=true   }) 
+            },
             recargarMateriales(){
                 axios
                 .get('http://localhost:8000/producto')
@@ -182,6 +195,7 @@ export default {
                 axios
                 .get('http://localhost:8000/ot')
                 .then(response =>{
+                    console.log("respuesta de ot:")
                     console.log(response.data)
                     this.otsTodas = response.data
                     this.algoSeleccionado=true;

@@ -5,7 +5,6 @@
             <div class="col-sm">
                 <button type="button" @click="crearOT()" data-target="#modalCreateOt" data-toggle="modal" class="btn btn-success">Nueva OT</button>
                 <div v-if="crearOtBool"> <!-- CREATE -->
-                aaa
                 <modal-ot-create-component 
                     :key="creacionN"
                     :canales="canales"
@@ -15,6 +14,7 @@
                     :categorias="categorias"
                     :clientes="clientes"
                     :productos="productos"
+                    @botonGuardarCreacionOt="guardarCreacionOt"
                     @botonGuardarCreacionMaterial="guardarCreacionMaterial">
                     </modal-ot-create-component>
                 </div>
@@ -49,7 +49,7 @@
             <div v-for="(ot,index) in otsTodas" :key="index">
                 <div class="row">
                     <div class="col-sm-1">{{ot.id}}</div>
-                    <div class="col-sm-1">{{ot.ot_Peru}}''</div>
+                    <div class="col-sm-1">{{ot.ot_Peru}}</div>
                     <div class="col-sm-1">{{ot.orden_compra}}</div>
                     <div class="col-sm-2">
                         <div v-for="material in ot.productos" :key="material.id">
@@ -139,7 +139,10 @@
                     .get('http://localhost:8000/producto/')
                     .then(response => {this.productos=response.data;})
                 console.log("aqui activaré el bool");
-                this.crearOtBool=true;
+                this.crearOtBool=true; 
+            },
+            guardarCreacionOt(){
+                 this.$emit('botonGuardarCreacionOt');
             },
             guardarCreacionMaterial(){
                 console.log("como que debo refrescar la wea"); 

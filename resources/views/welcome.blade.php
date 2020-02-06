@@ -53,6 +53,14 @@
         border: 2px solid #000;
         color: #3c70a4;
     }
+    .color3{
+        margin-top:  00px;
+        background-color:ffffff;
+        border-color: 64b2cd;
+        border-radius: 5px;
+        border: 2px solid #000;
+        color: #3c70a4;
+    }
     .lavelFont{
         font-size: 20px;
         color: #da9833;

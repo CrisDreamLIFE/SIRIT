@@ -2148,6 +2148,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return _defineProperty({
@@ -2155,6 +2157,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       componentKey: 0,
       gestionMaterialN: 0,
       gestionSubMaterialN: 0,
+      gestionOtN: 0,
       roles: [],
       logeado: false,
       rut: "19.313.751-2",
@@ -2184,25 +2187,36 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     console.log('Component mounted.');
   },
   methods: {
-    recargarMateriales: function recargarMateriales() {
+    recargarOt: function recargarOt() {
       var _this2 = this;
 
+      axios.get('http://localhost:8000/ot').then(function (response) {
+        console.log("respuesta de ot:");
+        console.log(response.data);
+        _this2.otsTodas = response.data;
+        _this2.gestionOtN += 1;
+        _this2.iniciarGestionOTBool = true;
+      });
+    },
+    recargarMateriales: function recargarMateriales() {
+      var _this3 = this;
+
       axios.get('http://localhost:8000/producto').then(function (response) {
-        _this2.productos = response.data;
+        _this3.productos = response.data;
         console.log("recargue los materiales ;v");
-        _this2.gestionMaterialN += 1;
-        _this2.iniciarGestionMaterialBool = true;
-        console.log(_this2.gestionMaterialN);
+        _this3.gestionMaterialN += 1;
+        _this3.iniciarGestionMaterialBool = true;
+        console.log(_this3.gestionMaterialN);
       });
     },
     recargarSubMateriales: function recargarSubMateriales() {
-      var _this3 = this;
+      var _this4 = this;
 
       axios.get('http://localhost:8000/subProducto').then(function (response) {
-        _this3.subProductos = response.data;
+        _this4.subProductos = response.data;
         console.log("recargue los materiales ;v");
-        _this3.gestionSubMaterialN += 1;
-        _this3.iniciarGestionSubMaterialBool = true;
+        _this4.gestionSubMaterialN += 1;
+        _this4.iniciarGestionSubMaterialBool = true;
       });
     },
     auxMetodo: function auxMetodo() {
@@ -2210,33 +2224,34 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.componentKey += 1;
     },
     iniciarGestionMaterial: function iniciarGestionMaterial() {
-      var _this4 = this;
+      var _this5 = this;
 
       axios.get('http://localhost:8000/producto').then(function (response) {
         console.log(response.data);
-        _this4.productos = response.data;
-        _this4.algoSeleccionado = true;
-        _this4.iniciarGestionMaterialBool = true;
+        _this5.productos = response.data;
+        _this5.algoSeleccionado = true;
+        _this5.iniciarGestionMaterialBool = true;
       });
     },
     iniciarGestionSubMaterial: function iniciarGestionSubMaterial() {
-      var _this5 = this;
+      var _this6 = this;
 
       axios.get('http://localhost:8000/subProducto').then(function (response) {
         console.log(response.data);
-        _this5.subProductos = response.data;
-        _this5.algoSeleccionado = true;
-        _this5.iniciarGestionSubMaterialBool = true;
+        _this6.subProductos = response.data;
+        _this6.algoSeleccionado = true;
+        _this6.iniciarGestionSubMaterialBool = true;
       });
     },
     iniciarGestionOT: function iniciarGestionOT() {
-      var _this6 = this;
+      var _this7 = this;
 
       axios.get('http://localhost:8000/ot').then(function (response) {
+        console.log("respuesta de ot:");
         console.log(response.data);
-        _this6.otsTodas = response.data;
-        _this6.algoSeleccionado = true;
-        _this6.iniciarGestionOTBool = true;
+        _this7.otsTodas = response.data;
+        _this7.algoSeleccionado = true;
+        _this7.iniciarGestionOTBool = true;
       });
     },
     iniciarTrabajo: function iniciarTrabajo() {
@@ -2244,7 +2259,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.iniciarTrabajoBool = true;
     },
     logear: function logear() {
-      var _this7 = this;
+      var _this8 = this;
 
       console.log("ahora me logeo:v");
 
@@ -2265,15 +2280,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           } else if (response.data == 1) {
             console.log("contraseña invalida");
           } else {
-            _this7.usuario = response.data.usuario;
+            _this8.usuario = response.data.usuario;
             var aux = [];
 
             for (var i = 0; i < response.data.usuario.roles.length; i++) {
               aux.push(response.data.usuario.roles[i].nombre);
             }
 
-            _this7.roles = aux;
-            _this7.logeado = true;
+            _this8.roles = aux;
+            _this8.logeado = true;
           }
         });
       }
@@ -3432,6 +3447,48 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['centros', 'canales', 'usuarios', 'tipos', 'categorias', 'clientes', 'productos'],
   data: function data() {
@@ -3442,6 +3499,7 @@ __webpack_require__.r(__webpack_exports__);
       guia: "",
       factura: "",
       fecha: "",
+      recepcion: "",
       tipo: "",
       categoria: "",
       cliente: "",
@@ -3454,30 +3512,61 @@ __webpack_require__.r(__webpack_exports__);
       codigoCliente: "",
       codigosCliente: [],
       cantidad: "",
-      aux: []
+      aux: [],
+      crearMaterialBool: false,
+      tipoMaterial: "",
+      creacionN: 0
     };
   },
   mounted: function mounted() {
     console.log('Component mounted.');
   },
   methods: {
-    cambiarCliente: function cambiarCliente() {
+    guardarCreacionMaterial: function guardarCreacionMaterial() {
+      this.creacionN += 1;
+      this.cambiarCliente();
+      this.$emit('botonGuardarCreacionMaterial');
+    },
+    crearMaterial: function crearMaterial() {
       var _this = this;
 
-      axios.get('http://localhost:8000/obtenerCodigosCliente/' + this.clientes[this.cliente].id).then(function (response) {
-        _this.aux = response.data;
-        console.log(_this.aux);
+      $('#modalCreateOt').modal('hide');
+      $('.modal-backdrop').hide();
+      axios.get('http://localhost:8000/tipoMaterial') //solicitar tipo material
+      .then(function (response) {
+        _this.tipoMaterial = response.data;
+      });
+      this.crearMaterialBool = true;
+    },
+    cambiarCliente: function cambiarCliente() {
+      var _this2 = this;
 
-        for (var j = 0; j < _this.aux.length; j++) {
-          _this.codigosCliente.push(_this.aux[j].codigo_cliente);
+      console.log("entre a cambiar cliente");
+      axios.get('http://localhost:8000/obtenerCodigosCliente/' + this.clientes[this.cliente].id).then(function (response) {
+        _this2.aux = response.data;
+        console.log(_this2.aux);
+        _this2.codigosCliente = [];
+
+        for (var j = 0; j < _this2.aux.length; j++) {
+          _this2.codigosCliente.push(_this2.aux[j].codigo_cliente);
         }
       });
     },
     cambiarCodigo: function cambiarCodigo(index) {
-      for (var i = 0; i < this.productos.length; i++) {
-        if (this.aux[index].producto_id == this.productos[i].id) {
-          this.producto = i;
-          break;
+      console.log(this.productos);
+      console.log("valor index: ");
+      console.log(index);
+      console.log(this.aux);
+      console.log(this.codigoCliente);
+
+      if (this.codigoCliente != "") {
+        console.log("i = ");
+        console.log(i);
+
+        for (var i = 0; i < this.productos.length; i++) {
+          if (this.aux[index].producto_id == this.productos[i].id) {
+            break;
+          }
         }
       } //  this.producto=aux[index].
 
@@ -3493,9 +3582,15 @@ __webpack_require__.r(__webpack_exports__);
       var aux = [];
       aux.push(this.productos[this.producto]);
       aux.push(this.cantidad);
+      aux.push(this.codigosCliente[this.codigoCliente]);
       this.seleccionados.push(aux);
     },
+    quitarProducto: function quitarProducto(index) {
+      this.seleccionados.splice(index, 1);
+    },
     guardarCambios: function guardarCambios() {
+      var _this3 = this;
+
       var params = {
         otPeru: this.otPeru,
         orden: this.orden,
@@ -3503,6 +3598,7 @@ __webpack_require__.r(__webpack_exports__);
         guia: this.guia,
         factura: this.factura,
         fecha: this.fecha,
+        recepcion: this.recepcion,
         tipo: this.tipos[this.tipo],
         categoria: this.categorias[this.categoria],
         cliente: this.clientes[this.cliente],
@@ -3515,10 +3611,13 @@ __webpack_require__.r(__webpack_exports__);
       console.log(params);
       axios.post('http://localhost:8000/ot/', params).then(function (response) {
         //actualizar los data con defecto, o algo asi quizas o ek key
-        console.log(response.data); //$('#modalCreateMaterial').modal('hide');
-        //$('.modal-backdrop').hide();
-        //this.$emit('botonGuardarCreacionMaterial');
-        //alert("Material creado exitosamente");
+        console.log(response.data);
+        $('#modalCreateOt').modal('hide');
+        $('.modal-backdrop').hide();
+
+        _this3.$emit('botonGuardarCreacionOt');
+
+        alert("OT creada exitosamente");
       });
     }
   }
@@ -4126,6 +4225,9 @@ __webpack_require__.r(__webpack_exports__);
       });
       console.log("aqui activaré el bool");
       this.crearOtBool = true;
+    },
+    guardarCreacionOt: function guardarCreacionOt() {
+      this.$emit('botonGuardarCreacionOt');
     },
     guardarCreacionMaterial: function guardarCreacionMaterial() {
       console.log("como que debo refrescar la wea");
@@ -41633,7 +41735,9 @@ var render = function() {
                     "div",
                     [
                       _c("principal-gestion-ot-component", {
-                        attrs: { otsTodas: _vm.otsTodas }
+                        key: _vm.gestionOtN,
+                        attrs: { otsTodas: _vm.otsTodas },
+                        on: { botonGuardarCreacionOt: _vm.recargarOt }
                       })
                     ],
                     1
@@ -43852,6 +43956,20 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
+    _vm.crearMaterialBool
+      ? _c(
+          "div",
+          [
+            _c("modal-material-create-component", {
+              key: _vm.creacionN,
+              attrs: { tipoMaterial: _vm.tipoMaterial, clientes: _vm.clientes },
+              on: { botonGuardarCreacionMaterial: _vm.guardarCreacionMaterial }
+            })
+          ],
+          1
+        )
+      : _vm._e(),
+    _vm._v(" "),
     _c(
       "div",
       {
@@ -43875,54 +43993,64 @@ var render = function() {
               _c("div", { staticClass: "modal-body" }, [
                 _c("form", [
                   _c("div", { staticClass: "form-group" }, [
+                    _vm._m(1),
+                    _vm._v(" "),
                     _c("div", { staticClass: "row" }, [
-                      _vm._m(1),
-                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-4" }, [
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.otPeru,
+                                expression: "otPeru"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: { required: "" },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.otPeru = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              }
+                            }
+                          },
+                          [
+                            _c(
+                              "option",
+                              { attrs: { disabled: "", selected: "" } },
+                              [_vm._v("Países")]
+                            ),
+                            _vm._v(" "),
+                            _c("option", { domProps: { value: false } }, [
+                              _vm._v("Chile")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { domProps: { value: true } }, [
+                              _vm._v("Perú")
+                            ])
+                          ]
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "row" }, [
                       _vm._m(2),
                       _vm._v(" "),
                       _vm._m(3),
                       _vm._v(" "),
-                      _c("div", { staticClass: "col-md-4" }, [
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.otPeru,
-                              expression: "otPeru"
-                            }
-                          ],
-                          staticClass: "form-check-input",
-                          attrs: { type: "checkbox", id: "exampleCheck1" },
-                          domProps: {
-                            value: 1,
-                            checked: Array.isArray(_vm.otPeru)
-                              ? _vm._i(_vm.otPeru, 1) > -1
-                              : _vm.otPeru
-                          },
-                          on: {
-                            change: function($event) {
-                              var $$a = _vm.otPeru,
-                                $$el = $event.target,
-                                $$c = $$el.checked ? true : false
-                              if (Array.isArray($$a)) {
-                                var $$v = 1,
-                                  $$i = _vm._i($$a, $$v)
-                                if ($$el.checked) {
-                                  $$i < 0 && (_vm.otPeru = $$a.concat([$$v]))
-                                } else {
-                                  $$i > -1 &&
-                                    (_vm.otPeru = $$a
-                                      .slice(0, $$i)
-                                      .concat($$a.slice($$i + 1)))
-                                }
-                              } else {
-                                _vm.otPeru = $$c
-                              }
-                            }
-                          }
-                        })
-                      ]),
+                      _vm._m(4),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-4" }, [
                         _c("input", {
@@ -43976,30 +44104,7 @@ var render = function() {
                             }
                           }
                         })
-                      ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col-md-4" }, [
-                        _vm._v(
-                          "\r\n                                        " +
-                            _vm._s(_vm.otPeru) +
-                            "\r\n                                        "
-                        ),
-                        _c(
-                          "label",
-                          { staticClass: "lavelFont font-weight-bold" },
-                          [_vm._v("Guía de Despacho")]
-                        )
                       ]),
-                      _vm._v(" "),
-                      _vm._m(4),
-                      _vm._v(" "),
-                      _vm._m(5),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-4" }, [
                         _c("input", {
@@ -44026,7 +44131,19 @@ var render = function() {
                             }
                           }
                         })
-                      ]),
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("div", { staticClass: "row" }, [
+                      _vm._m(5),
+                      _vm._v(" "),
+                      _vm._m(6),
+                      _vm._v(" "),
+                      _vm._m(7),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-4" }, [
                         _c("input", {
@@ -44050,6 +44167,34 @@ var render = function() {
                                 return
                               }
                               _vm.factura = $event.target.value
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-4" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.recepcion,
+                              expression: "recepcion"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            required: "",
+                            type: "date",
+                            "aria-describedby": "emailHelp"
+                          },
+                          domProps: { value: _vm.recepcion },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.recepcion = $event.target.value
                             }
                           }
                         })
@@ -44089,11 +44234,11 @@ var render = function() {
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group" }, [
                     _c("div", { staticClass: "row" }, [
-                      _vm._m(6),
-                      _vm._v(" "),
-                      _vm._m(7),
-                      _vm._v(" "),
                       _vm._m(8),
+                      _vm._v(" "),
+                      _vm._m(9),
+                      _vm._v(" "),
+                      _vm._m(10),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-4" }, [
                         _c(
@@ -44270,11 +44415,11 @@ var render = function() {
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group" }, [
                     _c("div", { staticClass: "row" }, [
-                      _vm._m(9),
-                      _vm._v(" "),
-                      _vm._m(10),
-                      _vm._v(" "),
                       _vm._m(11),
+                      _vm._v(" "),
+                      _vm._m(12),
+                      _vm._v(" "),
+                      _vm._m(13),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-4" }, [
                         _c(
@@ -44426,7 +44571,7 @@ var render = function() {
                             _vm._l(_vm.canales, function(canal, index) {
                               return _c(
                                 "option",
-                                { key: index, domProps: { value: _vm.centro } },
+                                { key: index, domProps: { value: index } },
                                 [
                                   _vm._v(
                                     "\r\n                                                " +
@@ -44447,11 +44592,11 @@ var render = function() {
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group" }, [
                     _c("div", { staticClass: "row" }, [
-                      _vm._m(12),
-                      _vm._v(" "),
-                      _vm._m(13),
-                      _vm._v(" "),
                       _vm._m(14),
+                      _vm._v(" "),
+                      _vm._m(15),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-1" }),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-2" }),
                       _vm._v(" "),
@@ -44494,8 +44639,8 @@ var render = function() {
                           [
                             _c(
                               "option",
-                              { attrs: { disabled: "", selected: "" } },
-                              [_vm._v("Códigos de Cliente:")]
+                              { attrs: { value: "", selected: "" } },
+                              [_vm._v("Nuevo")]
                             ),
                             _vm._v(" "),
                             _vm._l(_vm.codigosCliente, function(codigo, index) {
@@ -44550,7 +44695,7 @@ var render = function() {
                             _c(
                               "option",
                               { attrs: { disabled: "", selected: "" } },
-                              [_vm._v("Productos:")]
+                              [_vm._v("Material:")]
                             ),
                             _vm._v(" "),
                             _vm._l(_vm.productos, function(producto, index) {
@@ -44571,36 +44716,7 @@ var render = function() {
                         )
                       ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "col-md-2" }, [
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.cantidad,
-                              expression: "cantidad"
-                            }
-                          ],
-                          staticClass: "form-check-input",
-                          attrs: {
-                            required: "",
-                            min: "1",
-                            pattern: "^[0-9]+",
-                            type: "number"
-                          },
-                          domProps: { value: _vm.cantidad },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.cantidad = $event.target.value
-                            }
-                          }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-2" }, [
+                      _c("div", { staticClass: "col-md-1" }, [
                         _c(
                           "button",
                           {
@@ -44616,10 +44732,32 @@ var render = function() {
                         )
                       ]),
                       _vm._v(" "),
+                      _c("div", { staticClass: "col-md-3" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-lg btn-block btn-secondary",
+                            attrs: {
+                              type: "button",
+                              "data-target": "#modalCreateMaterial",
+                              "data-toggle": "modal"
+                            },
+                            on: {
+                              click: function($event) {
+                                return _vm.crearMaterial()
+                              }
+                            }
+                          },
+                          [_vm._v("Crear Material")]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _vm._m(16),
+                      _vm._v(" "),
                       _c("div", { staticClass: "col-md-12" }, [
                         _c(
                           "div",
-                          { staticClass: "containerf color2" },
+                          { staticClass: "containerf color3" },
                           [
                             _c("br"),
                             _vm._v(" "),
@@ -44629,7 +44767,7 @@ var render = function() {
                             ) {
                               return _c("div", { key: index }, [
                                 _c("div", { staticClass: "row" }, [
-                                  _c("div", { staticClass: "col-sm-8" }, [
+                                  _c("div", { staticClass: "col-sm-4" }, [
                                     _c("p", [
                                       _vm._v(
                                         "* " + _vm._s(producto[0].nombre) + " "
@@ -44638,12 +44776,138 @@ var render = function() {
                                   ]),
                                   _vm._v(" "),
                                   _c("div", { staticClass: "col-sm-2" }, [
-                                    _c("p", [
-                                      _vm._v(_vm._s(producto[1]) + " unidades")
-                                    ])
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: producto[2],
+                                          expression: "producto[2]"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        required: "",
+                                        type: "text",
+                                        "aria-describedby": "emailHelp"
+                                      },
+                                      domProps: { value: producto[2] },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            producto,
+                                            2,
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    })
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col-sm-1" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: producto[1],
+                                          expression: "producto[1]"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        required: "",
+                                        type: "number",
+                                        "aria-describedby": "emailHelp"
+                                      },
+                                      domProps: { value: producto[1] },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            producto,
+                                            1,
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    })
                                   ]),
                                   _vm._v(" "),
                                   _c("div", { staticClass: "col-sm-2" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: producto[0].codigo_siom,
+                                          expression: "producto[0].codigo_siom"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        required: "",
+                                        type: "text",
+                                        "aria-describedby": "emailHelp"
+                                      },
+                                      domProps: {
+                                        value: producto[0].codigo_siom
+                                      },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            producto[0],
+                                            "codigo_siom",
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    })
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col-sm-2" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: producto[0].numero_plano,
+                                          expression: "producto[0].numero_plano"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        required: "",
+                                        type: "text",
+                                        "aria-describedby": "emailHelp"
+                                      },
+                                      domProps: {
+                                        value: producto[0].numero_plano
+                                      },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            producto[0],
+                                            "numero_plano",
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    })
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "col-sm-1" }, [
                                     _c(
                                       "button",
                                       {
@@ -44660,7 +44924,9 @@ var render = function() {
                                   ])
                                 ])
                               ])
-                            })
+                            }),
+                            _vm._v(" "),
+                            _c("br")
                           ],
                           2
                         )
@@ -44670,7 +44936,7 @@ var render = function() {
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group" }, [
                     _c("div", { staticClass: "row" }, [
-                      _vm._m(15),
+                      _vm._m(17),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-12" }, [
                         _c("textarea", {
@@ -44736,7 +45002,7 @@ var staticRenderFns = [
       _c(
         "h5",
         { staticClass: "modal-title", attrs: { id: "modalCreateOtLabel" } },
-        [_vm._v("Creacion de nueva OT")]
+        [_vm._v("Creacion de nueva OT ")]
       ),
       _vm._v(" "),
       _c(
@@ -44757,9 +45023,11 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-4" }, [
-      _c("label", { staticClass: "lavelFont font-weight-bold" }, [
-        _vm._v("OT-Perú:")
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-4" }, [
+        _c("label", { staticClass: "lavelFont font-weight-bold" }, [
+          _vm._v("País de Ot:")
+        ])
       ])
     ])
   },
@@ -44789,7 +45057,27 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-4" }, [
       _c("label", { staticClass: "lavelFont font-weight-bold" }, [
+        _vm._v("Guía de Despacho")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-4" }, [
+      _c("label", { staticClass: "lavelFont font-weight-bold" }, [
         _vm._v("Factura:")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-4" }, [
+      _c("label", { staticClass: "lavelFont font-weight-bold" }, [
+        _vm._v("Fecha de Recepción")
       ])
     ])
   },
@@ -44887,9 +45175,46 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-2" }, [
-      _c("label", { staticClass: "lavelFont font-weight-bold" }, [
-        _vm._v("Cantidad:")
+    return _c("div", { staticClass: "col-md-12" }, [
+      _c("br"),
+      _c("br"),
+      _vm._v(" "),
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-sm-4" }, [
+          _c("label", { staticClass: "lavelFont2 font-weight-bold" }, [
+            _vm._v("Descripción:")
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-sm-2" }, [
+          _c("label", { staticClass: "lavelFont2 font-weight-bold" }, [
+            _vm._v("Código de Cliente:")
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-sm-1" }, [
+          _c("label", { staticClass: "lavelFont2 font-weight-bold" }, [
+            _vm._v("Cantidad:")
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-sm-2" }, [
+          _c("label", { staticClass: "lavelFont2 font-weight-bold" }, [
+            _vm._v("Código Siom:")
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-sm-2" }, [
+          _c("label", { staticClass: "lavelFont2 font-weight-bold" }, [
+            _vm._v("Número de plano:")
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-sm-1" }, [
+          _c("label", { staticClass: "lavelFont2 font-weight-bold" }, [
+            _vm._v("Quitar:")
+          ])
+        ])
       ])
     ])
   },
@@ -45581,7 +45906,7 @@ var render = function() {
               }
             }
           },
-          [_vm._v("Crear Producto")]
+          [_vm._v("Crear Material")]
         ),
         _vm._v(" "),
         _c("br"),
@@ -45856,7 +46181,6 @@ var render = function() {
           ? _c(
               "div",
               [
-                _vm._v("\n            aaa\n            "),
                 _c("modal-ot-create-component", {
                   key: _vm.creacionN,
                   attrs: {
@@ -45869,6 +46193,7 @@ var render = function() {
                     productos: _vm.productos
                   },
                   on: {
+                    botonGuardarCreacionOt: _vm.guardarCreacionOt,
                     botonGuardarCreacionMaterial: _vm.guardarCreacionMaterial
                   }
                 })
@@ -45917,7 +46242,7 @@ var render = function() {
               _c("div", { staticClass: "col-sm-1" }, [_vm._v(_vm._s(ot.id))]),
               _vm._v(" "),
               _c("div", { staticClass: "col-sm-1" }, [
-                _vm._v(_vm._s(ot.ot_Peru) + "''")
+                _vm._v(_vm._s(ot.ot_Peru))
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "col-sm-1" }, [

@@ -1,11 +1,6 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\public",
-    "\\resources",
-    "\\resources\\js",
-    "\\resources\\views"
+    ""
   ],
-  "SelectedNode": "\\webpack.mix.js",
   "PreviewInSolutionExplorer": false
 }
