@@ -169,7 +169,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <select required v-model="codigoCliente" @change="cambiarCodigo(codigoCliente)" class="form-control">
-                                                <option value="" selected >Nuevo</option>
+                                                <option :value="-1"  selected >Nuevo</option>
                                                 <option v-for="(codigo,index) in codigosCliente" v-bind:key="index" v-bind:value="index">
                                                     {{ codigo }}
                                                 </option>
@@ -322,12 +322,13 @@
                 console.log(index);
                 console.log(this.aux);
                 console.log(this.codigoCliente);
-                if(this.codigoCliente!= ""){
-                    console.log("i = ");
-                    console.log(i);
+                if(this.codigoCliente!= -1){
                     for(var i =0;i<this.productos.length;i++){
+                        console.log("i = ");
+                        console.log(i);
                         if(this.aux[index].producto_id == this.productos[i].id){
-                            
+                            console.log("lo pille");
+                            this.producto = i;    
                             break;
                         }
                     }

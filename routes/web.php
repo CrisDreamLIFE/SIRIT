@@ -40,6 +40,10 @@ Route::get('/obtenerCanalOt/{id}', 'OtController@obtenerCanalVentaOt');
 Route::get('/obtenerTipoOt/{id}', 'OtController@obtenerTipoOt');
 Route::get('/obtenerResponsableOt/{id}', 'OtController@obtenerResponsableOt');
 Route::get('/obtenerTodoOt/{id}', 'OtController@obtenerTodoOt');
+Route::get('/seleccionados/{id}', 'OtController@seleccionados');
+Route::get('/cerrarOt/{id}', 'OtController@cerrarOt');
+Route::get('/abrirOt/{id}', 'OtController@abrirOt');
+Route::get('/exportarExcel', 'OtController@exportarExcel');
 
 #Producto
 Route::resource('producto','ProductoController');

@@ -44,6 +44,7 @@
             @botonGestionarOT="iniciarGestionOT"
             @botonGestionarMaterial="iniciarGestionMaterial"
             @botonGestionarSubMaterial="iniciarGestionSubMaterial"
+            @botonGestionarReporte="iniciarGestionReporte"
             :usuario = "usuario"
             :roles = "roles">
             </principal-menu-component>
@@ -67,7 +68,9 @@
                 <principal-gestion-ot-component
                 :otsTodas="otsTodas"
                 :key="gestionOtN"
-                @botonGuardarCreacionOt="recargarOt">
+                @botonGuardarCreacionOt="recargarOt"
+                @botonEliminarOt="recargarOt"
+                @botonGuardarEdicionOt="recargarOt">
                 </principal-gestion-ot-component>
             </div>
             <!--------MATERIAL--------------------------->
@@ -90,6 +93,11 @@
                 @botonGuardarCreacionSubMaterial="recargarSubMateriales"
                 @botonEliminarCreacionSubMaterial="recargarSubMateriales">
                 </principal-gestion-sub-material-component>
+            </div> 
+            <!----------REPORTABILIDAD------------------------->
+            <div v-if="iniciarGestionReporteBool">
+                <principal-gestion-reporte-component>
+                </principal-gestion-reporte-component>
             </div> 
             <!----------------------------------->
         </div> 
@@ -120,6 +128,7 @@ export default {
                 iniciarGestionOTBool:false,
                 iniciarGestionMaterialBool:false,
                 iniciarGestionSubMaterialBool:false,
+                iniciarGestionReporteBool:false,
                 componentKey:0
                 };
         },
@@ -172,6 +181,10 @@ export default {
             auxMetodo(){
                 console.log("entre al auuuux");
                 this.componentKey += 1;    
+            },
+            iniciarGestionReporte(){
+                this.algoSeleccionado=true;
+                this.iniciarGestionReporteBool=true;    
             },
             iniciarGestionMaterial(){
                 axios

@@ -70,9 +70,15 @@ class UsuarioController extends Controller
 
     public function obtenerGestores()
     {
+        $final = array();
         $usuarios = Usuario::join("rol_usuarios","usuarios.id","=","rol_usuarios.usuario_id")
-        ->where("rol_usuarios.rol_id",6)->get();
-        return $usuarios;
+        ->where("rol_usuarios.rol_id",1)->get();
+        foreach($usuarios as $u){
+            $aux = Usuario::find($u->usuario_id);
+            $final[] = $aux;
+            error_log("dsfsd");
+        }
+        return $final;
     }
 
     public function index()

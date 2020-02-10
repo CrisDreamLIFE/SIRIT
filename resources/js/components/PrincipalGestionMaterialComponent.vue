@@ -1,7 +1,7 @@
 <template>
-    <div class="container">
+    <div class="margen">
         <br>
-        <div class="row">
+        <div class="row container">
             <div class="col-sm">
                 <button type="button" @click="crearMaterial()" data-target="#modalCreateMaterial" data-toggle="modal" class="btn btn-success">Crear Material</button>
                 <br><br>

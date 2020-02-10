@@ -38,6 +38,9 @@
     .todo{
         background-color: #d9eeec;
     }
+    .margen{
+        font-size: 70%;
+    }
     .color{
         margin-top:  20px;
         background-color:3c70a4;
@@ -59,6 +62,14 @@
         border-color: 64b2cd;
         border-radius: 5px;
         border: 2px solid #000;
+        color: #3c70a4;
+    }
+    .color4{
+        margin-top:  00px;
+        background-color:ffffff;
+        border-color: 64b2cd;
+        border-radius: 5px;
+        border: 0px solid #495057;
         color: #3c70a4;
     }
     .lavelFont{
