@@ -90,25 +90,33 @@
                     <div class="row">
                         <div class="md-form col-md-6">
                             <label  class= "color4" for="6">Cliente:</label>  
-                           <!-- <input type="search" id="6" class="form-control mdb-autocomplete">-->
-                            <select class="mdb-select" searchable="Search here..">
-  <option value="1" disabled selected>Choose your option</option>
-  <option value="2" data-icon="https://mdbootstrap.com/img/Photos/Avatars/avatar-1.jpg" class="rounded-circle">
-    example
-    1</option>
-  <option value="3" data-icon="https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg" class="rounded-circle">
-    example
-    2</option>
-  <option value="4" data-icon="https://mdbootstrap.com/img/Photos/Avatars/avatar-3.jpg" class="rounded-circle">
-    example
-    1</option>
-</select>
-
-                            <!--<select id="6" v-model="opcionSeleccionada6" class="form-control">
+                            <select id="6" v-model="opcionSeleccionada6" class="form-control">
                                 <option v-for="(cliente,index) in clientes" v-bind:key="index" v-bind:value="cliente.id">
                                     {{cliente.nombre}}
                                 </option>
-                            </select> -->
+                            </select> 
+                        </div>
+                    </div>
+                </div>
+                <div v-if="opcionSeleccionada==7">
+                    <div class="row">
+                        <div class="md-form col-md-6">
+                            <label  class= "color4" for="7">Código Siom:</label>    
+                                <input id="7" class="form-control" type="text" v-model="searchProducto" @input="onChangueProducto" @blur="loseFocusProducto" />
+                                <ul v-show="isOpenProducto" class="autocomplete-results">
+                                    <li @click="setResultProducto(result)" v-for="(result,i) in resultsProducto" :key="i" class="autocomplete-result">{{result.codigo_siom}}</li>
+                                </ul>
+                        </div>
+                    </div>
+                </div>
+                <div v-if="opcionSeleccionada==8">
+                    <div class="row">
+                        <div class="md-form col-md-6">
+                            <label  class= "color4" for="8">Responsable:</label>  
+                                <input id="8" class="form-control" type="text" v-model="searchResponsable" @input="onChangueResponsable" />
+                                <ul v-show="isOpenResponsable" class="autocomplete-results">
+                                    <li @click="setResultResponsable(result)" v-for="(result,i) in resultsResponsable" :key="i" class="autocomplete-result">{{result}}</li>
+                                </ul>
                         </div>
                     </div>
                 </div>
@@ -119,7 +127,8 @@
                 <br>
                 <div v-if="(opcionSeleccionada==1) || (ot!='' && opcionSeleccionada==2) || 
                 (fecha_oc!='' && opcionSeleccionada==3) || (fecha_entrega!='' && opcionSeleccionada==4)||
-                (opcionSeleccionada==5 && opcionSeleccionada5!='')||(opcionSeleccionada==6 && opcionSeleccionada6!='' && clientes!=null)">
+                (opcionSeleccionada==5 && opcionSeleccionada5!='')||(opcionSeleccionada==6 && opcionSeleccionada6!='' && clientes!=null)||
+                (opcionSeleccionada==7 && searchProducto!='')">
                 <button  @click="botonSobreOt" type="button" class="btn btn-success btn-lg btn-block">Exportar</button></div><br>    
             </div>
             
@@ -137,7 +146,7 @@
 
 <script>
     export default {
-        props: ['clientes'], 
+        props: ['clientes','productos','responsables'], 
         data(){
             return {
                 otBool: false,
@@ -149,9 +158,22 @@
                 opcionSeleccionada4: 1,
                 opcionSeleccionada5: 1,
                 opcionSeleccionada6: 1,
+                opcionSeleccionada7: 1,
                 ot:'',
                 fecha_oc:'',
-                fecha_entrega:''
+                fecha_entrega:'',               
+                //OPCION 2
+                    searchOt: '',
+                    resultsOt: '',
+                    isOpenOt: false,
+                //OPCION 7
+                    searchProducto: '',
+                    resultsProducto: '',
+                    isOpenProducto: false,
+                //OPCION 8
+                    searchResponsable: '',
+                    resultsResponsable: '',
+                    isOpenResponsable: false,
             }
         },
         mounted() {
@@ -169,7 +191,84 @@
                     this.otBool= true;
                     return 1;
                 }
-            }
+            },
+            //OPCION 2
+            onChangueOt(){
+                this.isOpenOt=true;
+                this.filterResultsOt();
+            },
+            filterResultsOt(){
+                this.resultsoT = this.ots.filter(item => item.toLowerCase().indexOf(this.searchOt.toLowerCase())>-1);
+                //esta hay que cambiarla.
+            },
+            setResultOt(result){
+                this.searchOt = result.id;
+                this.isOpenOt = false;
+            },
+            loseFocusOt(){
+                this.isOpenOt = false;
+            },
+            //OPCION 7
+            onChangueProducto(){
+                console.log(this.productos);
+                this.isOpenProducto=true; //este igual hacer otro
+                this.filterResultsProducto();
+            },
+            filterResultsProducto(){
+                console.log(this.productos);
+                this.resultsProducto = this.productos.filter(item => item.codigo_siom.toLowerCase().indexOf(this.searchProducto.toLowerCase())>-1);
+            },
+            setResultProducto(result){
+                this.searchProducto = result.codigo_siom;
+                this.isOpenProducto = false;
+            },
+            loseFocusProducto(){
+                this.isOpenProducto = false;
+            },
+            //OPCION 8
+            onChangueResponsable(){
+                this.isOpenResponsable=true;
+                this.filterResultsResponsable();
+            },
+            filterResultsResponsable(){
+                this.resultsResponsable = this.items.filter(item => item.toLowerCase().indexOf(this.search.toLowerCase())>-1);
+                //esta hay que cambiarla.
+            },
+            setResultResponsable(result){
+                this.searchResponsable = result.nombre;
+                this.isOpenResponsable = false;
+            },
+            loseFocusResponsable(){
+                this.isOpenResponsable = false;
+            },
         } 
     }
 </script>
+
+<style >
+  .autocomplete {
+    position: relative;
+    width: 300px;
+  }
+
+  .autocomplete-results {
+    padding: 0;
+    margin: 0;
+    border: 1px solid black  ;
+    height: 120px;
+    overflow: auto;
+    background-color:white  
+  }
+
+  .autocomplete-result {
+    list-style: none;
+    text-align: left;
+    padding: 4px 2px;
+    cursor: pointer;
+  }
+
+  .autocomplete-result:hover {
+    background-color: #64b2cd;
+    color: white;
+  }
+</style>

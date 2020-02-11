@@ -96,7 +96,9 @@
             </div> 
             <!----------REPORTABILIDAD------------------------->
             <div v-if="iniciarGestionReporteBool">
-                <principal-gestion-reporte-component>
+                <principal-gestion-reporte-component
+                :items="['julio','chico perez','el mismisimo','don este']"
+                :productos="productos">
                 </principal-gestion-reporte-component>
             </div> 
             <!----------------------------------->
@@ -183,8 +185,13 @@ export default {
                 this.componentKey += 1;    
             },
             iniciarGestionReporte(){
-                this.algoSeleccionado=true;
-                this.iniciarGestionReporteBool=true;    
+                axios
+                .get('http://localhost:8000/producto')
+                .then(response =>{
+                    console.log(response.data)
+                    this.productos=response.data;
+                    this.algoSeleccionado=true;
+                    this.iniciarGestionReporteBool=true;})    
             },
             iniciarGestionMaterial(){
                 axios
