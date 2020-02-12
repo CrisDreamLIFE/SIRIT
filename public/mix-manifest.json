@@ -1,4 +1,8 @@
 {
     "/js/app.js": "/js/app.js",
-    "/css/app.css": "/css/app.css"
+    "/css/app.css": "/css/app.css",
+    "/css/bootstrap-select.css": "/css/bootstrap-select.css",
+    "/css/variables.css": "/css/variables.css",
+    "/js/bootstrap-select.js": "/js/bootstrap-select.js",
+    "/css/bootstrap-select.scss": "/css/bootstrap-select.scss"
 }

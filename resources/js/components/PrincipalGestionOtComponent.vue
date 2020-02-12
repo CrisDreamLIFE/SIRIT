@@ -46,7 +46,7 @@
         <br>
         <div v-if="masInformacionBool"><!--modal SHOW -->
             <modal-ot-component
-            :ot="otsTodas[indexOt]"
+            :ot="otsTodas[0][indexOt]"
             :productos="productos"
             :cantidadXProducto="cantidadXProducto"
             :cliente="cliente"
@@ -76,7 +76,7 @@
                         <div class="col-sm-1">{{ot.orden_compra}}</div>
                         <div class="col-sm-2">
                             <div v-for="tupla in otsTodas[1][index]" :key="tupla.producto.id">
-                                <p>{{tupla.producto.nombre}}</p>
+                                <p>{{tupla.producto.nombre_producto}}</p>
                             </div>
                         </div>
                         <div class="col-sm-1">
@@ -84,7 +84,7 @@
                                 <p>{{tupla.cantidad}}</p>
                             </div>
                         </div>
-                        <div class="col-sm-2">{{ot.usuario.nombre}}</div>
+                        <div class="col-sm-2">{{ot.usuario.nombre_usuario}}</div>
                         <div class="col-sm-1">{{ot.fecha_entrega_oc}}</div>
                         <div class="col-sm-1">
                             <button type="button" data-toggle="modal" data-target="#exampleModal"  @click="masInformacion(index)" class="btn btn-info">info</button>
@@ -177,7 +177,7 @@
                 this.crearOtBool=true; 
             },
             editarOt(index){
-                this.otSeleccionada = this.otsTodas[index];
+                this.otSeleccionada = this.otsTodas[0][index];
                 console.log("entre")
                 axios
                     .get('http://localhost:8000/seleccionados/'+this.otSeleccionada.id)
@@ -250,16 +250,16 @@
                 console.log("mostare el modal")
                 this.indexOt=index;
                  axios
-                        .get('http://localhost:8000/productosYCantidadOt/'+this.otsTodas[index].id)
+                        .get('http://localhost:8000/productosYCantidadOt/'+this.otsTodas[0][index].id)
                         .then(response => {
                             console.log(response)
                             this.productos=response.data.productos;
                             this.cantidadXProducto=response.data.cantidades;
                                 axios
-                                .get('http://localhost:8000/obtenerTodoOt/'+this.otsTodas[index].id)
+                                .get('http://localhost:8000/obtenerTodoOt/'+this.otsTodas[0][index].id)
                                 .then(response => {
                                     console.log("ds")
-                                    console.log(response.data.usuario);
+                                    console.log(response.data);
                                     this.cliente=response.data.cliente;
                                     this.canal_venta=response.data.canal_venta;
                                     this.ot_tipo=response.data.ot_tipo;

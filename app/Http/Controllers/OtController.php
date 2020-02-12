@@ -10,7 +10,8 @@ use App\ClienteProducto;
 use Illuminate\Http\Request;
 use phpDocumentor\Reflection\Types\Object_;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\OtsExport;
+use App\Exports\OT\TodasExport;
+use App\Exports\OT\NumeroOtExport;
 
 class OtController extends Controller
 {
@@ -19,10 +20,40 @@ class OtController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function test(){
+        $otCompleta = Ot::join("ot_productos","ots.id","=","ot_productos.ot_id")->
+                        join("productos","ot_productos.producto_id","=","productos.id")->
+                        join("clientes","ots.cliente_id","=","clientes.id")->
+                        join("cliente_productos","productos.id","=","cliente_productos.producto_id")->
+                        join("canal_ventas","ots.canal_venta_id","=","canal_ventas.id")->
+                        join("centro_costos","ots.centro_costo_id","=","centro_costos.id")->
+                        join("categoria_ots","ots.categoria_ot_id","=","categoria_ots.id")->
+                        join("usuarios","ots.usuario_id","=","usuarios.id")->orderBy('ots.id')->
+                        select('ots.id','ots.ot_Peru','ots.fecha_recepcion','ots.orden_compra','numero_cotizacion','clientes.nombre_cliente',
+                        'ot_productos.cantidad','productos.nombre_producto','cliente_productos.codigo_cliente',
+                        'productos.codigo_siom','productos.numero_plano','ots.fecha_entrega_oc','ots.fecha_real_entrega',
+                        'ots.fecha_despacho','ots.guia_despacho','ots.factura','canal_ventas.nombre_canal',
+                        'ots.abierta','centro_costos.nombre_centro','categoria_ots.nombre_categoria','usuarios.nombre_usuario')
+                        ->get();
+        return $otCompleta;
+    }
 
-    public function exportarExcel(){
+    public function exportarExcel(Request $request){
+        error_log("aaa");
+        $opcion = $request->input('opcion');
+        error_log("bb");
+        $operacion = $request->input('operacion');
+        $cuerpo = $request->input('cuerpo');
+        $abierta = $request->input('abierta');
+        $cerrada = $request->input('cerrada');
+        error_log($opcion);
+       // if($opcion==1){
+         //   error_log("opcion1"); 
+            return Excel::download(new TodasExport($abierta, $cerrada),'ot-list.xlsx');
+        //}
+        //if($opcion==2)return Excel::download(new NumeroOtExport($operacion,$cuerpo),'ot-list.xlsx');
         
-        return Excel::download(new OtsExport,'ot-list.xlsx');
+        
     }
     public function cerrarOt($id){
         $ot = Ot::find($id);
@@ -376,7 +407,7 @@ class OtController extends Controller
         error_log("2");
         $ot->ot_tipo_id = $tipo['id'];
         error_log("3");
-        $ot->usuario_id = $responsable['usuario_id'];
+        $ot->usuario_id = $responsable['id'];
         $ot->centro_costo_id = $centro['id'];
         $ot->categoria_ot_id = $categoria['id'];
         error_log("5");

@@ -70,32 +70,32 @@
                                 </div>
                                 <div class="row">
                                     <div class="col"><b>Cliente:</b>
-                                        <span style="padding-left:30px;" >{{cliente.nombre}}</span>
+                                        <span style="padding-left:30px;" >{{cliente.nombre_cliente}}</span>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col"><b>Canal de Venta:</b>
-                                        <span style="padding-left:30px;" >{{canal_venta.nombre}}</span>
+                                        <span style="padding-left:30px;" >{{canal_venta.nombre_canal}}</span>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col"><b>Tipo de OT:</b>
-                                        <span style="padding-left:30px;" >{{ot_tipo.nombre}}</span>
+                                        <span style="padding-left:30px;" >{{ot_tipo.nombre_tipo}}</span>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col"><b>Responsable:</b>
-                                        <span style="padding-left:30px;" >{{usuario.nombre}}</span>
+                                        <span style="padding-left:30px;" >{{usuario.nombre_usuario}}</span>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col"><b>Centro de Costos:</b>
-                                        <span style="padding-left:30px;" >{{centro_costo.nombre}}</span>
+                                        <span style="padding-left:30px;" >{{centro_costo.nombre_centro}}</span>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col"><b>Categoría OT:</b>
-                                        <span style="padding-left:30px;" >{{categoria_ot.nombre}}</span>
+                                        <span style="padding-left:30px;" >{{categoria_ot.nombre_categoria}}</span>
                                     </div>
                                 </div>
                             </div>
@@ -105,7 +105,7 @@
                                         <div class="row"><h4>Productos</h4></div>
                                             <div v-for="(producto,indexP) in productos" :key="indexP">
                                                 <div class="row">
-                                                    {{producto.nombre}} 
+                                                    {{producto.nombre_producto}} 
                                                 </div>
                                             </div>
                                     </div>

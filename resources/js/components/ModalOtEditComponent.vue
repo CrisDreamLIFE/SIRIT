@@ -123,7 +123,7 @@
                                         <select required v-model="cliente" @change="cambiarCliente" class="form-control">
                                             <option disabled selected >Clientes</option>
                                             <option v-for="(cliente,index) in clientes" v-bind:key="index" v-bind:value="cliente">
-                                                {{ cliente.nombre }}
+                                                {{ cliente.nombre_cliente }}
                                             </option>
                                         </select>  
                                     </div>
@@ -131,7 +131,7 @@
                                         <select required v-model="categoria"  class="form-control">
                                             <option disabled selected >Categorías</option>
                                             <option v-for="(categoria,index) in categorias" v-bind:key="index" v-bind:value="categoria">
-                                                {{ categoria.nombre }}
+                                                {{ categoria.nombre_categoria }}
                                             </option>
                                         </select>
                                     </div>
@@ -139,7 +139,7 @@
                                         <select required v-model="tipo"  class="form-control">
                                             <option disabled selected >Tipos de OT</option>
                                             <option v-for="(tipo,index) in tipos" v-bind:key="index" v-bind:value="tipo">
-                                                {{ tipo.nombre }}
+                                                {{ tipo.nombre_tipo }}
                                             </option>
                                         </select>
                                     </div>
@@ -161,7 +161,7 @@
                                         <select required v-model="responsable"  class="form-control">
                                             <option disabled selected >Responsables</option>
                                             <option v-for="(usuario,index) in usuarios" v-bind:key="index" v-bind:value="usuario">
-                                                {{ usuario.nombre }}
+                                                {{ usuario.nombre_usuario }}
                                             </option>
                                         </select>  
                                     </div>
@@ -169,7 +169,7 @@
                                         <select required v-model="centro"  class="form-control">
                                             <option disabled selected >Centros de Costo</option>
                                             <option v-for="(centro,index) in centros" v-bind:key="index" v-bind:value="centro">
-                                                {{ centro.nombre }}
+                                                {{ centro.nombre_centro }}
                                             </option>
                                         </select>
                                     </div>
@@ -177,7 +177,7 @@
                                         <select required v-model="canal"  class="form-control">
                                             <option disabled selected >Canales de Venta</option>
                                             <option v-for="(canal,index) in canales" v-bind:key="index" v-bind:value="canal">
-                                                {{ canal.nombre }}
+                                                {{ canal.nombre_canal }}
                                             </option>
                                         </select>
                                     </div>
@@ -235,7 +235,7 @@
                                             <div v-for="(producto,index) in seleccionados" v-bind:key="index">
                                                 <div class="row">
                                                     <div class="col-sm-4">
-                                                        <p>* {{producto[0].nombre}} </p>
+                                                        <p>* {{producto[0].nombre_producto}} </p>
                                                     </div>
                                                     <div class="col-sm-2">
                                                         <input required type="text"  class="form-control" aria-describedby="emailHelp" v-model="producto[2]"> 
@@ -392,6 +392,8 @@
                 this.seleccionados.splice(index,1);
             },
             guardarCambios(){
+                console.log("en guardar:")
+                console.log(this.responsable);
                 var params={
                     otPeru: this.otPeru,
                     orden: this.orden,

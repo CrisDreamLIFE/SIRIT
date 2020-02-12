@@ -23,6 +23,7 @@
                     <option value="6" >Cliente</option>
                     <option value="7" >Código Siom</option>
                     <option value="8" >Responsable</option>
+                    <option value="9" >Tipo de OT</option>
                 </select>
             </div>
             <!-- aqui se ponen los input y select-->
@@ -39,7 +40,10 @@
                         </div>
                         <div class="col-md-6">
                             <label  class= "color4" for="2-1">OT:</label>
-                            <input type="text" class="form-control" id="2-1" v-model="ot">
+                            <input id="2-1" class="form-control" type="text" v-model="searchOt" @input="onChangueOt" @blur="loseFocusOt" />
+                                <ul v-show="isOpenOt" class="autocomplete-results">
+                                    <li @click="setResultOt(result)" v-for="(result,i) in resultsOt" :key="i" class="autocomplete-result">{{result.id}}</li>
+                                </ul>          
                         </div>
                     </div>
                 </div>
@@ -120,16 +124,41 @@
                         </div>
                     </div>
                 </div>
+                <div v-if="opcionSeleccionada==9">
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{opcionSeleccionada9}}
+                            <select class="selectpicker" multiple="multiple">
+  <option>Mustard</option>
+  <option>Ketchup</option>
+  <option>Relish</option>
+</select>
+
+                            <label  class= "color4" for="9">Tipo de OT:</label>   
+                            <select multiple id="9" v-model="opcionSeleccionada9" class="selectpicker form-control">
+                                <option v-for="(tipo,index) in tipos" v-bind:key="index" v-bind:value="tipo.id">
+                                    {{tipo.nombre}}
+                                </option>
+                                <option>Mustard</option>
+                                <option>Ketchup</option>
+                                <option>Relish</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            aqui muestro las seleccionadas
+                        </div>
+                    </div>
+                </div>
             </div>
             <!-- columna del boton -->
             <div class="col-md-4"></div>
             <div  class="col-md-4">
                 <br>
-                <div v-if="(opcionSeleccionada==1) || (ot!='' && opcionSeleccionada==2) || 
+                <div v-if="(opcionSeleccionada==1) || (opcionSeleccionada==2 && searchOt!='') || 
                 (fecha_oc!='' && opcionSeleccionada==3) || (fecha_entrega!='' && opcionSeleccionada==4)||
                 (opcionSeleccionada==5 && opcionSeleccionada5!='')||(opcionSeleccionada==6 && opcionSeleccionada6!='' && clientes!=null)||
-                (opcionSeleccionada==7 && searchProducto!='')">
-                <button  @click="botonSobreOt" type="button" class="btn btn-success btn-lg btn-block">Exportar</button></div><br>    
+                (opcionSeleccionada==7 && searchProducto!='')||(opcionSeleccionada==8 && searchResponsable!='')">
+                <button  @click="clickExportar" type="button" class="btn btn-success btn-lg btn-block">Exportar</button></div><br>    
             </div>
             
         </div>  
@@ -146,7 +175,7 @@
 
 <script>
     export default {
-        props: ['clientes','productos','responsables'], 
+        props: ['ots','clientes','productos','responsables'], 
         data(){
             return {
                 otBool: false,
@@ -159,7 +188,7 @@
                 opcionSeleccionada5: 1,
                 opcionSeleccionada6: 1,
                 opcionSeleccionada7: 1,
-                ot:'',
+                opcionSeleccionada9: 1,
                 fecha_oc:'',
                 fecha_entrega:'',               
                 //OPCION 2
@@ -191,6 +220,33 @@
                     this.otBool= true;
                     return 1;
                 }
+            },
+            clickExportar(){
+                var aux1 = null;
+                var aux2 = null;
+                if(this.opcionSeleccionada==1)aux1=null;aux2=null;
+                if(this.opcionSeleccionada==2)aux1=this.opcionSeleccionada2;aux2=this.searchOt;
+                var params={
+                    opcion: this.opcionSeleccionada,
+                    operacion: aux1,
+                    cuerpo: aux2,
+                    abierta: this.abierta,
+                    cerrada: this.cerrada
+                };
+                console.log(params);
+                axios({
+                    url: 'http://localhost:8000/exportarExcel',
+                    method: 'POST',
+                    data: params,
+                    responseType: 'blob', // important
+                    }).then((response) => {
+                    const url = window.URL.createObjectURL(new Blob([response.data]));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', 'file.xlsx');
+                    document.body.appendChild(link);
+                    link.click();
+});
             },
             //OPCION 2
             onChangueOt(){

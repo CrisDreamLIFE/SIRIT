@@ -43,7 +43,8 @@ Route::get('/obtenerTodoOt/{id}', 'OtController@obtenerTodoOt');
 Route::get('/seleccionados/{id}', 'OtController@seleccionados');
 Route::get('/cerrarOt/{id}', 'OtController@cerrarOt');
 Route::get('/abrirOt/{id}', 'OtController@abrirOt');
-Route::get('/exportarExcel', 'OtController@exportarExcel');
+Route::post('/exportarExcel', 'OtController@exportarExcel');
+Route::get('/test', 'OtController@test');
 
 #Producto
 Route::resource('producto','ProductoController');

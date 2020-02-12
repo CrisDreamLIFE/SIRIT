@@ -12,4 +12,12 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
-   .sass('resources/sass/app.scss', 'public/css');
+   .js('node_modules/bootstrap-select/js/bootstrap-select.js','public/js')
+   //.js('node_modules/bootstrap-select/js/umd-intro.js','public/js')
+   //.js('node_modules/bootstrap-select/js/umd-outro.js','public/js')
+   .sass('resources/sass/app.scss', 'public/css')
+   .sass('node_modules/bootstrap-select/sass/bootstrap-select.scss','public/css')
+   .copy('node_modules/bootstrap-select/sass/bootstrap-select.scss','public/css/bootstrap-select.scss')
+   .copy('node_modules/bootstrap-select/js/bootstrap-select.js','public/js/bootstrap-select.js')
+   .sass('node_modules/bootstrap-select/sass/variables.scss','public/css');
+   

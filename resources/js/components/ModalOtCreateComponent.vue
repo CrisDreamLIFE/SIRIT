@@ -95,7 +95,7 @@
                                         <select required v-model="cliente" @change="cambiarCliente" class="form-control">
                                             <option disabled selected >Clientes</option>
                                             <option v-for="(cliente,index) in clientes" v-bind:key="index" v-bind:value="index">
-                                                {{ cliente.nombre }}
+                                                {{ cliente.nombre_cliente }}
                                             </option>
                                         </select>  
                                     </div>
@@ -103,7 +103,7 @@
                                         <select required v-model="categoria"  class="form-control">
                                             <option disabled selected >Categorías</option>
                                             <option v-for="(categoria,index) in categorias" v-bind:key="index" v-bind:value="index">
-                                                {{ categoria.nombre }}
+                                                {{ categoria.nombre_categoria }}
                                             </option>
                                         </select>
                                     </div>
@@ -111,7 +111,7 @@
                                         <select required v-model="tipo"  class="form-control">
                                             <option disabled selected >Tipos de OT</option>
                                             <option v-for="(tipo,index) in tipos" v-bind:key="index" v-bind:value="index">
-                                                {{ tipo.nombre }}
+                                                {{ tipo.nombre_tipo }}
                                             </option>
                                         </select>
                                     </div>
@@ -133,7 +133,7 @@
                                         <select required v-model="responsable"  class="form-control">
                                             <option disabled selected >Responsables</option>
                                             <option v-for="(responsable,index) in usuarios" v-bind:key="index" v-bind:value="index">
-                                                {{ responsable.nombre }}
+                                                {{ responsable.nombre_usuario }}
                                             </option>
                                         </select>  
                                     </div>
@@ -141,7 +141,7 @@
                                         <select required v-model="centro"  class="form-control">
                                             <option disabled selected >Centros de Costo</option>
                                             <option v-for="(centro,index) in centros" v-bind:key="index" v-bind:value="index">
-                                                {{ centro.nombre }}
+                                                {{ centro.nombre_centro }}
                                             </option>
                                         </select>
                                     </div>
@@ -149,7 +149,7 @@
                                         <select required v-model="canal"  class="form-control">
                                             <option disabled selected >Canales de Venta</option>
                                             <option v-for="(canal,index) in canales" v-bind:key="index" v-bind:value="index">
-                                                {{ canal.nombre }}
+                                                {{ canal.nombre_canal }}
                                             </option>
                                         </select>
                                     </div>
@@ -179,7 +179,7 @@
                                         <select required v-model="producto"  class="form-control">
                                                 <option disabled selected >Material:</option>
                                                 <option v-for="(producto,index) in productos" v-bind:key="index" v-bind:value="index">
-                                                    {{ productos[index].nombre }}
+                                                    {{ productos[index].nombre_producto }}
                                                 </option>
                                         </select>
                                     </div>                                         

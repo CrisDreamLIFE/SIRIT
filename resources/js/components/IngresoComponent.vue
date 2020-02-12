@@ -98,7 +98,8 @@
             <div v-if="iniciarGestionReporteBool">
                 <principal-gestion-reporte-component
                 :items="['julio','chico perez','el mismisimo','don este']"
-                :productos="productos">
+                :productos="productos"
+                :ots="otsTodas">
                 </principal-gestion-reporte-component>
             </div> 
             <!----------------------------------->
@@ -191,7 +192,16 @@ export default {
                     console.log(response.data)
                     this.productos=response.data;
                     this.algoSeleccionado=true;
-                    this.iniciarGestionReporteBool=true;})    
+                    this.iniciarGestionReporteBool=true;})
+                axios
+                .get('http://localhost:8000/ot')
+                .then(response =>{
+                    console.log("respuesta de ot:")
+                    console.log(response.data)
+                    this.otsTodas = response.data;
+                    this.algoSeleccionado=true;
+                    this.iniciarGestionReporteBool=true
+                    })    
             },
             iniciarGestionMaterial(){
                 axios
