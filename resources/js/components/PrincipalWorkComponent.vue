@@ -30,7 +30,7 @@
                                     <p>* {{otProducto[index][0].id}}</p>
                                     </div> 
                                     <div class="col-sm-5">
-                                    <p>{{otProducto[index][1].nombre}}</p>
+                                    <p>{{otProducto[index][1].nombre_producto}}</p>
                                     </div>
                                     <div class="col-sm-5">
                                     <p>{{otProducto[index][2][indexS].nombre}}</p>
@@ -56,7 +56,7 @@
                     <div class="container color2">
                         <br>
                         <div v-for="(trabajador,index) in trabajadoresSeleccionados" v-bind:key="index">
-                            <p>* {{trabajador.nombre}}</p> 
+                            <p>* {{trabajador.nombre_usuario}}</p> 
                         </div>
                     </div>
                 </div>
@@ -98,7 +98,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body form-group" v-for="(linea,indexG) in otProducto" v-bind:key="indexG">
-                                    <label for="">OT {{otProducto[indexG][0].id}} PRODUCTO {{otProducto[indexG][1].nombre}}</label>
+                                    <label for="">OT {{otProducto[indexG][0].id}} PRODUCTO {{otProducto[indexG][1].nombre_producto}}</label>
 
                                     <div class="container form-group" v-for="(subProd,indexM) in otProducto[indexG][2]" v-bind:key="indexM">
                                         <label for="">{{subProd.nombre}}</label>
@@ -166,7 +166,7 @@
                 <form>
                     <div class="form-group">
                         <div v-for="(combinacion,indexG) in otProducto" v-bind:key="indexG">
-                            <h3 class="h3">Seleccion sub-productos de: OT {{otProducto[indexG][0].id}}- {{otProducto[indexG][1].nombre}}</h3>
+                            <h3 class="h3">Seleccion sub-productos de: OT {{otProducto[indexG][0].id}}- {{otProducto[indexG][1].nombre_producto}}</h3>
                             <div class="container color">  <!-- este 0 deberia ser el index del for de arriba -->
                                 <div v-for="(sub,index) in subProductos[indexG]" v-bind:key="index" class="form-check-inline">  <!--aqui va el otro for -->
                                     <input class="form-check-input" type="checkbox" :id="index+indexG*sub.id+sub.nombre" :value="subProductos[indexG][index]" v-model="otProducto[indexG][2]"> <!--valor for mas arriba -->
@@ -224,7 +224,7 @@
                                     <select id="selectTrabajador" :disabled="!estacionSeleccionadaBool" @change="onChangeTrabajador()" v-model="trabajadorSeleccionado" class="form-control" >
                                     <option disabled selected >Operador</option>
                                     <option v-for="(trabajador,index) in trabajadores" v-bind:key="index" v-bind:value="index">
-                                        {{ trabajador.nombre }}
+                                        {{ trabajador.nombre_usuario }}
                                     </option>
                                     </select>     
                                 </div>
@@ -254,7 +254,7 @@
                                         <select id="selectProducto" :disabled="!otSeleccionadaBool" @change="onChangeProducto()" v-model="productoSeleccionado" class="form-control" >
                                         <option disabled selected >Productos</option>
                                         <option v-for="(producto, index) in productos" v-bind:key="index" v-bind:value="index">
-                                        {{ producto.nombre }}
+                                        {{ producto.nombre_producto }}
                                         </option>
                                         </select> 
                                     </div>
@@ -279,7 +279,7 @@
                             <div v-for="(trabajador,index) in trabajadoresSeleccionados" v-bind:key="index">
                                 <div class="row">
                                     <div class="col-sm-10">
-                                        <p>- {{trabajador.nombre}}</p>
+                                        <p>- {{trabajador.nombre_usuario}}</p>
                                     </div>
                                     <div class="col-sm-2">
                                         <button type="button" :value="index"  v-on:click= "quitarTrabajador(index)" class="btn btn-danger">-</button>
@@ -309,7 +309,7 @@
                         <div class="col-sm-5"> 
                             <br>
                             <div v-for="(linea,index) in otProducto" v-bind:key="index">
-                                <p>* {{otProducto[index][1].nombre}}</p> 
+                                <p>* {{otProducto[index][1].nombre_producto}}</p> 
                             </div>
                         </div>
                         <div class="col-sm-2">
@@ -523,45 +523,17 @@
                 axios
                     .post('http://localhost:8000/sesionFinal', params)
                     .then(response => {
-                        this.cerrar = true;
-                        $('#exampleModal').modal('hide');
-                        $('.modal-backdrop').hide();
-                        this.botonTrabajoComenzado = false;
-                        this.$emit('botonGuardar')
-                        console.log("guarde toda la basura");
-                       // this.$emit('terminarTrabajo');   
-                       /* this.otSeleccionada=undefined;
-                        this.estacionSeleccionada=undefined;
-                        this.productoSeleccionado=undefined;
-                        this.trabajadorSeleccionado=undefined;
-                        this.trabajadoresSeleccionados=[];
-                        this.otProducto=[]
-                        this.procesosSeleccionados=[];
-                        this.aux=[];
-                        this.h= 0;
-                        this.m= 0;
-                        this.s= 0;
-                        this.inputValido=[];
-                        this.cantidadProcesos=[];
-                        this.subProductos=[];
-
-                        this.botonTerminar= false;
-                        this.comenzarTrabajo=false;
-                        this.botonContinuar= false;
-                        this.botonResumen=false;    
-                        this.trabajoComenzado= false;
-                        this.botonTrabajoComenzado= false;
-                        this.estacionSeleccionadaBool=false;
-                        this.otSeleccionadaBool=false;
-                        this.trabajadorSeleccionadoBool=false;
-                        this.productoSeleccionadoBool=false;
-                        $('#myModal').modal('hide')*/
+                       // this.cerrar = true;
+                       // $('#exampleModal').modal('hide');
+                        //$('.modal-backdrop').hide();
+                        //console.log(response.data);
+                        alert('Sesion Registrada Exitosamente');
+                       // this.botonTrabajoComenzado = false;
+                        //this.$emit('botonGuardar')
                         })
                     } else {
                         return 0;
-                    }
-                
-                        
+                    }           
             },
             atrasSubProductos(){
                 this.botonContinuar = false;
@@ -656,8 +628,9 @@
                     axios
                     .get('http://localhost:8000/trabajadores/'+this.estacionSeleccionada)
                     .then(response => {
-                        this.trabajadores = response.data
-                        console.log(this.trabajadores);
+                        this.trabajadores = response.data;
+                        console.log("trabajadores")
+                        console.log(this.trabajadores[0].nombre_usuario);
                         this.estacionSeleccionadaBool = true;})
                     
                     axios

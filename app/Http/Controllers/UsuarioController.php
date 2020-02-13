@@ -45,11 +45,11 @@ class UsuarioController extends Controller
         $area = $estacion[0]->area;
         $usuarios = $area->usuarios;
         $trabajadores = array();
-        $idRol = Rol::where('filtrador',1)->first(); //ojo con esto, queda estatico.
+        $idRol = 4; //ojo con esto, queda estatico.
         foreach ($usuarios as $usuario){
             $rolesUsuario = RolUsuario::where('usuario_id',$usuario->id)->get();
             foreach($rolesUsuario as $rolUsuario){
-                if($rolUsuario->rol_id == $idRol->id){ 
+                if($rolUsuario->rol_id == 4){ 
                     $trabajadores[] = $usuario;
                 }
             }
@@ -58,12 +58,21 @@ class UsuarioController extends Controller
     }
  
     public function obtenerTrabajadores()
-    {
-        $rol = Rol::where('nombre', "trabajador")->get();
+    {   
+        $final = array();
+        $usuarios = Usuario::join("rol_usuarios","usuarios.id","=","rol_usuarios.usuario_id")
+        ->where("rol_usuarios.rol_id",4)->get();
+        foreach($usuarios as $u){
+            $aux = Usuario::find($u->usuario_id);
+            $final[] = $aux;
+            error_log("dsfsd");
+        }
+        return $final;
+        /*$rol = Rol::where('nombre', "operador")->get();
         //echo $rol[0];
         $usuarios = Usuario::all();
         //echo $rol[0]->usuarios;
-        return $rol[0]->usuarios;
+        return $rol[0]->usuarios;*/
        
         
     }

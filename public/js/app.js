@@ -5066,6 +5066,10 @@ __webpack_require__.r(__webpack_exports__);
       aux2 = null;
       if (this.opcionSeleccionada == 2) aux1 = this.opcionSeleccionada2;
       aux2 = this.searchOt;
+      if (this.opcionSeleccionada == 3) aux1 = this.opcionSeleccionada3;
+      aux2 = this.fecha_oc;
+      if (this.opcionSeleccionada == 4) aux1 = this.opcionSeleccionada4;
+      aux2 = this.fecha_entrega;
       var params = {
         opcion: this.opcionSeleccionada,
         operacion: aux1,
@@ -5091,21 +5095,25 @@ __webpack_require__.r(__webpack_exports__);
     },
     //OPCION 2
     onChangueOt: function onChangueOt() {
+      console.log("ots:");
+      console.log(this.ots);
       this.isOpenOt = true;
       this.filterResultsOt();
     },
     filterResultsOt: function filterResultsOt() {
       var _this = this;
 
-      this.resultsoT = this.ots.filter(function (item) {
-        return item.toLowerCase().indexOf(_this.searchOt.toLowerCase()) > -1;
+      this.resultsOt = this.ots.filter(function (item) {
+        return item.id.toString().toLowerCase().indexOf(_this.searchOt.toLowerCase()) > -1;
       }); //esta hay que cambiarla.
     },
     setResultOt: function setResultOt(result) {
+      console.log("result");
+      console.log(result);
       this.searchOt = result.id;
       this.isOpenOt = false;
     },
-    loseFocusOt: function loseFocusOt() {
+    loseFocusOt: function loseFocusOt(result) {
       this.isOpenOt = false;
     },
     //OPCION 7
@@ -5922,8 +5930,6 @@ __webpack_require__.r(__webpack_exports__);
       return true;
     },
     guardarTrabajo: function guardarTrabajo(index) {
-      var _this2 = this;
-
       var otResumen = [];
       console.log(this.inputValido[0][0][0]);
 
@@ -5968,40 +5974,12 @@ __webpack_require__.r(__webpack_exports__);
       if (opcion == true) {
         console.log(params);
         axios.post('http://localhost:8000/sesionFinal', params).then(function (response) {
-          _this2.cerrar = true;
-          $('#exampleModal').modal('hide');
-          $('.modal-backdrop').hide();
-          _this2.botonTrabajoComenzado = false;
-
-          _this2.$emit('botonGuardar');
-
-          console.log("guarde toda la basura"); // this.$emit('terminarTrabajo');   
-
-          /* this.otSeleccionada=undefined;
-           this.estacionSeleccionada=undefined;
-           this.productoSeleccionado=undefined;
-           this.trabajadorSeleccionado=undefined;
-           this.trabajadoresSeleccionados=[];
-           this.otProducto=[]
-           this.procesosSeleccionados=[];
-           this.aux=[];
-           this.h= 0;
-           this.m= 0;
-           this.s= 0;
-           this.inputValido=[];
-           this.cantidadProcesos=[];
-           this.subProductos=[];
-             this.botonTerminar= false;
-           this.comenzarTrabajo=false;
-           this.botonContinuar= false;
-           this.botonResumen=false;    
-           this.trabajoComenzado= false;
-           this.botonTrabajoComenzado= false;
-           this.estacionSeleccionadaBool=false;
-           this.otSeleccionadaBool=false;
-           this.trabajadorSeleccionadoBool=false;
-           this.productoSeleccionadoBool=false;
-           $('#myModal').modal('hide')*/
+          // this.cerrar = true;
+          // $('#exampleModal').modal('hide');
+          //$('.modal-backdrop').hide();
+          //console.log(response.data);
+          alert('Sesion Registrada Exitosamente'); // this.botonTrabajoComenzado = false;
+          //this.$emit('botonGuardar')
         });
       } else {
         return 0;
@@ -6014,11 +5992,11 @@ __webpack_require__.r(__webpack_exports__);
       this.botonResumen = false;
     },
     continuarClick: function continuarClick() {
-      var _this3 = this;
+      var _this2 = this;
 
       axios.get('http://localhost:8000/tipoMaterialFiltrador').then(function (response) {
-        _this3.filtradoMaterial = response.data;
-        _this3.botonContinuar = true;
+        _this2.filtradoMaterial = response.data;
+        _this2.botonContinuar = true;
       });
       console.log("procesosSeleccionados.lenght:");
       console.log(this.otProducto.length); //esto debe ser por subProducto :V       
@@ -6069,7 +6047,7 @@ __webpack_require__.r(__webpack_exports__);
       this.otProducto.splice(index, 1);
     },
     agregarProducto: function agregarProducto() {
-      var _this4 = this;
+      var _this3 = this;
 
       //  this.productosSeleccionados.push(this.productos[this.productoSeleccionado]);
       // this.otsSeleccionadas
@@ -6089,15 +6067,15 @@ __webpack_require__.r(__webpack_exports__);
         combinacion.push([]);
         console.log(subProductos);
 
-        _this4.otProducto.push(combinacion);
+        _this3.otProducto.push(combinacion);
 
-        _this4.subProductos.push(subProductos);
+        _this3.subProductos.push(subProductos);
 
         console.log("hice todos los push:");
       }); //RECORDAR ELIMINAR ESTO MISMO CUANDO SE BORRE UN PRODUCTO, OT, ETC     
     },
     onChangeEstación: function onChangeEstaciN() {
-      var _this5 = this;
+      var _this4 = this;
 
       this.estacionSeleccionadaBool = false; //this.trabajadorSeleccionadoBool = false;
 
@@ -6106,12 +6084,13 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.estacionSeleccionada != null) {
         axios.get('http://localhost:8000/trabajadores/' + this.estacionSeleccionada).then(function (response) {
-          _this5.trabajadores = response.data;
-          console.log(_this5.trabajadores);
-          _this5.estacionSeleccionadaBool = true;
+          _this4.trabajadores = response.data;
+          console.log("trabajadores");
+          console.log(_this4.trabajadores[0].nombre_usuario);
+          _this4.estacionSeleccionadaBool = true;
         });
         axios.get('http://localhost:8000/procesos/' + this.estacionSeleccionada).then(function (response) {
-          _this5.procesos = response.data;
+          _this4.procesos = response.data;
         });
       }
     },
@@ -6157,7 +6136,7 @@ __webpack_require__.r(__webpack_exports__);
       console.log(this.inputValido);
     },
     onChangeOt: function onChangeOt() {
-      var _this6 = this;
+      var _this5 = this;
 
       this.otSeleccionadaBool = false; //this.productoSeleccionadoBool = false;
 
@@ -6165,10 +6144,10 @@ __webpack_require__.r(__webpack_exports__);
         console.log("ot seleccionada: ");
         console.log(this.otSeleccionada);
         axios.get('http://localhost:8000/productosOt/' + this.ots[this.otSeleccionada].id).then(function (response) {
-          _this6.productos = response.data;
+          _this5.productos = response.data;
           console.log("nombre del producto primero");
-          console.log(_this6.productos);
-          _this6.otSeleccionadaBool = true;
+          console.log(_this5.productos);
+          _this5.otSeleccionadaBool = true;
         });
       }
     },
@@ -42812,7 +42791,7 @@ var render = function() {
                             "don este"
                           ],
                           productos: _vm.productos,
-                          ots: _vm.otsTodas
+                          ots: _vm.otsTodas[0]
                         }
                       })
                     ],
@@ -45246,6 +45225,7 @@ var render = function() {
                           ],
                           staticClass: "form-control",
                           attrs: {
+                            id: "fecha",
                             required: "",
                             type: "date",
                             "aria-describedby": "emailHelp"
@@ -45809,7 +45789,9 @@ var render = function() {
                                   _c("div", { staticClass: "col-sm-4" }, [
                                     _c("p", [
                                       _vm._v(
-                                        "* " + _vm._s(producto[0].nombre) + " "
+                                        "* " +
+                                          _vm._s(producto[0].nombre_producto) +
+                                          " "
                                       )
                                     ])
                                   ]),
@@ -48768,9 +48750,11 @@ var render = function() {
                     _vm._v(_vm._s(ot.usuario.nombre_usuario))
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "col-sm-1" }, [
-                    _vm._v(_vm._s(ot.fecha_entrega_oc))
-                  ]),
+                  _c(
+                    "div",
+                    { staticClass: "col-sm-1", attrs: { type: "date" } },
+                    [_vm._v(_vm._s(ot.fecha_entrega_Oc))]
+                  ),
                   _vm._v(" "),
                   _c("div", { staticClass: "col-sm-1" }, [
                     _c(
@@ -49201,8 +49185,7 @@ var render = function() {
                               _vm.searchOt = $event.target.value
                             },
                             _vm.onChangueOt
-                          ],
-                          blur: _vm.loseFocusOt
+                          ]
                         }
                       }),
                       _vm._v(" "),
@@ -50274,7 +50257,11 @@ var render = function() {
                             _vm._v(" "),
                             _c("div", { staticClass: "col-sm-5" }, [
                               _c("p", [
-                                _vm._v(_vm._s(_vm.otProducto[index][1].nombre))
+                                _vm._v(
+                                  _vm._s(
+                                    _vm.otProducto[index][1].nombre_producto
+                                  )
+                                )
                               ])
                             ]),
                             _vm._v(" "),
@@ -50319,7 +50306,9 @@ var render = function() {
                     index
                   ) {
                     return _c("div", { key: index }, [
-                      _c("p", [_vm._v("* " + _vm._s(trabajador.nombre))])
+                      _c("p", [
+                        _vm._v("* " + _vm._s(trabajador.nombre_usuario))
+                      ])
                     ])
                   })
                 ],
@@ -50468,7 +50457,7 @@ var render = function() {
                                                     " PRODUCTO " +
                                                     _vm._s(
                                                       _vm.otProducto[indexG][1]
-                                                        .nombre
+                                                        .nombre_producto
                                                     )
                                                 )
                                               ]
@@ -51211,7 +51200,9 @@ var render = function() {
                               "Seleccion sub-productos de: OT " +
                                 _vm._s(_vm.otProducto[indexG][0].id) +
                                 "- " +
-                                _vm._s(_vm.otProducto[indexG][1].nombre)
+                                _vm._s(
+                                  _vm.otProducto[indexG][1].nombre_producto
+                                )
                             )
                           ]),
                           _vm._v(" "),
@@ -51595,7 +51586,7 @@ var render = function() {
                                   [
                                     _vm._v(
                                       "\n                                    " +
-                                        _vm._s(trabajador.nombre) +
+                                        _vm._s(trabajador.nombre_usuario) +
                                         "\n                                "
                                     )
                                   ]
@@ -51746,7 +51737,7 @@ var render = function() {
                                   [
                                     _vm._v(
                                       "\n                                    " +
-                                        _vm._s(producto.nombre) +
+                                        _vm._s(producto.nombre_producto) +
                                         "\n                                    "
                                     )
                                   ]
@@ -51803,7 +51794,9 @@ var render = function() {
                             _c("div", { staticClass: "row" }, [
                               _c("div", { staticClass: "col-sm-10" }, [
                                 _c("p", [
-                                  _vm._v("- " + _vm._s(trabajador.nombre))
+                                  _vm._v(
+                                    "- " + _vm._s(trabajador.nombre_usuario)
+                                  )
                                 ])
                               ]),
                               _vm._v(" "),
@@ -51867,7 +51860,10 @@ var render = function() {
                           return _c("div", { key: index }, [
                             _c("p", [
                               _vm._v(
-                                "* " + _vm._s(_vm.otProducto[index][1].nombre)
+                                "* " +
+                                  _vm._s(
+                                    _vm.otProducto[index][1].nombre_producto
+                                  )
                               )
                             ])
                           ])

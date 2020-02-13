@@ -40,9 +40,9 @@
                         </div>
                         <div class="col-md-6">
                             <label  class= "color4" for="2-1">OT:</label>
-                            <input id="2-1" class="form-control" type="text" v-model="searchOt" @input="onChangueOt" @blur="loseFocusOt" />
+                            <input id="2-1" class="form-control" type="text" v-model="searchOt" @input="onChangueOt"/>
                                 <ul v-show="isOpenOt" class="autocomplete-results">
-                                    <li @click="setResultOt(result)" v-for="(result,i) in resultsOt" :key="i" class="autocomplete-result">{{result.id}}</li>
+                                    <li  @click="setResultOt(result)" v-for="(result,i) in resultsOt" :key="i" class="autocomplete-result">{{result.id}}</li>
                                 </ul>          
                         </div>
                     </div>
@@ -226,6 +226,8 @@
                 var aux2 = null;
                 if(this.opcionSeleccionada==1)aux1=null;aux2=null;
                 if(this.opcionSeleccionada==2)aux1=this.opcionSeleccionada2;aux2=this.searchOt;
+                if(this.opcionSeleccionada==3)aux1=this.opcionSeleccionada3;aux2=this.fecha_oc;
+                if(this.opcionSeleccionada==4)aux1=this.opcionSeleccionada4;aux2=this.fecha_entrega;
                 var params={
                     opcion: this.opcionSeleccionada,
                     operacion: aux1,
@@ -249,54 +251,58 @@
 });
             },
             //OPCION 2
-            onChangueOt(){
-                this.isOpenOt=true;
-                this.filterResultsOt();
-            },
-            filterResultsOt(){
-                this.resultsoT = this.ots.filter(item => item.toLowerCase().indexOf(this.searchOt.toLowerCase())>-1);
-                //esta hay que cambiarla.
-            },
-            setResultOt(result){
-                this.searchOt = result.id;
-                this.isOpenOt = false;
-            },
-            loseFocusOt(){
-                this.isOpenOt = false;
-            },
+                onChangueOt(){
+                    console.log("ots:");
+                    console.log(this.ots);
+                    this.isOpenOt=true;
+                    this.filterResultsOt();
+                },
+                filterResultsOt(){
+                    this.resultsOt = this.ots.filter(item => item.id.toString().toLowerCase().indexOf(this.searchOt.toLowerCase())>-1);
+                    //esta hay que cambiarla.
+                },
+                setResultOt(result){
+                    console.log("result");
+                    console.log(result);
+                    this.searchOt = result.id;
+                    this.isOpenOt = false;
+                },
+                loseFocusOt(result){
+                    this.isOpenOt = false;
+                },
             //OPCION 7
-            onChangueProducto(){
-                console.log(this.productos);
-                this.isOpenProducto=true; //este igual hacer otro
-                this.filterResultsProducto();
-            },
-            filterResultsProducto(){
-                console.log(this.productos);
-                this.resultsProducto = this.productos.filter(item => item.codigo_siom.toLowerCase().indexOf(this.searchProducto.toLowerCase())>-1);
-            },
-            setResultProducto(result){
-                this.searchProducto = result.codigo_siom;
-                this.isOpenProducto = false;
-            },
-            loseFocusProducto(){
-                this.isOpenProducto = false;
-            },
+                onChangueProducto(){
+                    console.log(this.productos);
+                    this.isOpenProducto=true; //este igual hacer otro
+                    this.filterResultsProducto();
+                },
+                filterResultsProducto(){
+                    console.log(this.productos);
+                    this.resultsProducto = this.productos.filter(item => item.codigo_siom.toLowerCase().indexOf(this.searchProducto.toLowerCase())>-1);
+                },
+                setResultProducto(result){
+                    this.searchProducto = result.codigo_siom;
+                    this.isOpenProducto = false;
+                },
+                loseFocusProducto(){
+                    this.isOpenProducto = false;
+                },
             //OPCION 8
-            onChangueResponsable(){
-                this.isOpenResponsable=true;
-                this.filterResultsResponsable();
-            },
-            filterResultsResponsable(){
-                this.resultsResponsable = this.items.filter(item => item.toLowerCase().indexOf(this.search.toLowerCase())>-1);
-                //esta hay que cambiarla.
-            },
-            setResultResponsable(result){
-                this.searchResponsable = result.nombre;
-                this.isOpenResponsable = false;
-            },
-            loseFocusResponsable(){
-                this.isOpenResponsable = false;
-            },
+                onChangueResponsable(){
+                    this.isOpenResponsable=true;
+                    this.filterResultsResponsable();
+                },
+                filterResultsResponsable(){
+                    this.resultsResponsable = this.items.filter(item => item.toLowerCase().indexOf(this.search.toLowerCase())>-1);
+                    //esta hay que cambiarla.
+                },
+                setResultResponsable(result){
+                    this.searchResponsable = result.nombre;
+                    this.isOpenResponsable = false;
+                },
+                loseFocusResponsable(){
+                    this.isOpenResponsable = false;
+                },
         } 
     }
 </script>

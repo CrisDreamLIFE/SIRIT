@@ -99,7 +99,7 @@
                 <principal-gestion-reporte-component
                 :items="['julio','chico perez','el mismisimo','don este']"
                 :productos="productos"
-                :ots="otsTodas">
+                :ots="otsTodas[0]">
                 </principal-gestion-reporte-component>
             </div> 
             <!----------------------------------->

@@ -5,8 +5,9 @@ namespace App\Exports\OT;
 use App\Ot;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Carbon\Carbon;
 
-class NumeroOtExport implements FromCollection, WithHeadings
+class FechaOcExport implements FromCollection, WithHeadings
 {
     /**
     * @return \Illuminate\Support\Collection
@@ -18,10 +19,12 @@ class NumeroOtExport implements FromCollection, WithHeadings
     public $globalCerrada;
     function __construct($abierta, $cerrada,$operacion,$cuerpo)
     {
+        error_log("antes");
         $this->globalOperacion = $operacion;
         $this->globalCuerpo = $cuerpo;
         $this->globalAbierta = $abierta;
         $this->globalCerrada = $cerrada;
+        error_log("fin constructor");
     }
     public function collection()
     {   
@@ -74,73 +77,90 @@ class NumeroOtExport implements FromCollection, WithHeadings
                 return $item;
             }  
         })->values();
+
+
+
+
         if($this->globalOperacion==1){
+            error_log("la 1");
             if($this->globalAbierta && $this->globalCerrada){
                 $return = $otCompleta->filter(function ($item) {
-                    if($item->id== $this->globalCuerpo){
+                    if($item->fecha_entrega_Oc== date("d-m-Y", strtotime($this->globalCuerpo))){
                         return $item;
-                    }})->values();  
+                    }})->values(); 
                 return $return;
             }  
             elseif($this->globalAbierta){
                 $return = $abiertas->filter(function ($item) {
-                    if($item->id== $this->globalCuerpo){
+                    if($item->fecha_entrega_Oc== date("d-m-Y", strtotime($this->globalCuerpo))){
                         return $item;
-                    }})->values();  
+                    }})->values(); 
                 return $return;
             }
             else{
                 $return = $cerradas->filter(function ($item) {
-                    if($item->id== $this->globalCuerpo){
+                    if($item->fecha_entrega_Oc== date("d-m-Y", strtotime($this->globalCuerpo))){
                         return $item;
-                    }})->values();  
+                    }})->values(); 
                 return $return;   
             }
         }
         if($this->globalOperacion==2){
             if($this->globalAbierta && $this->globalCerrada){
                 $return = $otCompleta->filter(function ($item) {
-                    if($item->id>= $this->globalCuerpo){
+                    $aux1 = Carbon::parse($item->fecha_entrega_Oc);
+                    $aux2 = Carbon::parse(date("d-m-Y", strtotime($this->globalCuerpo)));
+                    if($aux1->gte($aux2)){
                         return $item;
-                    }})->values();  
+                    }})->values(); 
                 return $return;
             }  
             elseif($this->globalAbierta){
                 $return = $abiertas->filter(function ($item) {
-                    if($item->id>= $this->globalCuerpo){
+                    $aux1 = Carbon::parse($item->fecha_entrega_Oc);
+                    $aux2 = Carbon::parse(date("d-m-Y", strtotime($this->globalCuerpo)));
+                    if($aux1->gte($aux2)){
                         return $item;
-                    }})->values();  
+                    }})->values(); 
                 return $return;
             }
             else{
                 $return = $cerradas->filter(function ($item) {
-                    if($item->id>= $this->globalCuerpo){
+                    $aux1 = Carbon::parse($item->fecha_entrega_Oc);
+                    $aux2 = Carbon::parse(date("d-m-Y", strtotime($this->globalCuerpo)));
+                    if($aux1->gte($aux2)){
                         return $item;
-                    }})->values();  
+                    }})->values(); 
                 return $return;   
             }
         }
         if($this->globalOperacion==3){
             if($this->globalAbierta && $this->globalCerrada){
                 $return = $otCompleta->filter(function ($item) {
-                    if($item->id<= $this->globalCuerpo){
+                    $aux1 = Carbon::parse($item->fecha_entrega_Oc);
+                    $aux2 = Carbon::parse(date("d-m-Y", strtotime($this->globalCuerpo)));
+                    if($aux1->lte($aux2)){
                         return $item;
-                    }})->values();  
+                    }})->values(); 
                 return $return;
             }  
             elseif($this->globalAbierta){
                 $return = $abiertas->filter(function ($item) {
-                    if($item->id<= $this->globalCuerpo){
+                    $aux1 = Carbon::parse($item->fecha_entrega_Oc);
+                    $aux2 = Carbon::parse(date("d-m-Y", strtotime($this->globalCuerpo)));
+                    if($aux1->lte($aux2)){
                         return $item;
-                    }})->values();  
+                    }})->values(); 
                 return $return;
             }
             else{
                 $return = $cerradas->filter(function ($item) {
-                    if($item->id<= $this->globalCuerpo){
+                    $aux1 = Carbon::parse($item->fecha_entrega_Oc);
+                    $aux2 = Carbon::parse(date("d-m-Y", strtotime($this->globalCuerpo)));
+                    if($aux1->lte($aux2)){
                         return $item;
-                    }})->values();  
-                return $return;   
+                    }})->values(); 
+                return $return;    
             }
         }
     }

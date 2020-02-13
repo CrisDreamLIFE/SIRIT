@@ -58,7 +58,9 @@ class SesionTrabajoController extends Controller
         $sesion->fecha_termino = $fechaActual;
         $sesion->hora_termino = $fechaActual;
         $horaInicial = $sesion->created_at;
-        $diferencia = $horaInicial->diffInMinutes();
+        $diferencia = $horaInicial->diffInMinutes($fechaActual);
+        error_log("diferencia:");
+        error_log($diferencia);
         $dias = $diferencia*0.000694444444;
         //$sesion->duracion = $diferencia->format('días: %a, horas: %h, minutos: %i, segundos: %s');
         $sesion->duracion = $dias;
@@ -70,6 +72,7 @@ class SesionTrabajoController extends Controller
 
         #OT-SESION  
         foreach($ots as $ot ){
+            error_log("1");
             $otSesion = new OtSesionTrabajo;
             $otSesion->ot_id = $ot;
             $otSesion->sesion_trabajo_id = $sesion_id;

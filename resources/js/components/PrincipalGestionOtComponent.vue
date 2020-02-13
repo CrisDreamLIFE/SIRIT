@@ -85,7 +85,7 @@
                             </div>
                         </div>
                         <div class="col-sm-2">{{ot.usuario.nombre_usuario}}</div>
-                        <div class="col-sm-1">{{ot.fecha_entrega_oc}}</div>
+                        <div class="col-sm-1" type="date">{{ot.fecha_entrega_Oc}}</div>
                         <div class="col-sm-1">
                             <button type="button" data-toggle="modal" data-target="#exampleModal"  @click="masInformacion(index)" class="btn btn-info">info</button>
                         </div>

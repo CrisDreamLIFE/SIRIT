@@ -75,7 +75,7 @@
                                         <input required type="date"  class="form-control" aria-describedby="emailHelp" v-model="recepcion"> 
                                     </div>
                                     <div class="col-md-4">
-                                        <input required type="date"  class="form-control" aria-describedby="emailHelp" v-model="fecha"> 
+                                        <input id="fecha" required type="date"  class="form-control" aria-describedby="emailHelp" v-model="fecha"> 
                                     </div>
                                 </div>
                             </div>
@@ -207,7 +207,7 @@
                                             <div v-for="(producto,index) in seleccionados" v-bind:key="index">
                                                 <div class="row">
                                                     <div class="col-sm-4">
-                                                        <p>* {{producto[0].nombre}} </p>
+                                                        <p>* {{producto[0].nombre_producto}} </p>
                                                     </div>
                                                     <div class="col-sm-2">
                                                         <input required type="text"  class="form-control" aria-describedby="emailHelp" v-model="producto[2]"> 
