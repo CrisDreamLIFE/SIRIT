@@ -6,16 +6,22 @@ use App\Ot;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class TodasExport implements FromCollection, WithHeadings
+class CodigoSiomExport implements FromCollection, WithHeadings
 {
-
     public $globalAbierta;
     public $globalCerrada;
-    function __construct($abierta,$cerrada)
+    public $globalCuerpo;
+    public $idCompleta = array();
+    public $idAbierta = array();
+    public $idCerrada = array();
+    function __construct($abierta,$cerrada,$cuerpo)
     {
         error_log("constructor");
         $this->globalAbierta = $abierta;
         $this->globalCerrada = $cerrada;
+        $this->globalCuerpo = $cuerpo;
+        error_log("cuerpo:");
+        error_log($this->globalCuerpo);
     }
 
     public function collection()
@@ -46,40 +52,54 @@ class TodasExport implements FromCollection, WithHeadings
             if($aux1!=null){$newFecha1 = date("d-m-Y", strtotime($aux1));$ot->fecha_entrega_Oc = $newFecha1;}
             if($aux2!=null){$newFecha2 = date("d-m-Y", strtotime($aux2));$ot->fecha_recepcion = $newFecha2;}
             if($aux3!=null){$newFecha3 = date("d-m-Y", strtotime($aux3));$ot->fecha_real_entregA = $newFecha3;} //aqui nos caemos}
-            if($aux4!=null){$newFecha4 = date("d-m-Y", strtotime($aux4));$ot->fecha_despacho = $newFecha4;}
-
+            if($aux4!=null){$newFecha4 = date("d-m-Y", strtotime($aux4));$ot->fecha_despacho = $newFecha4;};
             if($ot->abierta){
                 $ot->abierta = "ABIERTA";
             }
             else{
                 $ot->abierta = "CERRADA";
             }
+            if($ot->codigo_siom==$this->globalCuerpo){
+                error_log($ot->id);
+                $this->idCompleta[] = $ot->id;} 
         }
         $cerradas = $otCompleta->filter(function ($item) {
-            error_log($item->abierta);
+            //error_log($item->abierta);
             if($item->abierta=="CERRADA"){
+                if($item->codigo_siom==$this->globalCuerpo){$this->idCerrada[] = $item->id;}
                 return $item;
             }  
         })->values();
         $abiertas = $otCompleta->filter(function ($item) {
             if($item->abierta== "ABIERTA"){
+                if($item->codigo_siom==$this->globalCuerpo){$this->idAbierta[] = $item->id;}
                 return $item;
             }  
         })->values();
+
+
+        
         if($this->globalAbierta && $this->globalCerrada){
-            error_log("z");
-            error_log($otCompleta[0]->fecha_entrega_Oc);
-            return $otCompleta;
+            $return = $otCompleta->filter(function ($item) {
+                    if(in_array($item->id, $this->idCompleta)){
+                        return $item;
+                    }
+                })->values(); 
+                return $return;
         }
         elseif($this->globalAbierta){
-            error_log("x");
-           //return Ot::where('abierta',1)->get();
-           return $abiertas;
+            $return = $abiertas->filter(function ($item) {
+                if(in_array($item->id, $this->idAbierta)){
+                    return $item;
+                }})->values(); 
+            return $return;
         }
         else{
-            error_log("c");
-            //return Ot::where('abierta',0)->get();
-            return $cerradas;
+            $return = $cerradas->filter(function ($item) {
+                if(in_array($item->id, $this->idCerrada)){
+                    return $item;
+                }})->values(); 
+            return $return;
         }
     }
 

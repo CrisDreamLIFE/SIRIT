@@ -99,7 +99,10 @@
                 <principal-gestion-reporte-component
                 :items="['julio','chico perez','el mismisimo','don este']"
                 :productos="productos"
-                :ots="otsTodas[0]">
+                :ots="otsTodas[0]"
+                :clientes="clientes"
+                :responsables="responsables"
+                :tipos="tipos">
                 </principal-gestion-reporte-component>
             </div> 
             <!----------------------------------->
@@ -122,6 +125,9 @@ export default {
                 rut: "19.313.751-2",
                 contraseña:"11",
                 estaciones:[],
+                clientes:[],
+                responsables:[],
+                tipos:[],
                 ots:[],
                 otsTodas:[],
                 productos:[],
@@ -201,7 +207,34 @@ export default {
                     this.otsTodas = response.data;
                     this.algoSeleccionado=true;
                     this.iniciarGestionReporteBool=true
-                    })    
+                    }) 
+                axios
+                .get('http://localhost:8000/cliente')
+                .then(response =>{
+                    console.log("respuesta de ot:")
+                    console.log(response.data)
+                    this.clientes = response.data;
+                    this.algoSeleccionado=true;
+                    this.iniciarGestionReporteBool=true
+                    })
+                axios
+                .get('http://localhost:8000/obtenerGestores')
+                .then(response =>{
+                    console.log("respuesta de ot:")
+                    console.log(response.data)
+                    this.responsables = response.data;
+                    this.algoSeleccionado=true;
+                    this.iniciarGestionReporteBool=true
+                    })
+                axios
+                .get('http://localhost:8000/otTipo')
+                .then(response =>{
+                    console.log("respuesta de ot:")
+                    console.log(response.data)
+                    this.tipos = response.data;
+                    this.algoSeleccionado=true;
+                    this.iniciarGestionReporteBool=true
+                    })     
             },
             iniciarGestionMaterial(){
                 axios

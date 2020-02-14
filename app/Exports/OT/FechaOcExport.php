@@ -39,7 +39,7 @@ class FechaOcExport implements FromCollection, WithHeadings
                         join("ot_tipos","ots.ot_tipo_id","=","ot_tipos.id")->orderBy('ots.id')->
                         select('ots.id','ots.ot_Peru','ots.fecha_recepcion','ots.orden_compra','numero_cotizacion','clientes.nombre_cliente',
                         'ot_productos.cantidad','productos.nombre_producto','cliente_productos.codigo_cliente',
-                        'productos.codigo_siom','productos.numero_plano','ots.fecha_entrega_Oc','ots.fecha_real_entrega',
+                        'productos.codigo_siom','productos.numero_plano','ots.fecha_entrega_Oc','ots.fecha_real_entregA',
                         'ots.fecha_despacho','ots.guia_despacho','ots.factura','canal_ventas.nombre_canal',
                         'ots.abierta','ot_tipos.nombre_tipo','centro_costos.codigo','centro_costos.nombre_centro','categoria_ots.nombre_categoria',
                         'usuarios.nombre_usuario','ots.observacion')
@@ -49,16 +49,12 @@ class FechaOcExport implements FromCollection, WithHeadings
         foreach($otCompleta as $ot){
             $aux1 = $ot->fecha_entrega_Oc;
             $aux2 = $ot->fecha_recepcion;
-            $aux3 = $ot->fecha_real_entrega;
-            $aux4 = $ot->fecha_real_entrega;
-            $newFecha1 = date("d-m-Y", strtotime($aux1));
-            $newFecha2 = date("d-m-Y", strtotime($aux2));
-            $newFecha3 = date("d-m-Y", strtotime($aux3));
-            $newFecha4 = date("d-m-Y", strtotime($aux4));
-            $ot->fecha_entrega_Oc = $newFecha1;
-            $ot->fecha_recepcion = $newFecha2;
-            $ot->fecha_real_entrega = $newFecha3;
-            $ot->fecha_despacho = $newFecha4;
+            $aux3 = $ot->fecha_real_entregA;
+            $aux4 = $ot->fecha_despacho;
+            if($aux1!=null){$newFecha1 = date("d-m-Y", strtotime($aux1));$ot->fecha_entrega_Oc = $newFecha1;}
+            if($aux2!=null){$newFecha2 = date("d-m-Y", strtotime($aux2));$ot->fecha_recepcion = $newFecha2;}
+            if($aux3!=null){$newFecha3 = date("d-m-Y", strtotime($aux3));$ot->fecha_real_entregA = $newFecha3;} //aqui nos caemos}
+            if($aux4!=null){$newFecha4 = date("d-m-Y", strtotime($aux4));$ot->fecha_despacho = $newFecha4;}
             if($ot->abierta){
                 $ot->abierta = "ABIERTA";
             }

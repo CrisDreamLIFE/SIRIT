@@ -93,12 +93,11 @@
                 <div v-if="opcionSeleccionada==6">
                     <div class="row">
                         <div class="md-form col-md-6">
-                            <label  class= "color4" for="6">Cliente:</label>  
-                            <select id="6" v-model="opcionSeleccionada6" class="form-control">
-                                <option v-for="(cliente,index) in clientes" v-bind:key="index" v-bind:value="cliente.id">
-                                    {{cliente.nombre}}
-                                </option>
-                            </select> 
+                            <label  class= "color4" for="6">Cliente:</label>   
+                            <input id="6" class="form-control" type="text" v-model="searchCliente" @input="onChangueCliente" />
+                            <ul v-show="isOpenCliente" class="autocomplete-results">
+                                <li @click="setResultCliente(result)" v-for="(result,i) in resultsCliente" :key="i" class="autocomplete-result">{{result.nombre_cliente}}</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -106,7 +105,7 @@
                     <div class="row">
                         <div class="md-form col-md-6">
                             <label  class= "color4" for="7">Código Siom:</label>    
-                                <input id="7" class="form-control" type="text" v-model="searchProducto" @input="onChangueProducto" @blur="loseFocusProducto" />
+                                <input id="7" class="form-control" type="text" v-model="searchProducto" @input="onChangueProducto"/>
                                 <ul v-show="isOpenProducto" class="autocomplete-results">
                                     <li @click="setResultProducto(result)" v-for="(result,i) in resultsProducto" :key="i" class="autocomplete-result">{{result.codigo_siom}}</li>
                                 </ul>
@@ -119,33 +118,20 @@
                             <label  class= "color4" for="8">Responsable:</label>  
                                 <input id="8" class="form-control" type="text" v-model="searchResponsable" @input="onChangueResponsable" />
                                 <ul v-show="isOpenResponsable" class="autocomplete-results">
-                                    <li @click="setResultResponsable(result)" v-for="(result,i) in resultsResponsable" :key="i" class="autocomplete-result">{{result}}</li>
+                                    <li @click="setResultResponsable(result)" v-for="(result,i) in resultsResponsable" :key="i" class="autocomplete-result">{{result.nombre_usuario}}</li>
                                 </ul>
                         </div>
                     </div>
                 </div>
                 <div v-if="opcionSeleccionada==9">
                     <div class="row">
-                        <div class="col-md-6">
-                            {{opcionSeleccionada9}}
-                            <select class="selectpicker" multiple="multiple">
-  <option>Mustard</option>
-  <option>Ketchup</option>
-  <option>Relish</option>
-</select>
-
-                            <label  class= "color4" for="9">Tipo de OT:</label>   
-                            <select multiple id="9" v-model="opcionSeleccionada9" class="selectpicker form-control">
-                                <option v-for="(tipo,index) in tipos" v-bind:key="index" v-bind:value="tipo.id">
-                                    {{tipo.nombre}}
-                                </option>
-                                <option>Mustard</option>
-                                <option>Ketchup</option>
-                                <option>Relish</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            aqui muestro las seleccionadas
+                        <div class="col-md-12">
+                            <div>
+                                <label  class= "color4" for="9">Tipo de OT:</label>
+                                <multiselect v-model="searchTipo" :options="tipos" deselect-label="Presiona para Quitar" select-label="Presiona para seleccionar" :multiple="true" :clear-on-select="false" :close-on-select="false" :custom-label="nameWithLang" placeholder="Seleccione al menos una" label="nombre_tipo" track-by="nombre_tipo"></multiselect>
+                               
+                                
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -154,10 +140,11 @@
             <div class="col-md-4"></div>
             <div  class="col-md-4">
                 <br>
-                <div v-if="(opcionSeleccionada==1) || (opcionSeleccionada==2 && searchOt!='') || 
+                <div v-if="(opcionSeleccionada==1) || (opcionSeleccionada==2 && searchOt!=''  && ots!=null) || 
                 (fecha_oc!='' && opcionSeleccionada==3) || (fecha_entrega!='' && opcionSeleccionada==4)||
-                (opcionSeleccionada==5 && opcionSeleccionada5!='')||(opcionSeleccionada==6 && opcionSeleccionada6!='' && clientes!=null)||
-                (opcionSeleccionada==7 && searchProducto!='')||(opcionSeleccionada==8 && searchResponsable!='')">
+                (opcionSeleccionada==5 && opcionSeleccionada5!='')||(opcionSeleccionada==6 && searchCliente!='' && clientes!=null)||
+                (opcionSeleccionada==7 && searchProducto!='' && productos!=null)||(opcionSeleccionada==8 && searchResponsable!='' && responsables!=null )||
+                (opcionSeleccionada==9 && searchTipo!='' && tipos!=null )">
                 <button  @click="clickExportar" type="button" class="btn btn-success btn-lg btn-block">Exportar</button></div><br>    
             </div>
             
@@ -174,8 +161,13 @@
 </template>
 
 <script>
+    import Multiselect from 'vue-multiselect'
+
+    // register globally
+    Vue.component('multiselect', Multiselect)
     export default {
-        props: ['ots','clientes','productos','responsables'], 
+        components: { Multiselect },
+        props: ['ots','clientes','productos','responsables','tipos'], 
         data(){
             return {
                 otBool: false,
@@ -186,8 +178,6 @@
                 opcionSeleccionada3: 1,
                 opcionSeleccionada4: 1,
                 opcionSeleccionada5: 1,
-                opcionSeleccionada6: 1,
-                opcionSeleccionada7: 1,
                 opcionSeleccionada9: 1,
                 fecha_oc:'',
                 fecha_entrega:'',               
@@ -195,6 +185,10 @@
                     searchOt: '',
                     resultsOt: '',
                     isOpenOt: false,
+                //OPCION 6
+                    searchCliente: '',
+                    resultsCliente: '',
+                    isOpenCliente: false,
                 //OPCION 7
                     searchProducto: '',
                     resultsProducto: '',
@@ -203,12 +197,26 @@
                     searchResponsable: '',
                     resultsResponsable: '',
                     isOpenResponsable: false,
+                //OPCION 9
+                 searchTipo: '',
+                    value: [],
+                    options: [
+                        { name: 'Vue.js', language: 'JavaScript' },
+                        { name: 'Adonis', language: 'JavaScript' },
+                        { name: 'Rails', language: 'Ruby' },
+                        { name: 'Sinatra', language: 'Ruby' },
+                        { name: 'Laravel', language: 'PHP' },
+                        { name: 'Phoenix', language: 'Elixir' }
+                    ]
             }
         },
         mounted() {
             console.log('Component mounted.')
         },
         methods:{
+            nameWithLang ({nombre_tipo}) {
+                return `${nombre_tipo}`
+                },
             botonSobreOt(){
                 console.log("dfsa")
                 if(this.otBool== true){
@@ -224,10 +232,15 @@
             clickExportar(){
                 var aux1 = null;
                 var aux2 = null;
-                if(this.opcionSeleccionada==1)aux1=null;aux2=null;
-                if(this.opcionSeleccionada==2)aux1=this.opcionSeleccionada2;aux2=this.searchOt;
-                if(this.opcionSeleccionada==3)aux1=this.opcionSeleccionada3;aux2=this.fecha_oc;
-                if(this.opcionSeleccionada==4)aux1=this.opcionSeleccionada4;aux2=this.fecha_entrega;
+                if(this.opcionSeleccionada==1){aux1=null;aux2=null;}
+                if(this.opcionSeleccionada==2){aux1=this.opcionSeleccionada2;aux2=this.searchOt;}
+                if(this.opcionSeleccionada==3){aux1=this.opcionSeleccionada3;aux2=this.fecha_oc;}
+                if(this.opcionSeleccionada==4){aux1=this.opcionSeleccionada4;aux2=this.fecha_entrega;}
+                if(this.opcionSeleccionada==5){aux1=null;aux2= this.opcionSeleccionada5;}
+                if(this.opcionSeleccionada==6){aux1=null;aux2=this.searchCliente;}
+                if(this.opcionSeleccionada==7){aux1=null;aux2=this.searchProducto;}
+                if(this.opcionSeleccionada==8){aux1=null;aux2=this.searchResponsable;}
+                if(this.opcionSeleccionada==9){aux1=null;aux2=this.searchTipo;}
                 var params={
                     opcion: this.opcionSeleccionada,
                     operacion: aux1,
@@ -236,6 +249,8 @@
                     cerrada: this.cerrada
                 };
                 console.log(params);
+                console.log("searchres");
+                console.log(this.searchTipo);
                 axios({
                     url: 'http://localhost:8000/exportarExcel',
                     method: 'POST',
@@ -270,6 +285,22 @@
                 loseFocusOt(result){
                     this.isOpenOt = false;
                 },
+            //OPCION 6
+                onChangueCliente(){
+                    this.isOpenCliente=true;
+                    this.filterResultsCliente();
+                },
+                filterResultsCliente(){
+                    this.resultsCliente = this.clientes.filter(item => item.nombre_cliente.toLowerCase().indexOf(this.searchCliente.toLowerCase())>-1);
+                    //esta hay que cambiarla.
+                },
+                setResultCliente(result){
+                    this.searchCliente = result.nombre_cliente;
+                    this.isOpenCliente = false;
+                },
+                loseFocusCliente(result){
+                    this.isOpenCliente = false;
+                },
             //OPCION 7
                 onChangueProducto(){
                     console.log(this.productos);
@@ -293,11 +324,11 @@
                     this.filterResultsResponsable();
                 },
                 filterResultsResponsable(){
-                    this.resultsResponsable = this.items.filter(item => item.toLowerCase().indexOf(this.search.toLowerCase())>-1);
+                    this.resultsResponsable = this.responsables.filter(item => item.nombre_usuario.toLowerCase().indexOf(this.searchResponsable.toLowerCase())>-1);
                     //esta hay que cambiarla.
                 },
                 setResultResponsable(result){
-                    this.searchResponsable = result.nombre;
+                    this.searchResponsable = result.nombre_usuario;
                     this.isOpenResponsable = false;
                 },
                 loseFocusResponsable(){

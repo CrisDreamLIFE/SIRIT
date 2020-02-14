@@ -14,6 +14,11 @@ use App\Exports\OT\TodasExport;
 use App\Exports\OT\NumeroOtExport;
 use App\Exports\OT\FechaOcExport;
 use App\Exports\OT\FechaEntregaExport;
+use App\Exports\OT\PaisExport;
+use App\Exports\OT\ClienteExport;
+use App\Exports\OT\CodigoSiomExport;
+use App\Exports\OT\ResponsableExport;
+use App\Exports\OT\TipoExport;
 
 class OtController extends Controller
 {
@@ -22,7 +27,11 @@ class OtController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public $globalCuerpo = "111";
     public function test(){
+
+        
+        
         $otCompleta = Ot::join("ot_productos","ots.id","=","ot_productos.ot_id")->
                         join("productos","ot_productos.producto_id","=","productos.id")->
                         join("clientes","ots.cliente_id","=","clientes.id")->
@@ -39,7 +48,55 @@ class OtController extends Controller
                         'ots.abierta','ot_tipos.nombre_tipo','centro_costos.codigo','centro_costos.nombre_centro','categoria_ots.nombre_categoria',
                         'usuarios.nombre_usuario','ots.observacion')
                         ->get();
-                        return $otCompleta;
+        $idCompleta = array();
+        $idAbierta = array();
+        $idCerrada = array();
+        $i=0;
+                        foreach($otCompleta as $ot){
+                            $aux1 = $ot->fecha_entrega_Oc;
+                            $aux2 = $ot->fecha_recepcion;
+                            $aux3 = $ot->fecha_real_entregA;
+                            $aux4 = $ot->fecha_despacho;
+                            if($aux1!=null){$newFecha1 = date("d-m-Y", strtotime($aux1));$ot->fecha_entrega_Oc = $newFecha1;}
+                            if($aux2!=null){$newFecha2 = date("d-m-Y", strtotime($aux2));$ot->fecha_recepcion = $newFecha2;}
+                            if($aux3!=null){$newFecha3 = date("d-m-Y", strtotime($aux3));$ot->fecha_real_entregA = $newFecha3;} //aqui nos caemos}
+                            if($aux4!=null){$newFecha4 = date("d-m-Y", strtotime($aux4));$ot->fecha_despacho = $newFecha4;};
+                            if($ot->abierta){
+                                $ot->abierta = "ABIERTA";
+                            }
+                            else{
+                                $ot->abierta = "CERRADA";
+                            }
+                            if($ot->codigo_siom==$this->globalCuerpo){
+                                error_log($ot->id);
+                                $idCompleta[] = $ot->id;
+                                error_log($idCompleta[$i]);
+                                error_log("aaa");
+                                $i = $i + 1;} 
+                                
+                        }
+                        error_log($idCompleta[0]);
+                        $cerradas = $otCompleta->filter(function ($item) {
+                            //error_log($item->abierta);
+                            if($item->abierta=="CERRADA"){
+                                if($item->codigo_siom==$this->globalCuerpo){$idCerrada[] = $item->id;}
+                                return $item;
+                            }  
+                        })->values();
+                        error_log($idCompleta[0]);
+                        $abiertas = $otCompleta->filter(function ($item) {
+                            error_log($idCompleta[0]);
+                            if(in_array($item->id, $idCompleta)){
+                                return "true";
+                             }
+                             else{
+                                 return "false";
+                             };
+                            if($item->abierta== "ABIERTA"){
+                                if($item->codigo_siom==$this->globalCuerpo){$idAbierta[] = $item->id;}
+                                return $item;
+                            }  
+                        })->values();
     }
 
     public function exportarExcel(Request $request){
@@ -53,10 +110,14 @@ class OtController extends Controller
         error_log($opcion);
         if($opcion=="1"){return Excel::download(new TodasExport($abierta, $cerrada),'ot-list.xlsx');}
         if($opcion=="2"){return Excel::download(new NumeroOtExport($abierta, $cerrada,$operacion,$cuerpo),'ot-list.xlsx');}
-        if($opcion=="3"){error_log("entre"); return Excel::download(new FechaOcExport($abierta, $cerrada,$operacion,$cuerpo),'ot-list.xlsx');}
-        if($opcion=="4"){error_log("entre"); return Excel::download(new FechaEntregaExport($abierta, $cerrada,$operacion,$cuerpo),'ot-list.xlsx');}
-        
-        
+        if($opcion=="3"){return Excel::download(new FechaOcExport($abierta, $cerrada,$operacion,$cuerpo),'ot-list.xlsx');}
+        if($opcion=="4"){return Excel::download(new FechaEntregaExport($abierta, $cerrada,$operacion,$cuerpo),'ot-list.xlsx');}
+        if($opcion=="5"){return Excel::download(new PaisExport($abierta, $cerrada,$cuerpo),'ot-list.xlsx');}
+        if($opcion=="6"){return Excel::download(new ClienteExport($abierta, $cerrada,$cuerpo),'ot-list.xlsx');}
+        if($opcion=="7"){return Excel::download(new CodigoSiomExport($abierta, $cerrada,$cuerpo),'ot-list.xlsx');}
+        if($opcion=="8"){return Excel::download(new ResponsableExport($abierta, $cerrada,$cuerpo),'ot-list.xlsx');}
+        if($opcion=="9"){return Excel::download(new TipoExport($abierta, $cerrada,$cuerpo),'ot-list.xlsx');}
+              
     }
     public function cerrarOt($id){
         $ot = Ot::find($id);
