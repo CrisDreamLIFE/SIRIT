@@ -5028,6 +5028,49 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
  // register globally
 
 Vue.component('multiselect', vue_multiselect__WEBPACK_IMPORTED_MODULE_0___default.a);
@@ -5039,6 +5082,7 @@ Vue.component('multiselect', vue_multiselect__WEBPACK_IMPORTED_MODULE_0___defaul
   data: function data() {
     return {
       otBool: false,
+      sesionBool: false,
       abierta: true,
       cerrada: false,
       opcionSeleccionada: 1,
@@ -5109,6 +5153,16 @@ Vue.component('multiselect', vue_multiselect__WEBPACK_IMPORTED_MODULE_0___defaul
         return 1;
       }
     },
+    botonSobreSesiones: function botonSobreSesiones() {
+      if (this.sesionBool == true) {
+        this.sesionBool = false;
+        return 1;
+      } else {
+        console.log("dfsa");
+        this.sesionBool = true;
+        return 1;
+      }
+    },
     clickExportar: function clickExportar() {
       var aux1 = null;
       var aux2 = null;
@@ -5156,6 +5210,11 @@ Vue.component('multiselect', vue_multiselect__WEBPACK_IMPORTED_MODULE_0___defaul
       if (this.opcionSeleccionada == 9) {
         aux1 = null;
         aux2 = this.searchTipo;
+      }
+
+      if (this.opcionSeleccionada == 10) {
+        aux1 = null;
+        aux2 = null;
       }
 
       var params = {
@@ -49905,12 +49964,200 @@ var render = function() {
       {
         staticClass: "btn btn-secondary btn-lg btn-block",
         attrs: { type: "button" },
-        on: { click: function($event) {} }
+        on: { click: _vm.botonSobreSesiones }
       },
       [_vm._v("Reportes sobre Sesiones de Trabajo")]
     ),
     _vm._v(" "),
     _c("br"),
+    _vm._v(" "),
+    _vm.sesionBool
+      ? _c("div", { staticClass: "row container color4" }, [
+          _c("div", { staticClass: "col-md-4" }, [
+            _c("label", { staticClass: "color4", attrs: { for: "select1" } }, [
+              _vm._v("Exportar Por:")
+            ]),
+            _vm._v(" "),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.opcionSeleccionada,
+                    expression: "opcionSeleccionada"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { id: "select1" },
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.opcionSeleccionada = $event.target.multiple
+                      ? $$selectedVal
+                      : $$selectedVal[0]
+                  }
+                }
+              },
+              [
+                _c("option", { attrs: { value: "10" } }, [_vm._v("Todas")]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "11" } }, [
+                  _vm._v("Número de OT")
+                ]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "12" } }, [_vm._v("Fecha")]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "13" } }, [_vm._v("Área")]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "14" } }, [_vm._v("Estación")]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "15" } }, [_vm._v("Nave")]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "16" } }, [
+                  _vm._v("En Proceso")
+                ]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "17" } }, [
+                  _vm._v("Código Siom")
+                ])
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-8" }, [
+            _vm.opcionSeleccionada == 9
+              ? _c("div", [
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col-md-6" }, [
+                      _c(
+                        "label",
+                        { staticClass: "color4", attrs: { for: "2" } },
+                        [_vm._v("Operacion:")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.opcionSeleccionada2,
+                              expression: "opcionSeleccionada2"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { id: "2" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.opcionSeleccionada2 = $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { value: "1" } }, [
+                            _vm._v("Igual a:")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "2" } }, [
+                            _vm._v("Mayor a:")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "3" } }, [
+                            _vm._v("Menor a:")
+                          ])
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-6" }, [
+                      _c(
+                        "label",
+                        { staticClass: "color4", attrs: { for: "2-1" } },
+                        [_vm._v("OT:")]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.searchOt,
+                            expression: "searchOt"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { id: "2-1", type: "text" },
+                        domProps: { value: _vm.searchOt },
+                        on: {
+                          input: [
+                            function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.searchOt = $event.target.value
+                            },
+                            _vm.onChangueOt
+                          ]
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "ul",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.isOpenOt,
+                              expression: "isOpenOt"
+                            }
+                          ],
+                          staticClass: "autocomplete-results"
+                        },
+                        _vm._l(_vm.resultsOt, function(result, i) {
+                          return _c(
+                            "li",
+                            {
+                              key: i,
+                              staticClass: "autocomplete-result",
+                              on: {
+                                click: function($event) {
+                                  return _vm.setResultOt(result)
+                                }
+                              }
+                            },
+                            [_vm._v(_vm._s(result.id))]
+                          )
+                        }),
+                        0
+                      )
+                    ])
+                  ])
+                ])
+              : _vm._e()
+          ])
+        ])
+      : _vm._e(),
     _vm._v(" "),
     _c(
       "button",
@@ -51032,6 +51279,7 @@ var render = function() {
                                                                                     "multiselect",
                                                                                     {
                                                                                       attrs: {
+                                                                                        searchable: false,
                                                                                         options:
                                                                                           _vm
                                                                                             .cantidadesProductos[

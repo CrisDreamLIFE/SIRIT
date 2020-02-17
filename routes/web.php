@@ -28,6 +28,7 @@ Route::resource('rol', 'RolController');
 #Sesion
 Route::resource('sesion', 'SesionTrabajoController');
 Route::post('/sesionFinal', 'SesionTrabajoController@storeFinal');
+Route::post('/exportarExcelSesion', 'SesionTrabajoController@exportarExcel');
 
 
 

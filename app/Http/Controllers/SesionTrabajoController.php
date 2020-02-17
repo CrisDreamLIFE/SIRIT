@@ -11,14 +11,23 @@ use App\DetalleSesion;
 use App\SesionTrabajoUsuario;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Exports\SESION\TodasExport;
 
 class SesionTrabajoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function exportarExcel(Request $request){
+        $opcion = $request->input('opcion');
+        $operacion = $request->input('operacion');
+        $cuerpo = $request->input('cuerpo');
+        $abierta = $request->input('abierta');
+        $cerrada = $request->input('cerrada');
+
+        error_log("opcion:");
+        error_log($opcion);
+        if($opcion=="1"){return Excel::download(new TodasExport($abierta, $cerrada),'ot-list.xlsx');}
+
+              
+    }
     public function index()
     {
         //

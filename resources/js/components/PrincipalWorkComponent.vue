@@ -132,7 +132,7 @@
                                                             </div>
                                                             <div class="col col-sm-8">
                                                                 <!--<label  class= "color4" for="9">Tipo de OT:</label>-->
-                                                                <multiselect v-model="aux[indexG][indexM][index]" :options="cantidadesProductos[indexG]" deselect-label="Presiona para Quitar" 
+                                                                <multiselect :searchable="false" v-model="aux[indexG][indexM][index]" :options="cantidadesProductos[indexG]" deselect-label="Presiona para Quitar" 
                                                                 select-label="Presiona para seleccionar" :multiple="true" :clear-on-select="false" 
                                                                 :close-on-select="false" placeholder="" 
                                                                 label="nombre" track-by="nombre"></multiselect>
