@@ -552,13 +552,13 @@ import Multiselect from 'vue-multiselect'
                 axios
                     .post('http://localhost:8000/sesionFinal', params)
                     .then(response => {
-                       // this.cerrar = true;
-                       // $('#exampleModal').modal('hide');
-                        //$('.modal-backdrop').hide();
+                        this.cerrar = true;
+                        $('#exampleModal').modal('hide');
+                        $('.modal-backdrop').hide();
                         //console.log(response.data);
                         alert('Sesion Registrada Exitosamente');
-                       // this.botonTrabajoComenzado = false;
-                        //this.$emit('botonGuardar')
+                        this.botonTrabajoComenzado = false;
+                        this.$emit('botonGuardar')
                         })
                     } else {
                         return 0;

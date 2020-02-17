@@ -6075,6 +6075,8 @@ __webpack_require__.r(__webpack_exports__);
       return true;
     },
     guardarTrabajo: function guardarTrabajo(index) {
+      var _this2 = this;
+
       var otResumen = [];
       console.log(this.inputValido[0][0][0]);
 
@@ -6119,12 +6121,14 @@ __webpack_require__.r(__webpack_exports__);
       if (opcion == true) {
         console.log(params);
         axios.post('http://localhost:8000/sesionFinal', params).then(function (response) {
-          // this.cerrar = true;
-          // $('#exampleModal').modal('hide');
-          //$('.modal-backdrop').hide();
-          //console.log(response.data);
-          alert('Sesion Registrada Exitosamente'); // this.botonTrabajoComenzado = false;
-          //this.$emit('botonGuardar')
+          _this2.cerrar = true;
+          $('#exampleModal').modal('hide');
+          $('.modal-backdrop').hide(); //console.log(response.data);
+
+          alert('Sesion Registrada Exitosamente');
+          _this2.botonTrabajoComenzado = false;
+
+          _this2.$emit('botonGuardar');
         });
       } else {
         return 0;
@@ -6137,11 +6141,11 @@ __webpack_require__.r(__webpack_exports__);
       this.botonResumen = false;
     },
     continuarClick: function continuarClick() {
-      var _this2 = this;
+      var _this3 = this;
 
       axios.get('http://localhost:8000/tipoMaterialFiltrador').then(function (response) {
-        _this2.filtradoMaterial = response.data;
-        _this2.botonContinuar = true;
+        _this3.filtradoMaterial = response.data;
+        _this3.botonContinuar = true;
       });
       console.log("procesosSeleccionados.lenght:");
       console.log(this.otProducto.length); //esto debe ser por subProducto :V       
@@ -6192,7 +6196,7 @@ __webpack_require__.r(__webpack_exports__);
       this.otProducto.splice(index, 1);
     },
     agregarProducto: function agregarProducto() {
-      var _this3 = this;
+      var _this4 = this;
 
       //  this.productosSeleccionados.push(this.productos[this.productoSeleccionado]);
       // this.otsSeleccionadas
@@ -6212,15 +6216,15 @@ __webpack_require__.r(__webpack_exports__);
         combinacion.push([]);
         console.log(subProductos);
 
-        _this3.otProducto.push(combinacion);
+        _this4.otProducto.push(combinacion);
 
-        _this3.subProductos.push(subProductos);
+        _this4.subProductos.push(subProductos);
 
         console.log("hice todos los push:");
       }); //RECORDAR ELIMINAR ESTO MISMO CUANDO SE BORRE UN PRODUCTO, OT, ETC     
     },
     onChangeEstación: function onChangeEstaciN() {
-      var _this4 = this;
+      var _this5 = this;
 
       this.estacionSeleccionadaBool = false; //this.trabajadorSeleccionadoBool = false;
 
@@ -6229,13 +6233,13 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.estacionSeleccionada != null) {
         axios.get('http://localhost:8000/trabajadores/' + this.estacionSeleccionada).then(function (response) {
-          _this4.trabajadores = response.data;
+          _this5.trabajadores = response.data;
           console.log("trabajadores");
-          console.log(_this4.trabajadores[0].nombre_usuario);
-          _this4.estacionSeleccionadaBool = true;
+          console.log(_this5.trabajadores[0].nombre_usuario);
+          _this5.estacionSeleccionadaBool = true;
         });
         axios.get('http://localhost:8000/procesos/' + this.estacionSeleccionada).then(function (response) {
-          _this4.procesos = response.data;
+          _this5.procesos = response.data;
         });
       }
     },
@@ -6281,7 +6285,7 @@ __webpack_require__.r(__webpack_exports__);
       console.log(this.inputValido);
     },
     onChangeOt: function onChangeOt() {
-      var _this5 = this;
+      var _this6 = this;
 
       this.otSeleccionadaBool = false; //this.productoSeleccionadoBool = false;
 
@@ -6289,10 +6293,10 @@ __webpack_require__.r(__webpack_exports__);
         console.log("ot seleccionada: ");
         console.log(this.otSeleccionada);
         axios.get('http://localhost:8000/productosOt/' + this.ots[this.otSeleccionada].id).then(function (response) {
-          _this5.productos = response.data;
+          _this6.productos = response.data;
           console.log("nombre del producto primero");
-          console.log(_this5.productos);
-          _this5.otSeleccionadaBool = true;
+          console.log(_this6.productos);
+          _this6.otSeleccionadaBool = true;
         });
       }
     },
