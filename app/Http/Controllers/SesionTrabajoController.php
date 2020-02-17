@@ -125,8 +125,21 @@ class SesionTrabajoController extends Controller
                     $nuevo->sub_producto_id = $sub['id'];  //creo que es ele objeto, en vola es el id nomas
                     error_log("d");
                     error_log("piezasArray[1][1]");
-                    error_log(implode(", ",$piezasArray[$i][$j][$k]));
-                    $nuevo->numero_pieza = implode(", ",$piezasArray[$i][$j][$k]);
+                    //error_log($piezasArray[$i][$j][0][$k]['nombre']);
+                    $nombreAux = "";
+                    $l = 1;
+                    foreach($piezasArray[$i][$j][$k] as $obj){
+                        if($l< count($piezasArray[$i][$j][$k])){
+                            $nombreAux = $nombreAux . $obj['nombre'] . ', '; 
+                        }
+                        else {
+                            $nombreAux = $nombreAux . $obj['nombre']; 
+                        }
+                        $l = $l + 1;
+                    }
+                    error_log("sdfugu");
+                    error_log($nombreAux);
+                    $nuevo->numero_pieza = $nombreAux;
                     error_log("f");
                     error_log("$proceso");
                     $nuevo->proceso_id = $proceso;

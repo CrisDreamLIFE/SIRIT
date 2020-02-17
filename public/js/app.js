@@ -5525,6 +5525,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-multiselect */ "./node_modules/vue-multiselect/dist/vue-multiselect.min.js");
+/* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_multiselect__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -5859,7 +5861,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+ // register globally
+//  Vue.component('multiselect', Multiselect)
 // Example starter JavaScript for disabling form submissions if there are invalid fields
+
 (function () {
   'use strict';
 
@@ -5881,6 +5895,7 @@ __webpack_require__.r(__webpack_exports__);
 })();
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  // components: { Multiselect },
   props: ['estaciones', 'ots'],
   data: function data() {
     return {
@@ -5935,6 +5950,10 @@ __webpack_require__.r(__webpack_exports__);
     console.log('Component mounted.') */
   },
   methods: {
+    nameWithLang: function nameWithLang(_ref) {
+      var nombre_tipo = _ref.nombre_tipo;
+      return "".concat(nombre_tipo);
+    },
     escribir: function escribir() {
       if (this.botonTrabajoComenzado) {
         var hAux, mAux, sAux;
@@ -5998,8 +6017,25 @@ __webpack_require__.r(__webpack_exports__);
       };
       console.log(productosSelec);
       axios.post('http://localhost:8000/cantidadProducto', productosSelec).then(function (response) {
-        _this.cantidadesProductos = response.data;
+        //this.cantidadesProductos = response.data;
         _this.trabajoComenzado = true;
+        console.log("response.data de cantidades:");
+        console.log(response.data);
+        console.log("cantidades productos:");
+
+        for (var i = 0; i < response.data.length; i++) {
+          var aux = [];
+
+          for (var j = 0; j < response.data[i]; j++) {
+            var obj = {
+              nombre: j + 1
+            };
+            aux.push(obj);
+          }
+
+          _this.cantidadesProductos.push(aux);
+        }
+
         console.log(_this.cantidadesProductos);
       });
     },
@@ -50640,7 +50676,7 @@ var render = function() {
                                                                             "div",
                                                                             {
                                                                               staticClass:
-                                                                                "col col-sm-6"
+                                                                                "col col-sm-8"
                                                                             },
                                                                             [
                                                                               _vm
@@ -50778,7 +50814,15 @@ var render = function() {
                                                                                           _vm
                                                                                             .cantidadesProductos[
                                                                                             indexG
-                                                                                          ],
+                                                                                          ][
+                                                                                            _vm
+                                                                                              .cantidadesProductos[
+                                                                                              indexG
+                                                                                            ]
+                                                                                              .length -
+                                                                                              1
+                                                                                          ]
+                                                                                            .nombre,
                                                                                         pattern:
                                                                                           "^[0-9]+",
                                                                                         type:
@@ -50962,229 +51006,80 @@ var render = function() {
                                                                                 "div",
                                                                                 {
                                                                                   staticClass:
-                                                                                    "col col-sm-2"
+                                                                                    "col col-sm-4"
                                                                                 },
                                                                                 [
                                                                                   _vm._v(
-                                                                                    "\n                                                            Pieza N°:\n                                                        "
+                                                                                    "\n                                                            Piezas Trabajadas:\n                                                        "
                                                                                   )
                                                                                 ]
                                                                               ),
                                                                               _vm._v(
                                                                                 " "
                                                                               ),
-                                                                              _vm._l(
-                                                                                _vm
-                                                                                  .cantidadesProductos[
-                                                                                  indexG
-                                                                                ],
-                                                                                function(
-                                                                                  n
-                                                                                ) {
-                                                                                  return _c(
-                                                                                    "div",
+                                                                              _c(
+                                                                                "div",
+                                                                                {
+                                                                                  staticClass:
+                                                                                    "col col-sm-8"
+                                                                                },
+                                                                                [
+                                                                                  _c(
+                                                                                    "multiselect",
                                                                                     {
-                                                                                      key: n,
-                                                                                      staticClass:
-                                                                                        "form-check-inline",
                                                                                       attrs: {
-                                                                                        value: n
-                                                                                      }
-                                                                                    },
-                                                                                    [
-                                                                                      _c(
-                                                                                        "input",
-                                                                                        {
-                                                                                          directives: [
-                                                                                            {
-                                                                                              name:
-                                                                                                "model",
-                                                                                              rawName:
-                                                                                                "v-model",
-                                                                                              value:
-                                                                                                _vm
-                                                                                                  .aux[
-                                                                                                  indexG
-                                                                                                ][
-                                                                                                  indexM
-                                                                                                ][
-                                                                                                  index
-                                                                                                ],
-                                                                                              expression:
-                                                                                                "aux[indexG][indexM][index]"
-                                                                                            }
+                                                                                        options:
+                                                                                          _vm
+                                                                                            .cantidadesProductos[
+                                                                                            indexG
                                                                                           ],
-                                                                                          staticClass:
-                                                                                            "form-check-input",
-                                                                                          attrs: {
-                                                                                            type:
-                                                                                              "checkbox",
-                                                                                            id:
-                                                                                              "" +
-                                                                                              index +
-                                                                                              indexG +
-                                                                                              indexM +
-                                                                                              n
-                                                                                          },
-                                                                                          domProps: {
-                                                                                            value: n,
-                                                                                            checked: Array.isArray(
-                                                                                              _vm
-                                                                                                .aux[
-                                                                                                indexG
-                                                                                              ][
-                                                                                                indexM
-                                                                                              ][
-                                                                                                index
-                                                                                              ]
-                                                                                            )
-                                                                                              ? _vm._i(
-                                                                                                  _vm
-                                                                                                    .aux[
-                                                                                                    indexG
-                                                                                                  ][
-                                                                                                    indexM
-                                                                                                  ][
-                                                                                                    index
-                                                                                                  ],
-                                                                                                  n
-                                                                                                ) >
-                                                                                                -1
-                                                                                              : _vm
-                                                                                                  .aux[
-                                                                                                  indexG
-                                                                                                ][
-                                                                                                  indexM
-                                                                                                ][
-                                                                                                  index
-                                                                                                ]
-                                                                                          },
-                                                                                          on: {
-                                                                                            change: function(
-                                                                                              $event
-                                                                                            ) {
-                                                                                              var $$a =
-                                                                                                  _vm
-                                                                                                    .aux[
-                                                                                                    indexG
-                                                                                                  ][
-                                                                                                    indexM
-                                                                                                  ][
-                                                                                                    index
-                                                                                                  ],
-                                                                                                $$el =
-                                                                                                  $event.target,
-                                                                                                $$c = $$el.checked
-                                                                                                  ? true
-                                                                                                  : false
-                                                                                              if (
-                                                                                                Array.isArray(
-                                                                                                  $$a
-                                                                                                )
-                                                                                              ) {
-                                                                                                var $$v = n,
-                                                                                                  $$i = _vm._i(
-                                                                                                    $$a,
-                                                                                                    $$v
-                                                                                                  )
-                                                                                                if (
-                                                                                                  $$el.checked
-                                                                                                ) {
-                                                                                                  $$i <
-                                                                                                    0 &&
-                                                                                                    _vm.$set(
-                                                                                                      _vm
-                                                                                                        .aux[
-                                                                                                        indexG
-                                                                                                      ][
-                                                                                                        indexM
-                                                                                                      ],
-                                                                                                      index,
-                                                                                                      $$a.concat(
-                                                                                                        [
-                                                                                                          $$v
-                                                                                                        ]
-                                                                                                      )
-                                                                                                    )
-                                                                                                } else {
-                                                                                                  $$i >
-                                                                                                    -1 &&
-                                                                                                    _vm.$set(
-                                                                                                      _vm
-                                                                                                        .aux[
-                                                                                                        indexG
-                                                                                                      ][
-                                                                                                        indexM
-                                                                                                      ],
-                                                                                                      index,
-                                                                                                      $$a
-                                                                                                        .slice(
-                                                                                                          0,
-                                                                                                          $$i
-                                                                                                        )
-                                                                                                        .concat(
-                                                                                                          $$a.slice(
-                                                                                                            $$i +
-                                                                                                              1
-                                                                                                          )
-                                                                                                        )
-                                                                                                    )
-                                                                                                }
-                                                                                              } else {
-                                                                                                _vm.$set(
-                                                                                                  _vm
-                                                                                                    .aux[
-                                                                                                    indexG
-                                                                                                  ][
-                                                                                                    indexM
-                                                                                                  ],
-                                                                                                  index,
-                                                                                                  $$c
-                                                                                                )
-                                                                                              }
-                                                                                            }
-                                                                                          }
-                                                                                        }
-                                                                                      ),
-                                                                                      _vm._v(
-                                                                                        " "
-                                                                                      ),
-                                                                                      _c(
-                                                                                        "label",
-                                                                                        {
-                                                                                          staticClass:
-                                                                                            "form-check-label",
-                                                                                          attrs: {
-                                                                                            for:
-                                                                                              "" +
-                                                                                              index +
-                                                                                              indexG +
-                                                                                              indexM +
-                                                                                              n
-                                                                                          }
-                                                                                        },
-                                                                                        [
-                                                                                          _vm._v(
-                                                                                            "\n                                                                " +
-                                                                                              _vm._s(
-                                                                                                n
-                                                                                              ) +
-                                                                                              "  \n                                                            "
+                                                                                        "deselect-label":
+                                                                                          "Presiona para Quitar",
+                                                                                        "select-label":
+                                                                                          "Presiona para seleccionar",
+                                                                                        multiple: true,
+                                                                                        "clear-on-select": false,
+                                                                                        "close-on-select": false,
+                                                                                        placeholder:
+                                                                                          "",
+                                                                                        label:
+                                                                                          "nombre",
+                                                                                        "track-by":
+                                                                                          "nombre"
+                                                                                      },
+                                                                                      model: {
+                                                                                        value:
+                                                                                          _vm
+                                                                                            .aux[
+                                                                                            indexG
+                                                                                          ][
+                                                                                            indexM
+                                                                                          ][
+                                                                                            index
+                                                                                          ],
+                                                                                        callback: function(
+                                                                                          $$v
+                                                                                        ) {
+                                                                                          _vm.$set(
+                                                                                            _vm
+                                                                                              .aux[
+                                                                                              indexG
+                                                                                            ][
+                                                                                              indexM
+                                                                                            ],
+                                                                                            index,
+                                                                                            $$v
                                                                                           )
-                                                                                        ]
-                                                                                      ),
-                                                                                      _vm._v(
-                                                                                        " "
-                                                                                      ),
-                                                                                      _c(
-                                                                                        "br"
-                                                                                      )
-                                                                                    ]
+                                                                                        },
+                                                                                        expression:
+                                                                                          "aux[indexG][indexM][index]"
+                                                                                      }
+                                                                                    }
                                                                                   )
-                                                                                }
+                                                                                ],
+                                                                                1
                                                                               )
-                                                                            ],
-                                                                            2
+                                                                            ]
                                                                           )
                                                                         : _vm._e()
                                                                     ]
@@ -52085,7 +51980,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col col-sm-6" }, [
+    return _c("div", { staticClass: "col col-sm-4" }, [
       _c("label", { attrs: { for: "" } }, [_vm._v("Cantidad:")])
     ])
   },

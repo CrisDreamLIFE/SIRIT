@@ -96,7 +96,7 @@
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                     </button>
-                                </div>
+                                </div> 
                                 <div class="modal-body form-group" v-for="(linea,indexG) in otProducto" v-bind:key="indexG">
                                     <label for="">OT {{otProducto[indexG][0].id}} PRODUCTO {{otProducto[indexG][1].nombre_producto}}</label>
 
@@ -113,12 +113,12 @@
                                                     </div>
                                                     <div class="col col-sm-8" >
                                                         <div class="form-row">
-                                                            <div class="col col-sm-6">
+                                                            <div class="col col-sm-4">
                                                                 <label for="">Cantidad:</label>
                                                             </div>
-                                                            <div class="col col-sm-6">
+                                                            <div class="col col-sm-8">
                                                                 <input v-if="cantidadesProductos[indexG]==0" v-bind:id="''+index+indexG+indexM" required  min="0"  pattern="^[0-9]+" @input="solonumeros(indexG,indexM,index)" type="number" v-model="cantidadProcesos[indexG][indexM][index]" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                                                                <input v-else v-bind:id="''+index+indexG+indexM" required  min="0" :max="cantidadesProductos[indexG]" pattern="^[0-9]+" @input="solonumeros(indexG,indexM,index)" type="number" v-model="cantidadProcesos[indexG][indexM][index]" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                                                <input v-else v-bind:id="''+index+indexG+indexM" required  min="0" :max="cantidadesProductos[indexG][cantidadesProductos[indexG].length -1].nombre" pattern="^[0-9]+" @input="solonumeros(indexG,indexM,index)" type="number" v-model="cantidadProcesos[indexG][indexM][index]" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                                                                 <span class ="error" v-bind:for="''+index+indexG+indexM" v-if="inputValido[indexG][indexM][index]==1"> {{mensajeError1}}</span>   <!--{{mensajeError[indexG][indexM][index]}}</span> -->
                                                                 <span class ="error" v-bind:for="''+index+indexG+indexM" v-if="inputValido[indexG][indexM][index]==2"> {{mensajeError2}}</span>
                                                                 <span class ="error" v-bind:for="''+index+indexG+indexM" v-if="inputValido[indexG][indexM][index]==3"> {{mensajeError3}}</span>
@@ -127,16 +127,25 @@
                                                     
                                                         </div>
                                                         <div class="form-row" v-if="subProd.tipo_material_id==filtradoMaterial">
-                                                            <div class="col col-sm-2">
-                                                                Pieza N°:
+                                                            <div class="col col-sm-4">
+                                                                Piezas Trabajadas:
                                                             </div>
-                                                            <div v-for="n in cantidadesProductos[indexG]" v-bind:value="n" v-bind:key="n" class="form-check-inline">  <!--:id="index+pro.nombre+otProducto[indexG][2][indexM].nombre + otProducto[indexG][0].id -->
-                                                                <input class="form-check-input" type="checkbox" v-bind:id="''+index+indexG+indexM+n"  :value="n" v-model="aux[indexG][indexM][index]" > <!--valor for mas arriba -->
-                                                                <label class="form-check-label" v-bind:for="''+index+indexG+indexM+n"> <!-- - {{'order_by_'+indexG+''+indexM+''+index+''+n}} -->
+                                                            <div class="col col-sm-8">
+                                                                <!--<label  class= "color4" for="9">Tipo de OT:</label>-->
+                                                                <multiselect v-model="aux[indexG][indexM][index]" :options="cantidadesProductos[indexG]" deselect-label="Presiona para Quitar" 
+                                                                select-label="Presiona para seleccionar" :multiple="true" :clear-on-select="false" 
+                                                                :close-on-select="false" placeholder="" 
+                                                                label="nombre" track-by="nombre"></multiselect>
+                                                            
+                                                                
+                                                            </div>
+                                                            <!--<div v-for="n in cantidadesProductos[indexG]" v-bind:value="n" v-bind:key="n" class="form-check-inline">  
+                                                                <input class="form-check-input" type="checkbox" v-bind:id="''+index+indexG+indexM+n"  :value="n" v-model="aux[indexG][indexM][index]" > 
+                                                                <label class="form-check-label" v-bind:for="''+index+indexG+indexM+n"> 
                                                                     {{n}}  
                                                                 </label>
                                                                 <br>
-                                                            </div> 
+                                                            </div> -->
                                                         </div>
                                                     </div>
                                                 </div>
@@ -333,6 +342,11 @@
 </template>
 
 <script>
+
+import Multiselect from 'vue-multiselect'
+
+// register globally
+  //  Vue.component('multiselect', Multiselect)
 // Example starter JavaScript for disabling form submissions if there are invalid fields
 (function() {
   'use strict';
@@ -352,6 +366,7 @@
   }, false);
 })();
     export default {
+       // components: { Multiselect },
         props: ['estaciones', 'ots'],
         data(){
             return {
@@ -409,6 +424,9 @@
             console.log('Component mounted.') */
         },
         methods:{
+            nameWithLang ({nombre_tipo}) {
+                return `${nombre_tipo}`
+                },
             escribir(){
                 if(this.botonTrabajoComenzado){
                     var hAux, mAux, sAux;
@@ -447,8 +465,19 @@
                 axios
                     .post('http://localhost:8000/cantidadProducto', productosSelec)
                     .then(response => {
-                        this.cantidadesProductos = response.data;
+                        //this.cantidadesProductos = response.data;
                         this.trabajoComenzado = true;
+                        console.log("response.data de cantidades:");
+                        console.log(response.data);
+                        console.log("cantidades productos:")
+                        for(var i=0;i<response.data.length;i++){
+                            var aux = [];
+                            for(var j=0;j<response.data[i];j++){
+                                var obj={nombre: j+1}
+                                aux.push(obj);
+                            }
+                            this.cantidadesProductos.push(aux);
+                        }
                         console.log(this.cantidadesProductos);})
             },
             terminarTrabajo(){
