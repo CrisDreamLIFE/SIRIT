@@ -22,6 +22,12 @@ Route::get('/', function () {
 #Estacion
 Route::resource('estacion', 'EstacionController');
 
+#Nave
+Route::resource('nave', 'NaveController');
+
+#Area
+Route::resource('area', 'AreaController');
+
 #Rol
 Route::resource('rol', 'RolController');
 
@@ -29,6 +35,7 @@ Route::resource('rol', 'RolController');
 Route::resource('sesion', 'SesionTrabajoController');
 Route::post('/sesionFinal', 'SesionTrabajoController@storeFinal');
 Route::post('/exportarExcelSesion', 'SesionTrabajoController@exportarExcel');
+Route::get('/test1', 'SesionTrabajoController@test');
 
 
 

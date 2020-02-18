@@ -46,16 +46,12 @@ class NumeroOtExport implements FromCollection, WithHeadings
         foreach($otCompleta as $ot){
             $aux1 = $ot->fecha_entrega_Oc;
             $aux2 = $ot->fecha_recepcion;
-            $aux3 = $ot->fecha_real_entrega;
-            $aux4 = $ot->fecha_real_entrega;
-            $newFecha1 = date("d-m-Y", strtotime($aux1));
-            $newFecha2 = date("d-m-Y", strtotime($aux2));
-            $newFecha3 = date("d-m-Y", strtotime($aux3));
-            $newFecha4 = date("d-m-Y", strtotime($aux4));
-            $ot->fecha_entrega_Oc = $newFecha1;
-            $ot->fecha_recepcion = $newFecha2;
-            $ot->fecha_real_entrega = $newFecha3;
-            $ot->fecha_despacho = $newFecha4;
+            $aux3 = $ot->fecha_real_entregA;
+            $aux4 = $ot->fecha_despacho;
+            if($aux1!=null){$newFecha1 = date("d-m-Y", strtotime($aux1));$ot->fecha_entrega_Oc = $newFecha1;}
+            if($aux2!=null){$newFecha2 = date("d-m-Y", strtotime($aux2));$ot->fecha_recepcion = $newFecha2;}
+            if($aux3!=null){$newFecha3 = date("d-m-Y", strtotime($aux3));$ot->fecha_real_entregA = $newFecha3;} //aqui nos caemos}
+            if($aux4!=null){$newFecha4 = date("d-m-Y", strtotime($aux4));$ot->fecha_despacho = $newFecha4;};
             if($ot->abierta){
                 $ot->abierta = "ABIERTA";
             }

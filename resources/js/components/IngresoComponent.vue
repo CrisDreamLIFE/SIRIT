@@ -102,7 +102,10 @@
                 :ots="otsTodas[0]"
                 :clientes="clientes"
                 :responsables="responsables"
-                :tipos="tipos">
+                :tipos="tipos"
+                :estaciones="estaciones"
+                :areas="areas"
+                :naves="naves">
                 </principal-gestion-reporte-component>
             </div> 
             <!----------------------------------->
@@ -125,6 +128,8 @@ export default {
                 rut: "19.313.751-2",
                 contraseña:"11",
                 estaciones:[],
+                areas:[],
+                naves:[],
                 clientes:[],
                 responsables:[],
                 tipos:[],
@@ -192,6 +197,20 @@ export default {
                 this.componentKey += 1;    
             },
             iniciarGestionReporte(){
+                 axios
+                .get('http://localhost:8000/nave')
+                .then(response =>{
+                    console.log(response.data)
+                    this.naves=response.data;
+                    this.algoSeleccionado=true;
+                    this.iniciarGestionReporteBool=true;})
+                axios
+                .get('http://localhost:8000/area')
+                .then(response =>{
+                    console.log(response.data)
+                    this.areas=response.data;
+                    this.algoSeleccionado=true;
+                    this.iniciarGestionReporteBool=true;})
                 axios
                 .get('http://localhost:8000/producto')
                 .then(response =>{

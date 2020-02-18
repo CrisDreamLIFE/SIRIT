@@ -3,19 +3,32 @@
 namespace App\Exports\SESION;
 
 use App\SesionTrabajo;
+use App\Area;
+use App\Estacion;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class TodasExport implements FromCollection, WithHeadings
+class AreaExport implements FromCollection, WithHeadings
 {
+    /**
+    * @return \Illuminate\Support\Collection
+    */
 
-    public function collection()
+    public $globalOperacion;
+    public $globalCuerpo;
+    function __construct($operacion,$cuerpo)
     {
+        $this->globalOperacion = $operacion;
+        $this->globalCuerpo = $cuerpo;
+    }
+    public function collection()
+    {   
         $sesionCompleta = SesionTrabajo::join("detalle_sesions","sesion_trabajos.id","=","detalle_sesions.sesion_trabajo_id")
                         ->join("estacions","sesion_trabajos.estacion_id","=","estacions.id")
                         ->join("productos","detalle_sesions.producto_id","=","productos.id")
                         ->join("sub_productos","detalle_sesions.sub_producto_id","=","sub_productos.id")
                         ->join("procesos","detalle_sesions.proceso_id","=","procesos.id")
+                       // ->join("areas","estacions.area_id","=","areas.id")
                         ->orderBy('sesion_trabajos.id','DESC')
                         ->select('detalle_sesions.sesion_trabajo_id','detalle_sesions.ot_id','productos.nombre_producto','productos.codigo_siom',
                         'sub_productos.nombre_sub_producto','procesos.nombre_proceso','detalle_sesions.cantidad',
@@ -24,15 +37,30 @@ class TodasExport implements FromCollection, WithHeadings
                         'estacions.codigo','detalle_sesions.operador')
                         ->get();
 
+                        error_log("1");
         foreach($sesionCompleta as $sesion){
             $aux1 = $sesion->fecha_inicio;
             $aux2 = $sesion->fecha_termino;
             if($aux1!=null){$newFecha1 = date("d-m-Y", strtotime($aux1));$sesion->fecha_inicio = $newFecha1;}
             if($aux2!=null){$newFecha2 = date("d-m-Y", strtotime($aux2));$sesion->fecha_termino = $newFecha2;}
         }
-            
-            return $sesionCompleta;
-       }
+        error_log("2");
+  
+            error_log("global operadion 1");
+            $return = $sesionCompleta->filter(function ($item) {
+                error_log($item->codigo);
+                $estacion = Estacion::where("codigo",$item->codigo)->get();
+                error_log($estacion[0]->id);
+                $area = Area::find($estacion[0]->id);
+                error_log("nombre area;");
+                error_log($area->nombre_area);
+                if($area->nombre_area == $this->globalCuerpo){
+                    return $item;
+                }})->values();  
+            return $return;            
+        
+        
+    }
 
     public function headings(): array
     {

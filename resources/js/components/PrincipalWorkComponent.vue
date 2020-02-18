@@ -33,7 +33,7 @@
                                     <p>{{otProducto[index][1].nombre_producto}}</p>
                                     </div>
                                     <div class="col-sm-5">
-                                    <p>{{otProducto[index][2][indexS].nombre}}</p>
+                                    <p>{{otProducto[index][2][indexS].nombre_sub_producto}}</p>
                                     </div>
                                 </div>
                                 <hr class="style3">
@@ -64,7 +64,7 @@
                     <div class="container color2">
                         <br>
                         <div v-for="(proceso,index) in procesosSeleccionados" v-bind:key="index">
-                            <p>* {{procesos[proceso].nombre}}</p> 
+                            <p>* {{procesos[proceso].nombre_proceso}}</p> 
                         </div>
                     </div>
                 </div>
@@ -101,7 +101,7 @@
                                     <label for="">OT {{otProducto[indexG][0].id}} PRODUCTO {{otProducto[indexG][1].nombre_producto}}</label>
 
                                     <div class="container form-group" v-for="(subProd,indexM) in otProducto[indexG][2]" v-bind:key="indexM">
-                                        <label for="">{{subProd.nombre}}</label>
+                                        <label for="">{{subProd.nombre_sub_producto}}</label>
                                         <form class="needs-validation" novalidate> 
                                             <div class="container form-group" v-for="(proceso,index) in procesosSeleccionados" v-bind:key="index">
                                                 
@@ -117,7 +117,7 @@
                                                                 <label for="">Cantidad:</label>
                                                             </div>
                                                             <div class="col col-sm-8">
-                                                                <input v-if="cantidadesProductos[indexG]==0" v-bind:id="''+index+indexG+indexM" required  min="0"  pattern="^[0-9]+" @input="solonumeros(indexG,indexM,index)" type="number" v-model="cantidadProcesos[indexG][indexM][index]" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                                                <input v-if="cantidadesProductos[indexG]==0 || subProd.tipo_material_id==2" v-bind:id="''+index+indexG+indexM" required  min="0"  pattern="^[0-9]+" @input="solonumeros(indexG,indexM,index)" type="number" v-model="cantidadProcesos[indexG][indexM][index]" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                                                                 <input v-else v-bind:id="''+index+indexG+indexM" required  min="0" :max="cantidadesProductos[indexG][cantidadesProductos[indexG].length -1].nombre" pattern="^[0-9]+" @input="solonumeros(indexG,indexM,index)" type="number" v-model="cantidadProcesos[indexG][indexM][index]" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                                                                 <span class ="error" v-bind:for="''+index+indexG+indexM" v-if="inputValido[indexG][indexM][index]==1"> {{mensajeError1}}</span>   <!--{{mensajeError[indexG][indexM][index]}}</span> -->
                                                                 <span class ="error" v-bind:for="''+index+indexG+indexM" v-if="inputValido[indexG][indexM][index]==2"> {{mensajeError2}}</span>
@@ -178,9 +178,9 @@
                             <h3 class="h3">Seleccion sub-productos de: OT {{otProducto[indexG][0].id}}- {{otProducto[indexG][1].nombre_producto}}</h3>
                             <div class="container color">  <!-- este 0 deberia ser el index del for de arriba -->
                                 <div v-for="(sub,index) in subProductos[indexG]" v-bind:key="index" class="form-check-inline">  <!--aqui va el otro for -->
-                                    <input class="form-check-input" type="checkbox" :id="index+indexG*sub.id+sub.nombre" :value="subProductos[indexG][index]" v-model="otProducto[indexG][2]"> <!--valor for mas arriba -->
-                                    <label class="form-check-label lavelFont2" :for="index+indexG*sub.id+sub.nombre" >
-                                        {{sub.nombre}} 
+                                    <input class="form-check-input" type="checkbox" :id="index+indexG*sub.id+sub.nombre_sub_producto" :value="subProductos[indexG][index]" v-model="otProducto[indexG][2]"> <!--valor for mas arriba -->
+                                    <label class="form-check-label lavelFont2" :for="index+indexG*sub.id+sub.nombre_sub_producto" >
+                                        {{sub.nombre_sub_producto}} 
                                     </label>
                                     <br>
                                 </div>  
@@ -190,9 +190,9 @@
                         <h3 class="h3">Seleccion de Procesos a realizar:</h3>
                         <div class="container color">  
                                 <div v-for="(proceso,indexP) in procesos" v-bind:key="indexP" v-bind:value="procesos[indexP].id"  class="form-check-inline">  <!--aqui va el otro for -->
-                                    <input class="form-check-input" type="checkbox" :id="''+indexP+proceso.id+proceso.nombre" :value="indexP"   v-model="procesosSeleccionados"> <!--valor for mas arriba -->
-                                    <label class="form-check-label lavelFont2" :for="''+indexP+proceso.id+proceso.nombre" >
-                                    {{proceso.nombre}}  
+                                    <input class="form-check-input" type="checkbox" :id="''+indexP+proceso.id+proceso.nombre_proceso" :value="indexP"   v-model="procesosSeleccionados"> <!--valor for mas arriba -->
+                                    <label class="form-check-label lavelFont2" :for="''+indexP+proceso.id+proceso.nombre_proceso" >
+                                    {{proceso.nombre_proceso}}  
                                     </label>
                                 </div> 
                                 <br>
@@ -448,8 +448,16 @@ import Multiselect from 'vue-multiselect'
                 this.escribir();
                 setInterval(this.escribir,1000);
                 //post de sesion
+                var procesosSend = []
+                for (var p = 0; p < this.procesosSeleccionados.length; p++) {
+                    procesosSend.push(this.procesos[this.procesosSeleccionados[p]].id);
+                }
+                console.log("procesos seleccionados");
+                console.log(this.procesosSeleccionados);
                 var params = {
                     id_estacion: this.estacionSeleccionada,
+                    otProducto: this.otProducto,
+                    procesos: procesosSend,
                     trabajadores: this.trabajadoresSeleccionados
                 };
                 console.log(params);

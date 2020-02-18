@@ -151,48 +151,98 @@
         <button  @click="botonSobreSesiones" type="button" class="btn btn-secondary btn-lg btn-block">Reportes sobre Sesiones de Trabajo</button>
             <br>
             <div v-if="sesionBool" class="row container color4">
-                <!--<div class="col-md-2">
-                    <input class="form-check-input" :value="true" :unchecked-value="true" v-model="abierta" id="abierta" type="checkbox">
-                    <label style="font-size:18px" for = "abierta">{{'   Abiertas'}}</label>
-                    <br>
-                    <input class="form-check-input" :value="true" :unchecked-value="true" v-model="cerrada" id="cerrada" type="checkbox">
-                    <label style="font-size:18px" for = "cerrada">{{'   Cerradas'}}</label> 
-                </div>  -->
                 <div class="col-md-4">
                     <label  class= "color4" for="select1">Exportar Por:</label>
-                    <select id="select1" v-model="opcionSeleccionada" class="form-control">
-                        <option value="10" >Todas</option>
-                        <option value="11" >Número de OT</option> 
-                        <option value="12" >Fecha</option>
-                        <option value="13" >Área</option>
-                        <option value="14" >Estación</option>
-                        <option value="15" >Nave</option>
-                        <option value="16" >En Proceso</option>
-                        <option value="17" >Código Siom</option>
+                    <select id="select1" v-model="opcionSeleccionadaSesion" class="form-control">
+                        <option value="1" >Todas</option>
+                        <option value="2" >Número de OT</option> 
+                        <option value="3" >Fecha</option>
+                        <option value="4" >Área</option>
+                        <option value="5" >Estación</option>
+                        <option value="6" >Nave</option>
+                        <option value="7" >En Proceso</option>
+                        <option value="8" >Código Siom</option>
                     </select>
                 </div>
-                <!-- aqui se ponen los input y select-->
+                <!-- SESIOON  aqui se ponen los input y select-->
                 <div class="col-md-8">
-                    <div v-if="opcionSeleccionada==9">
+                    <div v-if="opcionSeleccionadaSesion==2">
                         <div class="row">
                             <div class="col-md-6">
-                                <label  class= "color4" for="2">Operacion:</label>   
-                                <select id="2" v-model="opcionSeleccionada2" class="form-control">
+                                <label  class= "color4" for="Sesion2">Operacion:</label>   
+                                <select id="Sesion2" v-model="opcionSeleccionadaSesion2" class="form-control">
                                     <option value="1">Igual a:</option>
                                     <option value="2">Mayor a:</option>
                                     <option value="3">Menor a:</option>
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                <label  class= "color4" for="2-1">OT:</label>
-                                <input id="2-1" class="form-control" type="text" v-model="searchOt" @input="onChangueOt"/>
-                                    <ul v-show="isOpenOt" class="autocomplete-results">
-                                        <li  @click="setResultOt(result)" v-for="(result,i) in resultsOt" :key="i" class="autocomplete-result">{{result.id}}</li>
+                                <label  class= "color4" for="Sesion2-1">OT:</label>
+                                <input id="Sesion2-1" class="form-control" type="text" v-model="searchSesionOt" @input="onChangueSesionOt"/>
+                                    <ul v-show="isOpenSesionOt" class="autocomplete-results">
+                                        <li  @click="setResultSesionOt(result)" v-for="(result,i) in resultsSesionOt" :key="i" class="autocomplete-result">{{result.id}}</li>
                                     </ul>          
                             </div>
                         </div>
                     </div>
+                    <div v-if="opcionSeleccionadaSesion==3">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label  class= "color4" for="sesion3">Operacion:</label>   
+                                <select id="sesion3" v-model="opcionSeleccionadaSesion3" class="form-control">
+                                    <option value="1">Igual a:</option>
+                                    <option value="2">Mayor a:</option>
+                                    <option value="3">Menor a:</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label  class= "color4" for="sesion3-1">Fecha:</label>
+                                <input type="date" class="form-control" id="sesion3-1" v-model="fecha_sesion">
+                            </div>
+                        </div>
+                    </div>
+                    <div v-if="opcionSeleccionadaSesion==4">
+                        <div class="row">
+                            <div class="md-form col-md-6">
+                                <label  class= "color4" for="sesion4">Área:</label>   
+                                <input id="sesion4" class="form-control" type="text" v-model="searchSesionArea" @input="onChangueSesionArea" />
+                                <ul v-show="isOpenSesionArea" class="autocomplete-results">
+                                    <li @click="setResultSesionArea(result)" v-for="(result,i) in resultsSesionArea" :key="i" class="autocomplete-result">{{result.nombre_area}}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>  
+                    <div v-if="opcionSeleccionadaSesion==5">
+                        <div class="row">
+                            <div class="md-form col-md-6">
+                                <label  class= "color4" for="sesion5">Estacion:</label>   
+                                <input id="sesion5" class="form-control" type="text" v-model="searchSesionEstacion" @input="onChangueSesionEstacion" />
+                                <ul v-show="isOpenSesionEstacion" class="autocomplete-results">
+                                    <li @click="setResultSesionEstacion(result)" v-for="(result,i) in resultsSesionEstacion" :key="i" class="autocomplete-result">{{result.codigo}}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-if="opcionSeleccionadaSesion==6">
+                        <div class="row">
+                            <div class="md-form col-md-6">
+                                <label  class= "color4" for="sesion6">Nave:</label>   
+                                <input id="sesion6" class="form-control" type="text" v-model="searchSesionNave" @input="onChangueSesionNave" />
+                                <ul v-show="isOpenSesionNave" class="autocomplete-results">
+                                    <li @click="setResultSesionNave(result)" v-for="(result,i) in resultsSesionNave" :key="i" class="autocomplete-result">{{result.nombre_nave}}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                <div  class="col-md-4"></div>
+                <div  class="col-md-4">
+                    <br>
+                    <div v-if="opcionSeleccionadaSesion==1 || (opcionSeleccionadaSesion==2 && searchSesionOt!='' && ots!=null)||
+                    (fecha_sesion!='' && opcionSeleccionadaSesion==3) || (opcionSeleccionadaSesion==4 && searchSesionArea!='' && areas!=null)
+                    ||(opcionSeleccionadaSesion==5 && searchSesionEstacion!='' && estaciones!=null)||(opcionSeleccionadaSesion==6 && searchSesionNave!='' && naves!=null)">
+                    <button  @click="clickExportarSesion" type="button" class="btn btn-success btn-lg btn-block">Exportar</button></div><br>    
+                </div>  
             </div>
         <button  @click="" type="button" class="btn btn-secondary btn-lg btn-block">Listado de Trabajadores</button>
         <br>
@@ -210,7 +260,7 @@
     Vue.component('multiselect', Multiselect)
     export default {
         components: { Multiselect },
-        props: ['ots','clientes','productos','responsables','tipos'], 
+        props: ['ots','clientes','productos','responsables','tipos','estaciones','areas','naves'], 
         data(){
             return {
                 otBool: false,
@@ -218,6 +268,7 @@
                 abierta: true,
                 cerrada: false,
                 opcionSeleccionada:1,
+                opcionSeleccionadaSesion:1,
                 opcionSeleccionada2: 1,
                 opcionSeleccionada3: 1,
                 opcionSeleccionada4: 1,
@@ -225,24 +276,24 @@
                 opcionSeleccionada9: 1,
                 fecha_oc:'',
                 fecha_entrega:'',               
-                //OPCION 2
+                //OPCION 2 OT
                     searchOt: '',
                     resultsOt: '',
                     isOpenOt: false,
-                //OPCION 6
+                //OPCION 6 OT
                     searchCliente: '',
                     resultsCliente: '',
                     isOpenCliente: false,
-                //OPCION 7
+                //OPCION 7 OT
                     searchProducto: '',
                     resultsProducto: '',
                     isOpenProducto: false,
-                //OPCION 8
+                //OPCION 8 OT
                     searchResponsable: '',
                     resultsResponsable: '',
                     isOpenResponsable: false,
-                //OPCION 9
-                 searchTipo: '',
+                //OPCION 9 OT
+                    searchTipo: '',
                     value: [],
                     options: [
                         { name: 'Vue.js', language: 'JavaScript' },
@@ -251,7 +302,27 @@
                         { name: 'Sinatra', language: 'Ruby' },
                         { name: 'Laravel', language: 'PHP' },
                         { name: 'Phoenix', language: 'Elixir' }
-                    ]
+                    ],
+                //CON SESION
+                    opcionSeleccionadaSesion2: 1,
+                    opcionSeleccionadaSesion3: 1,
+                    fecha_sesion: '',
+                    //OPCION 2 SESION
+                        searchSesionOt: '',
+                        resultsSesionOt: '',
+                        isOpenSesionOt: false,
+                    //OPCION 4 SESION
+                        searchSesionArea: '',
+                        resultsSesionArea: '',                       
+                        isOpenSesionArea: false,
+                    //OPCION 5 SESION
+                        searchSesionEstacion: '',
+                        resultsSesionEstacion: '',                       
+                        isOpenSesionEstacion: false,   
+                    //OPCION 6 SESION
+                        searchSesionNave: '',
+                        resultsSesionNave: '',                       
+                        isOpenSesionNave: false,
             }
         },
         mounted() {
@@ -296,7 +367,6 @@
                 if(this.opcionSeleccionada==7){aux1=null;aux2=this.searchProducto;}
                 if(this.opcionSeleccionada==8){aux1=null;aux2=this.searchResponsable;}
                 if(this.opcionSeleccionada==9){aux1=null;aux2=this.searchTipo;}
-                if(this.opcionSeleccionada==10){aux1=null;aux2=null;}
                 var params={
                     opcion: this.opcionSeleccionada,
                     operacion: aux1,
@@ -306,9 +376,39 @@
                 };
                 console.log(params);
                 console.log("searchres");
-                console.log(this.searchTipo);
+                console.log(this.searchTipo);            
+                    axios({
+                        url: 'http://localhost:8000/exportarExcel',
+                        method: 'POST',
+                        data: params,
+                        responseType: 'blob', // important
+                        }).then((response) => {
+                        const url = window.URL.createObjectURL(new Blob([response.data]));
+                        const link = document.createElement('a');
+                        link.href = url;
+                        link.setAttribute('download', 'file.xlsx');
+                        document.body.appendChild(link);
+                        link.click();
+                    });
+            },
+            clickExportarSesion(){
+                var aux1 = null;
+                var aux2 = null;
+                if(this.opcionSeleccionadaSesion==1){aux1=null;aux2=null;}
+                if(this.opcionSeleccionadaSesion==2){aux1=this.opcionSeleccionadaSesion2;aux2=this.searchSesionOt;}
+                if(this.opcionSeleccionadaSesion==3){aux1=this.opcionSeleccionadaSesion3;aux2=this.fecha_sesion;}
+                if(this.opcionSeleccionadaSesion==4){aux1=null;aux2=this.searchSesionArea;}
+                if(this.opcionSeleccionadaSesion==5){aux1=null;aux2=this.searchSesionEstacion;}
+                if(this.opcionSeleccionadaSesion==6){aux1=null;aux2=this.searchSesionNave;}
+                var params={
+                        opcion: this.opcionSeleccionadaSesion,
+                        operacion: aux1,
+                        cuerpo: aux2
+                    };
+                console.log("soy de sesion")
+                console.log(params);
                 axios({
-                    url: 'http://localhost:8000/exportarExcel',
+                    url: 'http://localhost:8000/exportarExcelSesion',
                     method: 'POST',
                     data: params,
                     responseType: 'blob', // important
@@ -316,80 +416,162 @@
                     const url = window.URL.createObjectURL(new Blob([response.data]));
                     const link = document.createElement('a');
                     link.href = url;
-                    link.setAttribute('download', 'file.xlsx');
+                    link.setAttribute('download', 'fileSesion.xlsx');
                     document.body.appendChild(link);
                     link.click();
-});
+                });   
             },
-            //OPCION 2
-                onChangueOt(){
-                    console.log("ots:");
-                    console.log(this.ots);
-                    this.isOpenOt=true;
-                    this.filterResultsOt();
-                },
-                filterResultsOt(){
-                    this.resultsOt = this.ots.filter(item => item.id.toString().toLowerCase().indexOf(this.searchOt.toLowerCase())>-1);
-                    //esta hay que cambiarla.
-                },
-                setResultOt(result){
-                    console.log("result");
-                    console.log(result);
-                    this.searchOt = result.id;
-                    this.isOpenOt = false;
-                },
-                loseFocusOt(result){
-                    this.isOpenOt = false;
-                },
-            //OPCION 6
-                onChangueCliente(){
-                    this.isOpenCliente=true;
-                    this.filterResultsCliente();
-                },
-                filterResultsCliente(){
-                    this.resultsCliente = this.clientes.filter(item => item.nombre_cliente.toLowerCase().indexOf(this.searchCliente.toLowerCase())>-1);
-                    //esta hay que cambiarla.
-                },
-                setResultCliente(result){
-                    this.searchCliente = result.nombre_cliente;
-                    this.isOpenCliente = false;
-                },
-                loseFocusCliente(result){
-                    this.isOpenCliente = false;
-                },
-            //OPCION 7
-                onChangueProducto(){
-                    console.log(this.productos);
-                    this.isOpenProducto=true; //este igual hacer otro
-                    this.filterResultsProducto();
-                },
-                filterResultsProducto(){
-                    console.log(this.productos);
-                    this.resultsProducto = this.productos.filter(item => item.codigo_siom.toLowerCase().indexOf(this.searchProducto.toLowerCase())>-1);
-                },
-                setResultProducto(result){
-                    this.searchProducto = result.codigo_siom;
-                    this.isOpenProducto = false;
-                },
-                loseFocusProducto(){
-                    this.isOpenProducto = false;
-                },
-            //OPCION 8
-                onChangueResponsable(){
-                    this.isOpenResponsable=true;
-                    this.filterResultsResponsable();
-                },
-                filterResultsResponsable(){
-                    this.resultsResponsable = this.responsables.filter(item => item.nombre_usuario.toLowerCase().indexOf(this.searchResponsable.toLowerCase())>-1);
-                    //esta hay que cambiarla.
-                },
-                setResultResponsable(result){
-                    this.searchResponsable = result.nombre_usuario;
-                    this.isOpenResponsable = false;
-                },
-                loseFocusResponsable(){
-                    this.isOpenResponsable = false;
-                },
+            //OT
+                //OPCION 2
+                    onChangueOt(){
+                        console.log("ots:");
+                        console.log(this.ots);
+                        this.isOpenOt=true;
+                        this.filterResultsOt();
+                    },
+                    filterResultsOt(){
+                        this.resultsOt = this.ots.filter(item => item.id.toString().toLowerCase().indexOf(this.searchOt.toLowerCase())>-1);
+                        //esta hay que cambiarla.
+                    },
+                    setResultOt(result){
+                        console.log("result");
+                        console.log(result);
+                        this.searchOt = result.id;
+                        this.isOpenOt = false;
+                    },
+                    loseFocusOt(result){
+                        this.isOpenOt = false;
+                    },
+                //OPCION 6
+                    onChangueCliente(){
+                        this.isOpenCliente=true;
+                        this.filterResultsCliente();
+                    },
+                    filterResultsCliente(){
+                        this.resultsCliente = this.clientes.filter(item => item.nombre_cliente.toLowerCase().indexOf(this.searchCliente.toLowerCase())>-1);
+                        //esta hay que cambiarla.
+                    },
+                    setResultCliente(result){
+                        this.searchCliente = result.nombre_cliente;
+                        this.isOpenCliente = false;
+                    },
+                    loseFocusCliente(result){
+                        this.isOpenCliente = false;
+                    },
+                //OPCION 7
+                    onChangueProducto(){
+                        console.log(this.productos);
+                        this.isOpenProducto=true; //este igual hacer otro
+                        this.filterResultsProducto();
+                    },
+                    filterResultsProducto(){
+                        console.log(this.productos);
+                        this.resultsProducto = this.productos.filter(item => item.codigo_siom.toLowerCase().indexOf(this.searchProducto.toLowerCase())>-1);
+                    },
+                    setResultProducto(result){
+                        this.searchProducto = result.codigo_siom;
+                        this.isOpenProducto = false;
+                    },
+                    loseFocusProducto(){
+                        this.isOpenProducto = false;
+                    },
+                //OPCION 8
+                    onChangueResponsable(){
+                        this.isOpenResponsable=true;
+                        this.filterResultsResponsable();
+                    },
+                    filterResultsResponsable(){
+                        this.resultsResponsable = this.responsables.filter(item => item.nombre_usuario.toLowerCase().indexOf(this.searchResponsable.toLowerCase())>-1);
+                        //esta hay que cambiarla.
+                    },
+                    setResultResponsable(result){
+                        this.searchResponsable = result.nombre_usuario;
+                        this.isOpenResponsable = false;
+                    },
+                    loseFocusResponsable(){
+                        this.isOpenResponsable = false;
+                    },
+            //SESION
+                //OPCION 2
+                    onChangueSesionOt(){
+                        console.log("ots:");
+                        console.log(this.ots);
+                        this.isOpenSesionOt=true;
+                        this.filterResultsSesionOt();
+                    },
+                    filterResultsSesionOt(){
+                        this.resultsSesionOt = this.ots.filter(item => item.id.toString().toLowerCase().indexOf(this.searchSesionOt.toLowerCase())>-1);
+                        //esta hay que cambiarla.
+                    },
+                    setResultSesionOt(result){
+                        console.log("result");
+                        console.log(result);
+                        this.searchSesionOt = result.id;
+                        this.isOpenSesionOt = false;
+                    },
+                    loseFocusOt(result){
+                        this.isOpenSesionOt = false;
+                    },
+                //OPCION 4
+                    onChangueSesionArea(){
+                        console.log("ots:");
+                        console.log(this.ots);
+                        this.isOpenSesionArea=true;
+                        this.filterResultsSesionArea();
+                    },
+                    filterResultsSesionArea(){
+                        this.resultsSesionArea = this.areas.filter(item => item.nombre_area.toString().toLowerCase().indexOf(this.searchSesionArea.toLowerCase())>-1);
+                        //esta hay que cambiarla.
+                    },
+                    setResultSesionArea(result){
+                        console.log("result");
+                        console.log(result);
+                        this.searchSesionArea = result.nombre_area;
+                        this.isOpenSesionArea = false;
+                    },
+                    loseFocusArea(result){
+                        this.isOpenSesionArea = false;
+                    },
+                //OPCION 5
+                    onChangueSesionEstacion(){
+                        console.log("ots:");
+                        console.log(this.ots);
+                        this.isOpenSesionEstacion=true;
+                        this.filterResultsSesionEstacion();
+                    },
+                    filterResultsSesionEstacion(){
+                        this.resultsSesionEstacion = this.estaciones.filter(item => item.codigo.toString().toLowerCase().indexOf(this.searchSesionEstacion.toLowerCase())>-1);
+                        //esta hay que cambiarla.
+                    },
+                    setResultSesionEstacion(result){
+                        console.log("result");
+                        console.log(result);
+                        this.searchSesionEstacion = result.codigo;
+                        this.isOpenSesionEstacion = false;
+                    },
+                    loseFocusEstacion(result){
+                        this.isOpenSesionEstacion = false;
+                    },
+                //OPCION 6
+                    onChangueSesionNave(){
+                        console.log("ots:");
+                        console.log(this.ots);
+                        this.isOpenSesionNave=true;
+                        this.filterResultsSesionNave();
+                    },
+                    filterResultsSesionNave(){
+                        this.resultsSesionNave = this.naves.filter(item => item.nombre_nave.toString().toLowerCase().indexOf(this.searchSesionNave.toLowerCase())>-1);
+                        //esta hay que cambiarla.
+                    },
+                    setResultSesionNave(result){
+                        console.log("result");
+                        console.log(result);
+                        this.searchSesionNave = result.nombre_nave;
+                        this.isOpenSesionNave = false;
+                    },
+                    loseFocusNave(result){
+                        this.isOpenSesionNave = false;
+                    },
         } 
     }
 </script>

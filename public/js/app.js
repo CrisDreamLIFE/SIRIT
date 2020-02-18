@@ -2192,6 +2192,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return _defineProperty({
@@ -2205,6 +2208,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       rut: "19.313.751-2",
       contraseña: "11",
       estaciones: [],
+      areas: [],
+      naves: [],
       clientes: [],
       responsables: [],
       tipos: [],
@@ -2272,6 +2277,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     iniciarGestionReporte: function iniciarGestionReporte() {
       var _this5 = this;
 
+      axios.get('http://localhost:8000/nave').then(function (response) {
+        console.log(response.data);
+        _this5.naves = response.data;
+        _this5.algoSeleccionado = true;
+        _this5.iniciarGestionReporteBool = true;
+      });
+      axios.get('http://localhost:8000/area').then(function (response) {
+        console.log(response.data);
+        _this5.areas = response.data;
+        _this5.algoSeleccionado = true;
+        _this5.iniciarGestionReporteBool = true;
+      });
       axios.get('http://localhost:8000/producto').then(function (response) {
         console.log(response.data);
         _this5.productos = response.data;
@@ -4866,6 +4883,60 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-multiselect */ "./node_modules/vue-multiselect/dist/vue-multiselect.min.js");
 /* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_multiselect__WEBPACK_IMPORTED_MODULE_0__);
+var _methods;
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -5078,7 +5149,7 @@ Vue.component('multiselect', vue_multiselect__WEBPACK_IMPORTED_MODULE_0___defaul
   components: {
     Multiselect: vue_multiselect__WEBPACK_IMPORTED_MODULE_0___default.a
   },
-  props: ['ots', 'clientes', 'productos', 'responsables', 'tipos'],
+  props: ['ots', 'clientes', 'productos', 'responsables', 'tipos', 'estaciones', 'areas', 'naves'],
   data: function data() {
     return {
       otBool: false,
@@ -5086,6 +5157,7 @@ Vue.component('multiselect', vue_multiselect__WEBPACK_IMPORTED_MODULE_0___defaul
       abierta: true,
       cerrada: false,
       opcionSeleccionada: 1,
+      opcionSeleccionadaSesion: 1,
       opcionSeleccionada2: 1,
       opcionSeleccionada3: 1,
       opcionSeleccionada4: 1,
@@ -5093,23 +5165,23 @@ Vue.component('multiselect', vue_multiselect__WEBPACK_IMPORTED_MODULE_0___defaul
       opcionSeleccionada9: 1,
       fecha_oc: '',
       fecha_entrega: '',
-      //OPCION 2
+      //OPCION 2 OT
       searchOt: '',
       resultsOt: '',
       isOpenOt: false,
-      //OPCION 6
+      //OPCION 6 OT
       searchCliente: '',
       resultsCliente: '',
       isOpenCliente: false,
-      //OPCION 7
+      //OPCION 7 OT
       searchProducto: '',
       resultsProducto: '',
       isOpenProducto: false,
-      //OPCION 8
+      //OPCION 8 OT
       searchResponsable: '',
       resultsResponsable: '',
       isOpenResponsable: false,
-      //OPCION 9
+      //OPCION 9 OT
       searchTipo: '',
       value: [],
       options: [{
@@ -5130,13 +5202,33 @@ Vue.component('multiselect', vue_multiselect__WEBPACK_IMPORTED_MODULE_0___defaul
       }, {
         name: 'Phoenix',
         language: 'Elixir'
-      }]
+      }],
+      //CON SESION
+      opcionSeleccionadaSesion2: 1,
+      opcionSeleccionadaSesion3: 1,
+      fecha_sesion: '',
+      //OPCION 2 SESION
+      searchSesionOt: '',
+      resultsSesionOt: '',
+      isOpenSesionOt: false,
+      //OPCION 4 SESION
+      searchSesionArea: '',
+      resultsSesionArea: '',
+      isOpenSesionArea: false,
+      //OPCION 5 SESION
+      searchSesionEstacion: '',
+      resultsSesionEstacion: '',
+      isOpenSesionEstacion: false,
+      //OPCION 6 SESION
+      searchSesionNave: '',
+      resultsSesionNave: '',
+      isOpenSesionNave: false
     };
   },
   mounted: function mounted() {
     console.log('Component mounted.');
   },
-  methods: {
+  methods: (_methods = {
     nameWithLang: function nameWithLang(_ref) {
       var nombre_tipo = _ref.nombre_tipo;
       return "".concat(nombre_tipo);
@@ -5212,11 +5304,6 @@ Vue.component('multiselect', vue_multiselect__WEBPACK_IMPORTED_MODULE_0___defaul
         aux2 = this.searchTipo;
       }
 
-      if (this.opcionSeleccionada == 10) {
-        aux1 = null;
-        aux2 = null;
-      }
-
       var params = {
         opcion: this.opcionSeleccionada,
         operacion: aux1,
@@ -5242,6 +5329,63 @@ Vue.component('multiselect', vue_multiselect__WEBPACK_IMPORTED_MODULE_0___defaul
         link.click();
       });
     },
+    clickExportarSesion: function clickExportarSesion() {
+      var aux1 = null;
+      var aux2 = null;
+
+      if (this.opcionSeleccionadaSesion == 1) {
+        aux1 = null;
+        aux2 = null;
+      }
+
+      if (this.opcionSeleccionadaSesion == 2) {
+        aux1 = this.opcionSeleccionadaSesion2;
+        aux2 = this.searchSesionOt;
+      }
+
+      if (this.opcionSeleccionadaSesion == 3) {
+        aux1 = this.opcionSeleccionadaSesion3;
+        aux2 = this.fecha_sesion;
+      }
+
+      if (this.opcionSeleccionadaSesion == 4) {
+        aux1 = null;
+        aux2 = this.searchSesionArea;
+      }
+
+      if (this.opcionSeleccionadaSesion == 5) {
+        aux1 = null;
+        aux2 = this.searchSesionEstacion;
+      }
+
+      if (this.opcionSeleccionadaSesion == 6) {
+        aux1 = null;
+        aux2 = this.searchSesionNave;
+      }
+
+      var params = {
+        opcion: this.opcionSeleccionadaSesion,
+        operacion: aux1,
+        cuerpo: aux2
+      };
+      console.log("soy de sesion");
+      console.log(params);
+      axios({
+        url: 'http://localhost:8000/exportarExcelSesion',
+        method: 'POST',
+        data: params,
+        responseType: 'blob' // important
+
+      }).then(function (response) {
+        var url = window.URL.createObjectURL(new Blob([response.data]));
+        var link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'fileSesion.xlsx');
+        document.body.appendChild(link);
+        link.click();
+      });
+    },
+    //OT
     //OPCION 2
     onChangueOt: function onChangueOt() {
       console.log("ots:");
@@ -5324,8 +5468,85 @@ Vue.component('multiselect', vue_multiselect__WEBPACK_IMPORTED_MODULE_0___defaul
     },
     loseFocusResponsable: function loseFocusResponsable() {
       this.isOpenResponsable = false;
+    },
+    //SESION
+    //OPCION 2
+    onChangueSesionOt: function onChangueSesionOt() {
+      console.log("ots:");
+      console.log(this.ots);
+      this.isOpenSesionOt = true;
+      this.filterResultsSesionOt();
+    },
+    filterResultsSesionOt: function filterResultsSesionOt() {
+      var _this5 = this;
+
+      this.resultsSesionOt = this.ots.filter(function (item) {
+        return item.id.toString().toLowerCase().indexOf(_this5.searchSesionOt.toLowerCase()) > -1;
+      }); //esta hay que cambiarla.
+    },
+    setResultSesionOt: function setResultSesionOt(result) {
+      console.log("result");
+      console.log(result);
+      this.searchSesionOt = result.id;
+      this.isOpenSesionOt = false;
     }
-  }
+  }, _defineProperty(_methods, "loseFocusOt", function loseFocusOt(result) {
+    this.isOpenSesionOt = false;
+  }), _defineProperty(_methods, "onChangueSesionArea", function onChangueSesionArea() {
+    console.log("ots:");
+    console.log(this.ots);
+    this.isOpenSesionArea = true;
+    this.filterResultsSesionArea();
+  }), _defineProperty(_methods, "filterResultsSesionArea", function filterResultsSesionArea() {
+    var _this6 = this;
+
+    this.resultsSesionArea = this.areas.filter(function (item) {
+      return item.nombre_area.toString().toLowerCase().indexOf(_this6.searchSesionArea.toLowerCase()) > -1;
+    }); //esta hay que cambiarla.
+  }), _defineProperty(_methods, "setResultSesionArea", function setResultSesionArea(result) {
+    console.log("result");
+    console.log(result);
+    this.searchSesionArea = result.nombre_area;
+    this.isOpenSesionArea = false;
+  }), _defineProperty(_methods, "loseFocusArea", function loseFocusArea(result) {
+    this.isOpenSesionArea = false;
+  }), _defineProperty(_methods, "onChangueSesionEstacion", function onChangueSesionEstacion() {
+    console.log("ots:");
+    console.log(this.ots);
+    this.isOpenSesionEstacion = true;
+    this.filterResultsSesionEstacion();
+  }), _defineProperty(_methods, "filterResultsSesionEstacion", function filterResultsSesionEstacion() {
+    var _this7 = this;
+
+    this.resultsSesionEstacion = this.estaciones.filter(function (item) {
+      return item.codigo.toString().toLowerCase().indexOf(_this7.searchSesionEstacion.toLowerCase()) > -1;
+    }); //esta hay que cambiarla.
+  }), _defineProperty(_methods, "setResultSesionEstacion", function setResultSesionEstacion(result) {
+    console.log("result");
+    console.log(result);
+    this.searchSesionEstacion = result.codigo;
+    this.isOpenSesionEstacion = false;
+  }), _defineProperty(_methods, "loseFocusEstacion", function loseFocusEstacion(result) {
+    this.isOpenSesionEstacion = false;
+  }), _defineProperty(_methods, "onChangueSesionNave", function onChangueSesionNave() {
+    console.log("ots:");
+    console.log(this.ots);
+    this.isOpenSesionNave = true;
+    this.filterResultsSesionNave();
+  }), _defineProperty(_methods, "filterResultsSesionNave", function filterResultsSesionNave() {
+    var _this8 = this;
+
+    this.resultsSesionNave = this.naves.filter(function (item) {
+      return item.nombre_nave.toString().toLowerCase().indexOf(_this8.searchSesionNave.toLowerCase()) > -1;
+    }); //esta hay que cambiarla.
+  }), _defineProperty(_methods, "setResultSesionNave", function setResultSesionNave(result) {
+    console.log("result");
+    console.log(result);
+    this.searchSesionNave = result.nombre_nave;
+    this.isOpenSesionNave = false;
+  }), _defineProperty(_methods, "loseFocusNave", function loseFocusNave(result) {
+    this.isOpenSesionNave = false;
+  }), _methods)
 });
 
 /***/ }),
@@ -6062,8 +6283,18 @@ __webpack_require__.r(__webpack_exports__);
       this.escribir();
       setInterval(this.escribir, 1000); //post de sesion
 
+      var procesosSend = [];
+
+      for (var p = 0; p < this.procesosSeleccionados.length; p++) {
+        procesosSend.push(this.procesos[this.procesosSeleccionados[p]].id);
+      }
+
+      console.log("procesos seleccionados");
+      console.log(this.procesosSeleccionados);
       var params = {
         id_estacion: this.estacionSeleccionada,
+        otProducto: this.otProducto,
+        procesos: procesosSend,
         trabajadores: this.trabajadoresSeleccionados
       };
       console.log(params);
@@ -43002,7 +43233,10 @@ var render = function() {
                           ots: _vm.otsTodas[0],
                           clientes: _vm.clientes,
                           responsables: _vm.responsables,
-                          tipos: _vm.tipos
+                          tipos: _vm.tipos,
+                          estaciones: _vm.estaciones,
+                          areas: _vm.areas,
+                          naves: _vm.naves
                         }
                       })
                     ],
@@ -49985,8 +50219,8 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.opcionSeleccionada,
-                    expression: "opcionSeleccionada"
+                    value: _vm.opcionSeleccionadaSesion,
+                    expression: "opcionSeleccionadaSesion"
                   }
                 ],
                 staticClass: "form-control",
@@ -50001,46 +50235,42 @@ var render = function() {
                         var val = "_value" in o ? o._value : o.value
                         return val
                       })
-                    _vm.opcionSeleccionada = $event.target.multiple
+                    _vm.opcionSeleccionadaSesion = $event.target.multiple
                       ? $$selectedVal
                       : $$selectedVal[0]
                   }
                 }
               },
               [
-                _c("option", { attrs: { value: "10" } }, [_vm._v("Todas")]),
+                _c("option", { attrs: { value: "1" } }, [_vm._v("Todas")]),
                 _vm._v(" "),
-                _c("option", { attrs: { value: "11" } }, [
+                _c("option", { attrs: { value: "2" } }, [
                   _vm._v("Número de OT")
                 ]),
                 _vm._v(" "),
-                _c("option", { attrs: { value: "12" } }, [_vm._v("Fecha")]),
+                _c("option", { attrs: { value: "3" } }, [_vm._v("Fecha")]),
                 _vm._v(" "),
-                _c("option", { attrs: { value: "13" } }, [_vm._v("Área")]),
+                _c("option", { attrs: { value: "4" } }, [_vm._v("Área")]),
                 _vm._v(" "),
-                _c("option", { attrs: { value: "14" } }, [_vm._v("Estación")]),
+                _c("option", { attrs: { value: "5" } }, [_vm._v("Estación")]),
                 _vm._v(" "),
-                _c("option", { attrs: { value: "15" } }, [_vm._v("Nave")]),
+                _c("option", { attrs: { value: "6" } }, [_vm._v("Nave")]),
                 _vm._v(" "),
-                _c("option", { attrs: { value: "16" } }, [
-                  _vm._v("En Proceso")
-                ]),
+                _c("option", { attrs: { value: "7" } }, [_vm._v("En Proceso")]),
                 _vm._v(" "),
-                _c("option", { attrs: { value: "17" } }, [
-                  _vm._v("Código Siom")
-                ])
+                _c("option", { attrs: { value: "8" } }, [_vm._v("Código Siom")])
               ]
             )
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "col-md-8" }, [
-            _vm.opcionSeleccionada == 9
+            _vm.opcionSeleccionadaSesion == 2
               ? _c("div", [
                   _c("div", { staticClass: "row" }, [
                     _c("div", { staticClass: "col-md-6" }, [
                       _c(
                         "label",
-                        { staticClass: "color4", attrs: { for: "2" } },
+                        { staticClass: "color4", attrs: { for: "Sesion2" } },
                         [_vm._v("Operacion:")]
                       ),
                       _vm._v(" "),
@@ -50051,12 +50281,12 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.opcionSeleccionada2,
-                              expression: "opcionSeleccionada2"
+                              value: _vm.opcionSeleccionadaSesion2,
+                              expression: "opcionSeleccionadaSesion2"
                             }
                           ],
                           staticClass: "form-control",
-                          attrs: { id: "2" },
+                          attrs: { id: "Sesion2" },
                           on: {
                             change: function($event) {
                               var $$selectedVal = Array.prototype.filter
@@ -50067,7 +50297,8 @@ var render = function() {
                                   var val = "_value" in o ? o._value : o.value
                                   return val
                                 })
-                              _vm.opcionSeleccionada2 = $event.target.multiple
+                              _vm.opcionSeleccionadaSesion2 = $event.target
+                                .multiple
                                 ? $$selectedVal
                                 : $$selectedVal[0]
                             }
@@ -50092,7 +50323,7 @@ var render = function() {
                     _c("div", { staticClass: "col-md-6" }, [
                       _c(
                         "label",
-                        { staticClass: "color4", attrs: { for: "2-1" } },
+                        { staticClass: "color4", attrs: { for: "Sesion2-1" } },
                         [_vm._v("OT:")]
                       ),
                       _vm._v(" "),
@@ -50101,22 +50332,22 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.searchOt,
-                            expression: "searchOt"
+                            value: _vm.searchSesionOt,
+                            expression: "searchSesionOt"
                           }
                         ],
                         staticClass: "form-control",
-                        attrs: { id: "2-1", type: "text" },
-                        domProps: { value: _vm.searchOt },
+                        attrs: { id: "Sesion2-1", type: "text" },
+                        domProps: { value: _vm.searchSesionOt },
                         on: {
                           input: [
                             function($event) {
                               if ($event.target.composing) {
                                 return
                               }
-                              _vm.searchOt = $event.target.value
+                              _vm.searchSesionOt = $event.target.value
                             },
-                            _vm.onChangueOt
+                            _vm.onChangueSesionOt
                           ]
                         }
                       }),
@@ -50128,13 +50359,13 @@ var render = function() {
                             {
                               name: "show",
                               rawName: "v-show",
-                              value: _vm.isOpenOt,
-                              expression: "isOpenOt"
+                              value: _vm.isOpenSesionOt,
+                              expression: "isOpenSesionOt"
                             }
                           ],
                           staticClass: "autocomplete-results"
                         },
-                        _vm._l(_vm.resultsOt, function(result, i) {
+                        _vm._l(_vm.resultsSesionOt, function(result, i) {
                           return _c(
                             "li",
                             {
@@ -50142,7 +50373,7 @@ var render = function() {
                               staticClass: "autocomplete-result",
                               on: {
                                 click: function($event) {
-                                  return _vm.setResultOt(result)
+                                  return _vm.setResultSesionOt(result)
                                 }
                               }
                             },
@@ -50154,7 +50385,340 @@ var render = function() {
                     ])
                   ])
                 ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.opcionSeleccionadaSesion == 3
+              ? _c("div", [
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col-md-6" }, [
+                      _c(
+                        "label",
+                        { staticClass: "color4", attrs: { for: "sesion3" } },
+                        [_vm._v("Operacion:")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.opcionSeleccionadaSesion3,
+                              expression: "opcionSeleccionadaSesion3"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { id: "sesion3" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.opcionSeleccionadaSesion3 = $event.target
+                                .multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { value: "1" } }, [
+                            _vm._v("Igual a:")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "2" } }, [
+                            _vm._v("Mayor a:")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "3" } }, [
+                            _vm._v("Menor a:")
+                          ])
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-6" }, [
+                      _c(
+                        "label",
+                        { staticClass: "color4", attrs: { for: "sesion3-1" } },
+                        [_vm._v("Fecha:")]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.fecha_sesion,
+                            expression: "fecha_sesion"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "date", id: "sesion3-1" },
+                        domProps: { value: _vm.fecha_sesion },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.fecha_sesion = $event.target.value
+                          }
+                        }
+                      })
+                    ])
+                  ])
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.opcionSeleccionadaSesion == 4
+              ? _c("div", [
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "md-form col-md-6" }, [
+                      _c(
+                        "label",
+                        { staticClass: "color4", attrs: { for: "sesion4" } },
+                        [_vm._v("Área:")]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.searchSesionArea,
+                            expression: "searchSesionArea"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { id: "sesion4", type: "text" },
+                        domProps: { value: _vm.searchSesionArea },
+                        on: {
+                          input: [
+                            function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.searchSesionArea = $event.target.value
+                            },
+                            _vm.onChangueSesionArea
+                          ]
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "ul",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.isOpenSesionArea,
+                              expression: "isOpenSesionArea"
+                            }
+                          ],
+                          staticClass: "autocomplete-results"
+                        },
+                        _vm._l(_vm.resultsSesionArea, function(result, i) {
+                          return _c(
+                            "li",
+                            {
+                              key: i,
+                              staticClass: "autocomplete-result",
+                              on: {
+                                click: function($event) {
+                                  return _vm.setResultSesionArea(result)
+                                }
+                              }
+                            },
+                            [_vm._v(_vm._s(result.nombre_area))]
+                          )
+                        }),
+                        0
+                      )
+                    ])
+                  ])
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.opcionSeleccionadaSesion == 5
+              ? _c("div", [
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "md-form col-md-6" }, [
+                      _c(
+                        "label",
+                        { staticClass: "color4", attrs: { for: "sesion5" } },
+                        [_vm._v("Estacion:")]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.searchSesionEstacion,
+                            expression: "searchSesionEstacion"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { id: "sesion5", type: "text" },
+                        domProps: { value: _vm.searchSesionEstacion },
+                        on: {
+                          input: [
+                            function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.searchSesionEstacion = $event.target.value
+                            },
+                            _vm.onChangueSesionEstacion
+                          ]
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "ul",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.isOpenSesionEstacion,
+                              expression: "isOpenSesionEstacion"
+                            }
+                          ],
+                          staticClass: "autocomplete-results"
+                        },
+                        _vm._l(_vm.resultsSesionEstacion, function(result, i) {
+                          return _c(
+                            "li",
+                            {
+                              key: i,
+                              staticClass: "autocomplete-result",
+                              on: {
+                                click: function($event) {
+                                  return _vm.setResultSesionEstacion(result)
+                                }
+                              }
+                            },
+                            [_vm._v(_vm._s(result.codigo))]
+                          )
+                        }),
+                        0
+                      )
+                    ])
+                  ])
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.opcionSeleccionadaSesion == 6
+              ? _c("div", [
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "md-form col-md-6" }, [
+                      _c(
+                        "label",
+                        { staticClass: "color4", attrs: { for: "sesion6" } },
+                        [_vm._v("Nave:")]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.searchSesionNave,
+                            expression: "searchSesionNave"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { id: "sesion6", type: "text" },
+                        domProps: { value: _vm.searchSesionNave },
+                        on: {
+                          input: [
+                            function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.searchSesionNave = $event.target.value
+                            },
+                            _vm.onChangueSesionNave
+                          ]
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "ul",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.isOpenSesionNave,
+                              expression: "isOpenSesionNave"
+                            }
+                          ],
+                          staticClass: "autocomplete-results"
+                        },
+                        _vm._l(_vm.resultsSesionNave, function(result, i) {
+                          return _c(
+                            "li",
+                            {
+                              key: i,
+                              staticClass: "autocomplete-result",
+                              on: {
+                                click: function($event) {
+                                  return _vm.setResultSesionNave(result)
+                                }
+                              }
+                            },
+                            [_vm._v(_vm._s(result.nombre_nave))]
+                          )
+                        }),
+                        0
+                      )
+                    ])
+                  ])
+                ])
               : _vm._e()
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-4" }),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-4" }, [
+            _c("br"),
+            _vm._v(" "),
+            _vm.opcionSeleccionadaSesion == 1 ||
+            (_vm.opcionSeleccionadaSesion == 2 &&
+              _vm.searchSesionOt != "" &&
+              _vm.ots != null) ||
+            (_vm.fecha_sesion != "" && _vm.opcionSeleccionadaSesion == 3) ||
+            (_vm.opcionSeleccionadaSesion == 4 &&
+              _vm.searchSesionArea != "" &&
+              _vm.areas != null) ||
+            (_vm.opcionSeleccionadaSesion == 5 &&
+              _vm.searchSesionEstacion != "" &&
+              _vm.estaciones != null) ||
+            (_vm.opcionSeleccionadaSesion == 6 &&
+              _vm.searchSesionNave != "" &&
+              _vm.naves != null)
+              ? _c("div", [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success btn-lg btn-block",
+                      attrs: { type: "button" },
+                      on: { click: _vm.clickExportarSesion }
+                    },
+                    [_vm._v("Exportar")]
+                  )
+                ])
+              : _vm._e(),
+            _c("br")
           ])
         ])
       : _vm._e(),
@@ -50632,7 +51196,8 @@ var render = function() {
                               _c("p", [
                                 _vm._v(
                                   _vm._s(
-                                    _vm.otProducto[index][2][indexS].nombre
+                                    _vm.otProducto[index][2][indexS]
+                                      .nombre_sub_producto
                                   )
                                 )
                               ])
@@ -50689,7 +51254,9 @@ var render = function() {
                   _vm._l(_vm.procesosSeleccionados, function(proceso, index) {
                     return _c("div", { key: index }, [
                       _c("p", [
-                        _vm._v("* " + _vm._s(_vm.procesos[proceso].nombre))
+                        _vm._v(
+                          "* " + _vm._s(_vm.procesos[proceso].nombre_proceso)
+                        )
                       ])
                     ])
                   })
@@ -50842,7 +51409,9 @@ var render = function() {
                                                       { attrs: { for: "" } },
                                                       [
                                                         _vm._v(
-                                                          _vm._s(subProd.nombre)
+                                                          _vm._s(
+                                                            subProd.nombre_sub_producto
+                                                          )
                                                         )
                                                       ]
                                                     ),
@@ -50934,7 +51503,9 @@ var render = function() {
                                                                                 .cantidadesProductos[
                                                                                 indexG
                                                                               ] ==
-                                                                              0
+                                                                                0 ||
+                                                                              subProd.tipo_material_id ==
+                                                                                2
                                                                                 ? _c(
                                                                                     "input",
                                                                                     {
@@ -51455,7 +52026,10 @@ var render = function() {
                                     staticClass: "form-check-input",
                                     attrs: {
                                       type: "checkbox",
-                                      id: index + indexG * sub.id + sub.nombre
+                                      id:
+                                        index +
+                                        indexG * sub.id +
+                                        sub.nombre_sub_producto
                                     },
                                     domProps: {
                                       value: _vm.subProductos[indexG][index],
@@ -51512,13 +52086,15 @@ var render = function() {
                                         "form-check-label lavelFont2",
                                       attrs: {
                                         for:
-                                          index + indexG * sub.id + sub.nombre
+                                          index +
+                                          indexG * sub.id +
+                                          sub.nombre_sub_producto
                                       }
                                     },
                                     [
                                       _vm._v(
                                         "\n                                    " +
-                                          _vm._s(sub.nombre) +
+                                          _vm._s(sub.nombre_sub_producto) +
                                           " \n                                "
                                       )
                                     ]
@@ -51566,7 +52142,10 @@ var render = function() {
                                   attrs: {
                                     type: "checkbox",
                                     id:
-                                      "" + indexP + proceso.id + proceso.nombre
+                                      "" +
+                                      indexP +
+                                      proceso.id +
+                                      proceso.nombre_proceso
                                   },
                                   domProps: {
                                     value: indexP,
@@ -51614,13 +52193,13 @@ var render = function() {
                                         "" +
                                         indexP +
                                         proceso.id +
-                                        proceso.nombre
+                                        proceso.nombre_proceso
                                     }
                                   },
                                   [
                                     _vm._v(
                                       "\n                                " +
-                                        _vm._s(proceso.nombre) +
+                                        _vm._s(proceso.nombre_proceso) +
                                         "  \n                                "
                                     )
                                   ]

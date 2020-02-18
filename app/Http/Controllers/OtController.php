@@ -52,51 +52,9 @@ class OtController extends Controller
         $idAbierta = array();
         $idCerrada = array();
         $i=0;
-                        foreach($otCompleta as $ot){
-                            $aux1 = $ot->fecha_entrega_Oc;
-                            $aux2 = $ot->fecha_recepcion;
-                            $aux3 = $ot->fecha_real_entregA;
-                            $aux4 = $ot->fecha_despacho;
-                            if($aux1!=null){$newFecha1 = date("d-m-Y", strtotime($aux1));$ot->fecha_entrega_Oc = $newFecha1;}
-                            if($aux2!=null){$newFecha2 = date("d-m-Y", strtotime($aux2));$ot->fecha_recepcion = $newFecha2;}
-                            if($aux3!=null){$newFecha3 = date("d-m-Y", strtotime($aux3));$ot->fecha_real_entregA = $newFecha3;} //aqui nos caemos}
-                            if($aux4!=null){$newFecha4 = date("d-m-Y", strtotime($aux4));$ot->fecha_despacho = $newFecha4;};
-                            if($ot->abierta){
-                                $ot->abierta = "ABIERTA";
-                            }
-                            else{
-                                $ot->abierta = "CERRADA";
-                            }
-                            if($ot->codigo_siom==$this->globalCuerpo){
-                                error_log($ot->id);
-                                $idCompleta[] = $ot->id;
-                                error_log($idCompleta[$i]);
-                                error_log("aaa");
-                                $i = $i + 1;} 
-                                
-                        }
-                        error_log($idCompleta[0]);
-                        $cerradas = $otCompleta->filter(function ($item) {
-                            //error_log($item->abierta);
-                            if($item->abierta=="CERRADA"){
-                                if($item->codigo_siom==$this->globalCuerpo){$idCerrada[] = $item->id;}
-                                return $item;
-                            }  
-                        })->values();
-                        error_log($idCompleta[0]);
-                        $abiertas = $otCompleta->filter(function ($item) {
-                            error_log($idCompleta[0]);
-                            if(in_array($item->id, $idCompleta)){
-                                return "true";
-                             }
-                             else{
-                                 return "false";
-                             };
-                            if($item->abierta== "ABIERTA"){
-                                if($item->codigo_siom==$this->globalCuerpo){$idAbierta[] = $item->id;}
-                                return $item;
-                            }  
-                        })->values();
+                        
+
+        return $otCompleta;
     }
 
     public function exportarExcel(Request $request){
