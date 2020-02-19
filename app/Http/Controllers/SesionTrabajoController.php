@@ -19,6 +19,8 @@ use App\Exports\SESION\FechaExport;
 use App\Exports\SESION\AreaExport;
 use App\Exports\SESION\EstacionExport;
 use App\Exports\SESION\NaveExport;
+use App\Exports\SESION\EnProcesoExport;
+use App\Exports\SESION\CodigoExport;
 
 class SesionTrabajoController extends Controller
 {
@@ -63,7 +65,9 @@ class SesionTrabajoController extends Controller
         if($opcion=="3"){error_log("opcion de la 3"); return Excel::download(new FechaExport($operacion,$cuerpo),'ot-list.xlsx');}
         if($opcion=="4"){error_log("opcion de la 4"); return Excel::download(new AreaExport($operacion,$cuerpo),'ot-list.xlsx');}
         if($opcion=="5"){error_log("opcion de la 5"); return Excel::download(new EstacionExport($operacion,$cuerpo),'ot-list.xlsx');}
-        if($opcion=="6"){error_log("opcion de la 6"); return Excel::download(new NaveExport($operacion,$cuerpo),'ot-list.xlsx');}     
+        if($opcion=="6"){error_log("opcion de la 6"); return Excel::download(new NaveExport($operacion,$cuerpo),'ot-list.xlsx');}
+        if($opcion=="7"){error_log("opcion de la 7"); return Excel::download(new EnProcesoExport(),'ot-list.xlsx');}     
+        if($opcion=="8"){error_log("opcion de la 8"); return Excel::download(new CodigoExport($operacion,$cuerpo),'ot-list.xlsx');}
     }
     public function index()
     {

@@ -21,6 +21,7 @@ Route::get('/', function () {
 
 #Estacion
 Route::resource('estacion', 'EstacionController');
+Route::post('/exportarExcelEstacion', 'EstacionController@exportarExcel');
 
 #Nave
 Route::resource('nave', 'NaveController');
@@ -74,6 +75,8 @@ Route::get('/procesos/{id}','ProcesoController@obtenerProcesosPorEstacion');
 Route::get('/trabajadores/{id}', 'UsuarioController@obtenerTrabajadoresPorEstacion');
 Route::get('/obtenerGestores', 'UsuarioController@obtenerGestores');
 Route::post('/usuarios/login', 'UsuarioController@buscarConRut');
+Route::post('/exportarExcelTrabajador', 'UsuarioController@exportarExcel');
+Route::post('/exportarExcelUsuario', 'UsuarioController@exportarExcelUsuario');
 
 #TipoMaterial
 Route::resource('tipoMaterial','TipoMaterialController');

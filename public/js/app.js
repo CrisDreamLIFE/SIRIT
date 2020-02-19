@@ -2385,7 +2385,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             var aux = [];
 
             for (var i = 0; i < response.data.usuario.roles.length; i++) {
-              aux.push(response.data.usuario.roles[i].nombre);
+              aux.push(response.data.usuario.roles[i].nombre_rol);
             }
 
             _this9.roles = aux;
@@ -4883,10 +4883,111 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-multiselect */ "./node_modules/vue-multiselect/dist/vue-multiselect.min.js");
 /* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_multiselect__WEBPACK_IMPORTED_MODULE_0__);
-var _methods;
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -5154,10 +5255,16 @@ Vue.component('multiselect', vue_multiselect__WEBPACK_IMPORTED_MODULE_0___defaul
     return {
       otBool: false,
       sesionBool: false,
+      trabajadorBool: false,
+      estacionBool: false,
+      usuarioBool: false,
       abierta: true,
       cerrada: false,
       opcionSeleccionada: 1,
       opcionSeleccionadaSesion: 1,
+      opcionSeleccionadaTrabajador: 1,
+      opcionSeleccionadaEstacion: 1,
+      opcionSeleccionadaUsuario: 1,
       opcionSeleccionada2: 1,
       opcionSeleccionada3: 1,
       opcionSeleccionada4: 1,
@@ -5222,13 +5329,24 @@ Vue.component('multiselect', vue_multiselect__WEBPACK_IMPORTED_MODULE_0___defaul
       //OPCION 6 SESION
       searchSesionNave: '',
       resultsSesionNave: '',
-      isOpenSesionNave: false
+      isOpenSesionNave: false,
+      //OPCION 8 SESION
+      searchSesionCodigo: '',
+      resultsSesionCodigo: '',
+      isOpenSesionCodigo: false,
+      //CON TRABAJADOR
+      //OPCION 2 SESION
+      searchTrabajadorArea: '',
+      resultsTrabajadorArea: '',
+      isOpenTrabajadorArea: false //CON ESTACION
+      //CON USUARIO
+
     };
   },
   mounted: function mounted() {
     console.log('Component mounted.');
   },
-  methods: (_methods = {
+  methods: {
     nameWithLang: function nameWithLang(_ref) {
       var nombre_tipo = _ref.nombre_tipo;
       return "".concat(nombre_tipo);
@@ -5252,6 +5370,36 @@ Vue.component('multiselect', vue_multiselect__WEBPACK_IMPORTED_MODULE_0___defaul
       } else {
         console.log("dfsa");
         this.sesionBool = true;
+        return 1;
+      }
+    },
+    botonSobreTrabajadores: function botonSobreTrabajadores() {
+      if (this.trabajadorBool == true) {
+        this.trabajadorBool = false;
+        return 1;
+      } else {
+        console.log("dfsa");
+        this.trabajadorBool = true;
+        return 1;
+      }
+    },
+    botonSobreEstaciones: function botonSobreEstaciones() {
+      if (this.estacionBool == true) {
+        this.estacionBool = false;
+        return 1;
+      } else {
+        console.log("dfsa");
+        this.estacionBool = true;
+        return 1;
+      }
+    },
+    botonSobreUsuarios: function botonSobreUsuarios() {
+      if (this.usuarioBool == true) {
+        this.usuarioBool = false;
+        return 1;
+      } else {
+        console.log("dfsa");
+        this.usuarioBool = true;
         return 1;
       }
     },
@@ -5363,6 +5511,16 @@ Vue.component('multiselect', vue_multiselect__WEBPACK_IMPORTED_MODULE_0___defaul
         aux2 = this.searchSesionNave;
       }
 
+      if (this.opcionSeleccionadaSesion == 7) {
+        aux1 = null;
+        aux2 = null;
+      }
+
+      if (this.opcionSeleccionadaSesion == 8) {
+        aux1 = null;
+        aux2 = this.searchSesionCodigo;
+      }
+
       var params = {
         opcion: this.opcionSeleccionadaSesion,
         operacion: aux1,
@@ -5372,6 +5530,106 @@ Vue.component('multiselect', vue_multiselect__WEBPACK_IMPORTED_MODULE_0___defaul
       console.log(params);
       axios({
         url: 'http://localhost:8000/exportarExcelSesion',
+        method: 'POST',
+        data: params,
+        responseType: 'blob' // important
+
+      }).then(function (response) {
+        var url = window.URL.createObjectURL(new Blob([response.data]));
+        var link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'fileSesion.xlsx');
+        document.body.appendChild(link);
+        link.click();
+      });
+    },
+    clickExportarTrabajador: function clickExportarTrabajador() {
+      var aux1 = null;
+      var aux2 = null;
+
+      if (this.opcionSeleccionadaTrabajador == 1) {
+        aux1 = null;
+        aux2 = null;
+      }
+
+      if (this.opcionSeleccionadaTrabajador == 2) {
+        aux1 = null;
+        aux2 = this.searchTrabajadorArea;
+      }
+
+      var params = {
+        opcion: this.opcionSeleccionadaTrabajador,
+        operacion: aux1,
+        cuerpo: aux2
+      };
+      console.log("soy de sesion");
+      console.log(params);
+      axios({
+        url: 'http://localhost:8000/exportarExcelTrabajador',
+        method: 'POST',
+        data: params,
+        responseType: 'blob' // important
+
+      }).then(function (response) {
+        var url = window.URL.createObjectURL(new Blob([response.data]));
+        var link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'fileSesion.xlsx');
+        document.body.appendChild(link);
+        link.click();
+      });
+    },
+    clickExportarEstacion: function clickExportarEstacion() {
+      var aux1 = null;
+      var aux2 = null;
+
+      if (this.opcionSeleccionadaEstacion == 1) {
+        aux1 = null;
+        aux2 = null;
+      } //if(this.opcionSeleccionadaUsuario==2){aux1=null;aux2=this.searchTrabajadorArea;}
+
+
+      var params = {
+        opcion: this.opcionSeleccionadaEstacion,
+        operacion: aux1,
+        cuerpo: aux2
+      };
+      console.log("soy de sesion");
+      console.log(params);
+      axios({
+        url: 'http://localhost:8000/exportarExcelEstacion',
+        method: 'POST',
+        data: params,
+        responseType: 'blob' // important
+
+      }).then(function (response) {
+        var url = window.URL.createObjectURL(new Blob([response.data]));
+        var link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'fileSesion.xlsx');
+        document.body.appendChild(link);
+        link.click();
+      });
+    },
+    clickExportarUsuario: function clickExportarUsuario() {
+      var aux1 = null;
+      var aux2 = null;
+
+      if (this.opcionSeleccionadaUsuario == 1) {
+        aux1 = null;
+        aux2 = null;
+      } //if(this.opcionSeleccionadaUsuario==2){aux1=null;aux2=this.searchTrabajadorArea;}
+
+
+      var params = {
+        opcion: this.opcionSeleccionadaUsuario,
+        operacion: aux1,
+        cuerpo: aux2
+      };
+      console.log("soy de sesion");
+      console.log(params);
+      axios({
+        url: 'http://localhost:8000/exportarExcelUsuario',
         method: 'POST',
         data: params,
         responseType: 'blob' // important
@@ -5489,64 +5747,127 @@ Vue.component('multiselect', vue_multiselect__WEBPACK_IMPORTED_MODULE_0___defaul
       console.log(result);
       this.searchSesionOt = result.id;
       this.isOpenSesionOt = false;
+    },
+    loseFocusSesionOt: function loseFocusSesionOt(result) {
+      this.isOpenSesionOt = false;
+    },
+    //OPCION 4
+    onChangueSesionArea: function onChangueSesionArea() {
+      console.log("ots:");
+      console.log(this.ots);
+      this.isOpenSesionArea = true;
+      this.filterResultsSesionArea();
+    },
+    filterResultsSesionArea: function filterResultsSesionArea() {
+      var _this6 = this;
+
+      this.resultsSesionArea = this.areas.filter(function (item) {
+        return item.nombre_area.toString().toLowerCase().indexOf(_this6.searchSesionArea.toLowerCase()) > -1;
+      }); //esta hay que cambiarla.
+    },
+    setResultSesionArea: function setResultSesionArea(result) {
+      console.log("result");
+      console.log(result);
+      this.searchSesionArea = result.nombre_area;
+      this.isOpenSesionArea = false;
+    },
+    loseFocusSesionArea: function loseFocusSesionArea(result) {
+      this.isOpenSesionArea = false;
+    },
+    //OPCION 5
+    onChangueSesionEstacion: function onChangueSesionEstacion() {
+      console.log("ots:");
+      console.log(this.ots);
+      this.isOpenSesionEstacion = true;
+      this.filterResultsSesionEstacion();
+    },
+    filterResultsSesionEstacion: function filterResultsSesionEstacion() {
+      var _this7 = this;
+
+      this.resultsSesionEstacion = this.estaciones.filter(function (item) {
+        return item.codigo.toString().toLowerCase().indexOf(_this7.searchSesionEstacion.toLowerCase()) > -1;
+      }); //esta hay que cambiarla.
+    },
+    setResultSesionEstacion: function setResultSesionEstacion(result) {
+      console.log("result");
+      console.log(result);
+      this.searchSesionEstacion = result.codigo;
+      this.isOpenSesionEstacion = false;
+    },
+    loseFocusSesionEstacion: function loseFocusSesionEstacion(result) {
+      this.isOpenSesionEstacion = false;
+    },
+    //OPCION 6
+    onChangueSesionNave: function onChangueSesionNave() {
+      console.log("ots:");
+      console.log(this.ots);
+      this.isOpenSesionNave = true;
+      this.filterResultsSesionNave();
+    },
+    filterResultsSesionNave: function filterResultsSesionNave() {
+      var _this8 = this;
+
+      this.resultsSesionNave = this.naves.filter(function (item) {
+        return item.nombre_nave.toString().toLowerCase().indexOf(_this8.searchSesionNave.toLowerCase()) > -1;
+      }); //esta hay que cambiarla.
+    },
+    setResultSesionNave: function setResultSesionNave(result) {
+      console.log("result");
+      console.log(result);
+      this.searchSesionNave = result.nombre_nave;
+      this.isOpenSesionNave = false;
+    },
+    loseFocusSesionNave: function loseFocusSesionNave(result) {
+      this.isOpenSesionNave = false;
+    },
+    //OPCION 8
+    onChangueSesionCodigo: function onChangueSesionCodigo() {
+      console.log("ots:");
+      console.log(this.ots);
+      this.isOpenSesionCodigo = true;
+      this.filterResultsSesionCodigo();
+    },
+    filterResultsSesionCodigo: function filterResultsSesionCodigo() {
+      var _this9 = this;
+
+      this.resultsSesionCodigo = this.productos.filter(function (item) {
+        return item.codigo_siom.toString().toLowerCase().indexOf(_this9.searchSesionCodigo.toLowerCase()) > -1;
+      }); //esta hay que cambiarla.
+    },
+    setResultSesionCodigo: function setResultSesionCodigo(result) {
+      console.log("result");
+      console.log(result);
+      this.searchSesionCodigo = result.codigo_siom;
+      this.isOpenSesionCodigo = false;
+    },
+    loseFocusSesionCodigo: function loseFocusSesionCodigo(result) {
+      this.isOpenSesionCodigo = false;
+    },
+    //TRABAJADOR
+    //OPCION 2
+    onChangueTrabajadorArea: function onChangueTrabajadorArea() {
+      console.log("ots:");
+      console.log(this.ots);
+      this.isOpenTrabajadorArea = true;
+      this.filterResultsTrabajadorArea();
+    },
+    filterResultsTrabajadorArea: function filterResultsTrabajadorArea() {
+      var _this10 = this;
+
+      this.resultsTrabajadorArea = this.areas.filter(function (item) {
+        return item.nombre_area.toString().toLowerCase().indexOf(_this10.searchTrabajadorArea.toLowerCase()) > -1;
+      }); //esta hay que cambiarla.
+    },
+    setResultTrabajadorArea: function setResultTrabajadorArea(result) {
+      console.log("result");
+      console.log(result);
+      this.searchTrabajadorArea = result.nombre_area;
+      this.isOpenTrabajadorArea = false;
+    },
+    loseFocusTrabajadorArea: function loseFocusTrabajadorArea(result) {
+      this.isOpenTrabajadorArea = false;
     }
-  }, _defineProperty(_methods, "loseFocusOt", function loseFocusOt(result) {
-    this.isOpenSesionOt = false;
-  }), _defineProperty(_methods, "onChangueSesionArea", function onChangueSesionArea() {
-    console.log("ots:");
-    console.log(this.ots);
-    this.isOpenSesionArea = true;
-    this.filterResultsSesionArea();
-  }), _defineProperty(_methods, "filterResultsSesionArea", function filterResultsSesionArea() {
-    var _this6 = this;
-
-    this.resultsSesionArea = this.areas.filter(function (item) {
-      return item.nombre_area.toString().toLowerCase().indexOf(_this6.searchSesionArea.toLowerCase()) > -1;
-    }); //esta hay que cambiarla.
-  }), _defineProperty(_methods, "setResultSesionArea", function setResultSesionArea(result) {
-    console.log("result");
-    console.log(result);
-    this.searchSesionArea = result.nombre_area;
-    this.isOpenSesionArea = false;
-  }), _defineProperty(_methods, "loseFocusArea", function loseFocusArea(result) {
-    this.isOpenSesionArea = false;
-  }), _defineProperty(_methods, "onChangueSesionEstacion", function onChangueSesionEstacion() {
-    console.log("ots:");
-    console.log(this.ots);
-    this.isOpenSesionEstacion = true;
-    this.filterResultsSesionEstacion();
-  }), _defineProperty(_methods, "filterResultsSesionEstacion", function filterResultsSesionEstacion() {
-    var _this7 = this;
-
-    this.resultsSesionEstacion = this.estaciones.filter(function (item) {
-      return item.codigo.toString().toLowerCase().indexOf(_this7.searchSesionEstacion.toLowerCase()) > -1;
-    }); //esta hay que cambiarla.
-  }), _defineProperty(_methods, "setResultSesionEstacion", function setResultSesionEstacion(result) {
-    console.log("result");
-    console.log(result);
-    this.searchSesionEstacion = result.codigo;
-    this.isOpenSesionEstacion = false;
-  }), _defineProperty(_methods, "loseFocusEstacion", function loseFocusEstacion(result) {
-    this.isOpenSesionEstacion = false;
-  }), _defineProperty(_methods, "onChangueSesionNave", function onChangueSesionNave() {
-    console.log("ots:");
-    console.log(this.ots);
-    this.isOpenSesionNave = true;
-    this.filterResultsSesionNave();
-  }), _defineProperty(_methods, "filterResultsSesionNave", function filterResultsSesionNave() {
-    var _this8 = this;
-
-    this.resultsSesionNave = this.naves.filter(function (item) {
-      return item.nombre_nave.toString().toLowerCase().indexOf(_this8.searchSesionNave.toLowerCase()) > -1;
-    }); //esta hay que cambiarla.
-  }), _defineProperty(_methods, "setResultSesionNave", function setResultSesionNave(result) {
-    console.log("result");
-    console.log(result);
-    this.searchSesionNave = result.nombre_nave;
-    this.isOpenSesionNave = false;
-  }), _defineProperty(_methods, "loseFocusNave", function loseFocusNave(result) {
-    this.isOpenSesionNave = false;
-  }), _methods)
+  }
 });
 
 /***/ }),
@@ -50208,7 +50529,7 @@ var render = function() {
     _vm.sesionBool
       ? _c("div", { staticClass: "row container color4" }, [
           _c("div", { staticClass: "col-md-4" }, [
-            _c("label", { staticClass: "color4", attrs: { for: "select1" } }, [
+            _c("label", { staticClass: "color4", attrs: { for: "select2" } }, [
               _vm._v("Exportar Por:")
             ]),
             _vm._v(" "),
@@ -50224,7 +50545,7 @@ var render = function() {
                   }
                 ],
                 staticClass: "form-control",
-                attrs: { id: "select1" },
+                attrs: { id: "select2" },
                 on: {
                   change: function($event) {
                     var $$selectedVal = Array.prototype.filter
@@ -50684,6 +51005,76 @@ var render = function() {
                     ])
                   ])
                 ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.opcionSeleccionadaSesion == 8
+              ? _c("div", [
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "md-form col-md-6" }, [
+                      _c(
+                        "label",
+                        { staticClass: "color4", attrs: { for: "sesion8" } },
+                        [_vm._v("Código Siom:")]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.searchSesionCodigo,
+                            expression: "searchSesionCodigo"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { id: "sesion8", type: "text" },
+                        domProps: { value: _vm.searchSesionCodigo },
+                        on: {
+                          input: [
+                            function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.searchSesionCodigo = $event.target.value
+                            },
+                            _vm.onChangueSesionCodigo
+                          ]
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "ul",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.isOpenSesionCodigo,
+                              expression: "isOpenSesionCodigo"
+                            }
+                          ],
+                          staticClass: "autocomplete-results"
+                        },
+                        _vm._l(_vm.resultsSesionCodigo, function(result, i) {
+                          return _c(
+                            "li",
+                            {
+                              key: i,
+                              staticClass: "autocomplete-result",
+                              on: {
+                                click: function($event) {
+                                  return _vm.setResultSesionCodigo(result)
+                                }
+                              }
+                            },
+                            [_vm._v(_vm._s(result.codigo_siom))]
+                          )
+                        }),
+                        0
+                      )
+                    ])
+                  ])
+                ])
               : _vm._e()
           ]),
           _vm._v(" "),
@@ -50705,7 +51096,11 @@ var render = function() {
               _vm.estaciones != null) ||
             (_vm.opcionSeleccionadaSesion == 6 &&
               _vm.searchSesionNave != "" &&
-              _vm.naves != null)
+              _vm.naves != null) ||
+            _vm.opcionSeleccionadaSesion == 7 ||
+            (_vm.opcionSeleccionadaSesion == 8 &&
+              _vm.searchSesionCodigo != "" &&
+              _vm.productos != null)
               ? _c("div", [
                   _c(
                     "button",
@@ -50728,36 +51123,322 @@ var render = function() {
       {
         staticClass: "btn btn-secondary btn-lg btn-block",
         attrs: { type: "button" },
-        on: { click: function($event) {} }
+        on: { click: _vm.botonSobreTrabajadores }
       },
       [_vm._v("Listado de Trabajadores")]
     ),
     _vm._v(" "),
     _c("br"),
     _vm._v(" "),
+    _vm.trabajadorBool
+      ? _c("div", { staticClass: "row container color4" }, [
+          _c("div", { staticClass: "col-md-4" }, [
+            _c("label", { staticClass: "color4", attrs: { for: "select3" } }, [
+              _vm._v("Exportar Por:")
+            ]),
+            _vm._v(" "),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.opcionSeleccionadaTrabajador,
+                    expression: "opcionSeleccionadaTrabajador"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { id: "select3" },
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.opcionSeleccionadaTrabajador = $event.target.multiple
+                      ? $$selectedVal
+                      : $$selectedVal[0]
+                  }
+                }
+              },
+              [
+                _c("option", { attrs: { value: "1" } }, [_vm._v("Todos")]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "2" } }, [_vm._v("Área")])
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-8" }, [
+            _vm.opcionSeleccionadaTrabajador == 2
+              ? _c("div", [
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "md-form col-md-6" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "color4",
+                          attrs: { for: "trabajador2" }
+                        },
+                        [_vm._v("Área:")]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.searchTrabajadorArea,
+                            expression: "searchTrabajadorArea"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { id: "trabajador2", type: "text" },
+                        domProps: { value: _vm.searchTrabajadorArea },
+                        on: {
+                          input: [
+                            function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.searchTrabajadorArea = $event.target.value
+                            },
+                            _vm.onChangueTrabajadorArea
+                          ]
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "ul",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.isTrabajadorArea,
+                              expression: "isTrabajadorArea"
+                            }
+                          ],
+                          staticClass: "autocomplete-results"
+                        },
+                        _vm._l(_vm.resultsTrabajadorArea, function(result, i) {
+                          return _c(
+                            "li",
+                            {
+                              key: i,
+                              staticClass: "autocomplete-result",
+                              on: {
+                                click: function($event) {
+                                  return _vm.setResultTrabajadorArea(result)
+                                }
+                              }
+                            },
+                            [_vm._v(_vm._s(result.nombre_area))]
+                          )
+                        }),
+                        0
+                      )
+                    ])
+                  ])
+                ])
+              : _vm._e()
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-4" }),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-4" }, [
+            _c("br"),
+            _vm._v(" "),
+            _vm.opcionSeleccionadaTrabajador == 1 ||
+            (_vm.opcionSeleccionadaTrabajador == 2 &&
+              _vm.searchTrabajadorArea != "" &&
+              _vm.areas != null)
+              ? _c("div", [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success btn-lg btn-block",
+                      attrs: { type: "button" },
+                      on: { click: _vm.clickExportarTrabajador }
+                    },
+                    [_vm._v("Exportar")]
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _c("br")
+          ])
+        ])
+      : _vm._e(),
+    _vm._v(" "),
     _c(
       "button",
       {
         staticClass: "btn btn-secondary btn-lg btn-block",
         attrs: { type: "button" },
-        on: { click: function($event) {} }
+        on: { click: _vm.botonSobreEstaciones }
       },
       [_vm._v("Listado de Estaciones")]
     ),
     _vm._v(" "),
     _c("br"),
     _vm._v(" "),
+    _vm.estacionBool
+      ? _c("div", { staticClass: "row container color4" }, [
+          _c("div", { staticClass: "col-md-4" }, [
+            _c("label", { staticClass: "color4", attrs: { for: "select4" } }, [
+              _vm._v("Exportar Por:")
+            ]),
+            _vm._v(" "),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.opcionSeleccionadaEstacion,
+                    expression: "opcionSeleccionadaEstacion"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { id: "select4" },
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.opcionSeleccionadaEstacion = $event.target.multiple
+                      ? $$selectedVal
+                      : $$selectedVal[0]
+                  }
+                }
+              },
+              [
+                _c("option", { attrs: { value: "1" } }, [_vm._v("Todas")]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "2" } }, [_vm._v("Área")])
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-8" }),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-4" }),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-4" }, [
+            _c("br"),
+            _vm._v(" "),
+            _vm.opcionSeleccionadaEstacion == 1
+              ? _c("div", [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success btn-lg btn-block",
+                      attrs: { type: "button" },
+                      on: { click: _vm.clickExportarEstacion }
+                    },
+                    [_vm._v("Exportar")]
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _c("br")
+          ])
+        ])
+      : _vm._e(),
+    _vm._v(" "),
     _c(
       "button",
       {
         staticClass: "btn btn-secondary btn-lg btn-block",
         attrs: { type: "button" },
-        on: { click: function($event) {} }
+        on: { click: _vm.botonSobreUsuarios }
       },
       [_vm._v("Listado de Usuarios")]
     ),
     _vm._v(" "),
-    _c("br")
+    _c("br"),
+    _vm._v(" "),
+    _vm.usuarioBool
+      ? _c("div", { staticClass: "row container color4" }, [
+          _c("div", { staticClass: "col-md-4" }, [
+            _c("label", { staticClass: "color4", attrs: { for: "select5" } }, [
+              _vm._v("Exportar Por:")
+            ]),
+            _vm._v(" "),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.opcionSeleccionadaUsuario,
+                    expression: "opcionSeleccionadaUsuario"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { id: "select5" },
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.opcionSeleccionadaUsuario = $event.target.multiple
+                      ? $$selectedVal
+                      : $$selectedVal[0]
+                  }
+                }
+              },
+              [
+                _c("option", { attrs: { value: "1" } }, [_vm._v("Todos")]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "2" } }, [_vm._v("Rol")])
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-8" }),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-4" }),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-4" }, [
+            _c("br"),
+            _vm._v(" "),
+            _vm.opcionSeleccionadaUsuario == 1
+              ? _c("div", [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success btn-lg btn-block",
+                      attrs: { type: "button" },
+                      on: { click: _vm.clickExportarUsuario }
+                    },
+                    [_vm._v("Exportar")]
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _c("br")
+          ])
+        ])
+      : _vm._e()
   ])
 }
 var staticRenderFns = []

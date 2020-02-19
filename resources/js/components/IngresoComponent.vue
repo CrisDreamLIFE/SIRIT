@@ -313,7 +313,7 @@ export default {
                             this.usuario=response.data.usuario;
                             var aux=[]
                             for(var i =0;i< response.data.usuario.roles.length;i++){
-                                aux.push(response.data.usuario.roles[i].nombre);
+                                aux.push(response.data.usuario.roles[i].nombre_rol);
                             }
                             this.roles = aux;
                             this.logeado = true;
