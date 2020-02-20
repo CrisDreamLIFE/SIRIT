@@ -92,7 +92,7 @@ Route::resource('otTipo','OtTipoController');
 Route::resource('centroCosto','CentroCostoController');
 
 #CategoriaOt
-Route::resource('categoriaOt','CategoriaOtController');
+Route::resource('categoriaMaterial','CategoriaOtController');
 
 #Cliente
 Route::resource('cliente','ClienteController'); 

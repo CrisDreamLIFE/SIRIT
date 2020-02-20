@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Ot;
 use App\OtProducto;
+use App\CategoriaOt;
 use App\Producto;
 use App\Cliente;
 use App\ClienteProducto;
@@ -90,7 +91,7 @@ class OtController extends Controller
         return "CORRECTO";
     }
 
-    public function seleccionados($id){
+    public function seleccionados($id){   //pal edir ocupo esta wea, debo meter las cosas nuevas
         $ot = Ot::find($id);
         $seleccionados = array();
        //$combinaciones = OtProducto::where('ot_id',$id);
@@ -106,6 +107,12 @@ class OtController extends Controller
             $tupla[] = $producto;
             $tupla[] = $combi->cantidad;
             $tupla[] = $combi->codigo_cliente;
+            error_log("antes");
+            $categoria = CategoriaOt::find($combi->categoria_id);
+            error_log("despues");
+            error_log($categoria->id);
+            $tupla[] =  $categoria;
+            $tupla[] = $combi->fecha_entrega_oc;
             $seleccionados[] = $tupla;
         }
         return $seleccionados;
@@ -192,6 +199,15 @@ class OtController extends Controller
                                     ->where('producto_id',$prod->id)
                                     ->get();
                     $aux->cantidad = $asd[0]->cantidad;
+                    $aux->fecha_entrega_oc =$asd[0]->fecha_entrega_oc;
+                    $aux->categoria_id = $asd[0]->categoria_id;
+                    $aux->guia_despacho=$asd[0]->guia_despacho;
+                    $aux->factura=$asd[0]->factura;
+                    $aux->fecha_real_entrega=$asd[0]->fecha_real_entrega;
+                    $aux->fecha_despacho =$asd[0]->fecha_despacho;
+                    $aux->estado_OT = $asd[0]->estado_OT;
+                    $aux->recepcionada = $asd[0]->recepcionada;
+                    $aux->despcachada = $asd[0]->despcachada;
                     $productos[] = $aux;
                 }
                 $tot[] = $productos;
@@ -273,7 +289,6 @@ class OtController extends Controller
         }
         //$ot->fecha_real_entrega = $fecha;
         //$ot->fecha_despacho = $fecha;
-        $ot->fecha_entrega_Oc = $fecha;
         //$ot->abierta = 1;
         //$ot->recepcionada = 0;
         //$ot->despachada = 0;
@@ -281,8 +296,6 @@ class OtController extends Controller
         $ot->orden_compra = $orden;
         $ot->numero_cotizacion = $numero;
         $ot->observacion = $observacion;
-        $ot->guia_despacho = $guia;
-        $ot->factura = $factura;
         error_log("1");
         $ot->canal_venta_id = $canal['id'];
         error_log("2");
@@ -290,7 +303,6 @@ class OtController extends Controller
         error_log("3");
         $ot->usuario_id = $responsable['id'];
         $ot->centro_costo_id = $centro['id'];
-        $ot->categoria_ot_id = $categoria['id'];
         error_log("5");
         $ot->cliente_id = $cliente['id'];
         error_log($ot->cliente_id);
@@ -311,6 +323,9 @@ class OtController extends Controller
             $otProducto->cantidad = (int)$prod[1];
             $otProducto->ot_id = $ot->id;
             $otProducto->producto_id = $prod[0]['id'];
+            $otProducto->categoria_id = $prod[3]['id'];
+            $otProducto->categoria_nombre_aux = $prod[3]['nombre_categoria'];
+            $otProducto->fecha_entrega_oc = $prod[4];
             $otProducto->save();
 
             #Para producto

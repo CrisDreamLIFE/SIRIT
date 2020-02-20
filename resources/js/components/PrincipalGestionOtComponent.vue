@@ -61,31 +61,35 @@
                 <div class="col-sm-1"><h6 align="center">OT</h6></div>
                 <div class="col-sm-1"><h6 align="center">OT Perú</h6></div>    
                 <div class="col-sm-1"><h6 align="center">Orden de Compra</h6></div>
-                <div class="col-sm-2"><h6>Materiales</h6></div>
+                <div class="col-sm-2"><h6 align="center">Materiales</h6></div>
                 <div class="col-sm-1"><h6 align="center">Cantidad</h6></div>
-                <div class="col-sm-2"><h6 >Responsable</h6></div>
                 <div class="col-sm-1"><h6 align="center">Fecha de entrega</h6></div>
-                <div class="col-sm-3"><h6 align="center">Acciones</h6></div>
+                <div class="col-sm-2"><h6 align="center">Responsable</h6></div>
+                <div class="col-sm-2"><h6 align="center">Acciones</h6></div>
             
             </div>    
             <hr style="border:1px dotted #64b2cd; " />
             <div v-for="(ot,index) in otsTodas[0]" :key="index">
                     <div v-if="(abierta==true && ot.abierta==1)||(abierta==false && ot.abierta==0)" class="row">
-                        <div class="col-sm-1">{{ot.id}}</div>
-                        <div class="col-sm-1">{{ot.ot_Peru}}</div>
-                        <div class="col-sm-1">{{ot.orden_compra}}</div>
+                        <div align="center" class="col-sm-1">{{ot.id}}</div>
+                        <div align="center" class="col-sm-1">{{ot.ot_Peru}}</div>
+                        <div align="center" class="col-sm-1">{{ot.orden_compra}}</div>
                         <div class="col-sm-2">
-                            <div v-for="tupla in otsTodas[1][index]" :key="tupla.producto.id">
-                                <p>{{tupla.producto.nombre_producto}}</p>
+                            <div  v-for="tupla in otsTodas[1][index]" :key="tupla.producto.id">
+                                <p align="center">{{tupla.producto.nombre_producto}}</p>
                             </div>
                         </div>
                         <div class="col-sm-1">
-                            <div v-for="tupla in otsTodas[1][index]" :key="tupla.producto.id">
-                                <p>{{tupla.cantidad}}</p>
+                            <div  v-for="tupla in otsTodas[1][index]" :key="tupla.producto.id">
+                                <p align="center">{{tupla.cantidad}}</p>
                             </div>
                         </div>
-                        <div class="col-sm-2">{{ot.usuario.nombre_usuario}}</div>
-                        <div class="col-sm-1" type="date">{{ot.fecha_entrega_Oc}}</div>
+                        <div class="col-sm-1">
+                            <div  v-for="tupla in otsTodas[1][index]" :key="tupla.producto.id">
+                                <p align="center" type="date">{{tupla.fecha_entrega_oc}}</p>
+                            </div> 
+                        </div>
+                        <div align="center" class="col-sm-2">{{ot.usuario.nombre_usuario}}</div>
                         <div class="col-sm-1">
                             <button type="button" data-toggle="modal" data-target="#exampleModal"  @click="masInformacion(index)" class="btn btn-info">info</button>
                         </div>
@@ -93,17 +97,17 @@
                             <button type="button" data-toggle="modal" data-target="#modalEditOt" @click="editarOt(index)" class="btn btn-warning">editar</button>
                         </div>
                         <div class="col-sm-1">
-                            <button v-if="ot.abierta==1" type="button" @click="cerrarOt(ot)" class="btn btn-danger">Cerrar OT</button>
-                            <button v-if="ot.abierta==0" type="button" @click="abrirOt(ot)" class="btn btn-success">Abrir OT</button>
+                            <button v-if="ot.abierta==1" type="button" @click="cerrarOt(ot)" class="btn btn-danger">Cerrar</button>
+                            <button v-if="ot.abierta==0" type="button" @click="abrirOt(ot)" class="btn btn-success">Abrir</button>
                         </div>
-                        <div class="col-sm"></div>
+                        
                     </div>
                 
                 <hr v-if="(abierta==true && ot.abierta==1)||(abierta==false && ot.abierta==0)" style="border:1px dotted gray; " />
                 </div>
             </div>
         </div>   
-    </div>
+    
 </template>
 
 <script>
@@ -162,7 +166,7 @@
                     .then(response => {this.centros=response.data;})
                 //categoria
                 axios
-                    .get('http://localhost:8000/categoriaOt/')
+                    .get('http://localhost:8000/categoriaMaterial/')
                     .then(response => {this.categorias=response.data;})
                 //cliente
                 axios
@@ -202,7 +206,7 @@
                     .then(response => {this.centros=response.data;})
                 //categoria
                 axios
-                    .get('http://localhost:8000/categoriaOt/')
+                    .get('http://localhost:8000/categoriaMaterial/')
                     .then(response => {this.categorias=response.data;})
                 //cliente
                 axios

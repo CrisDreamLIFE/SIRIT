@@ -40,6 +40,12 @@
 
 
 <style scoped>
+    .tit{
+        font-size: 10%
+    }
+    .lavelFont2{
+        color: #000;
+    }
     .todo{
         background-color: #d9eeec;
     }

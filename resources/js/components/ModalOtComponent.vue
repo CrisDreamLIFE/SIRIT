@@ -11,14 +11,16 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-sm-5">
+                            <div class="col-sm-12">
                                 <div class="row">
                                     <div class="col"><b >OT Perú:</b> 
                                         <span style="padding-left:30px;" v-if="ot.ot_peru==null">N.A</span><span style="padding-left:5px;" v-else>{{ot.ot_peru}}</span>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col"><b>Fecha Recepción:</b> <span style="padding-left:30px;">{{ot.fecha_recepcion}}</span></div>
+                                    <div class="col"><b>Fecha Recepción:</b> 
+                                        <span style="padding-left:30px;">{{ot.fecha_recepcion}}</span>
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col"><b>Orden de Compra:</b> 
@@ -31,41 +33,8 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col"><b>Fecha Entrega OC: </b><span style="padding-left:30px;">{{ot.fecha_entrega_oc}}</span> </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col"><b>Fecha Real Entrega:</b>
-                                        <span style="padding-left:30px;" v-if="ot.fecha_real_entrega==null">N.A</span><span v-else>{{ot.fecha_real_entrega}}</span>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col"><b>Fecha Despacho:</b>
-                                        <span style="padding-left:30px;" v-if="ot.fecha_despacho==null">N.A</span><span v-else>{{ot.fecha_despacho}}</span>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col"><b>Guía Despacho:</b>
-                                        <span style="padding-left:30px;" v-if="ot.guia_despacho==null">N.A</span><span v-else>{{ot.guia_despacho}}</span>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col"><b>Factura:</b>
-                                        <span style="padding-left:30px;" v-if="ot.factura==null">N.A</span><span v-else>{{ot.factura}}</span>
-                                    </div>
-                                </div>
-                                <div class="row">
                                     <div class="col"><b>Abierta:</b>
                                         <span style="padding-left:30px;" v-if="ot.abierta==1">Si</span><span v-else>No</span>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col"><b>Recepcionada:</b>
-                                        <span style="padding-left:30px;" v-if="ot.recepcionada==1">Si</span><span v-else>No</span>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col"><b>Despachada:</b>
-                                        <span style="padding-left:30px;" v-if="ot.despachada==1">Si</span><span v-else>No</span>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -93,28 +62,75 @@
                                         <span style="padding-left:30px;" >{{centro_costo.nombre_centro}}</span>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col"><b>Categoría OT:</b>
-                                        <span style="padding-left:30px;" >{{categoria_ot.nombre_categoria}}</span>
-                                    </div>
-                                </div>
                             </div>
-                            <div class="col-sm-7">
+<!------------------------------------------------------------------------------------------------------------------------------------>
+                            <div class="col-sm-12">
+                                <br><br>
                                 <div class="row">
-                                    <div class="col-sm-5">
-                                        <div class="row"><h4>Productos</h4></div>
+                                    <div class="col-sm-2">
+                                        <div style="padding-left:5px;" class="row"><h6>Productos</h6></div>
+                                        <br>
                                             <div v-for="(producto,indexP) in productos" :key="indexP">
                                                 <div class="row">
-                                                    {{producto.nombre_producto}} 
+                                                    <div style="padding-left:5px;">{{producto.nombre_producto}} </div>
                                                 </div>
                                             </div>
                                     </div>
-                                    <div class="col-sm-2">
-                                        <div class="row"><h4>Cantidad</h4></div>
-                                        
+                                    <div class="col-sm-1">
+                                        <div class="row"><h6>Cantidad</h6></div>
+                                        <br>
                                             <div v-for="(cantidad,indexC) in cantidadXProducto" :key="indexC">
                                                 <div class="row">
                                                     {{cantidad.cantidad}} 
+                                                </div>   
+                                            </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="row"><h6>Guía de Despacho</h6></div>
+                                        <br>
+                                            <div v-for="(cantidad,indexC) in cantidadXProducto" :key="indexC">
+                                                <div class="row">
+                                                    {{cantidad.guia_despacho}} 
+                                                </div>   
+                                            </div>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <div class="row"><h6>Factura</h6></div><br>
+                                            <div v-for="(cantidad,indexC) in cantidadXProducto" :key="indexC">
+                                                <div class="row">
+                                                    {{cantidad.factura}} 
+                                                </div>   
+                                            </div>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <div class="row"><h6>Categoría</h6></div><br>
+                                            <div v-for="(cantidad,indexC) in cantidadXProducto" :key="indexC">
+                                                <div class="row">
+                                                    {{cantidad.categoria_nombre_aux}}
+                                                </div>   
+                                            </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="row"><h6>Fecha de entrega</h6></div><br>
+                                            <div v-for="(cantidad,indexC) in cantidadXProducto" :key="indexC">
+                                                <div class="row">
+                                                    {{cantidad.fecha_entrega_oc}} 
+                                                </div>   
+                                            </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="row"><h6>Fecha real de entrega</h6></div><br>
+                                            <div v-for="(cantidad,indexC) in cantidadXProducto" :key="indexC">
+                                                <div class="row">
+                                                    {{cantidad.fecha_real_entrega}} 
+                                                </div>   
+                                            </div>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <div class="row"><h6>Fecha Despacho</h6></div><br>
+                                            <div v-for="(cantidad,indexC) in cantidadXProducto" :key="indexC">
+                                                <div class="row">
+                                                    {{cantidad.fecha_despacho}} 
                                                 </div>   
                                             </div>
                                     </div>

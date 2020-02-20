@@ -132,8 +132,8 @@
                                                             </div>
                                                             <div class="col col-sm-8">
                                                                 <!--<label  class= "color4" for="9">Tipo de OT:</label>-->
-                                                                <multiselect :searchable="false" v-model="aux[indexG][indexM][index]" :options="cantidadesProductos[indexG]" deselect-label="Presiona para Quitar" 
-                                                                select-label="Presiona para seleccionar" :multiple="true" :clear-on-select="false" 
+                                                                <multiselect :searchable="false" v-model="aux[indexG][indexM][index]" :options="cantidadesProductos[indexG]" deselect-label="quitar" 
+                                                                select-label="seleccionar" :multiple="true" :clear-on-select="false" 
                                                                 :close-on-select="false" placeholder="" 
                                                                 label="nombre" track-by="nombre"></multiselect>
                                                             
@@ -229,17 +229,18 @@
                                     </option>
                                     </select>  
                                 </div>
-                                <div class="col-sm-5">
-                                    <select id="selectTrabajador" :disabled="!estacionSeleccionadaBool" @change="onChangeTrabajador()" v-model="trabajadorSeleccionado" class="form-control" >
+                                <div class="col-sm-6">
+                                    <multiselect v-model="trabajadoresSeleccionados" :options="trabajadores" deselect-label="Quitar" select-label="Agregar" :multiple="true" :clear-on-select="false" :close-on-select="false" :custom-label="nameWithLang" placeholder="Seleccione Operador" label="nombre_usuario" track-by="nombre_usuario"></multiselect>
+                                    <!--<select id="selectTrabajador" :disabled="!estacionSeleccionadaBool" @change="onChangeTrabajador()" v-model="trabajadorSeleccionado" class="form-control" >
                                     <option disabled selected >Operador</option>
                                     <option v-for="(trabajador,index) in trabajadores" v-bind:key="index" v-bind:value="index">
                                         {{ trabajador.nombre_usuario }}
                                     </option>
-                                    </select>     
+                                    </select>    --> 
                                 </div>
-                                <div class="col-sm-1">
+                                <!--<div class="col-sm-1">
                                     <button type="button"  v-on:click= "agregarTrabajador()" :disabled="!trabajadorSeleccionadoBool" class="btn btn-success">+</button>
-                                </div>
+                                </div>-->
                             </div>
                             <br>
                             <div class="row">
@@ -278,11 +279,11 @@
                 <br><br>
                 <div class="row">
                     <div class="col-sm-6">
-                        <h3 class="h3">Lista de Operadores seleccionados:</h3>
+                        <!--<h3 class="h3">Lista de Operadores seleccionados:</h3>-->
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-6">  
+                    <div class="col-sm-6">  <!--
                         <div class="container color2">
                             <br>
                             <div v-for="(trabajador,index) in trabajadoresSeleccionados" v-bind:key="index">
@@ -295,7 +296,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <br><br>
@@ -424,8 +425,8 @@ import Multiselect from 'vue-multiselect'
             console.log('Component mounted.') */
         },
         methods:{
-            nameWithLang ({nombre_tipo}) {
-                return `${nombre_tipo}`
+            nameWithLang ({nombre_usuario}) {
+                return `${nombre_usuario}`
                 },
             escribir(){
                 if(this.botonTrabajoComenzado){
