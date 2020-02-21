@@ -5058,6 +5058,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['otsTodas'],
   data: function data() {
@@ -50163,8 +50168,19 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "div",
-                    { staticClass: "col-sm-1", attrs: { align: "center" } },
-                    [_vm._v(_vm._s(ot.orden_compra))]
+                    { staticClass: "col-sm-1" },
+                    _vm._l(_vm.otsTodas[1][index], function(tupla) {
+                      return _c("div", { key: tupla.producto.id }, [
+                        tupla.estado_OT == 1
+                          ? _c("p", { attrs: { align: "center" } }, [
+                              _vm._v("A")
+                            ])
+                          : _c("p", { attrs: { align: "center" } }, [
+                              _vm._v("C")
+                            ])
+                      ])
+                    }),
+                    0
                   ),
                   _vm._v(" "),
                   _c(
@@ -50314,7 +50330,7 @@ var staticRenderFns = [
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "col-sm-1" }, [
-        _c("h6", { attrs: { align: "center" } }, [_vm._v("Orden de Compra")])
+        _c("h6", { attrs: { align: "center" } }, [_vm._v("Estado")])
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "col-sm-2" }, [

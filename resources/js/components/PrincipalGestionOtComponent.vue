@@ -70,7 +70,7 @@
             <div class="row">
                 <div class="col-sm-1"><h6 align="center">OT</h6></div>
                 <div class="col-sm-1"><h6 align="center">OT Perú</h6></div>    
-                <div class="col-sm-1"><h6 align="center">Orden de Compra</h6></div>
+                <div class="col-sm-1"><h6 align="center">Estado</h6></div>
                 <div class="col-sm-2"><h6 align="center">Materiales</h6></div>
                 <div class="col-sm-1"><h6 align="center">Cantidad</h6></div>
                 <div class="col-sm-1"><h6 align="center">Fecha de entrega</h6></div>
@@ -83,7 +83,12 @@
                     <div v-if="(abierta==true && ot.abierta==1)||(abierta==false && ot.abierta==0)" class="row">
                         <div align="center" class="col-sm-1">{{ot.id}}</div>
                         <div align="center" class="col-sm-1">{{ot.ot_Peru}}</div>
-                        <div align="center" class="col-sm-1">{{ot.orden_compra}}</div>
+                        <div class="col-sm-1">
+                            <div  v-for="tupla in otsTodas[1][index]" :key="tupla.producto.id">
+                                <p v-if="tupla.estado_OT==1" align="center">A</p>
+                                <p v-else align="center">C</p>
+                            </div>
+                        </div>
                         <div class="col-sm-2">
                             <div  v-for="tupla in otsTodas[1][index]" :key="tupla.producto.id">
                                 <p align="center">{{tupla.producto.nombre_producto}}</p>

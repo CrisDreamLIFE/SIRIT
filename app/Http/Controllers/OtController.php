@@ -516,8 +516,13 @@ class OtController extends Controller
             $elegido = OtProducto::where('ot_id',$ot->id)->get();
             error_log($elegido);
             if(count($elegido)==0){
-                error_log("entre");
                 $otProducto = new OtProducto;
+            }
+            else{
+                $otProducto = OtProducto::where('ot_id',$ot->id)->where('producto_id',$prod[0]['id'])->get();
+                $otProducto = $otProducto[0];
+            }
+                error_log("entre");
                 $otProducto->cantidad = (int)$prod[1];
                 $otProducto->ot_id = $ot->id;
                 $otProducto->producto_id = $prod[0]['id'];
@@ -532,13 +537,13 @@ class OtController extends Controller
                 $otProducto->fecha_despachO = $prod[6];
                 error_log("lll");
                 $otProducto->estado_OT = $prod[9];
-                error_log("rrr");
+                error_log($otProducto->estado_OT);
                 $otProducto->recepcionada = $prod[10];
                 $otProducto->despachada= $prod[11];
                 error_log("hhhh");
                 $otProducto->save();
                 error_log("guarde el otProducto");
-            }   
+             
 
             #Para producto
             $producto = Producto::find($prod[0]['id']);
@@ -551,15 +556,10 @@ class OtController extends Controller
             $producto->save();
 
             #para cliente si es que no lo tiene
-            error_log("1");
             $clienteProd = new ClienteProducto;
             $clienteProd->cliente_id = $cliente['id'];
-            error_log("2");
             $clienteProd->producto_id = $prod[0]['id'];
             $clienteProd->codigo_cliente = $prod[2];
-            error_log("3");
-            error_log($clienteProd->codigo_cliente);
-            error_log("4");
             $clienteProd->save();
         }
 
