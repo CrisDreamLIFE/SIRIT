@@ -2,9 +2,29 @@
     <div class="margen">
         <br>
         <div class="row container">
-            <div class="col-sm">
+            <div class="col-sm-4">
                 <button type="button" @click="crearOT()" data-target="#modalCreateOt" data-toggle="modal" class="btn btn-success">Nueva OT</button>
-                <div v-if="crearOtBool"> <!-- CREATE -->
+            </div>
+            <div class="com-sm-6">
+                <div class="row">
+                    <div class="col-sm">
+                        <input id="7" class="form-control form-control-lg form-control-borderless" placeholder="N° OT" type="search" v-model="searchOT" @input="onChangueOT"/>
+                    </div>
+                    <!--end of col-->
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="row">
+                    <div class="col-sm-6"></div>
+                    <div class="col-sm-6">
+                        <input class="form-check-input" :value="true" :unchecked-value="true" v-model="abierta" id="abierta" type="checkbox">
+                        <label style="font-size:18px" for = "abierta">{{'   Abiertas'}}</label> 
+                    </div>
+                 </div>    
+            </div>
+        </div>
+        <br>
+        <div v-if="crearOtBool"> <!-- CREATE -->
                 <modal-ot-create-component 
                     :key="creacionN"
                     :canales="canales"
@@ -34,16 +54,6 @@
                     @botonGuardarEdicionOt="guardarEdicionOt">
                     </modal-ot-edit-component> 
                 </div>
-            </div>
-            <div class="col-s">
-                <div class="row">
-                    <input class="form-check-input" :value="true" :unchecked-value="true" v-model="abierta" id="abierta" type="checkbox">
-                    <p>{{" "}}</p>
-                    <label style="font-size:18px" for = "abierta">{{'   Abiertas'}}</label> 
-                </div>
-            </div>
-        </div>
-        <br>
         <div v-if="masInformacionBool"><!--modal SHOW -->
             <modal-ot-component
             :ot="otsTodas[0][indexOt]"
@@ -69,7 +79,7 @@
             
             </div>    
             <hr style="border:1px dotted #64b2cd; " />
-            <div v-for="(ot,index) in otsTodas[0]" :key="index">
+            <div v-for="(ot,index) in resultsOt" :key="index">
                     <div v-if="(abierta==true && ot.abierta==1)||(abierta==false && ot.abierta==0)" class="row">
                         <div align="center" class="col-sm-1">{{ot.id}}</div>
                         <div align="center" class="col-sm-1">{{ot.ot_Peru}}</div>
@@ -137,7 +147,9 @@
                 categorias:[],
                 seleccionados:[],
                 viejos:[],
-                abierta: true
+                abierta: true,
+                searchOT:"",
+                resultsOt: this.otsTodas[0]
 
             }
         },
@@ -145,6 +157,15 @@
             console.log('Component mounted.')
         },
         methods:{
+            onChangueOT(){
+                        console.log("ots:");
+                        console.log(this.ots);
+                        this.filterResultsOt();
+                    },
+            filterResultsOt(){
+                this.resultsOt = this.otsTodas[0].filter(item => item.id.toString().toLowerCase().indexOf(this.searchOT.toLowerCase())>-1);
+                //esta hay que cambiarla.
+            },
             crearOT(){
                 //cargar 6 cosas:
                 //canal de venta

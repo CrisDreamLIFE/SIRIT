@@ -8,6 +8,7 @@ require('./bootstrap');
 require('./bootstrap-select.js');
 
 
+
 window.Vue = require('vue');
 /**
  * The following block of code may be used to automatically register your

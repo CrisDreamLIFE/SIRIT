@@ -68,8 +68,8 @@
                                 <br><br>
                                 <div class="row">
                                     <div class="col-sm-2">
-                                        <div style="padding-left:5px;" class="row"><h6>Productos</h6></div>
-                                        <br>
+                                        <div style="padding-left:5px;" class="row"><h6>Producto</h6></div>
+                                        <br><br>
                                             <div v-for="(producto,indexP) in productos" :key="indexP">
                                                 <div class="row">
                                                     <div style="padding-left:5px;">{{producto.nombre_producto}} </div>
@@ -77,7 +77,7 @@
                                             </div>
                                     </div>
                                     <div class="col-sm-1">
-                                        <div class="row"><h6>Cantidad</h6></div>
+                                        <div class="row"><h6>Cantidad</h6></div><br>
                                         <br>
                                             <div v-for="(cantidad,indexC) in cantidadXProducto" :key="indexC">
                                                 <div class="row">
@@ -85,7 +85,24 @@
                                                 </div>   
                                             </div>
                                     </div>
-                                    <div class="col-sm-2">
+                                    <div class="col-sm-1">
+                                        <div  class="row"><h6>Código Siom</h6></div><br><br>
+                                            <div v-for="(producto,indexP) in productos" :key="indexP">
+                                                <div class="row">
+                                                    <div>{{producto.codigo_siom}} </div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <div class="row"><h6>Código Cliente</h6></div>
+                                        <br><br>
+                                            <div v-for="(cantidad,indexC) in cantidadXProducto" :key="indexC">
+                                                <div class="row">
+                                                    {{cantidad.codigo_cliente}} 
+                                                </div>   
+                                            </div>
+                                    </div>
+                                    <div class="col-sm-1">
                                         <div class="row"><h6>Guía de Despacho</h6></div>
                                         <br>
                                             <div v-for="(cantidad,indexC) in cantidadXProducto" :key="indexC">
@@ -95,7 +112,7 @@
                                             </div>
                                     </div>
                                     <div class="col-sm-1">
-                                        <div class="row"><h6>Factura</h6></div><br>
+                                        <div class="row"><h6>Factura</h6></div><br><br>
                                             <div v-for="(cantidad,indexC) in cantidadXProducto" :key="indexC">
                                                 <div class="row">
                                                     {{cantidad.factura}} 
@@ -103,26 +120,26 @@
                                             </div>
                                     </div>
                                     <div class="col-sm-1">
-                                        <div class="row"><h6>Categoría</h6></div><br>
+                                        <div class="row"><h6>Categoría</h6></div><br><br>
                                             <div v-for="(cantidad,indexC) in cantidadXProducto" :key="indexC">
                                                 <div class="row">
                                                     {{cantidad.categoria_nombre_aux}}
                                                 </div>   
                                             </div>
                                     </div>
-                                    <div class="col-sm-2">
+                                    <div class="col-sm-1">
                                         <div class="row"><h6>Fecha de entrega</h6></div><br>
                                             <div v-for="(cantidad,indexC) in cantidadXProducto" :key="indexC">
                                                 <div class="row">
-                                                    {{cantidad.fecha_entrega_oc}} 
+                                                    {{cantidad.fecha_entrega_oC}} 
                                                 </div>   
                                             </div>
                                     </div>
-                                    <div class="col-sm-2">
+                                    <div class="col-sm-1">
                                         <div class="row"><h6>Fecha real de entrega</h6></div><br>
                                             <div v-for="(cantidad,indexC) in cantidadXProducto" :key="indexC">
                                                 <div class="row">
-                                                    {{cantidad.fecha_real_entrega}} 
+                                                    {{cantidad.fecha_real_entregA}} 
                                                 </div>   
                                             </div>
                                     </div>
@@ -130,7 +147,7 @@
                                         <div class="row"><h6>Fecha Despacho</h6></div><br>
                                             <div v-for="(cantidad,indexC) in cantidadXProducto" :key="indexC">
                                                 <div class="row">
-                                                    {{cantidad.fecha_despacho}} 
+                                                    {{cantidad.fecha_despachO}} 
                                                 </div>   
                                             </div>
                                     </div>

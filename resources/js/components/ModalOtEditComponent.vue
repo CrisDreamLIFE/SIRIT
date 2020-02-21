@@ -151,7 +151,6 @@
                                     </div>
                                     <div class="col-md-12">
                                         <br><br>
-                                        {{seleccionados}}
                                         <div v-for="(producto,index) in seleccionados" v-bind:key="index">
                                             <div class="container color3">
                                                 <div class="row">
@@ -161,23 +160,24 @@
                                                     </div>
                                                     <div class="col-md-2">
                                                         <div class="row">
-                                                            <input class="form-check-input" :value="true" :unchecked-value="false" v-model="producto[5]" id="abierta" type="checkbox">
+                                                            {{producto}}
+                                                            <input class="form-check-input" :value="true" :unchecked-value="false" v-model="producto[9]" :id="'abierta'+index" type="checkbox">
                                                             <p>{{" "}}</p>
-                                                            <label style="font-size:18px" for = "abierta">{{'   Abierta'}}</label> 
+                                                            <label style="font-size:18px" :for ="'abierta'+index">{{'   Abierta'}}</label> 
                                                         </div>
                                                     </div>  
                                                     <div class="col-md-2">
                                                         <div class="row">
-                                                            <input class="form-check-input" :value="true" :unchecked-value="false" v-model="producto[6]" id="recepcionada" type="checkbox">
+                                                            <input class="form-check-input" :value="true" :unchecked-value="false" v-model="producto[10]" :id="'recepcionada'+index" type="checkbox">
                                                             <p>{{" "}}</p>
-                                                            <label style="font-size:18px" for = "recepcionada">{{'   Recepcionada'}}</label> 
+                                                            <label style="font-size:18px" :for ="'recepcionada'+index">{{'   Recepcionada'}}</label> 
                                                         </div>
                                                     </div>  
                                                     <div class="col-md-2">
                                                         <div class="row">
-                                                            <input class="form-check-input" :value="true" :unchecked-value="false" v-model="producto[7]" id="despachada" type="checkbox">
+                                                            <input class="form-check-input" :value="true" :unchecked-value="false" v-model="producto[11]" :id="'despachada'+index" type="checkbox">
                                                             <p>{{" "}}</p>
-                                                            <label style="font-size:18px" for = "despachada">{{'   Despachada'}}</label> 
+                                                            <label style="font-size:18px" :for="'despachada'+index">{{'   Despachada'}}</label> 
                                                         </div>
                                                     </div>   
                                                     <div class="col-sm-1">
@@ -189,18 +189,22 @@
                                                     <div class="col-sm-2">
                                                         <label class= "lavelFont2 font-weight-bold">Código de Cliente:</label>
                                                         <input required type="text"  class="form-control input-sm" aria-describedby="emailHelp" v-model="producto[2]">
+                                                        <br>
                                                     </div>
                                                     <div class="col-sm-2">
                                                         <label class= "lavelFont2 font-weight-bold">Cantidad:</label>
                                                         <input required type="number" min="1"  class="form-control input-sm" aria-describedby="emailHelp" v-model="producto[1]">
+                                                        <br>
                                                     </div>
                                                     <div class="col-sm-2">
                                                         <label class= "lavelFont2 font-weight-bold">Código Siom:</label>
                                                         <input required type="text"  class="form-control input-sm" aria-describedby="emailHelp" v-model="producto[0].codigo_siom">
+                                                        <br>
                                                     </div>
                                                     <div class="col-sm-2">
                                                         <label class= "lavelFont2 font-weight-bold">Número de Plano:</label>
                                                         <input required type="text"  class="form-control input-sm" aria-describedby="emailHelp" v-model="producto[0].numero_plano">
+                                                        <br>
                                                     </div>
                                                     <div class="col-sm-2">
                                                         <label class= "lavelFont2 font-weight-bold">Categoría:</label>
@@ -210,11 +214,37 @@
                                                                 {{ categoria.nombre_categoria }}
                                                             </option>
                                                         </select>
+                                                        <br>
                                                     </div>
                                                     <div class="col-sm-2">
-                                                        <label class= "lavelFont2 font-weight-bold">Fecha de Entrega:</label>
+                                                        <label class= "lavelFont2 font-weight-bold">Fecha de Entrega OC:</label>
                                                         <input required type="date"  class="form-control input-sm" aria-describedby="emailHelp" v-model="producto[4]">
+                                                        <br>
                                                     </div>
+                                                    <div class="col-sm-2">
+                                                        <label class= "lavelFont2 font-weight-bold">Fecha real de Entrega:</label> <!--5 -->
+                                                        <input required type="date"  class="form-control input-sm" aria-describedby="emailHelp" v-model="producto[5]">
+                                                        <br>
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <label class= "lavelFont2 font-weight-bold">Fecha de Despacho:</label> <!--6 -->
+                                                        <input required type="date"  class="form-control input-sm" aria-describedby="emailHelp" v-model="producto[6]">
+                                                        <br>
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <label class= "lavelFont2 font-weight-bold">Guia de Despacho:</label> <!--7 -->
+                                                        <input required type="text"  class="form-control input-sm" aria-describedby="emailHelp" v-model="producto[7]">
+                                                        <br>
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <label class= "lavelFont2 font-weight-bold">Factura:</label> <!--8 -->
+                                                        <input required type="text"  class="form-control input-sm" aria-describedby="emailHelp" v-model="producto[8]">
+                                                        <br>
+                                                    </div>
+                                                  <!--  <div class="col-sm-2">
+                                                        <label class= "lavelFont2 font-weight-bold">Estado:</label> 5 
+                                                        <input required type="date"  class="form-control input-sm" aria-describedby="emailHelp" v-model="producto[8]">
+                                                    </div>-->
                                                 </div>
                                                 <br>
                                             </div>
@@ -539,7 +569,18 @@
                         for(var j=0;j<this.aux.length;j++){
                             this.codigosCliente.push(this.aux[j].codigo_cliente);
                         }
-                    })   
+                    })
+           /* for(var i=0;i<this.productos.length;i++){
+                if(this.productos[i][9]==null){
+                    this.productos[i][9] = 1; 
+                }
+                if(this.productos[i][10]!=1 && this.productos[i][10]!=0){
+                    this.productos[i][10] = 0; 
+                }
+                if(this.productos[i][11]!=1 && this.productos[i][11]!=0){
+                    this.productos[i][11] = 0; 
+                }
+            }   */
         },
         methods:{
             guardarCreacionMaterial(){
@@ -607,6 +648,19 @@
                 this.seleccionados.splice(index,1);
             },
             guardarCambios(){
+                for(var i=0;i<this.seleccionados.length;i++){
+                    this.seleccionados[i][12] = null;
+                    if(this.seleccionados[i][9]==undefined){
+                        this.seleccionados[i][9] = true; 
+                    }console.log("this.productos[i][10]");console.log(this.seleccionados[i][10]);
+                    if(this.seleccionados[i][10]==undefined){
+                        console.log("entre");
+                        this.seleccionados[i][10] = false; 
+                    }
+                    if(this.seleccionados[i][11]==undefined){
+                        this.seleccionados[i][11] = false; 
+                    }
+                }
                 console.log("en guardar:")
                 console.log(this.responsable);
                 var params={

@@ -30,27 +30,28 @@ class ClienteExport implements FromCollection, WithHeadings
                         join("cliente_productos","productos.id","=","cliente_productos.producto_id")->
                         join("canal_ventas","ots.canal_venta_id","=","canal_ventas.id")->
                         join("centro_costos","ots.centro_costo_id","=","centro_costos.id")->
-                        join("categoria_ots","ots.categoria_ot_id","=","categoria_ots.id")->
+                        //join("categoria_ots","ots.categoria_ot_id","=","categoria_ots.id")->
                         join("usuarios","ots.usuario_id","=","usuarios.id")->
                         join("ot_tipos","ots.ot_tipo_id","=","ot_tipos.id")->orderBy('ots.id')->
                         select('ots.id','ots.ot_Peru','ots.fecha_recepcion','ots.orden_compra','numero_cotizacion','clientes.nombre_cliente',
                         'ot_productos.cantidad','productos.nombre_producto','cliente_productos.codigo_cliente',
-                        'productos.codigo_siom','productos.numero_plano','ots.fecha_entrega_Oc','ots.fecha_real_entregA',
-                        'ots.fecha_despacho','ots.guia_despacho','ots.factura','canal_ventas.nombre_canal',
-                        'ots.abierta','ot_tipos.nombre_tipo','centro_costos.codigo','centro_costos.nombre_centro','categoria_ots.nombre_categoria',
-                        'usuarios.nombre_usuario','ots.observacion')
+                        'productos.codigo_siom','productos.numero_plano','ot_productos.fecha_entrega_oC','ot_productos.fecha_real_entregA',
+                        'ot_productos.fecha_despachO','ot_productos.guia_despacho','ot_productos.factura','canal_ventas.nombre_canal',
+                        'ot_productos.estado_OT','ot_tipos.nombre_tipo','centro_costos.codigo','centro_costos.nombre_centro','ot_productos.categoria_nombre_aux',
+                        'usuarios.nombre_usuario','ots.observacion','ots.abierta')
                         ->get();
+                        error_log("?");
         //lo mismo con pais
         //cambiar los numeros por abierta o cerrada, pero despues
         foreach($otCompleta as $ot){
-            $aux1 = $ot->fecha_entrega_Oc;
+            $aux1 = $ot->fecha_entrega_oC;
             $aux2 = $ot->fecha_recepcion;
             $aux3 = $ot->fecha_real_entregA;
-            $aux4 = $ot->fecha_despacho;
-            if($aux1!=null){$newFecha1 = date("d-m-Y", strtotime($aux1));$ot->fecha_entrega_Oc = $newFecha1;}
+            $aux4 = $ot->fecha_despachO;
+            if($aux1!=null){$newFecha1 = date("d-m-Y", strtotime($aux1));$ot->fecha_entrega_oC = $newFecha1;}
             if($aux2!=null){$newFecha2 = date("d-m-Y", strtotime($aux2));$ot->fecha_recepcion = $newFecha2;}
             if($aux3!=null){$newFecha3 = date("d-m-Y", strtotime($aux3));$ot->fecha_real_entregA = $newFecha3;} //aqui nos caemos}
-            if($aux4!=null){$newFecha4 = date("d-m-Y", strtotime($aux4));$ot->fecha_despacho = $newFecha4;};
+            if($aux4!=null){$newFecha4 = date("d-m-Y", strtotime($aux4));$ot->fecha_despachO = $newFecha4;}
             if($ot->abierta){
                 $ot->abierta = "ABIERTA";
             }
