@@ -160,7 +160,6 @@
                                                     </div>
                                                     <div class="col-md-2">
                                                         <div class="row">
-                                                            {{producto}}
                                                             <input class="form-check-input" :value="true" :unchecked-value="false" v-model="producto[9]" :id="'abierta'+index" type="checkbox">
                                                             <p>{{" "}}</p>
                                                             <label style="font-size:18px" :for ="'abierta'+index">{{'   Abierta'}}</label> 

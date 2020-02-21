@@ -4344,7 +4344,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['viejos', 'seleccionados', 'centros', 'canales', 'usuarios', 'tipos', 'categorias', 'clientes', 'productos', 'otSeleccionada'],
   data: function data() {
@@ -48214,11 +48213,6 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("div", { staticClass: "col-md-2" }, [
                                     _c("div", { staticClass: "row" }, [
-                                      _vm._v(
-                                        "\r\n                                                            " +
-                                          _vm._s(producto) +
-                                          "\r\n                                                            "
-                                      ),
                                       _c("input", {
                                         directives: [
                                           {
