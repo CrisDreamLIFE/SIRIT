@@ -33,6 +33,7 @@ Vue.component('principal-gestion-ot-component', require('./components/PrincipalG
 Vue.component('principal-gestion-material-component', require('./components/PrincipalGestionMaterialComponent.vue').default);
 Vue.component('principal-gestion-sub-material-component', require('./components/PrincipalGestionSubMaterialComponent.vue').default);
 Vue.component('principal-gestion-reporte-component', require('./components/PrincipalGestionReporteComponent.vue').default);
+Vue.component('principal-gestion-usuario-component', require('./components/PrincipalGestionUsuarioComponent.vue').default);
 
 
 //opciones de boton
@@ -41,6 +42,7 @@ Vue.component('gestionar-ot-component', require('./components/GestionarOtCompone
 Vue.component('gestionar-material-component', require('./components/GestionarMaterialComponent.vue').default);
 Vue.component('gestionar-sub-material-component', require('./components/GestionarSubMaterialComponent.vue').default);
 Vue.component('gestionar-reporte-component', require('./components/GestionarReporteComponent.vue').default);
+Vue.component('gestionar-usuario-component', require('./components/GestionarUsuarioComponent.vue').default);
 
 
 //atomicos

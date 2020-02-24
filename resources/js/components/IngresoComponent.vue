@@ -45,6 +45,7 @@
             @botonGestionarMaterial="iniciarGestionMaterial"
             @botonGestionarSubMaterial="iniciarGestionSubMaterial"
             @botonGestionarReporte="iniciarGestionReporte"
+            @botonGestionarUsuario="iniciarGestionUsuario"
             :usuario = "usuario"
             :roles = "roles">
             </principal-menu-component>
@@ -93,6 +94,14 @@
                 @botonGuardarCreacionSubMaterial="recargarSubMateriales"
                 @botonEliminarCreacionSubMaterial="recargarSubMateriales">
                 </principal-gestion-sub-material-component>
+            </div>
+            <!----------------USUARIOS------------------------->
+            <div v-if="iniciarGestionUsuarioBool">
+                <principal-gestion-usuario-component
+                :key="gestionUsuarioN"
+                :usuarios="usuarios"
+                >
+                </principal-gestion-usuario-component>
             </div> 
             <!----------REPORTABILIDAD------------------------->
             <div v-if="iniciarGestionReporteBool">
@@ -122,6 +131,7 @@ export default {
                 componentKey: 0,
                 gestionMaterialN:0,
                 gestionSubMaterialN:0,
+                gestionUsuarioN:0,
                 gestionOtN:0,
                 roles:[],
                 logeado: false,
@@ -137,11 +147,13 @@ export default {
                 otsTodas:[],
                 productos:[],
                 subProductos:[],
+                usuarios:[],
                 algoSeleccionado:false,
                 iniciarTrabajoBool: false,
                 iniciarGestionOTBool:false,
                 iniciarGestionMaterialBool:false,
                 iniciarGestionSubMaterialBool:false,
+                iniciarGestionUsuarioBool: false,
                 iniciarGestionReporteBool:false,
                 componentKey:0
                 };
@@ -182,6 +194,17 @@ export default {
                 
             },
             recargarSubMateriales(){
+                axios
+                .get('http://localhost:8000/subProducto')
+                .then(response =>{
+                    this.subProductos= response.data;
+                    console.log("recargue los materiales ;v");
+                    this.gestionSubMaterialN +=1;
+                    this.iniciarGestionSubMaterialBool=true;
+                })
+                
+            },
+            recargarUsuarios(){
                 axios
                 .get('http://localhost:8000/subProducto')
                 .then(response =>{
@@ -272,6 +295,15 @@ export default {
                     this.subProductos =response.data;
                     this.algoSeleccionado=true;
                     this.iniciarGestionSubMaterialBool=true;}) 
+            },
+            iniciarGestionUsuario(){
+                axios
+                .get('http://localhost:8000/usuariosConRol')
+                .then(response =>{
+                    console.log(response.data)
+                    this.usuarios =response.data;
+                    this.algoSeleccionado=true;
+                    this.iniciarGestionUsuarioBool=true;}) 
             },
             iniciarGestionOT(){
                 axios

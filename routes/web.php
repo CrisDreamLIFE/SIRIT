@@ -72,11 +72,15 @@ Route::get('/subProductos/{id}', 'SubProductoController@subProductosDeProducto')
 Route::get('/procesos/{id}','ProcesoController@obtenerProcesosPorEstacion');
 
 #Usuario
+Route::resource('usuario','UsuarioController');
 Route::get('/trabajadores/{id}', 'UsuarioController@obtenerTrabajadoresPorEstacion');
 Route::get('/obtenerGestores', 'UsuarioController@obtenerGestores');
+Route::get('/usuariosConRol', 'UsuarioController@usuariosConRol');
 Route::post('/usuarios/login', 'UsuarioController@buscarConRut');
 Route::post('/exportarExcelTrabajador', 'UsuarioController@exportarExcel');
 Route::post('/exportarExcelUsuario', 'UsuarioController@exportarExcelUsuario');
+Route::get('/activarUsuario/{id}', 'UsuarioController@activarUsuario');
+Route::get('/inactivarUsuario/{id}', 'UsuarioController@inactivarUsuario');
 
 #TipoMaterial
 Route::resource('tipoMaterial','TipoMaterialController');

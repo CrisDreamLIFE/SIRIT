@@ -3,12 +3,12 @@
         <br>
         <div class="row container">
             <div class="col-sm-4">
-                <button type="button" @click="crearOT()" data-target="#modalCreateOt" data-toggle="modal" class="btn btn-success">Nueva OT</button>
+                <button type="button" @click="crearUsuario()" data-target="#modalCreateUsuario" data-toggle="modal" class="btn btn-success">Nuevo Usuario</button>
             </div>
             <div class="com-sm-6">
-                <div class="row">
+                <div class="row"> <!-- este es el buscador, lo vemos mas tarde o altiro mejor-->
                     <div class="col-sm">
-                        <input id="7" class="form-control form-control-lg form-control-borderless" placeholder="N° OT" type="search" v-model="searchOT" @input="onChangueOT"/>
+                        <input id="7" class="form-control form-control-lg form-control-borderless" placeholder="N° OT" type="search" v-model="searchUsuario" @input="onChangueUsuario"/>
                     </div>
                     <!--end of col-->
                 </div>
@@ -17,8 +17,8 @@
                 <div class="row">
                     <div class="col-sm-6"></div>
                     <div class="col-sm-6">
-                        <input class="form-check-input" :value="true" :unchecked-value="true" v-model="abierta" id="abierta" type="checkbox">
-                        <label style="font-size:18px" for = "abierta">{{'   Abiertas'}}</label> 
+                        <input class="form-check-input" :value="true" :unchecked-value="true" v-model="activo" id="activo" type="checkbox">
+                        <label style="font-size:18px" for = "activo">{{'   activo'}}</label> 
                     </div>
                  </div>    
             </div>
@@ -68,57 +68,44 @@
         </div>
         <div class="card card-body" > 
             <div class="row">
-                <div class="col-sm-1"><h6 align="center">OT</h6></div>
-                <div class="col-sm-1"><h6 align="center">OT Perú</h6></div>    
+                <div class="col-sm-3"><h6 align="center">Nombre</h6></div>
+                <div class="col-sm-1"><h6 align="center">Área</h6></div>    
+                <div class="col-sm-1"><h6 align="center">Rol</h6></div>
                 <div class="col-sm-1"><h6 align="center">Estado</h6></div>
-                <div class="col-sm-2"><h6 align="center">Materiales</h6></div>
-                <div class="col-sm-1"><h6 align="center">Cantidad</h6></div>
-                <div class="col-sm-1"><h6 align="center">Fecha de entrega</h6></div>
-                <div class="col-sm-2"><h6 align="center">Responsable</h6></div>
+                <div class="col-sm-2"><h6 align="center">Descripción</h6></div>
                 <div class="col-sm-2"><h6 align="center">Acciones</h6></div>
             
             </div>    
             <hr style="border:1px dotted #64b2cd; " />
-            <div v-for="(ot,index) in resultsOt" :key="index">
-                    <div v-if="(abierta==true && ot.abierta==1)||(abierta==false && ot.abierta==0)" class="row">
-                        <div align="center" class="col-sm-1">{{ot.id}}</div>
-                        <div align="center" class="col-sm-1">{{ot.ot_Peru}}</div>
+            <div v-for="(usuario,index) in resultsUsuario" :key="index">
+                    <div v-if="(activo==true && usuario.activo==1)||(activo==false && usuario.activo==0)" class="row">
+                        <div align="center" class="col-sm-3">{{usuario.nombre_usuario}}</div>
                         <div class="col-sm-1">
-                            <div  v-for="tupla in otsTodas[1][index]" :key="tupla.producto.id">
-                                <p v-if="tupla.estado_OT==1" align="center">A</p>
-                                <p v-else align="center">C</p>
-                            </div>
-                        </div>
-                        <div class="col-sm-2">
-                            <div  v-for="tupla in otsTodas[1][index]" :key="tupla.producto.id">
-                                <p align="center">{{tupla.producto.nombre_producto}}</p>
+                            <div  v-for="area in usuario.areas" :key="area">
+                                <p align="center">{{area.nombre_area}}</p>      
                             </div>
                         </div>
                         <div class="col-sm-1">
-                            <div  v-for="tupla in otsTodas[1][index]" :key="tupla.producto.id">
-                                <p align="center">{{tupla.cantidad}}</p>
+                            <div  v-for="rol in usuario.roles" :key="rol">
+                                <p align="center">{{rol.nombre_rol}}</p>      
                             </div>
                         </div>
-                        <div class="col-sm-1">
-                            <div  v-for="tupla in otsTodas[1][index]" :key="tupla.producto.id">
-                                <p align="center" type="date">{{tupla.fecha_entrega_oc}}</p>
-                            </div> 
+                        <div class="col-sm-1"> 
+                            <p v-if="usuario.activo==1" align="center">Activo</p>
+                            <p v-else align="center">Inactivo</p>
                         </div>
-                        <div align="center" class="col-sm-2">{{ot.usuario.nombre_usuario}}</div>
-                        <div class="col-sm-1">
-                            <button type="button" data-toggle="modal" data-target="#exampleModal"  @click="masInformacion(index)" class="btn btn-info">info</button>
-                        </div>
+                        <div align="center" class="col-sm-2">{{usuario.descripcion}}</div>
                         <div class="col-sm-1">
                             <button type="button" data-toggle="modal" data-target="#modalEditOt" @click="editarOt(index)" class="btn btn-warning">editar</button>
                         </div>
                         <div class="col-sm-1">
-                            <button v-if="ot.abierta==1" type="button" @click="cerrarOt(ot)" class="btn btn-danger">Cerrar</button>
-                            <button v-if="ot.abierta==0" type="button" @click="abrirOt(ot)" class="btn btn-success">Abrir</button>
+                            <button v-if="usuario.activo==1" type="button" @click="inactivarUsuario(usuario)" class="btn btn-danger">Inactivar</button>
+                            <button v-if="usuario.activo==0" type="button" @click="activarUsuario(usuario)" class="btn btn-success">Activar</button>
                         </div>
                         
                     </div>
                 
-                <hr v-if="(abierta==true && ot.abierta==1)||(abierta==false && ot.abierta==0)" style="border:1px dotted gray; " />
+                <hr v-if="(activo==true && usuario.activo==1)||(activo==false && usuario.activo==0)" style="border:1px dotted gray; " />
                 </div>
             </div>
         </div>   
@@ -127,34 +114,18 @@
 
 <script>
     export default {
-        props: ['otsTodas'], 
+        props: ['usuarios'], 
         data(){
             return {
                 masInformacionBool: false,
                 indexOt:null,
-                productos:[],
-                cantidadXProducto:[],
-                cliente:{nombre:""},
-                canal_venta:{nombre:""},
-                ot_tipo:{nombre:""},
-                usuario:{nombre:""},
-                centro_costo:{nombre:""},
-                categoria_ot:{nombre:""},
                 creacionN:0,
                 edicionN:0,
-                crearOtBool:false,
+                crearBool:false,
                 editarOtBool:false,
-                clientes:[],
-                canales:[],
-                tipos:[],
-                usuarios:[],
-                centros:[],
-                categorias:[],
-                seleccionados:[],
-                viejos:[],
-                abierta: true,
-                searchOT:"",
-                resultsOt: this.otsTodas[0]
+                activo: true,
+                searchUsuario:"",
+                resultsUsuario: this.usuarios
 
             }
         },
@@ -162,13 +133,13 @@
             console.log('Component mounted.')
         },
         methods:{
-            onChangueOT(){
-                        console.log("ots:");
-                        console.log(this.ots);
-                        this.filterResultsOt();
+            onChangueUsuario(){
+                        console.log("usuarios:");
+                        console.log(this.usuarios);
+                        this.filterResultsUsuario();
                     },
-            filterResultsOt(){
-                this.resultsOt = this.otsTodas[0].filter(item => item.id.toString().toLowerCase().indexOf(this.searchOT.toLowerCase())>-1);
+            filterResultsUsuario(){
+                this.resultsUsuario = this.usuarios.filter(item => item.nombre_usuario.toLowerCase().indexOf(this.searchUsuario.toLowerCase())>-1);
                 //esta hay que cambiarla.
             },
             crearOT(){
@@ -246,26 +217,36 @@
                 console.log("aqui activaré el bool");
                 this.editarOtBool=true;    
             },
-            cerrarOt(ot){
+            activarUsuario(usuario){
                 axios
-                .get('http://localhost:8000/cerrarOt/'+ ot.id) 
+                .get('http://localhost:8000/activarUsuario/'+ usuario.id) 
                             .then(response => {
                                 console.log(response);
+                                 axios
+                                    .get('http://localhost:8000/usuariosConRol')
+                                    .then(response =>{
+                                        console.log(response.data)
+                                        this.resultsUsuario =response.data;})
                                 //alert("OT eliminada exitosamente");
-                                this.$emit('botonEliminarOt')
-                                this.abierta=true;
+                                //this.$emit('botonEliminarOt')
+                                //this.abierta=true;
                                 })
             },
-            abrirOt(ot){
+            inactivarUsuario(usuario){
                 axios
-                .get('http://localhost:8000/abrirOt/'+ ot.id) 
+                .get('http://localhost:8000/inactivarUsuario/'+ usuario.id) 
                             .then(response => {
                                 console.log(response);
-                               // alert("OT eliminada exitosamente");
-                                this.$emit('botonEliminarOt')
-                                this.abierta=false;
+                                axios
+                                    .get('http://localhost:8000/usuariosConRol')
+                                    .then(response =>{
+                                        console.log(response.data)
+                                        this.resultsUsuario =response.data;})
+                                //alert("OT eliminada exitosamente");
+                                //this.$emit('botonEliminarOt')
+                                //this.abierta=false;
                                 })
-                                this.abierta=false;
+                                //this.abierta=false;
             },
             guardarCreacionOt(){
                  this.$emit('botonGuardarCreacionOt');

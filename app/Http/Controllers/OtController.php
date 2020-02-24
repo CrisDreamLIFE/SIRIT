@@ -220,6 +220,7 @@ class OtController extends Controller
 
     public function index()
     {
+        error_log("entre al index");
         $ots = Ot::orderBy('id','desc')->get();
         error_log("1");
         if(count($ots)>0){
@@ -513,14 +514,20 @@ class OtController extends Controller
 
         
         foreach($seleccionadosArray as $prod){
-            $elegido = OtProducto::where('ot_id',$ot->id)->get();
+            $elegido = OtProducto::where('ot_id',$ot->id)->where('producto_id',$prod[0]['id'])->get();
             error_log($elegido);
+            error_log("///");
+            error_log($prod[0]['id']);
             if(count($elegido)==0){
+                error_log("!");
                 $otProducto = new OtProducto;
             }
             else{
+                error_log("asd");
                 $otProducto = OtProducto::where('ot_id',$ot->id)->where('producto_id',$prod[0]['id'])->get();
+                error_log("asdasd");
                 $otProducto = $otProducto[0];
+                error_log("?");
             }
                 error_log("entre");
                 $otProducto->cantidad = (int)$prod[1];
@@ -547,22 +554,30 @@ class OtController extends Controller
 
             #Para producto
             $producto = Producto::find($prod[0]['id']);
+            error_log("a");
             if($prod[0]['codigo_siom']!= ""){
+                error_log("b");
                 $producto->codigo_siom = $prod[0]['codigo_siom'];
+                error_log("c");
             }
             if($prod[0]['numero_plano']!= ""){
                 $producto->numero_plano = $prod[0]['numero_plano'];
             }
             $producto->save();
+            error_log("d");
 
             #para cliente si es que no lo tiene
             $clienteProd = new ClienteProducto;
             $clienteProd->cliente_id = $cliente['id'];
+            error_log("e");
             $clienteProd->producto_id = $prod[0]['id'];
+            error_log("f");
             $clienteProd->codigo_cliente = $prod[2];
+            error_log("g");
             $clienteProd->save();
+            error_log("sdfd");
         }
-
+        error_log("fin");
 
 
         return "termine";

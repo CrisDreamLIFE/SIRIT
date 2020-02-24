@@ -114,9 +114,39 @@ class UsuarioController extends Controller
         return $final;
     }
 
+    public function activarUsuario($id){
+        error_log("a");
+        $usuario = Usuario::find($id);
+        $usuario->activo = true;
+        $usuario->save();
+    }
+
+    public function inactivarUsuario($id){
+        error_log("1");
+        $usuario = Usuario::find($id);
+        $usuario->activo = false;
+        $usuario->save();
+        error_log($usuario->activo);
+    }
+
+    public function usuariosConRol(){
+        $usuarios = Usuario::all();
+        foreach($usuarios as $usr){
+            $roles = $usr->roles;
+            /*foreach($roles as $rol){
+                $aux = new Object_();
+                $rolEntero = Rol::find($rol->id);
+                $aux->id = $rol->id;
+                $aux->nombre = $rol->nombre_rol;
+                $rol = $aux;
+            }*/
+            $areas = $usr->areas;
+        }
+        return $usuarios;
+    }
     public function index()
     {
-        //
+        return Usuario::all();
     }
 
     /**
