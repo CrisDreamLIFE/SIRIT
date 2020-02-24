@@ -10,7 +10,8 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::group(['middleware' => 'cors'], function(){
+    //aqui van todas las rutas que necesitan CORS
 Route::get('/', function () {
     return view('welcome');
 });
@@ -109,3 +110,4 @@ Route::get('obtenerCodigosCliente/{id}','ClienteProductoController@obtenerCodigo
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+});

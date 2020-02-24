@@ -358,14 +358,47 @@ class OtController extends Controller
             if(count($aux)>0){
                 $aux[0]->delete();
             }
-            $otProducto = new OtProducto;
-            $otProducto->cantidad = (int)$prod[1];
-            $otProducto->ot_id = $ot->id;
-            $otProducto->producto_id = $prod[0]['id'];
-            $otProducto->categoria_id = $prod[3]['id'];
-            $otProducto->categoria_nombre_aux = $prod[3]['nombre_categoria'];
-            $otProducto->fecha_entrega_oc = $prod[4];
-            $otProducto->save();
+        }
+        foreach($seleccionadosArray as $prod){
+            $elegido = OtProducto::where('ot_id',$ot->id)->where('producto_id',$prod[0]['id'])->get();
+            error_log($elegido);
+            error_log("///");
+            error_log($prod[0]['id']);
+            if(count($elegido)==0){
+                error_log("!");
+                $otProducto = new OtProducto;
+            }
+            else{
+                error_log("asd");
+                $otProducto = OtProducto::where('ot_id',$ot->id)->where('producto_id',$prod[0]['id'])->get();
+                error_log("asdasd");
+                $otProducto = $otProducto[0];
+                error_log("?");
+            }
+                error_log("entre");
+                $otProducto->cantidad = (int)$prod[1];
+                $otProducto->ot_id = $ot->id;
+                $otProducto->producto_id = $prod[0]['id'];
+                $otProducto->categoria_id = $prod[3]['id'];
+                error_log("antes de categoria");
+                $otProducto->categoria_nombre_aux = $prod[3]['nombre_categoria'];
+                error_log("despues de categoria");
+                //$otProducto->guia_despacho = $prod[7];
+                error_log("aaa");
+                error_log($prod[4]);
+                //$otProducto->factura = $prod[8];
+                $otProducto->fecha_entrega_oC = $prod[4];
+                //$otProducto->fecha_real_entregA = $prod[5];
+                error_log("gggg");
+                //$otProducto->fecha_despachO = $prod[6];
+                error_log("lll");
+                //$otProducto->estado_OT = true;
+                error_log($otProducto->estado_OT);
+                //$otProducto->recepcionada = $prod[10];
+                //$otProducto->despachada= $prod[11];
+                error_log("hhhh");
+                $otProducto->save();
+                error_log("guarde el otProducto");
 
             #Para producto
             error_log("pa acachar que onda");

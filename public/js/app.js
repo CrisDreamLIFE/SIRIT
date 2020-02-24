@@ -3730,6 +3730,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['centros', 'canales', 'usuarios', 'tipos', 'categorias', 'clientes', 'productos'],
   data: function data() {
@@ -3754,6 +3756,7 @@ __webpack_require__.r(__webpack_exports__);
       codigosCliente: [],
       cantidad: "",
       aux: [],
+      categoriaEscogida: "",
       crearMaterialBool: false,
       tipoMaterial: "",
       creacionN: 0
@@ -3843,7 +3846,7 @@ __webpack_require__.r(__webpack_exports__);
         fecha: this.fecha,
         recepcion: this.recepcion,
         tipo: this.tipos[this.tipo],
-        categoria: this.categorias[this.categoria],
+        categoria: this.categoria,
         cliente: this.clientes[this.cliente],
         canal: this.canales[this.canal],
         centro: this.centros[this.centro],
@@ -3877,6 +3880,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -45546,7 +45550,7 @@ var render = function() {
                                 [
                                   _vm._v(
                                     "\r\n                                                " +
-                                      _vm._s(cliente.nombre) +
+                                      _vm._s(cliente.nombre_cliente) +
                                       "\r\n                                            "
                                   )
                                 ]
@@ -47356,7 +47360,11 @@ var render = function() {
                         [
                           _c("br"),
                           _c("br"),
-                          _vm._v(" "),
+                          _vm._v(
+                            "\r\n                                                                                * " +
+                              _vm._s(_vm.seleccionados) +
+                              "\r\n                                        "
+                          ),
                           _vm._l(_vm.seleccionados, function(producto, index) {
                             return _c("div", { key: index }, [
                               _c("div", { staticClass: "container color3" }, [
@@ -47751,6 +47759,11 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "modal-footer" }, [
+                _vm._v(
+                  "\r\n                        " +
+                    _vm._s(_vm.categoriaEscogida) +
+                    "\r\n                        "
+                ),
                 _c(
                   "button",
                   {
@@ -48602,7 +48615,11 @@ var render = function() {
                         [
                           _c("br"),
                           _c("br"),
-                          _vm._v(" "),
+                          _vm._v(
+                            "\r\n                                        * " +
+                              _vm._s(_vm.seleccionados) +
+                              "\r\n                                        "
+                          ),
                           _vm._l(_vm.seleccionados, function(producto, index) {
                             return _c("div", { key: index }, [
                               _c("div", { staticClass: "container color3" }, [
@@ -52957,8 +52974,8 @@ var render = function() {
             _c("modal-ot-create-component", {
               key: _vm.creacionN,
               attrs: {
-                canales: _vm.canales,
-                tipos: _vm.tipos,
+                areas: _vm.areas,
+                roles: _vm.roles,
                 usuarios: _vm.usuarios,
                 centros: _vm.centros,
                 categorias: _vm.categorias,

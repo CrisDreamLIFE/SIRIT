@@ -62,7 +62,7 @@
                                         <select v-model="cliente"  class="form-control">
                                             <option disabled selected >Clientes</option>
                                             <option v-for="(cliente,index) in clientes" v-bind:key="index" v-bind:value="index">
-                                                {{ cliente.nombre }}
+                                                {{ cliente.nombre_cliente }}
                                             </option>
                                         </select>  
                                     </div>

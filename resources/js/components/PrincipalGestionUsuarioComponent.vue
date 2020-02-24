@@ -27,8 +27,8 @@
         <div v-if="crearOtBool"> <!-- CREATE -->
                 <modal-ot-create-component 
                     :key="creacionN"
-                    :canales="canales"
-                    :tipos="tipos"
+                    :areas="areas"
+                    :roles="roles"
                     :usuarios="usuarios"
                     :centros="centros"
                     :categorias="categorias"

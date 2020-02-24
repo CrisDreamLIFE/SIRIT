@@ -202,6 +202,7 @@
                                     </div>-->
                                     <div class="col-md-12">
                                         <br><br>
+                                                                                * {{seleccionados}}
                                         <div v-for="(producto,index) in seleccionados" v-bind:key="index">
                                             <div class="container color3">
                                                 <div class="row">
@@ -291,6 +292,7 @@
                         </form>
                     </div>
                     <div class="modal-footer">
+                        {{categoriaEscogida}}
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                         <button type="button" @click="guardarCambios" class="btn btn-primary">Guardar Cambios</button>
                     </div>
@@ -325,6 +327,7 @@
                 codigosCliente:[],
                 cantidad: "",
                 aux:[],
+                categoriaEscogida:"",
                 crearMaterialBool:false,
                 tipoMaterial:"",
                 creacionN:0
@@ -408,7 +411,7 @@
                     fecha:  this.fecha,
                     recepcion: this.recepcion,
                     tipo: this.tipos[this.tipo],
-                    categoria: this.categorias[this.categoria],
+                    categoria: this.categoria,
                     cliente: this.clientes[this.cliente],
                     canal: this.canales[this.canal],
                     centro: this.centros[this.centro],
