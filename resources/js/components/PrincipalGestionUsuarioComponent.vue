@@ -8,7 +8,7 @@
             <div class="com-sm-6">
                 <div class="row"> <!-- este es el buscador, lo vemos mas tarde o altiro mejor-->
                     <div class="col-sm">
-                        <input id="7" class="form-control form-control-lg form-control-borderless" placeholder="N° OT" type="search" v-model="searchUsuario" @input="onChangueUsuario"/>
+                        <input id="7" class="form-control form-control-lg form-control-borderless" placeholder="Nombre" type="search" v-model="searchUsuario" @input="onChangueUsuario"/>
                     </div>
                     <!--end of col-->
                 </div>
@@ -24,19 +24,13 @@
             </div>
         </div>
         <br>
-        <div v-if="crearOtBool"> <!-- CREATE -->
-                <modal-ot-create-component 
+        <div v-if="crearUsuarioBool"> <!-- CREATE -->
+                <modal-usuario-create-component 
                     :key="creacionN"
                     :areas="areas"
                     :roles="roles"
-                    :usuarios="usuarios"
-                    :centros="centros"
-                    :categorias="categorias"
-                    :clientes="clientes"
-                    :productos="productos"
-                    @botonGuardarCreacionOt="guardarCreacionOt"
-                    @botonGuardarCreacionMaterial="guardarCreacionMaterial">
-                    </modal-ot-create-component>
+                    @botonGuardarCreacionUsuario="guardarCreacionUsuario">
+                    </modal-usuario-create-component>
                 </div>
                 <div v-if="editarOtBool"> <!-- EDIT -->
                     <modal-ot-edit-component
@@ -54,18 +48,6 @@
                     @botonGuardarEdicionOt="guardarEdicionOt">
                     </modal-ot-edit-component> 
                 </div>
-        <div v-if="masInformacionBool"><!--modal SHOW -->
-            <modal-ot-component
-            :ot="otsTodas[0][indexOt]"
-            :productos="productos"
-            :cantidadXProducto="cantidadXProducto"
-            :cliente="cliente"
-            :canal_venta="canal_venta"
-            :ot_tipo="ot_tipo"
-            :usuario="usuario"
-            :categoria_ot="categoria_ot"
-            :centro_costo="centro_costo"></modal-ot-component>
-        </div>
         <div class="card card-body" > 
             <div class="row">
                 <div class="col-sm-3"><h6 align="center">Nombre</h6></div>
@@ -117,15 +99,15 @@
         props: ['usuarios'], 
         data(){
             return {
-                masInformacionBool: false,
-                indexOt:null,
                 creacionN:0,
                 edicionN:0,
-                crearBool:false,
-                editarOtBool:false,
+                crearUsuarioBool:false,
+                editarUsuarioBool:false,
                 activo: true,
                 searchUsuario:"",
-                resultsUsuario: this.usuarios
+                resultsUsuario: this.usuarios,
+                areas:[],
+                roles:[]
 
             }
         },
@@ -142,40 +124,18 @@
                 this.resultsUsuario = this.usuarios.filter(item => item.nombre_usuario.toLowerCase().indexOf(this.searchUsuario.toLowerCase())>-1);
                 //esta hay que cambiarla.
             },
-            crearOT(){
+            crearUsuario(){
                 //cargar 6 cosas:
                 //canal de venta
                 console.log("entre")
                 axios
-                    .get('http://localhost:8000/canalVentas/')
-                    .then(response => {this.canales=response.data;})
-                //ot_tipo
+                    .get('http://localhost:8000/area/')
+                    .then(response => {this.areas=response.data;})
                 axios
-                    .get('http://localhost:8000/otTipo/')
-                    .then(response => {this.tipos=response.data;})
-                //usuario
-                axios
-                    .get('http://localhost:8000/obtenerGestores/')
-                    .then(response => {this.usuarios=response.data;})
-                //centro costo
-                axios
-                    .get('http://localhost:8000/centroCosto/')
-                    .then(response => {this.centros=response.data;})
-                //categoria
-                axios
-                    .get('http://localhost:8000/categoriaMaterial/')
-                    .then(response => {this.categorias=response.data;})
-                //cliente
-                axios
-                    .get('http://localhost:8000/cliente/')
-                    .then(response => {this.clientes=response.data;})
-                this.crearOtBool=true;
-                //productos
-                axios
-                    .get('http://localhost:8000/producto/')
-                    .then(response => {this.productos=response.data;})
-                console.log("aqui activaré el bool");
-                this.crearOtBool=true; 
+                    .get('http://localhost:8000/rol/')
+                    .then(response => {this.roles=response.data;})
+
+                this.crearUsuarioBool=true; 
             },
             editarOt(index){
                 this.otSeleccionada = this.otsTodas[0][index];
@@ -248,14 +208,10 @@
                                 })
                                 //this.abierta=false;
             },
-            guardarCreacionOt(){
-                 this.$emit('botonGuardarCreacionOt');
-            },
-            guardarEdicionOt(){
-                this.$emit('botonGuardarEdicionOt');
-            },
-            guardarCreacionMaterial(){
-                console.log("como que debo refrescar la wea"); 
+            guardarCreacionUsuario(){
+                console.log("este nivel");
+                
+                 this.$emit('botonGuardarCreacionUsuario');
             },
             masInformacion(index){
                 console.log("mostare el modal")

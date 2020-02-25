@@ -6,6 +6,7 @@ use App\Usuario;
 use App\Rol;
 use App\RolUsuario;
 use App\Area;
+use App\AreaUsuario;
 use App\Estacion;
 use Illuminate\Http\Request;
 use phpDocumentor\Reflection\Types\Object_;
@@ -167,7 +168,59 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $nombre = $request->input('nombre');
+        $rut = $request->input('rut');
+        $pass = $request->input('pass');
+        $areasArray = $request->input('areas');
+        $rolesArray = $request->input('roles');
+
+        #para usuario
+        $usuario = new Usuario;
+        error_log($usuario);
+        $usuario->nombre_usuario = $nombre;
+        $usuario->rut = $rut;
+        $usuario->contraseña = $pass;
+        $usuario->activo = true;
+        $areak = '';
+        $usuario->save();
+        $usuario = Usuario::where('rut',$rut)->where("activo",1)->where('contraseña',$pass)->where("nombre_usuario",$nombre)->get();
+        $usuario = $usuario[0];
+        error_log($usuario);
+        error_log("para los roles");
+        #para roles
+        foreach($rolesArray as $rol){
+            $rolUsuario = new RolUsuario;
+            $rolUsuario->usuario_id = $usuario->id;
+            $rolUsuario->rol_id = $rol['id'];
+            $rolUsuario->save();
+        }
+        error_log("para las areas");
+        #para areas
+        $primero = 1;
+        foreach($areasArray as $area){
+            $areaUsuario = new AreaUsuario;
+            $areaUsuario->usuario_id = $usuario->id;
+            $areaUsuario->area_id = $area['id'];
+            error_log("a");
+            if($primero ==1){
+                error_log($area['nombre_area']);
+                $areak = $areak . $area['nombre_area'];
+                error_log($areak);
+            }
+            else{
+                $areak=$areak . ', ' . $area['nombre_area'];
+            }
+            error_log("b");
+            $areaUsuario->save();
+            $primero = 0;
+        }
+
+        $usuario->area = $areak;
+        error_log($usuario->area);
+        error_log("antes del save");
+        $usuario->save();
+        return 'OK';
+
     }
 
     /**

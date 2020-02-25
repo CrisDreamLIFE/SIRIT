@@ -42,6 +42,7 @@ Route::get('/test1', 'SesionTrabajoController@test');
 
 
 #Ot
+Route::post('/storeOt', 'OtController@store2');
 Route::resource('ot','OtController');
 Route::get('/otAbierta', 'OtController@obtenerOtAbierta'); 
 Route::get('/productosYCantidadOt/{id}', 'OtController@obtenerProductos');
@@ -54,6 +55,7 @@ Route::get('/seleccionados/{id}', 'OtController@seleccionados');
 Route::get('/cerrarOt/{id}', 'OtController@cerrarOt');
 Route::get('/abrirOt/{id}', 'OtController@abrirOt');
 Route::post('/exportarExcel', 'OtController@exportarExcel');
+
 Route::get('/test', 'OtController@test');
 
 #Producto

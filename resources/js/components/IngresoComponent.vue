@@ -100,7 +100,7 @@
                 <principal-gestion-usuario-component
                 :key="gestionUsuarioN"
                 :usuarios="usuarios"
-                >
+                botonGuardarCreacionUsuario="recargarUsuarios">
                 </principal-gestion-usuario-component>
             </div> 
             <!----------REPORTABILIDAD------------------------->
@@ -171,6 +171,17 @@ export default {
             console.log('Component mounted.')
         },
         methods:{ 
+            recargarUsuarios(){
+                console.log("ksi");
+                axios
+                .get('http://localhost:8000/usuario')
+                .then(response =>{
+                    console.log("respuesta de ot:")
+                    console.log(response.data)
+                    this.usuarios = response.data
+                    this.gestionUsuarioN +=1;
+                    this.iniciarGestionUsuarioBool=true   })
+            },
             recargarOt(){
                 axios
                 .get('http://localhost:8000/ot')
