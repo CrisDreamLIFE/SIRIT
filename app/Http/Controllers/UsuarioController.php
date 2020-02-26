@@ -147,7 +147,12 @@ class UsuarioController extends Controller
     }
     public function index()
     {
-        return Usuario::all();
+        $usuarios =Usuario::all();
+        foreach($usuarios as $usu){
+            $usu->roles;
+            $usu->areas;
+        }
+        return $usuarios;
     }
 
     /**
@@ -242,7 +247,7 @@ class UsuarioController extends Controller
      */
     public function edit(Usuario $usuario)
     {
-        //
+        
     }
 
     /**
@@ -254,7 +259,84 @@ class UsuarioController extends Controller
      */
     public function update(Request $request, Usuario $usuario)
     {
-        //
+        error_log("entre?");
+        $nombre = $request->input('nombre');
+        $rut = $request->input('rut');
+        $pass = $request->input('pass');
+        $areasArray = $request->input('areas');
+        $rolesArray = $request->input('roles');
+        $areasViejasArray = $request->input('areasViejas');
+        $rolesViejosArray = $request->input('rolesViejos');
+        $estado = $request->input('estado');
+        error_log("1");
+        error_log($usuario);
+
+        #para usuario
+        $usuario = Usuario::where('rut',$usuario->rut)->where("activo",$usuario->activo)->where('contraseña',$usuario->contraseña)->where("nombre_usuario",$usuario->nombre_usuario)->get();
+        if(count($usuario)==0){error_log("no lo pillé");}
+        $usuario = $usuario[0];
+        error_log("2");
+        $usuario->nombre_usuario = $nombre;
+        $usuario->rut = $rut;
+        $usuario->contraseña = $pass;
+        if($estado){$usuario->activo = true;}
+        else{$usuario->activo = false;}
+        $areak = '';
+        
+        
+        error_log($usuario);
+        error_log("para los roles");
+        error_log($rolesViejosArray[0]['id']);
+        #para roles
+        #borramos los viejos:
+        foreach($rolesViejosArray as $rolViejo){
+            error_log($rolViejo['nombre_rol']);
+            $aux = RolUsuario::where('rol_id',$rolViejo['id'])->where('usuario_id',$usuario->id)->get();
+            error_log($aux);
+            if(count($aux)>0){
+                $aux[0]->delete();
+            }
+        }
+        #guardamos los nuevos
+        foreach($rolesArray as $rol){
+            $rolUsuario = new RolUsuario;
+            $rolUsuario->usuario_id = $usuario->id;
+            $rolUsuario->rol_id = $rol['id'];
+            $rolUsuario->save();
+        }
+        error_log("para las areas");
+        #para areas
+        #borramos los viejas:
+        foreach($areasViejasArray as $areaVieja){
+            $aux = AreaUsuario::where('area_id',$areaVieja['id'])->where('usuario_id',$usuario->id)->get();
+            if(count($aux)>0){
+                $aux[0]->delete();
+            }
+        }
+        $primero = 1;
+        foreach($areasArray as $area){
+            $areaUsuario = new AreaUsuario;
+            $areaUsuario->usuario_id = $usuario->id;
+            $areaUsuario->area_id = $area['id'];
+            error_log("a");
+            if($primero ==1){
+                error_log($area['nombre_area']);
+                $areak = $areak . $area['nombre_area'];
+                error_log($areak);
+            }
+            else{
+                $areak=$areak . ', ' . $area['nombre_area'];
+            }
+            error_log("b");
+            $areaUsuario->save();
+            $primero = 0;
+        }
+
+        $usuario->area = $areak;
+        error_log($usuario->area);
+        error_log("antes del save");
+        $usuario->save();
+        return 'OK';
     }
 
     /**

@@ -57,6 +57,7 @@ Vue.component('modal-asociar-material-component', require('./components/ModalAso
 Vue.component('modal-desasociar-material-component', require('./components/ModalDesasociarMaterialComponent.vue').default);
 Vue.component('modal-cliente-create-component', require('./components/ModalClienteCreateComponent.vue').default);
 Vue.component('modal-usuario-create-component', require('./components/ModalUsuarioCreateComponent.vue').default);
+Vue.component('modal-usuario-edit-component', require('./components/ModalUsuarioEditComponent.vue').default);
 
 
 /**

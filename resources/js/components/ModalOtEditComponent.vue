@@ -151,7 +151,6 @@
                                     </div>
                                     <div class="col-md-12">
                                         <br><br>
-                                        * {{seleccionados}}
                                         <div v-for="(producto,index) in seleccionados" v-bind:key="index">
                                             <div class="container color3">
                                                 <div class="row">

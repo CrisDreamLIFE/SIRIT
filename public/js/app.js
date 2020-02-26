@@ -2105,8 +2105,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-var _methods;
-
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 //
@@ -2279,7 +2277,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     });
     console.log('Component mounted.');
   },
-  methods: (_methods = {
+  methods: {
     recargarUsuarios: function recargarUsuarios() {
       var _this2 = this;
 
@@ -2323,201 +2321,201 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this5.gestionSubMaterialN += 1;
         _this5.iniciarGestionSubMaterialBool = true;
       });
-    }
-  }, _defineProperty(_methods, "recargarUsuarios", function recargarUsuarios() {
-    var _this6 = this;
+    },
+    auxMetodo: function auxMetodo() {
+      console.log("entre al auuuux");
+      this.componentKey += 1;
+    },
+    iniciarGestionReporte: function iniciarGestionReporte() {
+      var _this6 = this;
 
-    axios.get('http://localhost:8000/subProducto').then(function (response) {
-      _this6.subProductos = response.data;
-      console.log("recargue los materiales ;v");
-      _this6.gestionSubMaterialN += 1;
-      _this6.iniciarGestionSubMaterialBool = true;
-    });
-  }), _defineProperty(_methods, "auxMetodo", function auxMetodo() {
-    console.log("entre al auuuux");
-    this.componentKey += 1;
-  }), _defineProperty(_methods, "iniciarGestionReporte", function iniciarGestionReporte() {
-    var _this7 = this;
-
-    axios.get('http://localhost:8000/nave').then(function (response) {
-      console.log(response.data);
-      _this7.naves = response.data;
-      _this7.algoSeleccionado = true;
-      _this7.iniciarGestionReporteBool = true;
-    });
-    axios.get('http://localhost:8000/area').then(function (response) {
-      console.log(response.data);
-      _this7.areas = response.data;
-      _this7.algoSeleccionado = true;
-      _this7.iniciarGestionReporteBool = true;
-    });
-    axios.get('http://localhost:8000/producto').then(function (response) {
-      console.log(response.data);
-      _this7.productos = response.data;
-      _this7.algoSeleccionado = true;
-      _this7.iniciarGestionReporteBool = true;
-    });
-    axios.get('http://localhost:8000/ot').then(function (response) {
-      console.log("respuesta de ot:");
-      console.log(response.data);
-      _this7.otsTodas = response.data;
-      _this7.algoSeleccionado = true;
-      _this7.iniciarGestionReporteBool = true;
-    });
-    axios.get('http://localhost:8000/cliente').then(function (response) {
-      console.log("respuesta de ot:");
-      console.log(response.data);
-      _this7.clientes = response.data;
-      _this7.algoSeleccionado = true;
-      _this7.iniciarGestionReporteBool = true;
-    });
-    axios.get('http://localhost:8000/obtenerGestores').then(function (response) {
-      console.log("respuesta de ot:");
-      console.log(response.data);
-      _this7.responsables = response.data;
-      _this7.algoSeleccionado = true;
-      _this7.iniciarGestionReporteBool = true;
-    });
-    axios.get('http://localhost:8000/otTipo').then(function (response) {
-      console.log("respuesta de ot:");
-      console.log(response.data);
-      _this7.tipos = response.data;
-      _this7.algoSeleccionado = true;
-      _this7.iniciarGestionReporteBool = true;
-    });
-  }), _defineProperty(_methods, "iniciarGestionMaterial", function iniciarGestionMaterial() {
-    var _this8 = this;
-
-    axios.get('http://localhost:8000/producto').then(function (response) {
-      console.log(response.data);
-      _this8.productos = response.data;
-      _this8.algoSeleccionado = true;
-      _this8.iniciarGestionMaterialBool = true;
-    });
-  }), _defineProperty(_methods, "iniciarGestionSubMaterial", function iniciarGestionSubMaterial() {
-    var _this9 = this;
-
-    axios.get('http://localhost:8000/subProducto').then(function (response) {
-      console.log(response.data);
-      _this9.subProductos = response.data;
-      _this9.algoSeleccionado = true;
-      _this9.iniciarGestionSubMaterialBool = true;
-    });
-  }), _defineProperty(_methods, "iniciarGestionUsuario", function iniciarGestionUsuario() {
-    var _this10 = this;
-
-    axios.get('http://localhost:8000/usuariosConRol').then(function (response) {
-      console.log(response.data);
-      _this10.usuarios = response.data;
-      _this10.algoSeleccionado = true;
-      _this10.iniciarGestionUsuarioBool = true;
-    });
-  }), _defineProperty(_methods, "iniciarGestionOT", function iniciarGestionOT() {
-    var _this11 = this;
-
-    axios.get('http://localhost:8000/ot').then(function (response) {
-      console.log("respuesta de ot:");
-      console.log(response.data);
-      _this11.otsTodas = response.data;
-      _this11.algoSeleccionado = true;
-      _this11.iniciarGestionOTBool = true;
-    });
-  }), _defineProperty(_methods, "iniciarTrabajo", function iniciarTrabajo() {
-    this.algoSeleccionado = true;
-    this.iniciarTrabajoBool = true;
-  }), _defineProperty(_methods, "logear", function logear() {
-    var _this12 = this;
-
-    console.log("ahora me logeo:v");
-
-    if (!this.validarRut(this.rut)) {
-      console.log("rut malo");
-    } else {
-      console.log("rut bueno");
-      var params = {
-        rut: this.rut,
-        contraseña: this.contraseña
-      };
-      axios.post('http://localhost:8000/usuarios/login', params).then(function (response) {
-        console.log("respuesta");
+      axios.get('http://localhost:8000/nave').then(function (response) {
         console.log(response.data);
-
-        if (response.data == 0) {
-          console.log("no se encontro usuario");
-        } else if (response.data == 1) {
-          console.log("contraseña invalida");
-        } else {
-          _this12.usuario = response.data.usuario;
-          var aux = [];
-
-          for (var i = 0; i < response.data.usuario.roles.length; i++) {
-            aux.push(response.data.usuario.roles[i].nombre_rol);
-          }
-
-          _this12.roles = aux;
-          _this12.logeado = true;
-        }
+        _this6.naves = response.data;
+        _this6.algoSeleccionado = true;
+        _this6.iniciarGestionReporteBool = true;
       });
-    }
-  }), _defineProperty(_methods, "validarRut", function validarRut(rut) {
-    // Despejar Puntos
-    var valor = rut.replace('.', ''); // Despejar Guión
+      axios.get('http://localhost:8000/area').then(function (response) {
+        console.log(response.data);
+        _this6.areas = response.data;
+        _this6.algoSeleccionado = true;
+        _this6.iniciarGestionReporteBool = true;
+      });
+      axios.get('http://localhost:8000/producto').then(function (response) {
+        console.log(response.data);
+        _this6.productos = response.data;
+        _this6.algoSeleccionado = true;
+        _this6.iniciarGestionReporteBool = true;
+      });
+      axios.get('http://localhost:8000/ot').then(function (response) {
+        console.log("respuesta de ot:");
+        console.log(response.data);
+        _this6.otsTodas = response.data;
+        _this6.algoSeleccionado = true;
+        _this6.iniciarGestionReporteBool = true;
+      });
+      axios.get('http://localhost:8000/cliente').then(function (response) {
+        console.log("respuesta de ot:");
+        console.log(response.data);
+        _this6.clientes = response.data;
+        _this6.algoSeleccionado = true;
+        _this6.iniciarGestionReporteBool = true;
+      });
+      axios.get('http://localhost:8000/obtenerGestores').then(function (response) {
+        console.log("respuesta de ot:");
+        console.log(response.data);
+        _this6.responsables = response.data;
+        _this6.algoSeleccionado = true;
+        _this6.iniciarGestionReporteBool = true;
+      });
+      axios.get('http://localhost:8000/otTipo').then(function (response) {
+        console.log("respuesta de ot:");
+        console.log(response.data);
+        _this6.tipos = response.data;
+        _this6.algoSeleccionado = true;
+        _this6.iniciarGestionReporteBool = true;
+      });
+    },
+    iniciarGestionMaterial: function iniciarGestionMaterial() {
+      var _this7 = this;
 
-    valor = valor.replace('-', '');
+      axios.get('http://localhost:8000/producto').then(function (response) {
+        console.log(response.data);
+        _this7.productos = response.data;
+        _this7.algoSeleccionado = true;
+        _this7.iniciarGestionMaterialBool = true;
+      });
+    },
+    iniciarGestionSubMaterial: function iniciarGestionSubMaterial() {
+      var _this8 = this;
 
-    for (var i = 0; i < valor.length; i++) {
-      //valor = valor.replace('.','');
-      //valor = valor.replace('-','');
-      valor = valor.replace(/[^0-9\K\k]/g, '');
-    } // Aislar Cuerpo y Dígito Verificador
+      axios.get('http://localhost:8000/subProducto').then(function (response) {
+        console.log(response.data);
+        _this8.subProductos = response.data;
+        _this8.algoSeleccionado = true;
+        _this8.iniciarGestionSubMaterialBool = true;
+      });
+    },
+    iniciarGestionUsuario: function iniciarGestionUsuario() {
+      var _this9 = this;
 
+      axios.get('http://localhost:8000/usuariosConRol').then(function (response) {
+        console.log(response.data);
+        _this9.usuarios = response.data;
+        _this9.algoSeleccionado = true;
+        _this9.iniciarGestionUsuarioBool = true;
+      });
+    },
+    iniciarGestionOT: function iniciarGestionOT() {
+      var _this10 = this;
 
-    var cuerpo = valor.slice(0, -1);
-    var dv = valor.slice(-1).toUpperCase(); // Formatear RUN
+      axios.get('http://localhost:8000/ot').then(function (response) {
+        console.log("respuesta de ot:");
+        console.log(response.data);
+        _this10.otsTodas = response.data;
+        _this10.algoSeleccionado = true;
+        _this10.iniciarGestionOTBool = true;
+      });
+    },
+    iniciarTrabajo: function iniciarTrabajo() {
+      this.algoSeleccionado = true;
+      this.iniciarTrabajoBool = true;
+    },
+    logear: function logear() {
+      var _this11 = this;
 
-    var rut_value = cuerpo + '-' + dv; // Si no cumple con el mínimo ej. (n.nnn.nnn)
+      console.log("ahora me logeo:v");
 
-    if (cuerpo.length < 7) {
-      //rut.setCustomValidity("RUT Incompleto"); 
-      console.log("no cumple el minimo");
-      return false;
-    } // Calcular Dígito Verificador
-
-
-    var suma = 0;
-    var multiplo = 2; // Para cada dígito del Cuerpo
-
-    for (var i = 1; i <= cuerpo.length; i++) {
-      console.log(i); // Obtener su Producto con el Múltiplo Correspondiente
-
-      var index = multiplo * valor.charAt(cuerpo.length - i);
-      console.log("index: " + index); // Sumar al Contador General
-
-      suma = suma + index; // Consolidar Múltiplo dentro del rango [2,7]
-
-      if (multiplo < 7) {
-        multiplo = multiplo + 1;
+      if (!this.validarRut(this.rut)) {
+        console.log("rut malo");
       } else {
-        multiplo = 2;
+        console.log("rut bueno");
+        var params = {
+          rut: this.rut,
+          contraseña: this.contraseña
+        };
+        axios.post('http://localhost:8000/usuarios/login', params).then(function (response) {
+          console.log("respuesta");
+          console.log(response.data);
+
+          if (response.data == 0) {
+            console.log("no se encontro usuario");
+          } else if (response.data == 1) {
+            console.log("contraseña invalida");
+          } else {
+            _this11.usuario = response.data.usuario;
+            var aux = [];
+
+            for (var i = 0; i < response.data.usuario.roles.length; i++) {
+              aux.push(response.data.usuario.roles[i].nombre_rol);
+            }
+
+            _this11.roles = aux;
+            _this11.logeado = true;
+          }
+        });
       }
-    } // Calcular Dígito Verificador en base al Módulo 11
+    },
+    validarRut: function validarRut(rut) {
+      // Despejar Puntos
+      var valor = rut.replace('.', ''); // Despejar Guión
+
+      valor = valor.replace('-', '');
+
+      for (var i = 0; i < valor.length; i++) {
+        //valor = valor.replace('.','');
+        //valor = valor.replace('-','');
+        valor = valor.replace(/[^0-9\K\k]/g, '');
+      } // Aislar Cuerpo y Dígito Verificador
 
 
-    var dvEsperado = 11 - suma % 11; // Casos Especiales (0 y K)
+      var cuerpo = valor.slice(0, -1);
+      var dv = valor.slice(-1).toUpperCase(); // Formatear RUN
 
-    dv = dv == 'K' ? 10 : dv;
-    dv = dv == 0 ? 11 : dv; // Validar que el Cuerpo coincide con su Dígito Verificador
+      var rut_value = cuerpo + '-' + dv; // Si no cumple con el mínimo ej. (n.nnn.nnn)
 
-    if (dvEsperado != dv) {
-      //rut.setCustomValidity("RUT Inválido"); 
-      console.log("no coincide con el digito verificador");
-      console.log(dvEsperado);
-      console.log(dv);
-      return false;
+      if (cuerpo.length < 7) {
+        //rut.setCustomValidity("RUT Incompleto"); 
+        console.log("no cumple el minimo");
+        return false;
+      } // Calcular Dígito Verificador
+
+
+      var suma = 0;
+      var multiplo = 2; // Para cada dígito del Cuerpo
+
+      for (var i = 1; i <= cuerpo.length; i++) {
+        console.log(i); // Obtener su Producto con el Múltiplo Correspondiente
+
+        var index = multiplo * valor.charAt(cuerpo.length - i);
+        console.log("index: " + index); // Sumar al Contador General
+
+        suma = suma + index; // Consolidar Múltiplo dentro del rango [2,7]
+
+        if (multiplo < 7) {
+          multiplo = multiplo + 1;
+        } else {
+          multiplo = 2;
+        }
+      } // Calcular Dígito Verificador en base al Módulo 11
+
+
+      var dvEsperado = 11 - suma % 11; // Casos Especiales (0 y K)
+
+      dv = dv == 'K' ? 10 : dv;
+      dv = dv == 0 ? 11 : dv; // Validar que el Cuerpo coincide con su Dígito Verificador
+
+      if (dvEsperado != dv) {
+        //rut.setCustomValidity("RUT Inválido"); 
+        console.log("no coincide con el digito verificador");
+        console.log(dvEsperado);
+        console.log(dv);
+        return false;
+      }
+
+      return true;
     }
-
-    return true;
-  }), _methods)
+  }
 });
 
 /***/ }),
@@ -3734,8 +3732,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['centros', 'canales', 'usuarios', 'tipos', 'categorias', 'clientes', 'productos'],
   data: function data() {
@@ -3884,7 +3880,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
 //
 //
 //
@@ -4932,6 +4927,143 @@ __webpack_require__.r(__webpack_exports__);
         _this.$emit('botonGuardarCreacionUsuario');
 
         alert("Usuario creado exitosamente");
+      });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ModalUsuarioEditComponent.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ModalUsuarioEditComponent.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['usuarioSeleccionado', 'areas', 'roles'],
+  data: function data() {
+    return {
+      nombreUsuario: this.usuarioSeleccionado.nombre_usuario,
+      passUsuario: this.usuarioSeleccionado.contraseña,
+      rutUsuario: this.usuarioSeleccionado.rut,
+      areasSeleccionadas: this.usuarioSeleccionado.areas,
+      rolesSeleccionados: this.usuarioSeleccionado.roles,
+      activo: this.usuarioSeleccionado.activo,
+      areasViejas: this.usuarioSeleccionado.areas,
+      rolesViejos: this.usuarioSeleccionado.roles
+    };
+  },
+  mounted: function mounted() {
+    console.log('Component mounted.');
+  },
+  methods: {
+    nameWithLangArea: function nameWithLangArea(_ref) {
+      var nombre_area = _ref.nombre_area;
+      return "".concat(nombre_area);
+    },
+    nameWithLangRol: function nameWithLangRol(_ref2) {
+      var nombre_rol = _ref2.nombre_rol;
+      return "".concat(nombre_rol);
+    },
+    guardarCambios: function guardarCambios() {
+      var _this = this;
+
+      var params = {
+        nombre: this.nombreUsuario,
+        pass: this.passUsuario,
+        rut: this.rutUsuario,
+        areas: this.areasSeleccionadas,
+        roles: this.rolesSeleccionados,
+        estado: this.activo,
+        areasViejas: this.areasViejas,
+        rolesViejos: this.rolesViejos
+      };
+      console.log(params);
+      axios.put('http://localhost:8000/usuario/' + this.usuarioSeleccionado.id, params).then(function (response) {
+        //actualizar los data con defecto, o algo asi quizas o ek key
+        console.log(response.data);
+        $('#modalEditUsuario').modal('hide');
+        $('.modal-backdrop').hide();
+
+        _this.$emit('botonGuardarEdicionUsuario');
+
+        alert("Usuario Editado exitosamente");
       });
     }
   }
@@ -6725,13 +6857,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['usuarios'],
   data: function data() {
@@ -6744,7 +6869,8 @@ __webpack_require__.r(__webpack_exports__);
       searchUsuario: "",
       resultsUsuario: this.usuarios,
       areas: [],
-      roles: []
+      roles: [],
+      usuarioSeleccionado: ""
     };
   },
   mounted: function mounted() {
@@ -6777,47 +6903,18 @@ __webpack_require__.r(__webpack_exports__);
       });
       this.crearUsuarioBool = true;
     },
-    editarOt: function editarOt(index) {
+    editarUsuario: function editarUsuario(usuario) {
       var _this3 = this;
 
-      this.otSeleccionada = this.otsTodas[0][index];
-      console.log("entre");
-      axios.get('http://localhost:8000/seleccionados/' + this.otSeleccionada.id).then(function (response) {
-        console.log("seleccionados:");
-        console.log(response.data);
-        _this3.seleccionados = response.data;
-        _this3.viejos = response.data;
-      }); //usuario
-
-      axios.get('http://localhost:8000/obtenerGestores/').then(function (response) {
-        _this3.usuarios = response.data;
+      this.edicionN = this.edicionN + 1;
+      this.usuarioSeleccionado = usuario;
+      axios.get('http://localhost:8000/area/').then(function (response) {
+        _this3.areas = response.data;
       });
-      axios.get('http://localhost:8000/canalVentas/').then(function (response) {
-        _this3.canales = response.data;
-      }); //ot_tipo
-
-      axios.get('http://localhost:8000/otTipo/').then(function (response) {
-        _this3.tipos = response.data;
-      }); //centro costo
-
-      axios.get('http://localhost:8000/centroCosto/').then(function (response) {
-        _this3.centros = response.data;
-      }); //categoria
-
-      axios.get('http://localhost:8000/categoriaMaterial/').then(function (response) {
-        _this3.categorias = response.data;
-      }); //cliente
-
-      axios.get('http://localhost:8000/cliente/').then(function (response) {
-        _this3.clientes = response.data;
+      axios.get('http://localhost:8000/rol/').then(function (response) {
+        _this3.roles = response.data;
       });
-      this.crearOtBool = true; //productos
-
-      axios.get('http://localhost:8000/producto/').then(function (response) {
-        _this3.productos = response.data;
-      });
-      console.log("aqui activaré el bool");
-      this.editarOtBool = true;
+      this.editarUsuarioBool = true;
     },
     activarUsuario: function activarUsuario(usuario) {
       var _this4 = this;
@@ -6849,27 +6946,9 @@ __webpack_require__.r(__webpack_exports__);
       console.log("este nivel");
       this.$emit('botonGuardarCreacionUsuario');
     },
-    masInformacion: function masInformacion(index) {
-      var _this6 = this;
-
-      console.log("mostare el modal");
-      this.indexOt = index;
-      axios.get('http://localhost:8000/productosYCantidadOt/' + this.otsTodas[0][index].id).then(function (response) {
-        console.log(response);
-        _this6.productos = response.data.productos;
-        _this6.cantidadXProducto = response.data.cantidades;
-        axios.get('http://localhost:8000/obtenerTodoOt/' + _this6.otsTodas[0][index].id).then(function (response) {
-          console.log("ds");
-          console.log(response.data);
-          _this6.cliente = response.data.cliente;
-          _this6.canal_venta = response.data.canal_venta;
-          _this6.ot_tipo = response.data.ot_tipo;
-          _this6.usuario = response.data.usuario;
-          _this6.centro_costo = response.data.centro_costo;
-          _this6.categoria_ot = response.data.categoria_ot;
-        });
-      });
-      this.masInformacionBool = true;
+    guardarEdicionUsuario: function guardarEdicionUsuario() {
+      console.log("evento del principal");
+      this.$emit('botonGuardarEdicionUsuario');
     }
   }
 });
@@ -44418,10 +44497,8 @@ var render = function() {
                     [
                       _c("principal-gestion-usuario-component", {
                         key: _vm.gestionUsuarioN,
-                        attrs: {
-                          usuarios: _vm.usuarios,
-                          botonGuardarCreacionUsuario: "recargarUsuarios"
-                        }
+                        attrs: { usuarios: _vm.usuarios },
+                        on: { botonGuardarEdicionUsuario: _vm.recargarUsuarios }
                       })
                     ],
                     1
@@ -47446,11 +47523,7 @@ var render = function() {
                         [
                           _c("br"),
                           _c("br"),
-                          _vm._v(
-                            "\r\n                                                                                * " +
-                              _vm._s(_vm.seleccionados) +
-                              "\r\n                                        "
-                          ),
+                          _vm._v(" "),
                           _vm._l(_vm.seleccionados, function(producto, index) {
                             return _c("div", { key: index }, [
                               _c("div", { staticClass: "container color3" }, [
@@ -47845,11 +47918,6 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "modal-footer" }, [
-                _vm._v(
-                  "\r\n                        " +
-                    _vm._s(_vm.categoriaEscogida) +
-                    "\r\n                        "
-                ),
                 _c(
                   "button",
                   {
@@ -48701,11 +48769,7 @@ var render = function() {
                         [
                           _c("br"),
                           _c("br"),
-                          _vm._v(
-                            "\r\n                                        * " +
-                              _vm._s(_vm.seleccionados) +
-                              "\r\n                                        "
-                          ),
+                          _vm._v(" "),
                           _vm._l(_vm.seleccionados, function(producto, index) {
                             return _c("div", { key: index }, [
                               _c("div", { staticClass: "container color3" }, [
@@ -50431,7 +50495,7 @@ var staticRenderFns = [
           staticClass: "modal-title",
           attrs: { id: "modalCreateUsuarioLabel" }
         },
-        [_vm._v("Creacion de nuevo usuario")]
+        [_vm._v("Creación de nuevo usuario")]
       ),
       _vm._v(" "),
       _c(
@@ -50495,6 +50559,370 @@ var staticRenderFns = [
     return _c("div", { staticClass: "col-md-6" }, [
       _c("label", { staticClass: "lavelFont font-weight-bold" }, [
         _vm._v("Rol:")
+      ])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ModalUsuarioEditComponent.vue?vue&type=template&id=09311ef7&":
+/*!****************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ModalUsuarioEditComponent.vue?vue&type=template&id=09311ef7& ***!
+  \****************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "div",
+      {
+        staticClass: "modal ",
+        attrs: {
+          id: "modalEditUsuario",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "modalEditUsuarioLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog-xl", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _c("form", [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("div", { staticClass: "row" }, [
+                      _vm._m(1),
+                      _vm._v(" "),
+                      _vm._m(2),
+                      _vm._v(" "),
+                      _vm._m(3),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-4" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.nombreUsuario,
+                              expression: "nombreUsuario"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            "aria-describedby": "emailHelp"
+                          },
+                          domProps: { value: _vm.nombreUsuario },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.nombreUsuario = $event.target.value
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-4" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.rutUsuario,
+                              expression: "rutUsuario"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            "aria-describedby": "emailHelp"
+                          },
+                          domProps: { value: _vm.rutUsuario },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.rutUsuario = $event.target.value
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-4" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.passUsuario,
+                              expression: "passUsuario"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            "aria-describedby": "emailHelp"
+                          },
+                          domProps: { value: _vm.passUsuario },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.passUsuario = $event.target.value
+                            }
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("br"),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "row" }, [
+                      _vm._m(4),
+                      _vm._v(" "),
+                      _vm._m(5),
+                      _vm._v(" "),
+                      _vm._m(6),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "col-md-4" },
+                        [
+                          _c("multiselect", {
+                            attrs: {
+                              options: _vm.areas,
+                              "deselect-label": "Quitar",
+                              "select-label": "Agregar",
+                              multiple: true,
+                              "clear-on-select": false,
+                              "close-on-select": false,
+                              "custom-label": _vm.nameWithLangArea,
+                              placeholder: "Seleccione Áreas",
+                              label: "nombre_area",
+                              "track-by": "nombre_area"
+                            },
+                            model: {
+                              value: _vm.areasSeleccionadas,
+                              callback: function($$v) {
+                                _vm.areasSeleccionadas = $$v
+                              },
+                              expression: "areasSeleccionadas"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "col-md-4" },
+                        [
+                          _c("multiselect", {
+                            attrs: {
+                              options: _vm.roles,
+                              "deselect-label": "Quitar",
+                              "select-label": "Agregar",
+                              multiple: true,
+                              "clear-on-select": false,
+                              "close-on-select": false,
+                              "custom-label": _vm.nameWithLangRol,
+                              placeholder: "Seleccione Roles",
+                              label: "nombre_rol",
+                              "track-by": "nombre_rol"
+                            },
+                            model: {
+                              value: _vm.rolesSeleccionados,
+                              callback: function($$v) {
+                                _vm.rolesSeleccionados = $$v
+                              },
+                              expression: "rolesSeleccionados"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-4" }, [
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.activo,
+                                expression: "activo"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: { required: "" },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.activo = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              }
+                            }
+                          },
+                          [
+                            _c("option", { domProps: { value: 1 } }, [
+                              _vm._v("Activo")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { domProps: { value: 0 } }, [
+                              _vm._v("Inactivo")
+                            ])
+                          ]
+                        )
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("br")
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button", "data-dismiss": "modal" }
+                  },
+                  [_vm._v("Cerrar")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: { type: "button" },
+                    on: { click: _vm.guardarCambios }
+                  },
+                  [_vm._v("Guardar Usuario")]
+                )
+              ])
+            ])
+          ]
+        )
+      ]
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "modalEditUsuarioLabel" } },
+        [_vm._v("Edición de usuario")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-4" }, [
+      _c("label", { staticClass: "lavelFont font-weight-bold" }, [
+        _vm._v("Nombre:")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-4" }, [
+      _c("label", { staticClass: "lavelFont font-weight-bold" }, [
+        _vm._v("Rut:")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-4" }, [
+      _c("label", { staticClass: "lavelFont font-weight-bold" }, [
+        _vm._v("Contraseña:")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-4" }, [
+      _c("label", { staticClass: "lavelFont font-weight-bold" }, [
+        _vm._v("Área:")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-4" }, [
+      _c("label", { staticClass: "lavelFont font-weight-bold" }, [
+        _vm._v("Rol:")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-4" }, [
+      _c("label", { staticClass: "lavelFont font-weight-bold" }, [
+        _vm._v("Estado:")
       ])
     ])
   }
@@ -53392,25 +53820,18 @@ var render = function() {
         )
       : _vm._e(),
     _vm._v(" "),
-    _vm.editarOtBool
+    _vm.editarUsuarioBool
       ? _c(
           "div",
           [
-            _c("modal-ot-edit-component", {
+            _c("modal-usuario-edit-component", {
               key: _vm.edicionN,
               attrs: {
-                otSeleccionada: _vm.otSeleccionada,
-                canales: _vm.canales,
-                tipos: _vm.tipos,
-                usuarios: _vm.usuarios,
-                centros: _vm.centros,
-                categorias: _vm.categorias,
-                clientes: _vm.clientes,
-                productos: _vm.productos,
-                seleccionados: _vm.seleccionados,
-                viejos: _vm.viejos
+                areas: _vm.areas,
+                roles: _vm.roles,
+                usuarioSeleccionado: _vm.usuarioSeleccionado
               },
-              on: { botonGuardarEdicionOt: _vm.guardarEdicionOt }
+              on: { botonGuardarEdicionUsuario: _vm.guardarEdicionUsuario }
             })
           ],
           1
@@ -53425,8 +53846,8 @@ var render = function() {
         _vm._v(" "),
         _c("hr", { staticStyle: { border: "1px dotted #64b2cd" } }),
         _vm._v(" "),
-        _vm._l(_vm.resultsUsuario, function(usuario, index) {
-          return _c("div", { key: index }, [
+        _vm._l(_vm.resultsUsuario, function(usuario, index1) {
+          return _c("div", { key: index1 }, [
             (_vm.activo == true && usuario.activo == 1) ||
             (_vm.activo == false && usuario.activo == 0)
               ? _c("div", { staticClass: "row" }, [
@@ -53439,8 +53860,8 @@ var render = function() {
                   _c(
                     "div",
                     { staticClass: "col-sm-1" },
-                    _vm._l(usuario.areas, function(area) {
-                      return _c("div", { key: area }, [
+                    _vm._l(usuario.areas, function(area, index2) {
+                      return _c("div", { key: index2 }, [
                         _c("p", { attrs: { align: "center" } }, [
                           _vm._v(_vm._s(area.nombre_area))
                         ])
@@ -53452,8 +53873,8 @@ var render = function() {
                   _c(
                     "div",
                     { staticClass: "col-sm-1" },
-                    _vm._l(usuario.roles, function(rol) {
-                      return _c("div", { key: rol }, [
+                    _vm._l(usuario.roles, function(rol, index3) {
+                      return _c("div", { key: index3 }, [
                         _c("p", { attrs: { align: "center" } }, [
                           _vm._v(_vm._s(rol.nombre_rol))
                         ])
@@ -53486,11 +53907,11 @@ var render = function() {
                         attrs: {
                           type: "button",
                           "data-toggle": "modal",
-                          "data-target": "#modalEditOt"
+                          "data-target": "#modalEditUsuario"
                         },
                         on: {
                           click: function($event) {
-                            return _vm.editarOt(index)
+                            return _vm.editarUsuario(usuario)
                           }
                         }
                       },
@@ -67610,6 +68031,7 @@ Vue.component('modal-asociar-material-component', __webpack_require__(/*! ./comp
 Vue.component('modal-desasociar-material-component', __webpack_require__(/*! ./components/ModalDesasociarMaterialComponent.vue */ "./resources/js/components/ModalDesasociarMaterialComponent.vue")["default"]);
 Vue.component('modal-cliente-create-component', __webpack_require__(/*! ./components/ModalClienteCreateComponent.vue */ "./resources/js/components/ModalClienteCreateComponent.vue")["default"]);
 Vue.component('modal-usuario-create-component', __webpack_require__(/*! ./components/ModalUsuarioCreateComponent.vue */ "./resources/js/components/ModalUsuarioCreateComponent.vue")["default"]);
+Vue.component('modal-usuario-edit-component', __webpack_require__(/*! ./components/ModalUsuarioEditComponent.vue */ "./resources/js/components/ModalUsuarioEditComponent.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -71945,6 +72367,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalUsuarioCreateComponent_vue_vue_type_template_id_8cb1fb76___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalUsuarioCreateComponent_vue_vue_type_template_id_8cb1fb76___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/ModalUsuarioEditComponent.vue":
+/*!***************************************************************!*\
+  !*** ./resources/js/components/ModalUsuarioEditComponent.vue ***!
+  \***************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _ModalUsuarioEditComponent_vue_vue_type_template_id_09311ef7___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ModalUsuarioEditComponent.vue?vue&type=template&id=09311ef7& */ "./resources/js/components/ModalUsuarioEditComponent.vue?vue&type=template&id=09311ef7&");
+/* harmony import */ var _ModalUsuarioEditComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ModalUsuarioEditComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/ModalUsuarioEditComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _ModalUsuarioEditComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ModalUsuarioEditComponent_vue_vue_type_template_id_09311ef7___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ModalUsuarioEditComponent_vue_vue_type_template_id_09311ef7___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/ModalUsuarioEditComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/ModalUsuarioEditComponent.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************!*\
+  !*** ./resources/js/components/ModalUsuarioEditComponent.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalUsuarioEditComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./ModalUsuarioEditComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ModalUsuarioEditComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalUsuarioEditComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/ModalUsuarioEditComponent.vue?vue&type=template&id=09311ef7&":
+/*!**********************************************************************************************!*\
+  !*** ./resources/js/components/ModalUsuarioEditComponent.vue?vue&type=template&id=09311ef7& ***!
+  \**********************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalUsuarioEditComponent_vue_vue_type_template_id_09311ef7___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./ModalUsuarioEditComponent.vue?vue&type=template&id=09311ef7& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ModalUsuarioEditComponent.vue?vue&type=template&id=09311ef7&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalUsuarioEditComponent_vue_vue_type_template_id_09311ef7___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalUsuarioEditComponent_vue_vue_type_template_id_09311ef7___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

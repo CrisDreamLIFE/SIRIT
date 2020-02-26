@@ -100,7 +100,7 @@
                 <principal-gestion-usuario-component
                 :key="gestionUsuarioN"
                 :usuarios="usuarios"
-                botonGuardarCreacionUsuario="recargarUsuarios">
+                @botonGuardarEdicionUsuario="recargarUsuarios">
                 </principal-gestion-usuario-component>
             </div> 
             <!----------REPORTABILIDAD------------------------->
@@ -180,7 +180,7 @@ export default {
                     console.log(response.data)
                     this.usuarios = response.data
                     this.gestionUsuarioN +=1;
-                    this.iniciarGestionUsuarioBool=true   })
+                    this.iniciarGestionUsuarioBool=true })
             },
             recargarOt(){
                 axios
@@ -213,18 +213,6 @@ export default {
                     this.gestionSubMaterialN +=1;
                     this.iniciarGestionSubMaterialBool=true;
                 })
-                
-            },
-            recargarUsuarios(){
-                axios
-                .get('http://localhost:8000/subProducto')
-                .then(response =>{
-                    this.subProductos= response.data;
-                    console.log("recargue los materiales ;v");
-                    this.gestionSubMaterialN +=1;
-                    this.iniciarGestionSubMaterialBool=true;
-                })
-                
             },
             auxMetodo(){
                 console.log("entre al auuuux");
