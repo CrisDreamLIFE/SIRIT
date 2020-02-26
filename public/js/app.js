@@ -2232,9 +2232,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return _defineProperty({
+    var _ref;
+
+    return _ref = {
       usuario: null,
       componentKey: 0,
       gestionMaterialN: 0,
@@ -2263,7 +2266,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       iniciarGestionSubMaterialBool: false,
       iniciarGestionUsuarioBool: false,
       iniciarGestionReporteBool: false
-    }, "componentKey", 0);
+    }, _defineProperty(_ref, "componentKey", 0), _defineProperty(_ref, "pais", ""), _ref;
   },
   mounted: function mounted() {
     var _this = this;
@@ -2274,6 +2277,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     console.log('Component mounted.');
     axios.get('http://localhost:8000/otAbierta').then(function (response) {
       return _this.ots = response.data;
+    });
+    console.log('Component mounted.');
+    axios.get('http://localhost:8000/obtenerPais').then(function (response) {
+      return _this.pais = response.data.pais;
     });
     console.log('Component mounted.');
   },
@@ -4473,7 +4480,7 @@ __webpack_require__.r(__webpack_exports__);
     crearMaterial: function crearMaterial() {
       var _this2 = this;
 
-      $('#modalCreateOt').modal('hide');
+      $('#modalEditOt').modal('hide');
       $('.modal-backdrop').hide();
       axios.get('http://localhost:8000/tipoMaterial') //solicitar tipo material
       .then(function (response) {
@@ -6998,10 +7005,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['usuario', 'roles'],
+  props: ['usuario', 'roles', 'pais'],
   data: function data() {
     return {
+      paisX: this.pais,
       rolX: true
     };
   },
@@ -7009,6 +7025,16 @@ __webpack_require__.r(__webpack_exports__);
     console.log('Component mounted.');
   },
   methods: {
+    cambioPais: function cambioPais() {
+      console.log("entre al evento");
+      var params = {
+        pais: this.paisX
+      };
+      axios.post('http://localhost:8000/cambiarPais', params).then(function (response) {
+        console.log("respuesta");
+        console.log(response.data);
+      });
+    },
     iniciarTrabajo: function iniciarTrabajo() {
       this.$emit('botonIniciarTrabajo');
     },
@@ -7045,6 +7071,8 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-multiselect */ "./node_modules/vue-multiselect/dist/vue-multiselect.min.js");
 /* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_multiselect__WEBPACK_IMPORTED_MODULE_0__);
+//
+//
 //
 //
 //
@@ -44403,7 +44431,11 @@ var render = function() {
               "div",
               [
                 _c("principal-menu-component", {
-                  attrs: { usuario: _vm.usuario, roles: _vm.roles },
+                  attrs: {
+                    usuario: _vm.usuario,
+                    roles: _vm.roles,
+                    pais: _vm.pais
+                  },
                   on: {
                     botonIniciarTrabajo: _vm.iniciarTrabajo,
                     botonGestionarOT: _vm.iniciarGestionOT,
@@ -46323,7 +46355,7 @@ var render = function() {
                       _c("div", { staticClass: "col" }, [
                         _c("b", [_vm._v("OT Perú:")]),
                         _vm._v(" "),
-                        _vm.ot.ot_peru == null
+                        _vm.ot.ot_Peru == null
                           ? _c(
                               "span",
                               { staticStyle: { "padding-left": "30px" } },
@@ -46332,7 +46364,7 @@ var render = function() {
                           : _c(
                               "span",
                               { staticStyle: { "padding-left": "5px" } },
-                              [_vm._v(_vm._s(_vm.ot.ot_peru))]
+                              [_vm._v(_vm._s(_vm.ot.ot_Peru))]
                             )
                       ])
                     ]),
@@ -48113,6 +48145,20 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
+    _vm.crearMaterialBool
+      ? _c(
+          "div",
+          [
+            _c("modal-material-create-component", {
+              key: _vm.creacionN,
+              attrs: { tipoMaterial: _vm.tipoMaterial, clientes: _vm.clientes },
+              on: { botonGuardarCreacionMaterial: _vm.guardarCreacionMaterial }
+            })
+          ],
+          1
+        )
+      : _vm._e(),
+    _vm._v(" "),
     _c(
       "div",
       {
@@ -49312,7 +49358,6 @@ var render = function() {
                                       ],
                                       staticClass: "form-control input-sm",
                                       attrs: {
-                                        required: "",
                                         type: "date",
                                         "aria-describedby": "emailHelp"
                                       },
@@ -49355,7 +49400,6 @@ var render = function() {
                                       ],
                                       staticClass: "form-control input-sm",
                                       attrs: {
-                                        required: "",
                                         type: "date",
                                         "aria-describedby": "emailHelp"
                                       },
@@ -49398,7 +49442,6 @@ var render = function() {
                                       ],
                                       staticClass: "form-control input-sm",
                                       attrs: {
-                                        required: "",
                                         type: "date",
                                         "aria-describedby": "emailHelp"
                                       },
@@ -49441,7 +49484,6 @@ var render = function() {
                                       ],
                                       staticClass: "form-control input-sm",
                                       attrs: {
-                                        required: "",
                                         type: "text",
                                         "aria-describedby": "emailHelp"
                                       },
@@ -49484,7 +49526,6 @@ var render = function() {
                                       ],
                                       staticClass: "form-control input-sm",
                                       attrs: {
-                                        required: "",
                                         type: "text",
                                         "aria-describedby": "emailHelp"
                                       },
@@ -54020,7 +54061,50 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _vm._m(0),
+    _c("div", { staticClass: "row" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-sm-4" }, [
+        _c(
+          "select",
+          {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.paisX,
+                expression: "paisX"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { required: "" },
+            on: {
+              change: [
+                function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.paisX = $event.target.multiple
+                    ? $$selectedVal
+                    : $$selectedVal[0]
+                },
+                _vm.cambioPais
+              ]
+            }
+          },
+          [
+            _c("option", { attrs: { value: "chile" } }, [_vm._v("Chile")]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "peru" } }, [_vm._v("Perú")])
+          ]
+        )
+      ])
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "container" }, [
       _vm.roles.includes("gestor") || _vm.roles.includes("administrador")
@@ -54122,7 +54206,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
+    return _c("div", { staticClass: "col-sm-8" }, [
       _c("h1", [_vm._v("Funcionalidades:")])
     ])
   }
@@ -54362,7 +54446,13 @@ var render = function() {
                                     { staticClass: "modal-content" },
                                     [
                                       _vm._m(3),
-                                      _vm._v(" "),
+                                      _vm._v(
+                                        " \n                            " +
+                                          _vm._s(_vm.procesosSeleccionados) +
+                                          "\n                            " +
+                                          _vm._s(_vm.procesos) +
+                                          "\n                            "
+                                      ),
                                       _vm._l(_vm.otProducto, function(
                                         linea,
                                         indexG
@@ -54446,30 +54536,10 @@ var render = function() {
                                                                     "form-row container"
                                                                 },
                                                                 [
-                                                                  _c(
-                                                                    "div",
-                                                                    {
-                                                                      staticClass:
-                                                                        "col col-sm-4"
-                                                                    },
-                                                                    [
-                                                                      _vm._v(
-                                                                        "\n                                                    " +
-                                                                          _vm._s(
-                                                                            _vm
-                                                                              .procesos[
-                                                                              index
-                                                                            ]
-                                                                              .nombre
-                                                                          ) +
-                                                                          " " +
-                                                                          _vm._s(
-                                                                            proceso.nombre
-                                                                          ) +
-                                                                          " \n                                                "
-                                                                      )
-                                                                    ]
-                                                                  ),
+                                                                  _c("div", {
+                                                                    staticClass:
+                                                                      "col col-sm-4"
+                                                                  }),
                                                                   _vm._v(" "),
                                                                   _c(
                                                                     "div",

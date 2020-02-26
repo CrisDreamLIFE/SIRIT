@@ -97,19 +97,21 @@
                                     <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div> 
+                                {{procesosSeleccionados}}
+                                {{procesos}}
                                 <div class="modal-body form-group" v-for="(linea,indexG) in otProducto" v-bind:key="indexG">
                                     <label for="">OT {{otProducto[indexG][0].id}} PRODUCTO {{otProducto[indexG][1].nombre_producto}}</label>
 
                                     <div class="container form-group" v-for="(subProd,indexM) in otProducto[indexG][2]" v-bind:key="indexM">
                                         <label for="">{{subProd.nombre_sub_producto}}</label>
                                         <form class="needs-validation" novalidate> 
+                                            
                                             <div class="container form-group" v-for="(proceso,index) in procesosSeleccionados" v-bind:key="index">
                                                 
 
 
                                                 <div class="form-row container">
-                                                    <div class="col col-sm-4">
-                                                        {{procesos[index].nombre}} {{proceso.nombre}} 
+                                                    <div class="col col-sm-4">  
                                                     </div>
                                                     <div class="col col-sm-8" >
                                                         <div class="form-row">

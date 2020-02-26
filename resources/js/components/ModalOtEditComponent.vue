@@ -1,13 +1,13 @@
 <template>
 <div>
-    <!-- <div v-if="crearMaterialBool"> CREATE MATERIAL
+     <div v-if="crearMaterialBool"> 
                     <modal-material-create-component
                     :key="creacionN"
                     :tipoMaterial="tipoMaterial"
                     :clientes="clientes"
                     @botonGuardarCreacionMaterial="guardarCreacionMaterial">
                     </modal-material-create-component> 
-    </div> -->
+    </div> 
     <div  class="modal " id="modalEditOt" tabindex="-1" role="dialog" aria-labelledby="modalEditOtLabel" aria-hidden="true">
                 <div class="modal-dialog-xl" role="document">
                     <div class="modal-content">
@@ -217,27 +217,27 @@
                                                     </div>
                                                     <div class="col-sm-2">
                                                         <label class= "lavelFont2 font-weight-bold">Fecha de Entrega OC:</label>
-                                                        <input required type="date"  class="form-control input-sm" aria-describedby="emailHelp" v-model="producto[4]">
+                                                        <input  type="date"  class="form-control input-sm" aria-describedby="emailHelp" v-model="producto[4]">
                                                         <br>
                                                     </div>
                                                     <div class="col-sm-2">
                                                         <label class= "lavelFont2 font-weight-bold">Fecha real de Entrega:</label> <!--5 -->
-                                                        <input required type="date"  class="form-control input-sm" aria-describedby="emailHelp" v-model="producto[5]">
+                                                        <input  type="date"  class="form-control input-sm" aria-describedby="emailHelp" v-model="producto[5]">
                                                         <br>
                                                     </div>
                                                     <div class="col-sm-2">
                                                         <label class= "lavelFont2 font-weight-bold">Fecha de Despacho:</label> <!--6 -->
-                                                        <input required type="date"  class="form-control input-sm" aria-describedby="emailHelp" v-model="producto[6]">
+                                                        <input  type="date"  class="form-control input-sm" aria-describedby="emailHelp" v-model="producto[6]">
                                                         <br>
                                                     </div>
                                                     <div class="col-sm-2">
                                                         <label class= "lavelFont2 font-weight-bold">Guia de Despacho:</label> <!--7 -->
-                                                        <input required type="text"  class="form-control input-sm" aria-describedby="emailHelp" v-model="producto[7]">
+                                                        <input  type="text"  class="form-control input-sm" aria-describedby="emailHelp" v-model="producto[7]">
                                                         <br>
                                                     </div>
                                                     <div class="col-sm-2">
                                                         <label class= "lavelFont2 font-weight-bold">Factura:</label> <!--8 -->
-                                                        <input required type="text"  class="form-control input-sm" aria-describedby="emailHelp" v-model="producto[8]">
+                                                        <input  type="text"  class="form-control input-sm" aria-describedby="emailHelp" v-model="producto[8]">
                                                         <br>
                                                     </div>
                                                   <!--  <div class="col-sm-2">
@@ -589,7 +589,7 @@
                 this.$emit('botonGuardarCreacionMaterial')
             },
             crearMaterial(){
-                $('#modalCreateOt').modal('hide');
+                $('#modalEditOt').modal('hide');
                 $('.modal-backdrop').hide();
                 axios
                 .get('http://localhost:8000/tipoMaterial') //solicitar tipo material

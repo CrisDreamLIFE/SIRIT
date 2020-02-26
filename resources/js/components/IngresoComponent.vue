@@ -47,7 +47,8 @@
             @botonGestionarReporte="iniciarGestionReporte"
             @botonGestionarUsuario="iniciarGestionUsuario"
             :usuario = "usuario"
-            :roles = "roles">
+            :roles = "roles"
+            :pais = "pais">
             </principal-menu-component>
             <!--<principal-work-component
             :estaciones = "estaciones"
@@ -155,7 +156,8 @@ export default {
                 iniciarGestionSubMaterialBool:false,
                 iniciarGestionUsuarioBool: false,
                 iniciarGestionReporteBool:false,
-                componentKey:0
+                componentKey:0,
+                pais:""
                 };
         },
         mounted() {
@@ -168,6 +170,11 @@ export default {
             axios
             .get('http://localhost:8000/otAbierta')
             .then(response => (this.ots = response.data))
+            console.log('Component mounted.')
+
+            axios
+            .get('http://localhost:8000/obtenerPais')
+            .then(response => (this.pais = response.data.pais))
             console.log('Component mounted.')
         },
         methods:{ 

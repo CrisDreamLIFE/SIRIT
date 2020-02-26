@@ -14,7 +14,7 @@
                             <div class="col-sm-12">
                                 <div class="row">
                                     <div class="col"><b >OT Perú:</b> 
-                                        <span style="padding-left:30px;" v-if="ot.ot_peru==null">N.A</span><span style="padding-left:5px;" v-else>{{ot.ot_peru}}</span>
+                                        <span style="padding-left:30px;" v-if="ot.ot_Peru==null">N.A</span><span style="padding-left:5px;" v-else>{{ot.ot_Peru}}</span>
                                     </div>
                                 </div>
                                 <div class="row">

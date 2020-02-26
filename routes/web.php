@@ -20,6 +20,11 @@ Route::get('/', function () {
     //return view('principal');
 //});
 
+#Filtrado
+Route::get('/obtenerPais', 'FiltradoController@obtenerPais');
+Route::post('/cambiarPais', 'FiltradoController@cambiarPais');
+
+
 #Estacion
 Route::resource('estacion', 'EstacionController');
 Route::post('/exportarExcelEstacion', 'EstacionController@exportarExcel');

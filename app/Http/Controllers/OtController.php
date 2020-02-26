@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Ot;
+use App\Filtrado;
 use App\OtProducto;
 use App\CategoriaOt;
 use App\Producto;
@@ -125,14 +126,19 @@ class OtController extends Controller
             error_log("despues");
             error_log($categoria);
             $tupla[] =  $categoria;
-            $newFecha1 = date("Y-m-d", strtotime($combi->fecha_entrega_oc));
+            error_log($combi->fecha_entrega_oC);
+            if($combi->fecha_entrega_oc!=null){$newFecha1 = date("Y-m-d", strtotime($combi->fecha_entrega_oC));}
+            else{$newFecha1 = $combi->fecha_entrega_oC;}
             error_log($newFecha1);
             $tupla[] = $newFecha1;
             error_log("1");
-            $newFecha2 = date("Y-m-d", strtotime($combi->fecha_real_entrega));
+            if($combi->fecha_real_entregA!=null){$newFecha2 = date("Y-m-d", strtotime($combi->fecha_real_entregA));}
+            else{$newFecha2 = $combi->fecha_real_entregA;}
+            error_log($newFecha2);
             $tupla[] = $newFecha2;
             error_log("2");
-            $newFecha3 = date("Y-m-d", strtotime($combi->fecha_despacho));
+            if($combi->fecha_despachO!=null){$newFecha3 = date("Y-m-d", strtotime($combi->fecha_despachO));}
+            else{$newFecha3 = $combi->fecha_despachO;}
             $tupla[] = $newFecha3;
             error_log("3-1");
             $tupla[] = $combi->guia_despacho;
@@ -155,9 +161,12 @@ class OtController extends Controller
             $lineaAux = $linea;
             $ot = Ot::find($id);
             $clienteProd = ClienteProducto::where('producto_id',$linea->producto_id)->where('cliente_id',$ot->cliente_id)->get();
-            $lineaAux->fecha_entrega_oC = date("d-m-Y", strtotime($linea->fecha_entrega_oC));
-            $lineaAux->fecha_real_entregA = date("d-m-Y", strtotime($linea->fecha_real_entregA));
-            $lineaAux->fecha_despachO = date("d-m-Y", strtotime($linea->fecha_despachO));
+            if($linea->fecha_entrega_oC!=null){$lineaAux->fecha_entrega_oC = date("d-m-Y", strtotime($linea->fecha_entrega_oC));}
+            else{$lineaAux->fecha_entrega_oC=$linea->fecha_entrega_oC;}
+            if($linea->fecha_real_entregA!=null){$lineaAux->fecha_real_entregA = date("d-m-Y", strtotime($linea->fecha_real_entregA));}
+            else{$lineaAux->fecha_despachO=$linea->fecha_real_entregA;}
+            if($linea->fecha_despachO!=null){$lineaAux->fecha_despachO = date("d-m-Y", strtotime($linea->fecha_despachO));}
+            else{$lineaAux->fecha_despachO=$linea->fecha_despachO;}
             error_log($clienteProd[0]->cliente_id);
             $lineaAux->codigo_cliente = $clienteProd[0]->codigo_cliente;
             error_log("bbb");
@@ -214,12 +223,23 @@ class OtController extends Controller
 
     public function obtenerOtAbierta()
     {
-        $ots = Ot::where('abierta',1)->get();
+        error_log("??");
+        $filtrado = Filtrado::first();
+        error_log("ads");
+        if($filtrado->pais=="chile"){
+            error_log("soy de chile");
+            $ots = Ot::where("ot_Peru", null)->where('abierta',1)->orderBy('id','desc')->get();    
+        }
+        if($filtrado=="peru"){
+            error_log("soy de peru");
+            $ots = Ot::where("ot_Peru",'!=', null)->where('abierta',1)->orderBy('id','desc')->get();  
+        }
         return $ots;
     }
 
     public function index()
     {
+        
         error_log("entre al index");
         $ots = Ot::orderBy('id','desc')->get();
         error_log("1");
@@ -238,12 +258,15 @@ class OtController extends Controller
                                     ->where('producto_id',$prod->id)
                                     ->get();
                     $aux->cantidad = $asd[0]->cantidad;
-                    $aux->fecha_entrega_oc =  date("d-m-Y", strtotime($asd[0]->fecha_entrega_oC));
+                    if($asd[0]->fecha_entrega_oC!=null){$aux->fecha_entrega_oc =  date("d-m-Y", strtotime($asd[0]->fecha_entrega_oC));}
+                    else{$aux->fecha_entrega_oc= $asd[0]->fecha_entrega_oC;}
                     $aux->categoria_id = $asd[0]->categoria_id;
                     $aux->guia_despacho=$asd[0]->guia_despacho;
                     $aux->factura=$asd[0]->factura;
-                    $aux->fecha_real_entrega= date("d-m-Y", strtotime($asd[0]->fecha_real_entregA)); 
-                    $aux->fecha_despacho = date("d-m-Y", strtotime($asd[0]->fecha_despachO));
+                    if($asd[0]->fecha_real_entregA!=null){$aux->fecha_real_entrega= date("d-m-Y", strtotime($asd[0]->fecha_real_entregA));} 
+                    else{$aux->fecha_real_entrega=$asd[0]->fecha_real_entregA;}
+                    if($asd[0]->fecha_despachO!=null){$aux->fecha_despacho = date("d-m-Y", strtotime($asd[0]->fecha_despachO));}
+                    else{$aux->fecha_despacho=$asd[0]->fecha_despachO;}
                     $aux->estado_OT = $asd[0]->estado_OT;
                     $aux->recepcionada = $asd[0]->recepcionada;
                     $aux->despcachada = $asd[0]->despcachada;

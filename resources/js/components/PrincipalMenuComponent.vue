@@ -1,7 +1,15 @@
 <template>
     <div class="container">
         <div class="row">
-            <h1>Funcionalidades:</h1>
+            <div class="col-sm-8">
+                <h1>Funcionalidades:</h1>
+            </div>
+            <div class="col-sm-4">
+                <select @change="cambioPais" required v-model="paisX" class="form-control">
+                <option  value="chile">Chile</option>
+                <option  value="peru">Perú</option>
+            </select> 
+            </div>
         </div>
         <div class="container">
             <div v-if="roles.includes('gestor')||roles.includes('administrador')" class="row">
@@ -34,9 +42,10 @@
 
 <script>
     export default {
-        props: ['usuario','roles'],
+        props: ['usuario','roles','pais'],
         data(){
             return {
+                paisX: this.pais,
                 rolX: true,
             }
         },
@@ -44,6 +53,17 @@
             console.log('Component mounted.')
         },
         methods:{ 
+            cambioPais(){
+                console.log("entre al evento");
+                var params = {
+                        pais: this.paisX,
+                };
+                axios
+                    .post('http://localhost:8000/cambiarPais', params)
+                    .then(response => {
+                        console.log("respuesta");
+                        console.log(response.data);})
+            },
             iniciarTrabajo(){
                 this.$emit('botonIniciarTrabajo')
             },
