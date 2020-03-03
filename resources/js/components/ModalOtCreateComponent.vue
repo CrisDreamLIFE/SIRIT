@@ -8,6 +8,12 @@
                     @botonGuardarCreacionMaterial="guardarCreacionMaterial">
                     </modal-material-create-component> 
     </div>
+    <div v-if="crearClienteBool"> <!-- CREATE CLIENTE -->
+                    <modal-cliente-create-component
+                    :key="creacionNC"
+                    @botonGuardarCreacionCliente="guardarCreacionCliente">
+                    </modal-cliente-create-component> 
+    </div>
     <div  class="modal " id="modalCreateOt" tabindex="-1" role="dialog" aria-labelledby="modalCreateOtLabel" aria-hidden="true">
                 <div class="modal-dialog-xl" role="document">
                     <div class="modal-content">
@@ -54,10 +60,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <label class= "lavelFont font-weight-bold">Fecha de Recepción</label>
-                                    </div>
-                                    <!--div class="col-md-4">
-                                        <label class= "lavelFont font-weight-bold">Guía de Despacho</label>
-                                    </div-->            
+                                    </div>          
                                     <div class="col-md-4">
                                         <select required v-model="cliente" @change="cambiarCliente" class="form-control">
                                             <option disabled selected >Clientes</option>
@@ -77,9 +80,6 @@
                                     <div class="col-md-4">
                                         <input required type="date"  class="form-control" aria-describedby="emailHelp" v-model="recepcion"> 
                                     </div>
-                                    <!--div class="col-md-4">
-                                        <input type="text"  class="form-control" aria-describedby="emailHelp" v-model="guia"> 
-                                    </div-->
                                 </div>
                             </div>
                                 <br>
@@ -118,42 +118,8 @@
                                             </option>
                                         </select>
                                     </div>
-                                    <!--div class="col-md-4">
-                                        <label class= "lavelFont font-weight-bold">Factura:</label>
-                                    </div-->
-                                    
-                                    <!--div class="col-md-4">
-                                        <label class= "lavelFont font-weight-bold">Fecha de Entrega:</label>
-                                    </div-->
-                                    <!--div class="col-md-4">
-                                        <input type="text"  class="form-control" aria-describedby="emailHelp" v-model="factura"> 
-                                    </div-->
-                                    
-                                    <!--div class="col-md-4">
-                                        <input id="fecha" required type="date"  class="form-control" aria-describedby="emailHelp" v-model="fecha"> 
-                                    </div-->
                                 </div>
                             </div>
-                            <!--<div class="form-group">
-                                <div class="row">
-                                    
-                                    
-                                    <div class="col-md-4">
-                                        <label class= "lavelFont font-weight-bold">Categoría:</label>
-                                    </div
-                                    
-                                    
-                                    <div class="col-md-4">
-                                        <select required v-model="categoria"  class="form-control">
-                                            <option disabled selected >Categorías</option>
-                                            <option v-for="(categoria,index) in categorias" v-bind:key="index" v-bind:value="index">
-                                                {{ categoria.nombre_categoria }}
-                                            </option>
-                                        </select>
-                                    </div> 
-                                    
-                                </div>
-                            </div> -->
                             <br>
                             <div class="form-group">
                                 <div class="row">
@@ -164,15 +130,14 @@
                                         <label class= "lavelFont font-weight-bold">Producto:</label>
                                     </div>
                                     <div class="col-md-1"></div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-3">
+                                        <button type="button" @click="crearCliente()" data-target="#modalCreateCliente" data-toggle="modal" class="btn btn-sm btn-block btn-secondary">CREAR CLIENTE</button>
                                     </div>
                                     <div class="col-md-4">
-                                        <select required v-model="codigoCliente" @change="cambiarCodigo(codigoCliente)" class="form-control">
-                                                <option :value="-1"  selected >Nuevo</option>
-                                                <option v-for="(codigo,index) in codigosCliente" v-bind:key="index" v-bind:value="index">
-                                                    {{ codigo }}
-                                                </option>
-                                        </select>
+                                        <input id="Sesion2-1" class="form-control" type="text" v-model="searchCodigo" @input="onChangueCodigo"/>
+                                        <ul @mouseleave="isOpenCodigo=false" v-show="isOpenCodigo" class="autocomplete-results">
+                                            <li  @click="setResultCodigo(result,i)" v-for="(result,i) in resultsCodigo" :key="i" class="autocomplete-result">{{result}}</li>
+                                        </ul>
                                     </div>
                                     <div class="col-md-4">
                                         <select required v-model="producto"  class="form-control">
@@ -187,19 +152,8 @@
                                         <button type="button"  v-on:click= "agregarProducto()" :disabled="1==3" class="btn btn-success">+</button>
                                     </div>
                                     <div class="col-md-3">
-                                        <button type="button" @click="crearMaterial()" data-target="#modalCreateMaterial" data-toggle="modal" class="btn btn-lg btn-block btn-secondary">Crear Material</button>
+                                        <button type="button" @click="crearMaterial()" data-target="#modalCreateMaterial" data-toggle="modal" class="btn btn-sm btn-block btn-secondary">CREAR MATERIAL</button>
                                     </div>
-                                    <!--<div class="col-md-12">
-                                        <br><br>
-                                        <div class="row">
-                                            <div class="col-sm-4"><label class= "lavelFont2 font-weight-bold">Descripción:</label></div>
-                                            <div class="col-sm-2"><label class= "lavelFont2 font-weight-bold">Código de Cliente:</label></div>
-                                            <div class="col-sm-1"><label class= "lavelFont2 font-weight-bold">Cantidad:</label></div>
-                                            <div class="col-sm-2"><label class= "lavelFont2 font-weight-bold">Código Siom:</label></div>
-                                            <div class="col-sm-2"><label class= "lavelFont2 font-weight-bold">Número de plano:</label></div>
-                                            <div class="col-sm-1"><label class= "lavelFont2 font-weight-bold">Quitar:</label></div>
-                                        </div>
-                                    </div>-->
                                     <div class="col-md-12">
                                         <br><br>
                                         <div v-for="(producto,index) in seleccionados" v-bind:key="index">
@@ -251,29 +205,6 @@
                                                 <br>
                                             </div>
                                             <br>
-                                            <!--<div v-for="(producto,index) in seleccionados" v-bind:key="index">
-                                                <div class="row">
-                                                    <div class="col-sm-4">
-                                                        <p>* {{producto[0].nombre_producto}} </p>
-                                                    </div>
-                                                    <div class="col-sm-2">
-                                                        <input required type="text"  class="form-control" aria-describedby="emailHelp" v-model="producto[2]"> 
-                                                    </div>
-                                                    <div class="col-sm-1">
-                                                        <input required type="number"  class="form-control" aria-describedby="emailHelp" v-model="producto[1]"> 
-                                                    </div>
-                                                    <div class="col-sm-2">
-                                                        <input required type="text"  class="form-control" aria-describedby="emailHelp" v-model="producto[0].codigo_siom"> 
-                                                    </div>
-                                                    <div class="col-sm-2">
-                                                        <input required type="text"  class="form-control" aria-describedby="emailHelp" v-model="producto[0].numero_plano"> 
-                                                    </div>
-                                                    <div class="col-sm-1">
-                                                        <button type="button" :value="index"  v-on:click= "quitarProducto(index)" class="btn btn-danger">-</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <br>-->
                                         </div>
                                     </div>
                                 </div>
@@ -327,19 +258,54 @@
                 aux:[],
                 categoriaEscogida:"",
                 crearMaterialBool:false,
+                crearClienteBool:false,
                 tipoMaterial:"",
-                creacionN:0
+                creacionN:0,
+                creacionNC:0,
+                searchCodigo: '',
+                resultsCodigo: '',
+                isOpenCodigo: false,
             }
         },
         mounted() { 
             console.log('Component mounted.')
         },
         methods:{
+             onChangueCodigo(){
+                        this.isOpenCodigo=true;
+                        this.filterResultsCodigo();
+                    },
+                    filterResultsCodigo(){
+                        this.resultsCodigo = this.codigosCliente.filter(item => item.toLowerCase().indexOf(this.searchCodigo.toLowerCase())>-1);
+                        //esta hay que cambiarla.
+                    },
+                    setResultCodigo(result,i){
+                        console.log("result");
+                        console.log(result);
+                        this.searchCodigo = result;
+                        this.isOpenCodigo = false;
+                        this.codigoCliente = result;
+                        this.cambiarCodigo(result,i);
+                    },
             guardarCreacionMaterial(){
 
                 this.creacionN +=1;
                 this.cambiarCliente();
                 this.$emit('botonGuardarCreacionMaterial')
+            },
+            guardarCreacionCliente(){
+                this.creacionNC +=1;
+                axios
+                .get('http://localhost:8000/cliente') //solicitar tipo material
+                            .then(response => {
+                                this.clientes = response.data;
+                                })
+            },
+            crearCliente(){
+                $('#modalCreateOt').modal('hide');
+                $('.modal-backdrop').hide();
+                console.log("sdfsd");
+                this.crearClienteBool = true;
             },
             crearMaterial(){
                 $('#modalCreateOt').modal('hide');
@@ -364,7 +330,7 @@
                         }
                     })   
             },
-            cambiarCodigo(index){
+            cambiarCodigo(result,index){
                 console.log(this.productos);
                 console.log("valor index: " )
                 console.log(index);

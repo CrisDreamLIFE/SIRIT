@@ -2233,6 +2233,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var _ref;
@@ -2244,6 +2253,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       gestionSubMaterialN: 0,
       gestionUsuarioN: 0,
       gestionOtN: 0,
+      gestionReporteN: 0,
       roles: [],
       logeado: false,
       rut: "19.313.751-2",
@@ -2285,48 +2295,75 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     console.log('Component mounted.');
   },
   methods: {
-    recargarUsuarios: function recargarUsuarios() {
+    cambioPais: function cambioPais() {
       var _this2 = this;
+
+      axios.get('http://localhost:8000/otAbierta').then(function (response) {
+        return _this2.ots = response.data;
+      });
+    },
+    botonAtrasUsuario: function botonAtrasUsuario() {
+      this.iniciarGestionUsuarioBool = false;
+      this.algoSeleccionado = false;
+    },
+    botonAtrasReporte: function botonAtrasReporte() {
+      this.iniciarGestionReporteBool = false;
+      this.algoSeleccionado = false;
+    },
+    botonAtrasSubMaterial: function botonAtrasSubMaterial() {
+      this.iniciarGestionSubMaterialBool = false;
+      this.algoSeleccionado = false;
+    },
+    botonAtrasMaterial: function botonAtrasMaterial() {
+      this.iniciarGestionMaterialBool = false;
+      this.algoSeleccionado = false;
+    },
+    botonAtrasOt: function botonAtrasOt() {
+      this.iniciarGestionOTBool = false;
+      this.algoSeleccionado = false;
+    },
+    recargarUsuarios: function recargarUsuarios() {
+      var _this3 = this;
 
       console.log("ksi");
       axios.get('http://localhost:8000/usuario').then(function (response) {
         console.log("respuesta de ot:");
         console.log(response.data);
-        _this2.usuarios = response.data;
-        _this2.gestionUsuarioN += 1;
-        _this2.iniciarGestionUsuarioBool = true;
+        _this3.usuarios = response.data;
+        _this3.gestionUsuarioN += 1;
+        _this3.iniciarGestionUsuarioBool = true;
       });
     },
     recargarOt: function recargarOt() {
-      var _this3 = this;
+      var _this4 = this;
 
       axios.get('http://localhost:8000/ot').then(function (response) {
         console.log("respuesta de ot:");
         console.log(response.data);
-        _this3.otsTodas = response.data;
-        _this3.gestionOtN += 1;
-        _this3.iniciarGestionOTBool = true;
+        _this4.otsTodas = response.data;
+        _this4.gestionOtN += 1;
+        _this4.iniciarGestionOTBool = true;
       });
     },
     recargarMateriales: function recargarMateriales() {
-      var _this4 = this;
+      var _this5 = this;
 
       axios.get('http://localhost:8000/producto').then(function (response) {
-        _this4.productos = response.data;
+        _this5.productos = response.data;
         console.log("recargue los materiales ;v");
-        _this4.gestionMaterialN += 1;
-        _this4.iniciarGestionMaterialBool = true;
-        console.log(_this4.gestionMaterialN);
+        _this5.gestionMaterialN += 1;
+        _this5.iniciarGestionMaterialBool = true;
+        console.log(_this5.gestionMaterialN);
       });
     },
     recargarSubMateriales: function recargarSubMateriales() {
-      var _this5 = this;
+      var _this6 = this;
 
       axios.get('http://localhost:8000/subProducto').then(function (response) {
-        _this5.subProductos = response.data;
+        _this6.subProductos = response.data;
         console.log("recargue los materiales ;v");
-        _this5.gestionSubMaterialN += 1;
-        _this5.iniciarGestionSubMaterialBool = true;
+        _this6.gestionSubMaterialN += 1;
+        _this6.iniciarGestionSubMaterialBool = true;
       });
     },
     auxMetodo: function auxMetodo() {
@@ -2334,94 +2371,94 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.componentKey += 1;
     },
     iniciarGestionReporte: function iniciarGestionReporte() {
-      var _this6 = this;
+      var _this7 = this;
 
       axios.get('http://localhost:8000/nave').then(function (response) {
         console.log(response.data);
-        _this6.naves = response.data;
-        _this6.algoSeleccionado = true;
-        _this6.iniciarGestionReporteBool = true;
+        _this7.naves = response.data;
+        _this7.algoSeleccionado = true;
+        _this7.iniciarGestionReporteBool = true;
       });
       axios.get('http://localhost:8000/area').then(function (response) {
         console.log(response.data);
-        _this6.areas = response.data;
-        _this6.algoSeleccionado = true;
-        _this6.iniciarGestionReporteBool = true;
+        _this7.areas = response.data;
+        _this7.algoSeleccionado = true;
+        _this7.iniciarGestionReporteBool = true;
       });
-      axios.get('http://localhost:8000/producto').then(function (response) {
-        console.log(response.data);
-        _this6.productos = response.data;
-        _this6.algoSeleccionado = true;
-        _this6.iniciarGestionReporteBool = true;
-      });
-      axios.get('http://localhost:8000/ot').then(function (response) {
-        console.log("respuesta de ot:");
-        console.log(response.data);
-        _this6.otsTodas = response.data;
-        _this6.algoSeleccionado = true;
-        _this6.iniciarGestionReporteBool = true;
-      });
-      axios.get('http://localhost:8000/cliente').then(function (response) {
-        console.log("respuesta de ot:");
-        console.log(response.data);
-        _this6.clientes = response.data;
-        _this6.algoSeleccionado = true;
-        _this6.iniciarGestionReporteBool = true;
-      });
-      axios.get('http://localhost:8000/obtenerGestores').then(function (response) {
-        console.log("respuesta de ot:");
-        console.log(response.data);
-        _this6.responsables = response.data;
-        _this6.algoSeleccionado = true;
-        _this6.iniciarGestionReporteBool = true;
-      });
-      axios.get('http://localhost:8000/otTipo').then(function (response) {
-        console.log("respuesta de ot:");
-        console.log(response.data);
-        _this6.tipos = response.data;
-        _this6.algoSeleccionado = true;
-        _this6.iniciarGestionReporteBool = true;
-      });
-    },
-    iniciarGestionMaterial: function iniciarGestionMaterial() {
-      var _this7 = this;
-
       axios.get('http://localhost:8000/producto').then(function (response) {
         console.log(response.data);
         _this7.productos = response.data;
         _this7.algoSeleccionado = true;
-        _this7.iniciarGestionMaterialBool = true;
+        _this7.iniciarGestionReporteBool = true;
+      });
+      axios.get('http://localhost:8000/ot').then(function (response) {
+        console.log("respuesta de ot:");
+        console.log(response.data);
+        _this7.otsTodas = response.data;
+        _this7.algoSeleccionado = true;
+        _this7.iniciarGestionReporteBool = true;
+      });
+      axios.get('http://localhost:8000/cliente').then(function (response) {
+        console.log("respuesta de ot:");
+        console.log(response.data);
+        _this7.clientes = response.data;
+        _this7.algoSeleccionado = true;
+        _this7.iniciarGestionReporteBool = true;
+      });
+      axios.get('http://localhost:8000/obtenerGestores').then(function (response) {
+        console.log("respuesta de ot:");
+        console.log(response.data);
+        _this7.responsables = response.data;
+        _this7.algoSeleccionado = true;
+        _this7.iniciarGestionReporteBool = true;
+      });
+      axios.get('http://localhost:8000/otTipo').then(function (response) {
+        console.log("respuesta de ot:");
+        console.log(response.data);
+        _this7.tipos = response.data;
+        _this7.algoSeleccionado = true;
+        _this7.iniciarGestionReporteBool = true;
+      });
+    },
+    iniciarGestionMaterial: function iniciarGestionMaterial() {
+      var _this8 = this;
+
+      axios.get('http://localhost:8000/producto').then(function (response) {
+        console.log(response.data);
+        _this8.productos = response.data;
+        _this8.algoSeleccionado = true;
+        _this8.iniciarGestionMaterialBool = true;
       });
     },
     iniciarGestionSubMaterial: function iniciarGestionSubMaterial() {
-      var _this8 = this;
+      var _this9 = this;
 
       axios.get('http://localhost:8000/subProducto').then(function (response) {
         console.log(response.data);
-        _this8.subProductos = response.data;
-        _this8.algoSeleccionado = true;
-        _this8.iniciarGestionSubMaterialBool = true;
+        _this9.subProductos = response.data;
+        _this9.algoSeleccionado = true;
+        _this9.iniciarGestionSubMaterialBool = true;
       });
     },
     iniciarGestionUsuario: function iniciarGestionUsuario() {
-      var _this9 = this;
+      var _this10 = this;
 
       axios.get('http://localhost:8000/usuariosConRol').then(function (response) {
         console.log(response.data);
-        _this9.usuarios = response.data;
-        _this9.algoSeleccionado = true;
-        _this9.iniciarGestionUsuarioBool = true;
+        _this10.usuarios = response.data;
+        _this10.algoSeleccionado = true;
+        _this10.iniciarGestionUsuarioBool = true;
       });
     },
     iniciarGestionOT: function iniciarGestionOT() {
-      var _this10 = this;
+      var _this11 = this;
 
       axios.get('http://localhost:8000/ot').then(function (response) {
         console.log("respuesta de ot:");
         console.log(response.data);
-        _this10.otsTodas = response.data;
-        _this10.algoSeleccionado = true;
-        _this10.iniciarGestionOTBool = true;
+        _this11.otsTodas = response.data;
+        _this11.algoSeleccionado = true;
+        _this11.iniciarGestionOTBool = true;
       });
     },
     iniciarTrabajo: function iniciarTrabajo() {
@@ -2429,7 +2466,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.iniciarTrabajoBool = true;
     },
     logear: function logear() {
-      var _this11 = this;
+      var _this12 = this;
 
       console.log("ahora me logeo:v");
 
@@ -2450,15 +2487,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           } else if (response.data == 1) {
             console.log("contraseña invalida");
           } else {
-            _this11.usuario = response.data.usuario;
+            _this12.usuario = response.data.usuario;
             var aux = [];
 
             for (var i = 0; i < response.data.usuario.roles.length; i++) {
               aux.push(response.data.usuario.roles[i].nombre_rol);
             }
 
-            _this11.roles = aux;
-            _this11.logeado = true;
+            _this12.roles = aux;
+            _this12.logeado = true;
           }
         });
       }
@@ -2666,7 +2703,7 @@ __webpack_require__.r(__webpack_exports__);
       /* console.log("dsfssa");
        var aux3=[]
        axios
-           .get('http://localhost:8000/subProductos/'+this.productos[this.productoSeleccionado].id)
+           .get('http://192.168.1.50/SIRIT/public/subProductos/'+this.productos[this.productoSeleccionado].id)
            .then(response => {  
                aux3 = response.data;
                for(var i=0;i<aux3.length;i++){
@@ -2796,7 +2833,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['tipoMaterial', ''],
+  props: [],
   data: function data() {
     return {
       nombre: "",
@@ -2808,6 +2845,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     console.log('Component mounted.');
+    console.log("dsfdsf");
   },
   methods: {
     guardarCambios: function guardarCambios() {
@@ -3209,7 +3247,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    this.nombreMaterial = this.materialSeleccionado.nombre;
+    this.nombreMaterial = this.materialSeleccionado.nombre_producto;
     this.codigoSiomMaterial = this.materialSeleccionado.codigo_siom;
     this.numeroPlanoMaterial = this.materialSeleccionado.numero_plano;
     this.descripcionMaterial = this.materialSeleccionado.descripcion;
@@ -3217,6 +3255,9 @@ __webpack_require__.r(__webpack_exports__);
     console.log('Component mounted.');
   },
   methods: {
+    cerrar: function cerrar() {
+      this.$emit('botonGuardarEdicionMaterial');
+    },
     guardarCambios: function guardarCambios() {
       var _this = this;
 
@@ -3670,75 +3711,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['centros', 'canales', 'usuarios', 'tipos', 'categorias', 'clientes', 'productos'],
   data: function data() {
@@ -3765,45 +3737,84 @@ __webpack_require__.r(__webpack_exports__);
       aux: [],
       categoriaEscogida: "",
       crearMaterialBool: false,
+      crearClienteBool: false,
       tipoMaterial: "",
-      creacionN: 0
+      creacionN: 0,
+      creacionNC: 0,
+      searchCodigo: '',
+      resultsCodigo: '',
+      isOpenCodigo: false
     };
   },
   mounted: function mounted() {
     console.log('Component mounted.');
   },
   methods: {
+    onChangueCodigo: function onChangueCodigo() {
+      this.isOpenCodigo = true;
+      this.filterResultsCodigo();
+    },
+    filterResultsCodigo: function filterResultsCodigo() {
+      var _this = this;
+
+      this.resultsCodigo = this.codigosCliente.filter(function (item) {
+        return item.toLowerCase().indexOf(_this.searchCodigo.toLowerCase()) > -1;
+      }); //esta hay que cambiarla.
+    },
+    setResultCodigo: function setResultCodigo(result, i) {
+      console.log("result");
+      console.log(result);
+      this.searchCodigo = result;
+      this.isOpenCodigo = false;
+      this.codigoCliente = result;
+      this.cambiarCodigo(result, i);
+    },
     guardarCreacionMaterial: function guardarCreacionMaterial() {
       this.creacionN += 1;
       this.cambiarCliente();
       this.$emit('botonGuardarCreacionMaterial');
     },
+    guardarCreacionCliente: function guardarCreacionCliente() {
+      var _this2 = this;
+
+      this.creacionNC += 1;
+      axios.get('http://localhost:8000/cliente') //solicitar tipo material
+      .then(function (response) {
+        _this2.clientes = response.data;
+      });
+    },
+    crearCliente: function crearCliente() {
+      $('#modalCreateOt').modal('hide');
+      $('.modal-backdrop').hide();
+      console.log("sdfsd");
+      this.crearClienteBool = true;
+    },
     crearMaterial: function crearMaterial() {
-      var _this = this;
+      var _this3 = this;
 
       $('#modalCreateOt').modal('hide');
       $('.modal-backdrop').hide();
       axios.get('http://localhost:8000/tipoMaterial') //solicitar tipo material
       .then(function (response) {
-        _this.tipoMaterial = response.data;
+        _this3.tipoMaterial = response.data;
       });
       this.crearMaterialBool = true;
     },
     cambiarCliente: function cambiarCliente() {
-      var _this2 = this;
+      var _this4 = this;
 
       console.log("entre a cambiar cliente");
       axios.get('http://localhost:8000/obtenerCodigosCliente/' + this.clientes[this.cliente].id).then(function (response) {
-        _this2.aux = response.data;
-        console.log(_this2.aux);
-        _this2.codigosCliente = [];
+        _this4.aux = response.data;
+        console.log(_this4.aux);
+        _this4.codigosCliente = [];
 
-        for (var j = 0; j < _this2.aux.length; j++) {
-          _this2.codigosCliente.push(_this2.aux[j].codigo_cliente);
+        for (var j = 0; j < _this4.aux.length; j++) {
+          _this4.codigosCliente.push(_this4.aux[j].codigo_cliente);
         }
       });
     },
-    cambiarCodigo: function cambiarCodigo(index) {
+    cambiarCodigo: function cambiarCodigo(result, index) {
       console.log(this.productos);
       console.log("valor index: ");
       console.log(index);
@@ -3842,7 +3853,7 @@ __webpack_require__.r(__webpack_exports__);
       this.seleccionados.splice(index, 1);
     },
     guardarCambios: function guardarCambios() {
-      var _this3 = this;
+      var _this5 = this;
 
       var params = {
         otPeru: this.otPeru,
@@ -3868,7 +3879,7 @@ __webpack_require__.r(__webpack_exports__);
         $('#modalCreateOt').modal('hide');
         $('.modal-backdrop').hide();
 
-        _this3.$emit('botonGuardarCreacionOt');
+        _this5.$emit('botonGuardarCreacionOt');
 
         alert("OT creada exitosamente");
       });
@@ -4169,256 +4180,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['viejos', 'seleccionados', 'centros', 'canales', 'usuarios', 'tipos', 'categorias', 'clientes', 'productos', 'otSeleccionada'],
+  props: ['peru', 'viejos', 'seleccionados', 'centros', 'canales', 'usuarios', 'tipos', 'categorias', 'clientes', 'productos', 'otSeleccionada'],
   data: function data() {
     return {
-      otPeru: false,
+      otPeru: this.peru,
       orden: this.otSeleccionada.orden_compra,
       numero: this.otSeleccionada.numero_cotizacion,
       guia: this.otSeleccionada.guia_despacho,
@@ -4440,9 +4206,12 @@ __webpack_require__.r(__webpack_exports__);
       crearMaterialBool: false,
       tipoMaterial: "",
       creacionN: 0,
-      abierta: this.otSeleccionada.abierta,
-      recepcionada: this.otSeleccionada.recepcionada,
-      despachada: this.otSeleccionada.despachada
+      abierta: "",
+      recepcionada: "",
+      despachada: "",
+      searchCodigo: '',
+      resultsCodigo: '',
+      isOpenCodigo: false
     };
   },
   mounted: function mounted() {
@@ -4459,90 +4228,10 @@ __webpack_require__.r(__webpack_exports__);
         _this.codigosCliente.push(_this.aux[j].codigo_cliente);
       }
     });
-    /* for(var i=0;i<this.productos.length;i++){
-         if(this.productos[i][9]==null){
-             this.productos[i][9] = 1; 
-         }
-         if(this.productos[i][10]!=1 && this.productos[i][10]!=0){
-             this.productos[i][10] = 0; 
-         }
-         if(this.productos[i][11]!=1 && this.productos[i][11]!=0){
-             this.productos[i][11] = 0; 
-         }
-     }   */
   },
   methods: {
-    guardarCreacionMaterial: function guardarCreacionMaterial() {
-      this.creacionN += 1;
-      this.cambiarCliente();
-      this.$emit('botonGuardarCreacionMaterial');
-    },
-    crearMaterial: function crearMaterial() {
-      var _this2 = this;
-
-      $('#modalEditOt').modal('hide');
-      $('.modal-backdrop').hide();
-      axios.get('http://localhost:8000/tipoMaterial') //solicitar tipo material
-      .then(function (response) {
-        _this2.tipoMaterial = response.data;
-      });
-      this.crearMaterialBool = true;
-    },
-    cambiarCliente: function cambiarCliente() {
-      var _this3 = this;
-
-      console.log("entre a cambiar cliente");
-      axios.get('http://localhost:8000/obtenerCodigosCliente/' + this.cliente.id) //this.clientes[this.cliente].id)
-      .then(function (response) {
-        _this3.aux = response.data;
-        console.log(_this3.aux);
-        _this3.codigosCliente = [];
-
-        for (var j = 0; j < _this3.aux.length; j++) {
-          _this3.codigosCliente.push(_this3.aux[j].codigo_cliente);
-        }
-      });
-    },
-    cambiarCodigo: function cambiarCodigo(index) {
-      console.log(this.productos);
-      console.log("valor index: ");
-      console.log(index);
-      console.log(this.aux);
-      console.log(this.codigoCliente);
-
-      if (this.codigoCliente != -1) {
-        for (var i = 0; i < this.productos.length; i++) {
-          console.log("i = ");
-          console.log(i);
-
-          if (this.aux[index].producto_id == this.productos[i].id) {
-            console.log("lo pille");
-            this.producto = i;
-            break;
-          }
-        }
-      } //  this.producto=aux[index].
-
-      /*
-      axios
-          .get('http://localhost:8000/obtenerCodigosCliente/'+this.clientes[this.cliente].id)
-          .then(response => { 
-              this.codigosCliente=response.data.codigo_cliente;
-          }) */
-
-    },
-    agregarProducto: function agregarProducto() {
-      var aux = [];
-      aux.push(this.productos[this.producto]);
-      aux.push(this.cantidad);
-      aux.push(this.codigosCliente[this.codigoCliente]);
-      this.seleccionados.push(aux);
-    },
-    quitarProducto: function quitarProducto(index) {
-      this.seleccionados.splice(index, 1);
-    },
     guardarCambios: function guardarCambios() {
-      var _this4 = this;
+      var _this2 = this;
 
       for (var i = 0; i < this.seleccionados.length; i++) {
         this.seleccionados[i][12] = null;
@@ -4594,10 +4283,101 @@ __webpack_require__.r(__webpack_exports__);
         $('#modalEditOt').modal('hide');
         $('.modal-backdrop').hide();
 
-        _this4.$emit('botonGuardarEdicionOt');
+        _this2.$emit('botonGuardarEdicionOt');
 
         alert("OT actualizada exitosamente");
       });
+    },
+    cerrar: function cerrar() {
+      this.$emit('botonGuardarEdicionOt');
+    },
+    onChangueCodigo: function onChangueCodigo() {
+      this.isOpenCodigo = true;
+      this.filterResultsCodigo();
+    },
+    filterResultsCodigo: function filterResultsCodigo() {
+      var _this3 = this;
+
+      this.resultsCodigo = this.codigosCliente.filter(function (item) {
+        return item.toLowerCase().indexOf(_this3.searchCodigo.toLowerCase()) > -1;
+      }); //esta hay que cambiarla.
+    },
+    setResultCodigo: function setResultCodigo(result, i) {
+      console.log("result");
+      console.log(result);
+      this.searchCodigo = result;
+      this.isOpenCodigo = false;
+      this.codigoCliente = result;
+      this.cambiarCodigo(result, i);
+    },
+    guardarCreacionMaterial: function guardarCreacionMaterial() {
+      this.creacionN += 1;
+      this.cambiarCliente();
+      this.$emit('botonGuardarCreacionMaterial');
+    },
+    crearMaterial: function crearMaterial() {
+      var _this4 = this;
+
+      $('#modalEditOt').modal('hide');
+      $('.modal-backdrop').hide();
+      axios.get('http://localhost:8000/tipoMaterial') //solicitar tipo material
+      .then(function (response) {
+        _this4.tipoMaterial = response.data;
+      });
+      this.crearMaterialBool = true;
+    },
+    cambiarCliente: function cambiarCliente() {
+      var _this5 = this;
+
+      console.log("entre a cambiar cliente");
+      axios.get('http://localhost:8000/obtenerCodigosCliente/' + this.cliente.id) //this.clientes[this.cliente].id)
+      .then(function (response) {
+        _this5.aux = response.data;
+        console.log(_this5.aux);
+        _this5.codigosCliente = [];
+
+        for (var j = 0; j < _this5.aux.length; j++) {
+          _this5.codigosCliente.push(_this5.aux[j].codigo_cliente);
+        }
+      });
+    },
+    cambiarCodigo: function cambiarCodigo(result, index) {
+      console.log(this.productos);
+      console.log("valor index: ");
+      console.log(index);
+      console.log(this.aux);
+      console.log(this.codigoCliente);
+
+      if (this.codigoCliente != -1) {
+        for (var i = 0; i < this.productos.length; i++) {
+          console.log("i = ");
+          console.log(i);
+
+          if (this.aux[index].producto_id == this.productos[i].id) {
+            console.log("lo pille");
+            this.producto = i;
+            break;
+          }
+        }
+      } //  this.producto=aux[index].
+
+      /*
+      axios
+          .get('http://localhost:8000/obtenerCodigosCliente/'+this.clientes[this.cliente].id)
+          .then(response => { 
+              this.codigosCliente=response.data.codigo_cliente;
+          }) */
+
+    },
+    agregarProducto: function agregarProducto() {
+      var aux = [];
+      aux.push(this.productos[this.producto]);
+      aux.push(this.cantidad);
+      aux.push(this.codigosCliente[this.codigoCliente]);
+      this.seleccionados.push(aux);
+    },
+    quitarProducto: function quitarProducto(index) {
+      this.seleccionados.splice(index, 1);
     }
   }
 });
@@ -4786,12 +4566,15 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    this.nombreSubMaterial = this.subMaterialSeleccionado.nombre;
+    this.nombreSubMaterial = this.subMaterialSeleccionado.nombre_sub_producto;
     this.descripcionSubMaterial = this.subMaterialSeleccionado.descripcion;
     this.tipoMaterialSubMaterial = this.subMaterialSeleccionado.tipo_material_id;
     console.log('Component mounted.');
   },
   methods: {
+    cerrarCambios: function cerrarCambios() {
+      this.$emit('botonCerrarEdicionSubMaterial');
+    },
     guardarCambios: function guardarCambios() {
       var _this = this;
 
@@ -4825,9 +4608,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
 //
 //
 //
@@ -5163,6 +4943,39 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['productos'],
   data: function data() {
@@ -5178,54 +4991,72 @@ __webpack_require__.r(__webpack_exports__);
       edicionN: 0,
       creacionN: 0,
       asociacionN: 0,
-      desasociacionN: 0
+      desasociacionN: 0,
+      searchMaterial: "",
+      resultsProductos: this.productos,
+      abierta: true
     };
   },
   mounted: function mounted() {
     console.log('Component mounted.');
   },
   methods: {
-    eliminarMaterial: function eliminarMaterial(producto) {
+    volverMenu: function volverMenu() {
+      this.$emit('botonAtrasMaterial');
+    },
+    onChangueMaterial: function onChangueMaterial() {
+      console.log("productos:");
+      console.log(this.productos);
+      this.filterResultsMaterial();
+    },
+    filterResultsMaterial: function filterResultsMaterial() {
       var _this = this;
+
+      this.resultsProductos = this.productos.filter(function (item) {
+        return item.nombre_producto.toLowerCase().indexOf(_this.searchMaterial.toLowerCase()) > -1;
+      }); //esta hay que cambiarla.
+    },
+    eliminarMaterial: function eliminarMaterial(producto) {
+      var _this2 = this;
 
       axios["delete"]('http://localhost:8000/producto/' + producto.id) //solicitar tipo material
       .then(function (response) {
         console.log(response);
         alert("Material eliminado exitosamente");
 
-        _this.$emit('botonEliminarCreacionMaterial');
+        _this2.$emit('botonEliminarCreacionMaterial');
       });
     },
     editarMaterial: function editarMaterial(producto) {
-      var _this2 = this;
+      var _this3 = this;
 
       this.materialSeleccionado = producto;
       axios.get('http://localhost:8000/tipoMaterial') //solicitar tipo material
       .then(function (response) {
-        _this2.tipoMaterial = response.data;
+        _this3.tipoMaterial = response.data;
       });
       this.editarMaterialBool = true;
     },
     crearMaterial: function crearMaterial() {
-      var _this3 = this;
+      var _this4 = this;
 
       axios.get('http://localhost:8000/tipoMaterial') //solicitar tipo material
       .then(function (response) {
-        _this3.tipoMaterial = response.data;
+        _this4.tipoMaterial = response.data;
       });
       axios.get('http://localhost:8000/cliente') //solicitar clientes
       .then(function (response) {
-        _this3.clientes = response.data;
+        _this4.clientes = response.data;
       });
       this.crearMaterialBool = true;
     },
     asociarMaterial: function asociarMaterial() {
-      var _this4 = this;
+      var _this5 = this;
 
       axios.get('http://localhost:8000/subProducto') //solicitar tipo material
       .then(function (response) {
-        _this4.subProductos = response.data;
-        console.log(_this4.subProductos);
+        _this5.subProductos = response.data;
+        console.log(_this5.subProductos);
       });
       this.asociarMaterialBool = true;
     },
@@ -5253,6 +5084,29 @@ __webpack_require__.r(__webpack_exports__);
     guardarDesasociacionMaterial: function guardarDesasociacionMaterial() {
       console.log("reeplazo la wea");
       this.desasociacionN += 1; //no se hace
+    },
+    cerrarProducto: function cerrarProducto(ot) {
+      var _this6 = this;
+
+      axios.get('http://localhost:8000/cerrarProducto/' + ot.id).then(function (response) {
+        console.log(response); //alert("OT eliminada exitosamente");
+
+        _this6.$emit('botonEliminarProducto');
+
+        _this6.abierta = true;
+      });
+    },
+    abrirProducto: function abrirProducto(ot) {
+      var _this7 = this;
+
+      axios.get('http://localhost:8000/abrirProducto/' + ot.id).then(function (response) {
+        console.log(response); // alert("OT eliminada exitosamente");
+
+        _this7.$emit('botonEliminarProducto');
+
+        _this7.abierta = false;
+      });
+      this.abierta = false;
     }
   }
 });
@@ -5268,6 +5122,14 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -5435,13 +5297,17 @@ __webpack_require__.r(__webpack_exports__);
       viejos: [],
       abierta: true,
       searchOT: "",
-      resultsOt: this.otsTodas[0]
+      resultsOt: this.otsTodas[0],
+      peru: null
     };
   },
   mounted: function mounted() {
     console.log('Component mounted.');
   },
   methods: {
+    volverMenu: function volverMenu() {
+      this.$emit('botonAtrasOt');
+    },
     onChangueOT: function onChangueOT() {
       console.log("ots:");
       console.log(this.ots);
@@ -5494,7 +5360,21 @@ __webpack_require__.r(__webpack_exports__);
     editarOt: function editarOt(index) {
       var _this3 = this;
 
+      console.log("mas informacion:");
+      console.log(this.otsTodas[0][index]);
+
+      if (this.otsTodas[0][index].ot_Peru == null) {
+        console.log("a");
+        this.peru = false;
+      } else {
+        console.log("b");
+        this.peru = true;
+      }
+
       this.otSeleccionada = this.otsTodas[0][index];
+      console.log(this.otSeleccionada.fecha_recepcion);
+      this.otSeleccionada.fecha_recepcion = this.otSeleccionada.fecha_recepcion.replace(/^(\d{2})-(\d{2})-(\d{4})$/g, '$3-$2-$1');
+      console.log(this.otSeleccionada.fecha_recepcion);
       console.log("entre");
       axios.get('http://localhost:8000/seleccionados/' + this.otSeleccionada.id).then(function (response) {
         console.log("seleccionados:");
@@ -5524,8 +5404,7 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('http://localhost:8000/cliente/').then(function (response) {
         _this3.clientes = response.data;
-      });
-      this.crearOtBool = true; //productos
+      }); //productos
 
       axios.get('http://localhost:8000/producto/').then(function (response) {
         _this3.productos = response.data;
@@ -5603,6 +5482,13 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-multiselect */ "./node_modules/vue-multiselect/dist/vue-multiselect.min.js");
 /* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_multiselect__WEBPACK_IMPORTED_MODULE_0__);
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -6067,6 +5953,10 @@ Vue.component('multiselect', vue_multiselect__WEBPACK_IMPORTED_MODULE_0___defaul
     console.log('Component mounted.');
   },
   methods: {
+    volverMenu: function volverMenu() {
+      console.log("atras de reporte");
+      this.$emit('botonAtrasReporte');
+    },
     nameWithLang: function nameWithLang(_ref) {
       var nombre_tipo = _ref.nombre_tipo;
       return "".concat(nombre_tipo);
@@ -6674,6 +6564,36 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['subProductos'],
   data: function data() {
@@ -6688,45 +6608,53 @@ __webpack_require__.r(__webpack_exports__);
       edicionN: 0,
       creacionN: 0,
       asociacionN: 0,
-      desasociacionN: 0
+      desasociacionN: 0,
+      searchSubMaterial: "",
+      resultsSubProductos: this.subProductos,
+      abierta: true
     };
   },
   mounted: function mounted() {
     console.log('Component mounted.');
   },
   methods: {
-    eliminarSubMaterial: function eliminarSubMaterial(subProducto) {
+    volverMenu: function volverMenu() {
+      this.$emit('botonAtrasSubMaterial');
+    },
+    onChangueSubMaterial: function onChangueSubMaterial() {
+      console.log("productos:");
+      console.log(this.productos);
+      this.filterResultsSubMaterial();
+    },
+    filterResultsSubMaterial: function filterResultsSubMaterial() {
       var _this = this;
+
+      this.resultsSubProductos = this.subProductos.filter(function (item) {
+        return item.nombre_sub_producto.toLowerCase().indexOf(_this.searchSubMaterial.toLowerCase()) > -1;
+      }); //esta hay que cambiarla.
+    },
+    eliminarSubMaterial: function eliminarSubMaterial(subProducto) {
+      var _this2 = this;
 
       axios["delete"]('http://localhost:8000/subProducto/' + subProducto.id) //solicitar tipo material
       .then(function (response) {
         console.log(response);
         alert("Sub-Material eliminado exitosamente");
 
-        _this.$emit('botonEliminarCreacionSubMaterial');
+        _this2.$emit('botonEliminarCreacionSubMaterial');
       });
     },
     editarSubMaterial: function editarSubMaterial(subProducto) {
-      var _this2 = this;
+      var _this3 = this;
 
       this.subMaterialSeleccionado = subProducto;
       axios.get('http://localhost:8000/tipoMaterial') //solicitar tipo material
       .then(function (response) {
-        _this2.tipoMaterial = response.data;
+        _this3.tipoMaterial = response.data;
       });
       this.editarSubMaterialBool = true;
     },
     asociarMaterial: function asociarMaterial() {
-      var _this3 = this;
-
-      axios.get('http://localhost:8000/producto') //solicitar tipo material
-      .then(function (response) {
-        _this3.productos = response.data;
-        console.log(_this3.productos);
-      });
-      this.asociarMaterialBool = true;
-    },
-    desasociarMaterial: function desasociarMaterial() {
       var _this4 = this;
 
       axios.get('http://localhost:8000/producto') //solicitar tipo material
@@ -6734,20 +6662,35 @@ __webpack_require__.r(__webpack_exports__);
         _this4.productos = response.data;
         console.log(_this4.productos);
       });
+      this.asociarMaterialBool = true;
+    },
+    desasociarMaterial: function desasociarMaterial() {
+      var _this5 = this;
+
+      axios.get('http://localhost:8000/producto') //solicitar tipo material
+      .then(function (response) {
+        _this5.productos = response.data;
+        console.log(_this5.productos);
+      });
       this.desasociarMaterialBool = true;
     },
     crearSubMaterial: function crearSubMaterial() {
-      var _this5 = this;
+      var _this6 = this;
 
       axios.get('http://localhost:8000/tipoMaterial') //solicitar tipo material
       .then(function (response) {
-        _this5.tipoMaterial = response.data;
+        _this6.tipoMaterial = response.data;
       });
       this.crearSubMaterialBool = true;
     },
     guardarCreacionSubMaterial: function guardarCreacionSubMaterial() {
       this.creacionN += 1;
       this.$emit('botonGuardarCreacionSubMaterial');
+    },
+    cerrarEdicionSubMaterial: function cerrarEdicionSubMaterial() {
+      this.edicionN += 1;
+      axios;
+      this.$emit('botonGuardarEdicionSubMaterial');
     },
     guardarEdicionSubMaterial: function guardarEdicionSubMaterial() {
       this.edicionN += 1;
@@ -6760,6 +6703,29 @@ __webpack_require__.r(__webpack_exports__);
     guardarDesasociacionMaterial: function guardarDesasociacionMaterial() {
       console.log("reeplazo la wea");
       this.desasociacionN += 1; //no se hace
+    },
+    cerrarSubProducto: function cerrarSubProducto(ot) {
+      var _this7 = this;
+
+      axios.get('http://localhost:8000/cerrarSubProducto/' + ot.id).then(function (response) {
+        console.log(response); //alert("OT eliminada exitosamente");
+
+        _this7.$emit('botonEliminarSubProducto');
+
+        _this7.abierta = true;
+      });
+    },
+    abrirSubProducto: function abrirSubProducto(ot) {
+      var _this8 = this;
+
+      axios.get('http://localhost:8000/abrirSubProducto/' + ot.id).then(function (response) {
+        console.log(response); // alert("OT eliminada exitosamente");
+
+        _this8.$emit('botonEliminarSubProducto');
+
+        _this8.abierta = false;
+      });
+      this.abierta = false;
     }
   }
 });
@@ -6775,6 +6741,12 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -6884,6 +6856,9 @@ __webpack_require__.r(__webpack_exports__);
     console.log('Component mounted.');
   },
   methods: {
+    volverMenu: function volverMenu() {
+      this.$emit('botonAtrasUsuario');
+    },
     onChangueUsuario: function onChangueUsuario() {
       console.log("usuarios:");
       console.log(this.usuarios);
@@ -7013,6 +6988,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['usuario', 'roles', 'pais'],
   data: function data() {
@@ -7034,6 +7010,7 @@ __webpack_require__.r(__webpack_exports__);
         console.log("respuesta");
         console.log(response.data);
       });
+      this.$emit('cambioPais');
     },
     iniciarTrabajo: function iniciarTrabajo() {
       this.$emit('botonIniciarTrabajo');
@@ -7071,6 +7048,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-multiselect */ "./node_modules/vue-multiselect/dist/vue-multiselect.min.js");
 /* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_multiselect__WEBPACK_IMPORTED_MODULE_0__);
+//
 //
 //
 //
@@ -7755,30 +7733,43 @@ __webpack_require__.r(__webpack_exports__);
     agregarProducto: function agregarProducto() {
       var _this4 = this;
 
-      //  this.productosSeleccionados.push(this.productos[this.productoSeleccionado]);
-      // this.otsSeleccionadas
-      var combinacion = [];
-      console.log("antes del push");
-      combinacion.push(this.ots[this.otSeleccionada]); //ot completa
+      var esta = 0;
 
-      combinacion.push(this.productos[this.productoSeleccionado]); //producto completo
-      //this.productosSeleccionados.push(this.productos[this.productoSeleccionado].id);
+      for (var i = 0; i < this.otProducto.length; i++) {
+        console.log("----------------");
+        console.log(this.otProducto[i]);
+        console.log(this.ots[this.otSeleccionada]);
+        console.log(this.productos[this.productoSeleccionado]);
 
-      console.log(); //hacer un push  de las subproductos del producto seleccionado
+        if (this.otProducto[i][0] == this.ots[this.otSeleccionada] && this.otProducto[i][1] == this.productos[this.productoSeleccionado]) {
+          esta = 1;
+        }
+      }
 
-      var subProductos = null;
-      axios.get('http://localhost:8000/subProductos/' + this.productos[this.productoSeleccionado].id).then(function (response) {
-        console.log("post response");
-        subProductos = response.data;
-        combinacion.push([]);
-        console.log(subProductos);
+      if (esta == 0) {
+        var combinacion = [];
+        console.log("antes del push");
+        combinacion.push(this.ots[this.otSeleccionada]); //ot completa
 
-        _this4.otProducto.push(combinacion);
+        combinacion.push(this.productos[this.productoSeleccionado]); //producto completo
+        //this.productosSeleccionados.push(this.productos[this.productoSeleccionado].id);
 
-        _this4.subProductos.push(subProductos);
+        console.log(); //hacer un push  de las subproductos del producto seleccionado
 
-        console.log("hice todos los push:");
-      }); //RECORDAR ELIMINAR ESTO MISMO CUANDO SE BORRE UN PRODUCTO, OT, ETC     
+        var subProductos = null;
+        axios.get('http://localhost:8000/subProductos/' + this.productos[this.productoSeleccionado].id).then(function (response) {
+          console.log("post response");
+          subProductos = response.data;
+          combinacion.push([]);
+          console.log(subProductos);
+
+          _this4.otProducto.push(combinacion);
+
+          _this4.subProductos.push(subProductos);
+
+          console.log("hice todos los push:");
+        }); //RECORDAR ELIMINAR ESTO MISMO CUANDO SE BORRE UN PRODUCTO, OT, ETC
+      }
     },
     onChangeEstación: function onChangeEstaciN() {
       var _this5 = this;
@@ -44442,7 +44433,8 @@ var render = function() {
                     botonGestionarMaterial: _vm.iniciarGestionMaterial,
                     botonGestionarSubMaterial: _vm.iniciarGestionSubMaterial,
                     botonGestionarReporte: _vm.iniciarGestionReporte,
-                    botonGestionarUsuario: _vm.iniciarGestionUsuario
+                    botonGestionarUsuario: _vm.iniciarGestionUsuario,
+                    cambioPais: _vm.cambioPais
                   }
                 })
               ],
@@ -44473,7 +44465,8 @@ var render = function() {
                         on: {
                           botonGuardarCreacionOt: _vm.recargarOt,
                           botonEliminarOt: _vm.recargarOt,
-                          botonGuardarEdicionOt: _vm.recargarOt
+                          botonGuardarEdicionOt: _vm.recargarOt,
+                          botonAtrasOt: _vm.botonAtrasOt
                         }
                       })
                     ],
@@ -44494,7 +44487,9 @@ var render = function() {
                         on: {
                           botonGuardarEdicionMaterial: _vm.recargarMateriales,
                           botonGuardarCreacionMaterial: _vm.recargarMateriales,
-                          botonEliminarCreacionMaterial: _vm.recargarMateriales
+                          botonEliminarCreacionMaterial: _vm.recargarMateriales,
+                          botonAtrasMaterial: _vm.botonAtrasMaterial,
+                          botonEliminarProducto: _vm.recargarMateriales
                         }
                       })
                     ],
@@ -44515,7 +44510,9 @@ var render = function() {
                           botonGuardarCreacionSubMaterial:
                             _vm.recargarSubMateriales,
                           botonEliminarCreacionSubMaterial:
-                            _vm.recargarSubMateriales
+                            _vm.recargarSubMateriales,
+                          botonAtrasSubMaterial: _vm.botonAtrasSubMaterial,
+                          botonEliminarSubProducto: _vm.recargarSubMateriales
                         }
                       })
                     ],
@@ -44530,7 +44527,10 @@ var render = function() {
                       _c("principal-gestion-usuario-component", {
                         key: _vm.gestionUsuarioN,
                         attrs: { usuarios: _vm.usuarios },
-                        on: { botonGuardarEdicionUsuario: _vm.recargarUsuarios }
+                        on: {
+                          botonGuardarEdicionUsuario: _vm.recargarUsuarios,
+                          botonAtrasUsuario: _vm.botonAtrasUsuario
+                        }
                       })
                     ],
                     1
@@ -44542,6 +44542,7 @@ var render = function() {
                     "div",
                     [
                       _c("principal-gestion-reporte-component", {
+                        key: _vm.gestionReporteN,
                         attrs: {
                           items: [
                             "julio",
@@ -44557,7 +44558,8 @@ var render = function() {
                           estaciones: _vm.estaciones,
                           areas: _vm.areas,
                           naves: _vm.naves
-                        }
+                        },
+                        on: { botonAtrasReporte: _vm.botonAtrasReporte }
                       })
                     ],
                     1
@@ -44733,7 +44735,7 @@ var render = function() {
                                 [
                                   _vm._v(
                                     "\r\n                                                " +
-                                      _vm._s(producto.nombre) +
+                                      _vm._s(producto.nombre_producto) +
                                       "\r\n                                            "
                                   )
                                 ]
@@ -44792,7 +44794,7 @@ var render = function() {
                                 [
                                   _vm._v(
                                     "\r\n                                                " +
-                                      _vm._s(subProducto.nombre) +
+                                      _vm._s(subProducto.nombre_sub_producto) +
                                       "\r\n                                            "
                                   )
                                 ]
@@ -44823,16 +44825,20 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "div",
-                    { staticClass: "container color2" },
+                    { staticClass: "container color5" },
                     _vm._l(_vm.asociacionesEnteras, function(linea, indexZ) {
                       return _c("div", { key: indexZ }, [
                         _c("div", { staticClass: "row" }, [
                           _c("div", { staticClass: "col-md-5" }, [
-                            _c("p", [_vm._v("* " + _vm._s(linea[0].nombre))])
+                            _c("p", [
+                              _vm._v("* " + _vm._s(linea[0].nombre_producto))
+                            ])
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "col-md-5" }, [
-                            _c("p", [_vm._v(_vm._s(linea[1].nombre))])
+                            _c("p", [
+                              _vm._v(_vm._s(linea[1].nombre_sub_producto))
+                            ])
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "col-md-2" }, [
@@ -45362,7 +45368,7 @@ var render = function() {
                                 [
                                   _vm._v(
                                     "\r\n                                               " +
-                                      _vm._s(producto.nombre) +
+                                      _vm._s(producto.nombre_producto) +
                                       "\r\n                                            "
                                   )
                                 ]
@@ -45376,7 +45382,7 @@ var render = function() {
                       _c("div", { staticClass: "col-md-7" }, [
                         _c(
                           "div",
-                          { staticClass: "container color2" },
+                          { staticClass: "container color5" },
                           _vm._l(_vm.asociaciones, function(
                             subProducto,
                             indexA
@@ -45391,7 +45397,8 @@ var render = function() {
                                       ? _c("div", [
                                           _vm._v(
                                             _vm._s(
-                                              _vm.subProductos[indexA].nombre
+                                              _vm.subProductos[indexA]
+                                                .nombre_sub_producto
                                             )
                                           )
                                         ])
@@ -45975,6 +45982,7 @@ var render = function() {
       {
         staticClass: "modal ",
         attrs: {
+          "data-backdrop": "static",
           id: "modalEditMaterial",
           tabindex: "-1",
           role: "dialog",
@@ -46204,7 +46212,8 @@ var render = function() {
                   "button",
                   {
                     staticClass: "btn btn-secondary",
-                    attrs: { type: "button", "data-dismiss": "modal" }
+                    attrs: { type: "button", "data-dismiss": "modal" },
+                    on: { click: _vm.cerrar }
                   },
                   [_vm._v("Cerrar")]
                 ),
@@ -46917,6 +46926,19 @@ var render = function() {
         )
       : _vm._e(),
     _vm._v(" "),
+    _vm.crearClienteBool
+      ? _c(
+          "div",
+          [
+            _c("modal-cliente-create-component", {
+              key: _vm.creacionNC,
+              on: { botonGuardarCreacionCliente: _vm.guardarCreacionCliente }
+            })
+          ],
+          1
+        )
+      : _vm._e(),
+    _vm._v(" "),
     _c(
       "div",
       {
@@ -47390,69 +47412,86 @@ var render = function() {
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-1" }),
                       _vm._v(" "),
-                      _c("div", { staticClass: "col-md-2" }),
+                      _c("div", { staticClass: "col-md-3" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-sm btn-block btn-secondary",
+                            attrs: {
+                              type: "button",
+                              "data-target": "#modalCreateCliente",
+                              "data-toggle": "modal"
+                            },
+                            on: {
+                              click: function($event) {
+                                return _vm.crearCliente()
+                              }
+                            }
+                          },
+                          [_vm._v("CREAR CLIENTE")]
+                        )
+                      ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-4" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.searchCodigo,
+                              expression: "searchCodigo"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { id: "Sesion2-1", type: "text" },
+                          domProps: { value: _vm.searchCodigo },
+                          on: {
+                            input: [
+                              function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.searchCodigo = $event.target.value
+                              },
+                              _vm.onChangueCodigo
+                            ]
+                          }
+                        }),
+                        _vm._v(" "),
                         _c(
-                          "select",
+                          "ul",
                           {
                             directives: [
                               {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.codigoCliente,
-                                expression: "codigoCliente"
+                                name: "show",
+                                rawName: "v-show",
+                                value: _vm.isOpenCodigo,
+                                expression: "isOpenCodigo"
                               }
                             ],
-                            staticClass: "form-control",
-                            attrs: { required: "" },
+                            staticClass: "autocomplete-results",
                             on: {
-                              change: [
-                                function($event) {
-                                  var $$selectedVal = Array.prototype.filter
-                                    .call($event.target.options, function(o) {
-                                      return o.selected
-                                    })
-                                    .map(function(o) {
-                                      var val =
-                                        "_value" in o ? o._value : o.value
-                                      return val
-                                    })
-                                  _vm.codigoCliente = $event.target.multiple
-                                    ? $$selectedVal
-                                    : $$selectedVal[0]
-                                },
-                                function($event) {
-                                  return _vm.cambiarCodigo(_vm.codigoCliente)
-                                }
-                              ]
+                              mouseleave: function($event) {
+                                _vm.isOpenCodigo = false
+                              }
                             }
                           },
-                          [
-                            _c(
-                              "option",
+                          _vm._l(_vm.resultsCodigo, function(result, i) {
+                            return _c(
+                              "li",
                               {
-                                attrs: { selected: "" },
-                                domProps: { value: -1 }
+                                key: i,
+                                staticClass: "autocomplete-result",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.setResultCodigo(result, i)
+                                  }
+                                }
                               },
-                              [_vm._v("Nuevo")]
-                            ),
-                            _vm._v(" "),
-                            _vm._l(_vm.codigosCliente, function(codigo, index) {
-                              return _c(
-                                "option",
-                                { key: index, domProps: { value: index } },
-                                [
-                                  _vm._v(
-                                    "\r\n                                                    " +
-                                      _vm._s(codigo) +
-                                      "\r\n                                                "
-                                  )
-                                ]
-                              )
-                            })
-                          ],
-                          2
+                              [_vm._v(_vm._s(result))]
+                            )
+                          }),
+                          0
                         )
                       ]),
                       _vm._v(" "),
@@ -47533,7 +47572,7 @@ var render = function() {
                         _c(
                           "button",
                           {
-                            staticClass: "btn btn-lg btn-block btn-secondary",
+                            staticClass: "btn btn-sm btn-block btn-secondary",
                             attrs: {
                               type: "button",
                               "data-target": "#modalCreateMaterial",
@@ -47545,7 +47584,7 @@ var render = function() {
                               }
                             }
                           },
-                          [_vm._v("Crear Material")]
+                          [_vm._v("CREAR MATERIAL")]
                         )
                       ]),
                       _vm._v(" "),
@@ -48217,7 +48256,7 @@ var render = function() {
                               }
                             ],
                             staticClass: "form-control",
-                            attrs: { required: "" },
+                            attrs: { type: "Boolean", required: "" },
                             on: {
                               change: function($event) {
                                 var $$selectedVal = Array.prototype.filter
@@ -48653,66 +48692,65 @@ var render = function() {
                       _c("div", { staticClass: "col-md-2" }),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-4" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.searchCodigo,
+                              expression: "searchCodigo"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { id: "Sesion2-1", type: "text" },
+                          domProps: { value: _vm.searchCodigo },
+                          on: {
+                            input: [
+                              function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.searchCodigo = $event.target.value
+                              },
+                              _vm.onChangueCodigo
+                            ]
+                          }
+                        }),
+                        _vm._v(" "),
                         _c(
-                          "select",
+                          "ul",
                           {
                             directives: [
                               {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.codigoCliente,
-                                expression: "codigoCliente"
+                                name: "show",
+                                rawName: "v-show",
+                                value: _vm.isOpenCodigo,
+                                expression: "isOpenCodigo"
                               }
                             ],
-                            staticClass: "form-control",
-                            attrs: { required: "" },
+                            staticClass: "autocomplete-results",
                             on: {
-                              change: [
-                                function($event) {
-                                  var $$selectedVal = Array.prototype.filter
-                                    .call($event.target.options, function(o) {
-                                      return o.selected
-                                    })
-                                    .map(function(o) {
-                                      var val =
-                                        "_value" in o ? o._value : o.value
-                                      return val
-                                    })
-                                  _vm.codigoCliente = $event.target.multiple
-                                    ? $$selectedVal
-                                    : $$selectedVal[0]
-                                },
-                                function($event) {
-                                  return _vm.cambiarCodigo(_vm.codigoCliente)
-                                }
-                              ]
+                              mouseleave: function($event) {
+                                _vm.isOpenCodigo = false
+                              }
                             }
                           },
-                          [
-                            _c(
-                              "option",
+                          _vm._l(_vm.resultsCodigo, function(result, i) {
+                            return _c(
+                              "li",
                               {
-                                attrs: { selected: "" },
-                                domProps: { value: -1 }
+                                key: i,
+                                staticClass: "autocomplete-result",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.setResultCodigo(result, i)
+                                  }
+                                }
                               },
-                              [_vm._v("Nuevo")]
-                            ),
-                            _vm._v(" "),
-                            _vm._l(_vm.codigosCliente, function(codigo, index) {
-                              return _c(
-                                "option",
-                                { key: index, domProps: { value: index } },
-                                [
-                                  _vm._v(
-                                    "\r\n                                                    " +
-                                      _vm._s(codigo) +
-                                      "\r\n                                                "
-                                  )
-                                ]
-                              )
-                            })
-                          ],
-                          2
+                              [_vm._v(_vm._s(result))]
+                            )
+                          }),
+                          0
                         )
                       ]),
                       _vm._v(" "),
@@ -49597,7 +49635,8 @@ var render = function() {
                   "button",
                   {
                     staticClass: "btn btn-secondary",
-                    attrs: { type: "button", "data-dismiss": "modal" }
+                    attrs: { type: "button", "data-dismiss": "modal" },
+                    on: { click: _vm.cerrar }
                   },
                   [_vm._v("Cerrar")]
                 ),
@@ -50041,8 +50080,9 @@ var render = function() {
     _c(
       "div",
       {
-        staticClass: "modal ",
+        staticClass: "modal",
         attrs: {
+          "data-backdrop": "static",
           id: "modalEditSubMaterial",
           tabindex: "-1",
           role: "dialog",
@@ -50053,7 +50093,7 @@ var render = function() {
       [
         _c(
           "div",
-          { staticClass: "modal-dialog-xl", attrs: { role: "document" } },
+          { staticClass: "modal-dialog-lg", attrs: { role: "document" } },
           [
             _c("div", { staticClass: "modal-content" }, [
               _c("div", { staticClass: "modal-header" }, [
@@ -50066,7 +50106,10 @@ var render = function() {
                   [
                     _vm._v(
                       "Edición del Sub-Material: " +
-                        _vm._s(_vm.subMaterialSeleccionado.nombre)
+                        _vm._s(
+                          _vm.subMaterialSeleccionado
+                            .nombre_sub_nombre_sub_producto
+                        )
                     )
                   ]
                 ),
@@ -50153,9 +50196,9 @@ var render = function() {
                                 { key: index, domProps: { value: tipo.id } },
                                 [
                                   _vm._v(
-                                    "\r\n                                                " +
+                                    "\r\n                                        " +
                                       _vm._s(tipo.nombre) +
-                                      "\r\n                                            "
+                                      "\r\n                                    "
                                   )
                                 ]
                               )
@@ -50208,7 +50251,8 @@ var render = function() {
                   "button",
                   {
                     staticClass: "btn btn-secondary",
-                    attrs: { type: "button", "data-dismiss": "modal" }
+                    attrs: { type: "button", "data-dismiss": "modal" },
+                    on: { click: _vm.cerrarCambios }
                   },
                   [_vm._v("Cerrar")]
                 ),
@@ -50484,19 +50528,7 @@ var render = function() {
                   _c("br")
                 ])
               ]),
-              _vm._v(
-                "\r\n                    " +
-                  _vm._s(_vm.areasSeleccionadas) +
-                  " "
-              ),
-              _c("br"),
-              _vm._v(
-                "\r\n                    -----------------------------------------------------------------------\r\n                    "
-              ),
-              _c("br"),
-              _vm._v(
-                _vm._s(_vm.rolesSeleccionados) + "\r\n                    "
-              ),
+              _vm._v(" "),
               _c("div", { staticClass: "modal-footer" }, [
                 _c(
                   "button",
@@ -50993,53 +51025,25 @@ var render = function() {
     _c("br"),
     _vm._v(" "),
     _c("div", { staticClass: "row container" }, [
-      _c("div", { staticClass: "col-sm" }, [
+      _c("div", { staticClass: "col-sm-2" }, [
         _c(
           "button",
           {
-            staticClass: "btn btn-success",
-            attrs: {
-              type: "button",
-              "data-target": "#modalCreateMaterial",
-              "data-toggle": "modal"
-            },
-            on: {
-              click: function($event) {
-                return _vm.crearMaterial()
-              }
-            }
+            staticClass: "btn btn-secondary  btn-block colorBoton",
+            attrs: { type: "button" },
+            on: { click: _vm.volverMenu }
           },
-          [_vm._v("Crear Material")]
-        ),
-        _vm._v(" "),
-        _c("br"),
-        _c("br"),
-        _vm._v(" "),
-        _vm.crearMaterialBool
-          ? _c(
-              "div",
-              [
-                _c("modal-material-create-component", {
-                  key: _vm.creacionN,
-                  attrs: {
-                    tipoMaterial: _vm.tipoMaterial,
-                    clientes: _vm.clientes
-                  },
-                  on: {
-                    botonGuardarCreacionMaterial: _vm.guardarCreacionMaterial
-                  }
-                })
-              ],
-              1
-            )
-          : _vm._e()
+          [_vm._v("Atrás")]
+        )
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "col-sm" }, [
+      _c("div", { staticClass: "col-sm-2" }),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-sm-3" }, [
         _c(
           "button",
           {
-            staticClass: "btn btn-secondary",
+            staticClass: "btn btn-primary",
             attrs: {
               type: "button",
               "data-target": "#modalAsociarMaterial",
@@ -51075,11 +51079,13 @@ var render = function() {
           : _vm._e()
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "col-sm" }, [
+      _c("div", { staticClass: "col-sm-1" }),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-sm-3" }, [
         _c(
           "button",
           {
-            staticClass: "btn btn-secondary",
+            staticClass: "btn btn-primary",
             attrs: {
               type: "button",
               "data-target": "#modalDesasociarMaterial",
@@ -51113,6 +51119,151 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
+    _c("br"),
+    _vm._v(" "),
+    _c("div", { staticClass: "row container" }, [
+      _c("div", { staticClass: "col-sm-2" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-success btn-block",
+            attrs: {
+              type: "button",
+              "data-target": "#modalCreateMaterial",
+              "data-toggle": "modal"
+            },
+            on: {
+              click: function($event) {
+                return _vm.crearMaterial()
+              }
+            }
+          },
+          [_vm._v("Crear Material   ")]
+        ),
+        _vm._v(" "),
+        _c("br"),
+        _c("br"),
+        _vm._v(" "),
+        _vm.crearMaterialBool
+          ? _c(
+              "div",
+              [
+                _c("modal-material-create-component", {
+                  key: _vm.creacionN,
+                  attrs: {
+                    tipoMaterial: _vm.tipoMaterial,
+                    clientes: _vm.clientes
+                  },
+                  on: {
+                    botonGuardarCreacionMaterial: _vm.guardarCreacionMaterial
+                  }
+                })
+              ],
+              1
+            )
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-sm-2" }),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-sm-6" }, [
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-sm" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.searchMaterial,
+                  expression: "searchMaterial"
+                }
+              ],
+              staticClass:
+                "form-control form-control-lg form-control-borderless",
+              attrs: {
+                id: "7",
+                placeholder: "Nombre Material",
+                type: "search"
+              },
+              domProps: { value: _vm.searchMaterial },
+              on: {
+                input: [
+                  function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.searchMaterial = $event.target.value
+                  },
+                  _vm.onChangueMaterial
+                ]
+              }
+            })
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-sm-2" }, [
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-sm-6" }),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-sm-6" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.abierta,
+                  expression: "abierta"
+                }
+              ],
+              staticClass: "form-check-input",
+              attrs: {
+                "unchecked-value": true,
+                id: "abierta",
+                type: "checkbox"
+              },
+              domProps: {
+                value: true,
+                checked: Array.isArray(_vm.abierta)
+                  ? _vm._i(_vm.abierta, true) > -1
+                  : _vm.abierta
+              },
+              on: {
+                change: function($event) {
+                  var $$a = _vm.abierta,
+                    $$el = $event.target,
+                    $$c = $$el.checked ? true : false
+                  if (Array.isArray($$a)) {
+                    var $$v = true,
+                      $$i = _vm._i($$a, $$v)
+                    if ($$el.checked) {
+                      $$i < 0 && (_vm.abierta = $$a.concat([$$v]))
+                    } else {
+                      $$i > -1 &&
+                        (_vm.abierta = $$a
+                          .slice(0, $$i)
+                          .concat($$a.slice($$i + 1)))
+                    }
+                  } else {
+                    _vm.abierta = $$c
+                  }
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c(
+              "label",
+              {
+                staticStyle: { "font-size": "18px" },
+                attrs: { for: "abierta" }
+              },
+              [_vm._v(_vm._s("   Abiertas"))]
+            )
+          ])
+        ])
+      ])
+    ]),
+    _vm._v(" "),
     _vm.editarMaterialBool
       ? _c(
           "div",
@@ -51138,69 +51289,111 @@ var render = function() {
         _vm._v(" "),
         _c("hr", { staticStyle: { border: "1px dotted red" } }),
         _vm._v(" "),
-        _vm._l(_vm.productos, function(producto, index) {
+        _vm._l(_vm.resultsProductos, function(producto, index) {
           return _c("div", { key: index }, [
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-sm-2" }, [
-                _vm._v(_vm._s(producto.nombre))
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-sm-2" }, [
-                _vm._v(_vm._s(producto.codigo_siom))
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-sm-2" }, [
-                _vm._v(_vm._s(producto.numero_plano))
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-sm-2" }, [
-                producto.tipo_material_id == 1
-                  ? _c("span", [_vm._v("Pieza")])
-                  : _c("span", [_vm._v("Lote")])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-sm-3" }, [
-                _vm._v(_vm._s(producto.descripcion))
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-sm-1" }, [
-                _c("div", { staticClass: "row" }, [
+            (_vm.abierta == true && producto.activo == 1) ||
+            (_vm.abierta == false && producto.activo == 0)
+              ? _c("div", { staticClass: "row" }, [
                   _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-warning",
-                      attrs: {
-                        type: "button",
-                        "data-target": "#modalEditMaterial",
-                        "data-toggle": "modal"
-                      },
-                      on: {
-                        click: function($event) {
-                          return _vm.editarMaterial(producto)
-                        }
-                      }
-                    },
-                    [_vm._v("E")]
+                    "div",
+                    { staticClass: "col-sm-2", attrs: { align: "center" } },
+                    [_vm._v(_vm._s(producto.nombre_producto))]
                   ),
                   _vm._v(" "),
                   _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-danger",
-                      attrs: { type: "button" },
-                      on: {
-                        click: function($event) {
-                          return _vm.eliminarMaterial(producto)
-                        }
-                      }
-                    },
-                    [_vm._v("D")]
-                  )
+                    "div",
+                    { staticClass: "col-sm-1", attrs: { align: "center" } },
+                    [_vm._v(_vm._s(producto.codigo_siom))]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "col-sm-1", attrs: { align: "center" } },
+                    [_vm._v(_vm._s(producto.numero_plano))]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "col-sm-1", attrs: { align: "center" } },
+                    [
+                      producto.tipo_material_id == 1
+                        ? _c("span", [_vm._v("Pieza")])
+                        : _c("span", [_vm._v("Lote")])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "col-sm-4", attrs: { align: "center" } },
+                    [_vm._v(_vm._s(producto.descripcion))]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-sm-2" }, [
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col-sm-4" }),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-sm-4" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-warning",
+                            attrs: {
+                              type: "button",
+                              "data-target": "#modalEditMaterial",
+                              "data-toggle": "modal"
+                            },
+                            on: {
+                              click: function($event) {
+                                return _vm.editarMaterial(producto)
+                              }
+                            }
+                          },
+                          [_vm._v("Editar")]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-sm-4" }, [
+                        producto.activo == 1
+                          ? _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-danger",
+                                attrs: { type: "button" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.cerrarProducto(producto)
+                                  }
+                                }
+                              },
+                              [_vm._v("Desactivar")]
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        producto.activo == 0
+                          ? _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-success",
+                                attrs: { type: "button" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.abrirProducto(producto)
+                                  }
+                                }
+                              },
+                              [_vm._v("Activar")]
+                            )
+                          : _vm._e()
+                      ])
+                    ])
+                  ])
                 ])
-              ])
-            ]),
+              : _vm._e(),
             _vm._v(" "),
-            _c("hr", { staticStyle: { border: "1px dotted gray" } })
+            (_vm.abierta == true && producto.activo == 1) ||
+            (_vm.abierta == false && producto.activo == 0)
+              ? _c("hr", { staticStyle: { border: "1px dotted gray" } })
+              : _vm._e()
           ])
         })
       ],
@@ -51214,25 +51407,29 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-sm-2" }, [_c("h3", [_vm._v("Nombre")])]),
+      _c("div", { staticClass: "col-sm-2" }, [
+        _c("h6", { attrs: { align: "center" } }, [_vm._v("Nombre")])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-sm-1" }, [
+        _c("h6", { attrs: { align: "center" } }, [_vm._v("Código Siom")])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-sm-1" }, [
+        _c("h6", { attrs: { align: "center" } }, [_vm._v("Número de Plano")])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-sm-1" }, [
+        _c("h6", { attrs: { align: "center" } }, [_vm._v("Tipo de Material")])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-sm-4" }, [
+        _c("h6", { attrs: { align: "center" } }, [_vm._v("Descripción")])
+      ]),
       _vm._v(" "),
       _c("div", { staticClass: "col-sm-2" }, [
-        _c("h3", [_vm._v("Código Siom")])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-sm-2" }, [
-        _c("h3", [_vm._v("Número de Plano")])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-sm-2" }, [
-        _c("h3", [_vm._v("Tipo de Material")])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-sm-3" }, [
-        _c("h3", [_vm._v("Descripción")])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-sm" })
+        _c("h6", { attrs: { align: "center" } }, [_vm._v("Acciones")])
+      ])
     ])
   }
 ]
@@ -51258,6 +51455,22 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "margen" }, [
+    _c("br"),
+    _vm._v(" "),
+    _c("div", { staticClass: "row container" }, [
+      _c("div", { staticClass: "col-sm-2" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-secondary  btn-block colorBoton",
+            attrs: { type: "button" },
+            on: { click: _vm.volverMenu }
+          },
+          [_vm._v("Atrás")]
+        )
+      ])
+    ]),
+    _vm._v(" "),
     _c("br"),
     _vm._v(" "),
     _c("div", { staticClass: "row container" }, [
@@ -51418,7 +51631,8 @@ var render = function() {
                 clientes: _vm.clientes,
                 productos: _vm.productos,
                 seleccionados: _vm.seleccionados,
-                viejos: _vm.viejos
+                viejos: _vm.viejos,
+                peru: _vm.peru
               },
               on: { botonGuardarEdicionOt: _vm.guardarEdicionOt }
             })
@@ -51685,14 +51899,32 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _c("h3", [_vm._v("Reportes: " + _vm._s(_vm.opcionSeleccionada))]),
+    _c("br"),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-sm-2" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-secondary  btn-block colorBoton",
+            attrs: { type: "button" },
+            on: { click: _vm.volverMenu }
+          },
+          [_vm._v("Atrás")]
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    _c("br"),
+    _vm._v(" "),
+    _c("h3", [_vm._v("Reportes:")]),
     _vm._v(" "),
     _c("br"),
     _vm._v(" "),
     _c(
       "button",
       {
-        staticClass: "btn btn-secondary btn-lg btn-block",
+        staticClass: "btn btn-primary btn-lg btn-block",
         attrs: { type: "button" },
         on: { click: _vm.botonSobreOt }
       },
@@ -52529,7 +52761,7 @@ var render = function() {
     _c(
       "button",
       {
-        staticClass: "btn btn-secondary btn-lg btn-block",
+        staticClass: "btn btn-primary btn-lg btn-block",
         attrs: { type: "button" },
         on: { click: _vm.botonSobreSesiones }
       },
@@ -53133,7 +53365,7 @@ var render = function() {
     _c(
       "button",
       {
-        staticClass: "btn btn-secondary btn-lg btn-block",
+        staticClass: "btn btn-primary btn-lg btn-block",
         attrs: { type: "button" },
         on: { click: _vm.botonSobreTrabajadores }
       },
@@ -53291,7 +53523,7 @@ var render = function() {
     _c(
       "button",
       {
-        staticClass: "btn btn-secondary btn-lg btn-block",
+        staticClass: "btn btn-primary btn-lg btn-block",
         attrs: { type: "button" },
         on: { click: _vm.botonSobreEstaciones }
       },
@@ -53373,7 +53605,7 @@ var render = function() {
     _c(
       "button",
       {
-        staticClass: "btn btn-secondary btn-lg btn-block",
+        staticClass: "btn btn-primary btn-lg btn-block",
         attrs: { type: "button" },
         on: { click: _vm.botonSobreUsuarios }
       },
@@ -53475,55 +53707,29 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
+  return _c("div", { staticClass: "margen" }, [
     _c("br"),
     _vm._v(" "),
-    _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-sm" }, [
+    _c("div", { staticClass: "row container" }, [
+      _c("div", { staticClass: "col-sm-2" }, [
         _c(
           "button",
           {
-            staticClass: "btn btn-success",
-            attrs: {
-              type: "button",
-              "data-target": "#modalCreateSubMaterial",
-              "data-toggle": "modal"
-            },
-            on: {
-              click: function($event) {
-                return _vm.crearSubMaterial()
-              }
-            }
+            staticClass: "btn btn-secondary  btn-block colorBoton",
+            attrs: { type: "button" },
+            on: { click: _vm.volverMenu }
           },
-          [_vm._v("Crear Sub-Material")]
-        ),
-        _vm._v(" "),
-        _c("br"),
-        _c("br"),
-        _vm._v(" "),
-        _vm.crearSubMaterialBool
-          ? _c(
-              "div",
-              [
-                _c("modal-sub-material-create-component", {
-                  key: _vm.creacionN,
-                  attrs: { tipoMaterial: _vm.tipoMaterial },
-                  on: {
-                    botonGuardarCreacionSubMaterial:
-                      _vm.guardarCreacionSubMaterial
-                  }
-                })
-              ],
-              1
-            )
-          : _vm._e()
+          [_vm._v("Atrás")]
+        )
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "col-sm" }, [
+      _c("div", { staticClass: "col-sm-2" }),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-sm-3" }, [
         _c(
           "button",
           {
-            staticClass: "btn btn-secondary",
+            staticClass: "btn btn-primary",
             attrs: {
               type: "button",
               "data-target": "#modalAsociarMaterial",
@@ -53559,11 +53765,13 @@ var render = function() {
           : _vm._e()
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "col-sm" }, [
+      _c("div", { staticClass: "col-sm-1" }),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-sm-3" }, [
         _c(
           "button",
           {
-            staticClass: "btn btn-secondary",
+            staticClass: "btn btn-primary",
             attrs: {
               type: "button",
               "data-target": "#modalDesasociarMaterial",
@@ -53597,6 +53805,149 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
+    _c("br"),
+    _vm._v(" "),
+    _c("div", { staticClass: "row container" }, [
+      _c("div", { staticClass: "col-sm-2" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-block btn-success",
+            attrs: {
+              type: "button",
+              "data-target": "#modalCreateSubMaterial",
+              "data-toggle": "modal"
+            },
+            on: {
+              click: function($event) {
+                return _vm.crearSubMaterial()
+              }
+            }
+          },
+          [_vm._v("Crear Sub-Material")]
+        ),
+        _vm._v(" "),
+        _c("br"),
+        _c("br"),
+        _vm._v(" "),
+        _vm.crearSubMaterialBool
+          ? _c(
+              "div",
+              [
+                _c("modal-sub-material-create-component", {
+                  key: _vm.creacionN,
+                  attrs: { tipoMaterial: _vm.tipoMaterial },
+                  on: {
+                    botonGuardarCreacionSubMaterial:
+                      _vm.guardarCreacionSubMaterial
+                  }
+                })
+              ],
+              1
+            )
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-sm-2" }),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-sm-6" }, [
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-sm" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.searchSubMaterial,
+                  expression: "searchSubMaterial"
+                }
+              ],
+              staticClass:
+                "form-control form-control-lg form-control-borderless",
+              attrs: {
+                id: "7",
+                placeholder: "Nombre Sub-Material",
+                type: "search"
+              },
+              domProps: { value: _vm.searchSubMaterial },
+              on: {
+                input: [
+                  function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.searchSubMaterial = $event.target.value
+                  },
+                  _vm.onChangueSubMaterial
+                ]
+              }
+            })
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-sm-2" }, [
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-sm-6" }),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-sm-6" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.abierta,
+                  expression: "abierta"
+                }
+              ],
+              staticClass: "form-check-input",
+              attrs: {
+                "unchecked-value": true,
+                id: "abierta",
+                type: "checkbox"
+              },
+              domProps: {
+                value: true,
+                checked: Array.isArray(_vm.abierta)
+                  ? _vm._i(_vm.abierta, true) > -1
+                  : _vm.abierta
+              },
+              on: {
+                change: function($event) {
+                  var $$a = _vm.abierta,
+                    $$el = $event.target,
+                    $$c = $$el.checked ? true : false
+                  if (Array.isArray($$a)) {
+                    var $$v = true,
+                      $$i = _vm._i($$a, $$v)
+                    if ($$el.checked) {
+                      $$i < 0 && (_vm.abierta = $$a.concat([$$v]))
+                    } else {
+                      $$i > -1 &&
+                        (_vm.abierta = $$a
+                          .slice(0, $$i)
+                          .concat($$a.slice($$i + 1)))
+                    }
+                  } else {
+                    _vm.abierta = $$c
+                  }
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c(
+              "label",
+              {
+                staticStyle: { "font-size": "18px" },
+                attrs: { for: "abierta" }
+              },
+              [_vm._v(_vm._s("   Abiertas"))]
+            )
+          ])
+        ])
+      ])
+    ]),
+    _vm._v(" "),
     _vm.editarSubMaterialBool
       ? _c(
           "div",
@@ -53608,7 +53959,8 @@ var render = function() {
                 tipoMaterial: _vm.tipoMaterial
               },
               on: {
-                botonGuardarEdicionSubMaterial: _vm.guardarEdicionSubMaterial
+                botonGuardarEdicionSubMaterial: _vm.guardarEdicionSubMaterial,
+                botonCerrarEdicionSubMaterial: _vm.cerrarEdicionSubMaterial
               }
             })
           ],
@@ -53624,61 +53976,97 @@ var render = function() {
         _vm._v(" "),
         _c("hr", { staticStyle: { border: "1px dotted red" } }),
         _vm._v(" "),
-        _vm._l(_vm.subProductos, function(subProducto, index) {
+        _vm._l(_vm.resultsSubProductos, function(subProducto, index) {
           return _c("div", { key: index }, [
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-sm-3" }, [
-                _vm._v(_vm._s(subProducto.nombre))
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-sm-3" }, [
-                subProducto.tipo_material_id == 1
-                  ? _c("span", [_vm._v("Pieza")])
-                  : _c("span", [_vm._v("Lote")])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-sm-4" }, [
-                _vm._v(_vm._s(subProducto.descripcion))
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-sm-1" }, [
-                _c("div", { staticClass: "row" }, [
+            (_vm.abierta == true && subProducto.activo == 1) ||
+            (_vm.abierta == false && subProducto.activo == 0)
+              ? _c("div", { staticClass: "row" }, [
                   _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-warning",
-                      attrs: {
-                        type: "button",
-                        "data-target": "#modalEditSubMaterial",
-                        "data-toggle": "modal"
-                      },
-                      on: {
-                        click: function($event) {
-                          return _vm.editarSubMaterial(subProducto)
-                        }
-                      }
-                    },
-                    [_vm._v("E")]
+                    "div",
+                    { staticClass: "col-sm-3", attrs: { align: "center" } },
+                    [_vm._v(_vm._s(subProducto.nombre_sub_producto))]
                   ),
                   _vm._v(" "),
                   _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-danger",
-                      attrs: { type: "button" },
-                      on: {
-                        click: function($event) {
-                          return _vm.eliminarSubMaterial(subProducto)
-                        }
-                      }
-                    },
-                    [_vm._v("D")]
-                  )
+                    "div",
+                    { staticClass: "col-sm-3", attrs: { align: "center" } },
+                    [
+                      subProducto.tipo_material_id == 1
+                        ? _c("span", [_vm._v("Pieza")])
+                        : _c("span", [_vm._v("Lote")])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "col-sm-4", attrs: { align: "center" } },
+                    [_vm._v(_vm._s(subProducto.descripcion))]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-sm" }, [
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col-sm-4" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-warning",
+                            attrs: {
+                              type: "button",
+                              "data-target": "#modalEditSubMaterial",
+                              "data-toggle": "modal"
+                            },
+                            on: {
+                              click: function($event) {
+                                return _vm.editarSubMaterial(subProducto)
+                              }
+                            }
+                          },
+                          [_vm._v("Editar")]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-sm-4" }, [
+                        subProducto.activo == 1
+                          ? _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-danger",
+                                attrs: { type: "button" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.cerrarSubProducto(subProducto)
+                                  }
+                                }
+                              },
+                              [_vm._v("Desactivar")]
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        subProducto.activo == 0
+                          ? _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-success",
+                                attrs: { type: "button" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.abrirSubProducto(subProducto)
+                                  }
+                                }
+                              },
+                              [_vm._v("Activar")]
+                            )
+                          : _vm._e()
+                      ])
+                    ])
+                  ])
                 ])
-              ])
-            ]),
+              : _vm._e(),
             _vm._v(" "),
-            _c("hr", { staticStyle: { border: "1px dotted gray" } })
+            (_vm.abierta == true && subProducto.activo == 1) ||
+            (_vm.abierta == false && subProducto.activo == 0)
+              ? _c("hr", { staticStyle: { border: "1px dotted gray" } })
+              : _vm._e()
           ])
         })
       ],
@@ -53692,17 +54080,21 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-sm-3" }, [_c("h3", [_vm._v("Nombre")])]),
+      _c("div", { staticClass: "col-sm-3" }, [
+        _c("h6", { attrs: { align: "center" } }, [_vm._v("Nombre")])
+      ]),
       _vm._v(" "),
       _c("div", { staticClass: "col-sm-3" }, [
-        _c("h3", [_vm._v("Tipo de Material")])
+        _c("h6", { attrs: { align: "center" } }, [_vm._v("Tipo de Material")])
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "col-sm-4" }, [
-        _c("h3", [_vm._v("Descripción")])
+        _c("h6", { attrs: { align: "center" } }, [_vm._v("Descripción")])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "col-sm" })
+      _c("div", { staticClass: "col-sm" }, [
+        _c("h6", { attrs: { align: "center" } }, [_vm._v("Acciones")])
+      ])
     ])
   }
 ]
@@ -53728,6 +54120,22 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "margen" }, [
+    _c("br"),
+    _vm._v(" "),
+    _c("div", { staticClass: "row container" }, [
+      _c("div", { staticClass: "col-sm-2" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-secondary  btn-block colorBoton",
+            attrs: { type: "button" },
+            on: { click: _vm.volverMenu }
+          },
+          [_vm._v("Atrás")]
+        )
+      ])
+    ]),
+    _vm._v(" "),
     _c("br"),
     _vm._v(" "),
     _c("div", { staticClass: "row container" }, [
@@ -53765,7 +54173,7 @@ var render = function() {
               ],
               staticClass:
                 "form-control form-control-lg form-control-borderless",
-              attrs: { id: "7", placeholder: "Nombre", type: "search" },
+              attrs: { id: "7", placeholder: "Nombre Usuario", type: "search" },
               domProps: { value: _vm.searchUsuario },
               on: {
                 input: [
@@ -54061,10 +54469,12 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
+    _c("br"),
+    _vm._v(" "),
     _c("div", { staticClass: "row" }, [
       _vm._m(0),
       _vm._v(" "),
-      _c("div", { staticClass: "col-sm-4" }, [
+      _c("div", { staticClass: "col-sm-2" }, [
         _c(
           "select",
           {
@@ -54206,7 +54616,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-sm-8" }, [
+    return _c("div", { staticClass: "col-sm-9" }, [
       _c("h1", [_vm._v("Funcionalidades:")])
     ])
   }
@@ -55498,6 +55908,11 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-sm-5" }, [
+                          _vm._v(
+                            "\n                                    " +
+                              _vm._s(_vm.otProducto) +
+                              "\n                                    "
+                          ),
                           _c(
                             "select",
                             {
@@ -73048,10 +73463,10 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\SIRIT\resources\js\app.js */"./resources/js/app.js");
-__webpack_require__(/*! C:\xampp\htdocs\SIRIT\resources\sass\app.scss */"./resources/sass/app.scss");
-__webpack_require__(/*! C:\xampp\htdocs\SIRIT\node_modules\bootstrap-select\sass\bootstrap-select.scss */"./node_modules/bootstrap-select/sass/bootstrap-select.scss");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\SIRIT\node_modules\bootstrap-select\sass\variables.scss */"./node_modules/bootstrap-select/sass/variables.scss");
+__webpack_require__(/*! C:\Users\dreamLIFE\Desktop\SIRIT\resources\js\app.js */"./resources/js/app.js");
+__webpack_require__(/*! C:\Users\dreamLIFE\Desktop\SIRIT\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\dreamLIFE\Desktop\SIRIT\node_modules\bootstrap-select\sass\bootstrap-select.scss */"./node_modules/bootstrap-select/sass/bootstrap-select.scss");
+module.exports = __webpack_require__(/*! C:\Users\dreamLIFE\Desktop\SIRIT\node_modules\bootstrap-select\sass\variables.scss */"./node_modules/bootstrap-select/sass/variables.scss");
 
 
 /***/ })

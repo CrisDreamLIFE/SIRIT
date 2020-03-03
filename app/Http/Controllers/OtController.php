@@ -48,26 +48,37 @@ class OtController extends Controller
                         'productos.codigo_siom','productos.numero_plano','ot_productos.fecha_entrega_oC','ot_productos.fecha_real_entregA',
                         'ot_productos.fecha_despachO','ot_productos.guia_despacho','ot_productos.factura','canal_ventas.nombre_canal',
                         'ot_productos.estado_OT','ot_tipos.nombre_tipo','centro_costos.codigo','centro_costos.nombre_centro','ot_productos.categoria_nombre_aux',
-                        'usuarios.nombre_usuario','ots.observacion')
+                        'usuarios.nombre_usuario','ots.observacion','ots.abierta')
                         ->get();
                         error_log("?");
                         
                         foreach($otCompleta as $ot){
                             $aux1 = $ot->fecha_entrega_oC;
-                            //error_log($aux1);
                             $aux2 = $ot->fecha_recepcion;
-                           // error_log($aux2);
                             $aux3 = $ot->fecha_real_entregA;
-                            error_log($aux3);
                             $aux4 = $ot->fecha_despachO;
-                            error_log($aux4);
-                            if($aux1!=null){$newFecha1 = date("d-m-Y", strtotime($aux1));
-                                error_log($newFecha1);$ot->fecha_entrega_oC = $newFecha1;
-                            }
+                            if($aux1!=null){$newFecha1 = date("d-m-Y", strtotime($aux1));$ot->fecha_entrega_oC = $newFecha1;}
                             if($aux2!=null){$newFecha2 = date("d-m-Y", strtotime($aux2));$ot->fecha_recepcion = $newFecha2;}
                             if($aux3!=null){$newFecha3 = date("d-m-Y", strtotime($aux3));$ot->fecha_real_entregA = $newFecha3;} //aqui nos caemos}
                             if($aux4!=null){$newFecha4 = date("d-m-Y", strtotime($aux4));$ot->fecha_despachO = $newFecha4;}
+                
+                            if($ot->abierta){
+                                $ot->abierta = "ABIERTA";
+                            }
+                            else{
+                                $ot->abierta = "CERRADA";
+                            }
+                            if($ot->estado_OT){
+                                $ot->estado_OT = "A";
+                            }
+                            else{
+                                $ot->estado_OT = "C";
+                            }
                         }
+                
+            
+                       
+                
         return $otCompleta;
     }
 
@@ -99,7 +110,7 @@ class OtController extends Controller
     }
     public function abrirOt($id){
         $ot = Ot::find($id);
-        $ot->abierta= 1;
+        $ot->abierta= true;
         $ot->save();
         return "CORRECTO";
     }
@@ -228,11 +239,11 @@ class OtController extends Controller
         error_log("ads");
         if($filtrado->pais=="chile"){
             error_log("soy de chile");
-            $ots = Ot::where("ot_Peru", null)->where('abierta',1)->orderBy('id','desc')->get();    
+            $ots = Ot::where("ot_Peru", null)->where('abierta',true)->get();    
         }
-        if($filtrado=="peru"){
+        if($filtrado->pais=="peru"){
             error_log("soy de peru");
-            $ots = Ot::where("ot_Peru",'!=', null)->where('abierta',1)->orderBy('id','desc')->get();  
+            $ots = Ot::where("ot_Peru","!=",null)->get();//orderBy('id','desc')->get();   
         }
         return $ots;
     }
@@ -250,6 +261,8 @@ class OtController extends Controller
                 $ot->usuario;
                 $ot->cliente;
                 $aaa = $ot->productos;
+                $fechaRece = $ot->fecha_recepcion;
+                $ot->fecha_recepcion = date("d-m-Y", strtotime($fechaRece));
                 $productos = array();
                 foreach($aaa as $prod){
                     $aux = new Object_();
@@ -519,9 +532,11 @@ class OtController extends Controller
         error_log($ot);
         $ot = Ot::find($ot->id);
         error_log("???");
-        if($otPeru){
-            error_log("?");
-            $ot->ot_Peru = $i;
+        if($otPeru !=null){
+            if($otPeru){
+                error_log("?");
+                $ot->ot_Peru = $i;
+            }
         }
         //$ot->fecha_real_entrega = $fecha;
         //$ot->fecha_despacho = $fecha;

@@ -31,7 +31,7 @@
                                         <label class= "lavelFont font-weight-bold">Número de Cotización</label>
                                     </div>
                                     <div class="col-md-4">
-                                     <select required v-model="otPeru" class="form-control">
+                                     <select type="Boolean" required v-model="otPeru" class="form-control">
                                             <option disabled selected >Países</option>
                                             <option  v-bind:value="false">Chile</option>
                                             <option  v-bind:value="true">Perú</option>
@@ -127,12 +127,17 @@
                                     <div class="col-md-2">
                                     </div>
                                     <div class="col-md-4">
+                                        <input id="Sesion2-1" class="form-control" type="text" v-model="searchCodigo" @input="onChangueCodigo"/>
+                                            <ul @mouseleave="isOpenCodigo=false" v-show="isOpenCodigo" class="autocomplete-results">
+                                                <li  @click="setResultCodigo(result,i)" v-for="(result,i) in resultsCodigo" :key="i" class="autocomplete-result">{{result}}</li>
+                                            </ul>   
+                                        <!--
                                         <select required v-model="codigoCliente" @change="cambiarCodigo(codigoCliente)" class="form-control">
                                                 <option :value="-1"  selected >Nuevo</option>
                                                 <option v-for="(codigo,index) in codigosCliente" v-bind:key="index" v-bind:value="index">
                                                     {{ codigo }}
                                                 </option>
-                                        </select>
+                                        </select> -->
                                     </div>
                                     <div class="col-md-4">
                                         <select required v-model="producto"  class="form-control">
@@ -262,261 +267,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <!--
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label class= "lavelFont font-weight-bold">País de Ot:</label>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-3">
-                                     <select required v-model="otPeru" class="form-control">
-                                            <option disabled selected >Países</option>
-                                            <option  v-bind:value="false">Chile</option>
-                                            <option  v-bind:value="true">Perú</option>
-                                        </select>        
-                                    </div>
-                                    <div class="col-md-9">
-                                        
-                                        <div class="col-md-1"></div>
-                                        <div class="color4 row">   
-                                            <div class="col-md-1"></div>
-                                            <div class="col-md-3">
-                                                <div class="row">
-                                                    <input class="form-check-input" :value="true" :unchecked-value="false" v-model="abierta" id="abierta" type="checkbox">
-                                                    <p>{{" "}}</p>
-                                                    <label style="font-size:18px" for = "abierta">{{'   Abierta'}}</label> 
-                                                </div>
-                                            </div>  
-                                            <div class="col-md-3">
-                                                <div class="row">
-                                                    <input class="form-check-input" :value="true" :unchecked-value="false" v-model="recepcionada" id="recepcionada" type="checkbox">
-                                                    <p>{{" "}}</p>
-                                                    <label style="font-size:18px" for = "recepcionada">{{'   Recepcionada'}}</label> 
-                                                </div>
-                                            </div>  
-                                            <div class="col-md-3">
-                                                <div class="row">
-                                                    <input class="form-check-input" :value="true" :unchecked-value="false" v-model="despachada" id="despachada" type="checkbox">
-                                                    <p>{{" "}}</p>
-                                                    <label style="font-size:18px" for = "despachada">{{'   Despachada'}}</label> 
-                                                </div>
-                                            </div>  
-                                        </div>
-                                    </div>
-                                </div>
-                                <br>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label class= "lavelFont font-weight-bold">Orden de Compra:</label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class= "lavelFont font-weight-bold">Número de Cotización</label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class= "lavelFont font-weight-bold">Guía de Despacho</label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <input type="text"  class="form-control" aria-describedby="emailHelp" v-model="orden">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <input type="text"  class="form-control" aria-describedby="emailHelp" v-model="numero">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <input type="text"  class="form-control" aria-describedby="emailHelp" v-model="guia"> 
-                                    </div>
-                                </div>
-                            </div>
-                                <br>
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label class= "lavelFont font-weight-bold">Factura:</label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class= "lavelFont font-weight-bold">Fecha de Recepción</label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class= "lavelFont font-weight-bold">Fecha de Entrega:</label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <input type="text"  class="form-control" aria-describedby="emailHelp" v-model="factura"> 
-                                    </div>
-                                    <div class="col-md-4">
-                                        <input required type="date"  class="form-control" aria-describedby="emailHelp" v-model="recepcion"> 
-                                    </div>
-                                    <div class="col-md-4">
-                                        <input required type="date"  class="form-control" aria-describedby="emailHelp" v-model="fecha"> 
-                                    </div>
-                                </div>
-                            </div>
-                                <br>
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label class= "lavelFont font-weight-bold">Cliente:</label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class= "lavelFont font-weight-bold">Categoría:</label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class= "lavelFont font-weight-bold">Tipo</label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <select required v-model="cliente" @change="cambiarCliente" class="form-control">
-                                            <option disabled selected >Clientes</option>
-                                            <option v-for="(cliente,index) in clientes" v-bind:key="index" v-bind:value="cliente">
-                                                {{ cliente.nombre_cliente }}
-                                            </option>
-                                        </select>  
-                                    </div>
-                                    <div class="col-md-4">
-                                        <select required v-model="categoria"  class="form-control">
-                                            <option disabled selected >Categorías</option>
-                                            <option v-for="(categoria,index) in categorias" v-bind:key="index" v-bind:value="categoria">
-                                                {{ categoria.nombre_categoria }}
-                                            </option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <select required v-model="tipo"  class="form-control">
-                                            <option disabled selected >Tipos de OT</option>
-                                            <option v-for="(tipo,index) in tipos" v-bind:key="index" v-bind:value="tipo">
-                                                {{ tipo.nombre_tipo }}
-                                            </option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <br>
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label class= "lavelFont font-weight-bold">Responsable:</label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class= "lavelFont font-weight-bold">Centro de Costo:</label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class= "lavelFont font-weight-bold">Canal de Venta:</label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <select required v-model="responsable"  class="form-control">
-                                            <option disabled selected >Responsables</option>
-                                            <option v-for="(usuario,index) in usuarios" v-bind:key="index" v-bind:value="usuario">
-                                                {{ usuario.nombre_usuario }}
-                                            </option>
-                                        </select>  
-                                    </div>
-                                    <div class="col-md-4">
-                                        <select required v-model="centro"  class="form-control">
-                                            <option disabled selected >Centros de Costo</option>
-                                            <option v-for="(centro,index) in centros" v-bind:key="index" v-bind:value="centro">
-                                                {{ centro.nombre_centro }}
-                                            </option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <select required v-model="canal"  class="form-control">
-                                            <option disabled selected >Canales de Venta</option>
-                                            <option v-for="(canal,index) in canales" v-bind:key="index" v-bind:value="canal">
-                                                {{ canal.nombre_canal }}
-                                            </option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <br>
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label class= "lavelFont font-weight-bold">Código de Cliente:</label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class= "lavelFont font-weight-bold">Producto:</label>
-                                    </div>
-                                    <div class="col-md-1"></div>
-                                    <div class="col-md-2">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <select required v-model="codigoCliente" @change="cambiarCodigo(codigoCliente)" class="form-control">
-                                                <option :value="-1"  selected >Nuevo</option>
-                                                <option v-for="(codigo,index) in codigosCliente" v-bind:key="index" v-bind:value="index">
-                                                    {{ codigo }}
-                                                </option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <select required v-model="producto"  class="form-control">
-                                                <option disabled selected >Material:</option>
-                                                <option v-for="(producto,index) in productos" v-bind:key="index" v-bind:value="index">
-                                                    {{ productos[index].nombre }}
-                                                </option>
-                                        </select>
-                                    </div>                                         
-                                    <div class="col-md-1">
-                                       
-                                        <button type="button"  v-on:click= "agregarProducto()" :disabled="1==3" class="btn btn-success">+</button>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <button type="button" @click="crearMaterial()" data-target="#modalCreateMaterial" data-toggle="modal" class="btn btn-lg btn-block btn-secondary">Crear Material</button>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <br><br>
-                                        <div class="row">
-                                            <div class="col-sm-4"><label class= "lavelFont2 font-weight-bold">Descripción:</label></div>
-                                            <div class="col-sm-2"><label class= "lavelFont2 font-weight-bold">Código de Cliente:</label></div>
-                                            <div class="col-sm-1"><label class= "lavelFont2 font-weight-bold">Cantidad:</label></div>
-                                            <div class="col-sm-2"><label class= "lavelFont2 font-weight-bold">Código Siom:</label></div>
-                                            <div class="col-sm-2"><label class= "lavelFont2 font-weight-bold">Número de plano:</label></div>
-                                            <div class="col-sm-1"><label class= "lavelFont2 font-weight-bold">Quitar:</label></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="containerf color3">
-                                            <br>
-                                            <div v-for="(producto,index) in seleccionados" v-bind:key="index">
-                                                <div class="row">
-                                                    <div class="col-sm-4">
-                                                        <p>* {{producto[0].nombre_producto}} </p>
-                                                    </div>
-                                                    <div class="col-sm-2">
-                                                        <input required type="text"  class="form-control" aria-describedby="emailHelp" v-model="producto[2]"> 
-                                                    </div>
-                                                    <div class="col-sm-1">
-                                                        <input required type="number"  @mouseenter="cambiarCliente()" class="form-control" aria-describedby="emailHelp" v-model="producto[1]"> 
-                                                    </div>
-                                                    <div class="col-sm-2">
-                                                        <input required type="text"  class="form-control" aria-describedby="emailHelp" v-model="producto[0].codigo_siom"> 
-                                                    </div>
-                                                    <div class="col-sm-2">
-                                                        <input required type="text"  class="form-control" aria-describedby="emailHelp" v-model="producto[0].numero_plano"> 
-                                                    </div>
-                                                    <div class="col-sm-1">
-                                                        <button type="button" :value="index"  v-on:click= "quitarProducto(index)" class="btn btn-danger">-</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <br>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <label class= "lavelFont font-weight-bold">Observación:</label>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <textarea  class="form-control" aria-describedby="emailHelp" v-model="observacion" rows="3"></textarea> 
-                                    </div>
-                                </div>
-                            </div>-->
+                            
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="button" @click="cerrar" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                         <button type="button" @click="guardarCambios" class="btn btn-primary">Guardar Cambios</button>
                     </div>
                 </div>
@@ -527,10 +282,10 @@
 
 <script>
     export default {
-        props: ['viejos','seleccionados','centros','canales','usuarios','tipos','categorias','clientes','productos','otSeleccionada'],
+        props: ['peru','viejos','seleccionados','centros','canales','usuarios','tipos','categorias','clientes','productos','otSeleccionada'],
         data(){
             return {
-                otPeru: false,
+                otPeru: this.peru,
                 orden: this.otSeleccionada.orden_compra,
                 numero: this.otSeleccionada.numero_cotizacion,
                 guia: this.otSeleccionada.guia_despacho,
@@ -552,9 +307,12 @@
                 crearMaterialBool:false,
                 tipoMaterial:"",
                 creacionN:0,
-                abierta:this.otSeleccionada.abierta,
-                recepcionada:this.otSeleccionada.recepcionada,
-                despachada: this.otSeleccionada.despachada,
+                abierta:"",
+                recepcionada:"",
+                despachada:"",
+                searchCodigo: '',
+                resultsCodigo: '',
+                isOpenCodigo: false,
             }
         },
         mounted() { 
@@ -569,83 +327,8 @@
                             this.codigosCliente.push(this.aux[j].codigo_cliente);
                         }
                     })
-           /* for(var i=0;i<this.productos.length;i++){
-                if(this.productos[i][9]==null){
-                    this.productos[i][9] = 1; 
-                }
-                if(this.productos[i][10]!=1 && this.productos[i][10]!=0){
-                    this.productos[i][10] = 0; 
-                }
-                if(this.productos[i][11]!=1 && this.productos[i][11]!=0){
-                    this.productos[i][11] = 0; 
-                }
-            }   */
         },
         methods:{
-            guardarCreacionMaterial(){
-
-                this.creacionN +=1;
-                this.cambiarCliente();
-                this.$emit('botonGuardarCreacionMaterial')
-            },
-            crearMaterial(){
-                $('#modalEditOt').modal('hide');
-                $('.modal-backdrop').hide();
-                axios
-                .get('http://localhost:8000/tipoMaterial') //solicitar tipo material
-                            .then(response => {
-                                this.tipoMaterial = response.data;
-                                })
-                this.crearMaterialBool = true;
-            },
-            cambiarCliente(){
-                console.log("entre a cambiar cliente");
-                axios
-                    .get('http://localhost:8000/obtenerCodigosCliente/'+this.cliente.id) //this.clientes[this.cliente].id)
-                    .then(response => { 
-                        this.aux=response.data;
-                        console.log(this.aux)
-                        this.codigosCliente=[];
-                        for(var j=0;j<this.aux.length;j++){
-                            this.codigosCliente.push(this.aux[j].codigo_cliente);
-                        }
-                    })   
-            },
-            cambiarCodigo(index){
-                console.log(this.productos);
-                console.log("valor index: " )
-                console.log(index);
-                console.log(this.aux);
-                console.log(this.codigoCliente);
-                if(this.codigoCliente!= -1){
-                    for(var i =0;i<this.productos.length;i++){
-                        console.log("i = ");
-                        console.log(i);
-                        if(this.aux[index].producto_id == this.productos[i].id){
-                            console.log("lo pille");
-                            this.producto = i;    
-                            break;
-                        }
-                    }
-                }
-              //  this.producto=aux[index].
-                /*
-                axios
-                    .get('http://localhost:8000/obtenerCodigosCliente/'+this.clientes[this.cliente].id)
-                    .then(response => { 
-                        this.codigosCliente=response.data.codigo_cliente;
-                    }) */  
-            },
-            agregarProducto(){
-                var aux = [];
-                aux.push(this.productos[this.producto]);
-                aux.push(this.cantidad);
-                aux.push(this.codigosCliente[this.codigoCliente]);
-                this.seleccionados.push(aux);
-            },
-            quitarProducto(index){
-                this.seleccionados.splice(index,1);
-            },
             guardarCambios(){
                 for(var i=0;i<this.seleccionados.length;i++){
                     this.seleccionados[i][12] = null;
@@ -694,7 +377,91 @@
                         this.$emit('botonGuardarEdicionOt');
                         alert("OT actualizada exitosamente");
                     })
-            }
+            },
+            cerrar(){
+                this.$emit('botonGuardarEdicionOt');   
+            },
+             onChangueCodigo(){
+                        this.isOpenCodigo=true;
+                        this.filterResultsCodigo();
+                    },
+                    filterResultsCodigo(){
+                        this.resultsCodigo = this.codigosCliente.filter(item => item.toLowerCase().indexOf(this.searchCodigo.toLowerCase())>-1);
+                        //esta hay que cambiarla.
+                    },
+                    setResultCodigo(result,i){
+                        console.log("result");
+                        console.log(result);
+                        this.searchCodigo = result;
+                        this.isOpenCodigo = false;
+                        this.codigoCliente = result;
+                        this.cambiarCodigo(result,i);
+                    },
+            guardarCreacionMaterial(){
+
+                this.creacionN +=1;
+                this.cambiarCliente();
+                this.$emit('botonGuardarCreacionMaterial')
+            },
+            crearMaterial(){
+                $('#modalEditOt').modal('hide');
+                $('.modal-backdrop').hide();
+                axios
+                .get('http://localhost:8000/tipoMaterial') //solicitar tipo material
+                            .then(response => {
+                                this.tipoMaterial = response.data;
+                                })
+                this.crearMaterialBool = true;
+            },
+            cambiarCliente(){
+                console.log("entre a cambiar cliente");
+                axios
+                    .get('http://localhost:8000/obtenerCodigosCliente/'+this.cliente.id) //this.clientes[this.cliente].id)
+                    .then(response => { 
+                        this.aux=response.data;
+                        console.log(this.aux)
+                        this.codigosCliente=[];
+                        for(var j=0;j<this.aux.length;j++){
+                            this.codigosCliente.push(this.aux[j].codigo_cliente);
+                        }
+                    })   
+            },
+            cambiarCodigo(result,index){
+                console.log(this.productos);
+                console.log("valor index: " )
+                console.log(index);
+                console.log(this.aux);
+                console.log(this.codigoCliente);
+                if(this.codigoCliente!= -1){
+                    for(var i =0;i<this.productos.length;i++){
+                        console.log("i = ");
+                        console.log(i);
+                        if(this.aux[index].producto_id == this.productos[i].id){
+                            console.log("lo pille");
+                            this.producto = i;    
+                            break;
+                        }
+                    }
+                }
+              //  this.producto=aux[index].
+                /*
+                axios
+                    .get('http://localhost:8000/obtenerCodigosCliente/'+this.clientes[this.cliente].id)
+                    .then(response => { 
+                        this.codigosCliente=response.data.codigo_cliente;
+                    }) */  
+            },
+            agregarProducto(){
+                var aux = [];
+                aux.push(this.productos[this.producto]);
+                aux.push(this.cantidad);
+                aux.push(this.codigosCliente[this.codigoCliente]);
+                this.seleccionados.push(aux);
+            },
+            quitarProducto(index){
+                this.seleccionados.splice(index,1);
+            },
+            
         }
     }
 </script>

@@ -12,6 +12,8 @@ class TipoExport implements FromCollection, WithHeadings
     public $globalCerrada;
     public $globalCuerpo;
     public $tiposArray = array();
+    public $tiposArrayAbierta = array();
+    public $tiposArrayCerrada = array();
 
     function __construct($abierta,$cerrada,$cuerpo)
     {
@@ -42,6 +44,10 @@ class TipoExport implements FromCollection, WithHeadings
                         'usuarios.nombre_usuario','ots.observacion','ots.abierta')
                         ->get();
                         error_log("?");
+
+            foreach($this->globalCuerpo as $cuerpo){
+                $this->tiposArray[] = $cuerpo['nombre_tipo'];
+            }
         //lo mismo con pais
         //cambiar los numeros por abierta o cerrada, pero despues
         foreach($otCompleta as $ot){
@@ -59,6 +65,13 @@ class TipoExport implements FromCollection, WithHeadings
             else{
                 $ot->abierta = "CERRADA";
             }
+            if($ot->estado_OT){
+                $ot->estado_OT = "A";
+            }
+            else{
+                $ot->estado_OT = "C";
+            }
+            
         }
         $cerradas = $otCompleta->filter(function ($item) {
             error_log($item->abierta);
@@ -117,13 +130,14 @@ class TipoExport implements FromCollection, WithHeadings
             'GUIA DE DESPACHO',
             'FACTURA',
             'CV',
-            'ESTADO OT',
+            'ESTADO',
             'TIPO DE OT',
             'CODIGO CENTRO DE COSTOS',
             'CENTRO DE COSTOS',
             'CATEGORIA',
             'RESPONSABLE',
-            'OBSERVACION'
+            'OBSERVACION',
+            'ESTADO GENERAL'
         ];
     }
 }

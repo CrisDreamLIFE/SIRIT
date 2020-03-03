@@ -36,7 +36,22 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $nombreSend = $request->input('nombre');
+        $correoSend = $request->input('correo');
+        $telefonoSend = $request->input('telefono');
+        $nombreContactoSend = $request->input('nombreContacto');
+        $observacionSend = $request->input('observacion');
+
+        $cliente = new Cliente;
+        $cliente->nombre_cliente = $nombreSend;
+        $cliente->correo = $correoSend;
+        $cliente->telefono = $telefonoSend;
+        $cliente->nombreContacto = $nombreContactoSend;
+        $cliente->observacion = $observacionSend;
+
+        $cliente->save();
+
+        return "CORRECTO";
     }
 
     /**

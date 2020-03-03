@@ -54,7 +54,7 @@ class SubProductoController extends Controller
         $subproducto = new SubProducto;
         error_log("2");
         #asigamos los atributos al producto
-        $subproducto->nombre = $nombreSend;
+        $subproducto->nombre_sub_producto = $nombreSend;
         $subproducto->descripcion = $descripcionSend;
         error_log("3");
         $subproducto->tipo_material_id = $tipoIdSend;
@@ -103,7 +103,7 @@ class SubProductoController extends Controller
         $subproducto = SubProducto::find($subProducto->id);
         #$producto = $producto[0];
         #editamos el producto
-        $subproducto->nombre = $nombreSend;
+        $subproducto->nombre_sub_producto = $nombreSend;
         $subproducto->descripcion = $descripcionSend;
         $subproducto->tipo_material_id = $tipoIdSend;
         #guardamos el producto
@@ -121,6 +121,18 @@ class SubProductoController extends Controller
     {
         $prod = SubProducto::find($subProducto->id);
         $prod->delete();
+        return "CORRECTO";
+    }
+    public function cerrarSubProducto($id){
+        $ot = SubProducto::find($id);
+        $ot->activo= false;
+        $ot->save();
+        return "CORRECTO";
+    }
+    public function abrirSubProducto($id){
+        $ot = SubProducto::find($id);
+        $ot->activo= true;
+        $ot->save();
         return "CORRECTO";
     }
 }

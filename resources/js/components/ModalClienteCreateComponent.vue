@@ -69,7 +69,7 @@
 
 <script>
     export default {
-        props: ['tipoMaterial',''],
+        props: [],
         data(){
             return {
                 nombre: "",
@@ -81,6 +81,7 @@
         },
         mounted() { 
             console.log('Component mounted.')
+            console.log("dsfdsf");
         },
         methods:{
             guardarCambios(){

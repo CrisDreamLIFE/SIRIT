@@ -2,6 +2,12 @@
     <div class="margen">
         <br>
         <div class="row container">
+            <div class="col-sm-2"><!--colorBoton-->
+                <button type="button" v-on:click="volverMenu" class="btn btn-secondary  btn-block colorBoton">Atrás</button>
+            </div>
+        </div>
+        <br>
+        <div class="row container">
             <div class="col-sm-4">
                 <button type="button" @click="crearOT()" data-target="#modalCreateOt" data-toggle="modal" class="btn btn-success">Nueva OT</button>
             </div>
@@ -51,7 +57,8 @@
                     :productos="productos"
                     :seleccionados="seleccionados"
                     :viejos="viejos"
-                    @botonGuardarEdicionOt="guardarEdicionOt">
+                    @botonGuardarEdicionOt="guardarEdicionOt"
+                    :peru="peru">
                     </modal-ot-edit-component> 
                 </div>
         <div v-if="masInformacionBool"><!--modal SHOW -->
@@ -64,7 +71,8 @@
             :ot_tipo="ot_tipo"
             :usuario="usuario"
             :categoria_ot="categoria_ot"
-            :centro_costo="centro_costo"></modal-ot-component>
+            :centro_costo="centro_costo"
+            ></modal-ot-component>
         </div>
         <div class="card card-body" > 
             <div class="row">
@@ -154,7 +162,8 @@
                 viejos:[],
                 abierta: true,
                 searchOT:"",
-                resultsOt: this.otsTodas[0]
+                resultsOt: this.otsTodas[0],
+                peru:null
 
             }
         },
@@ -162,6 +171,9 @@
             console.log('Component mounted.')
         },
         methods:{
+            volverMenu(){
+                this.$emit('botonAtrasOt')
+            },
             onChangueOT(){
                         console.log("ots:");
                         console.log(this.ots);
@@ -207,7 +219,20 @@
                 this.crearOtBool=true; 
             },
             editarOt(index){
+                console.log("mas informacion:");
+                console.log(this.otsTodas[0][index]);
+                if(this.otsTodas[0][index].ot_Peru==null){
+                    console.log("a");
+                    this.peru= false;
+                }
+                else{
+                    console.log("b");
+                    this.peru = true;
+                }
                 this.otSeleccionada = this.otsTodas[0][index];
+                console.log(this.otSeleccionada.fecha_recepcion);
+                this. otSeleccionada.fecha_recepcion = this.otSeleccionada.fecha_recepcion.replace(/^(\d{2})-(\d{2})-(\d{4})$/g,'$3-$2-$1');
+                console.log(this.otSeleccionada.fecha_recepcion);
                 console.log("entre")
                 axios
                     .get('http://localhost:8000/seleccionados/'+this.otSeleccionada.id)
@@ -238,7 +263,6 @@
                 axios
                     .get('http://localhost:8000/cliente/')
                     .then(response => {this.clientes=response.data;})
-                this.crearOtBool=true;
                 //productos
                 axios
                     .get('http://localhost:8000/producto/')

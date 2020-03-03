@@ -263,6 +263,7 @@
                                     </select>     
                                 </div>
                                     <div class="col-sm-5">
+                                        {{otProducto}}
                                         <select id="selectProducto" :disabled="!otSeleccionadaBool" @change="onChangeProducto()" v-model="productoSeleccionado" class="form-control" >
                                         <option disabled selected >Productos</option>
                                         <option v-for="(producto, index) in productos" v-bind:key="index" v-bind:value="index">
@@ -637,27 +638,40 @@ import Multiselect from 'vue-multiselect'
                 this.otProducto.splice( index, 1 );
             },
             agregarProducto(){
-              //  this.productosSeleccionados.push(this.productos[this.productoSeleccionado]);
-               // this.otsSeleccionadas
-                var combinacion = [];
-                console.log("antes del push")
-                combinacion.push(this.ots[this.otSeleccionada]);  //ot completa
-                combinacion.push(this.productos[this.productoSeleccionado]); //producto completo
-                //this.productosSeleccionados.push(this.productos[this.productoSeleccionado].id);
-                console.log()
-                //hacer un push  de las subproductos del producto seleccionado
-                var subProductos= null;
-                axios
-                    .get('http://localhost:8000/subProductos/'+this.productos[this.productoSeleccionado].id)
-                    .then(response => {
-                        console.log("post response");
-                        subProductos = response.data;
-                        combinacion.push([]);
-                        console.log(subProductos);
-                        this.otProducto.push(combinacion);
-                        
-                        this.subProductos.push(subProductos);
-                        console.log("hice todos los push:");})  //RECORDAR ELIMINAR ESTO MISMO CUANDO SE BORRE UN PRODUCTO, OT, ETC     
+                var esta = 0;
+                for(var i=0;i<this.otProducto.length;i++){                   
+                   console.log("----------------");
+                   console.log(this.otProducto[i]);
+                   console.log(this.ots[this.otSeleccionada]);
+                   console.log(this.productos[this.productoSeleccionado]);
+                   if(this.otProducto[i][0] == this.ots[this.otSeleccionada] && 
+                      this.otProducto[i][1] == this.productos[this.productoSeleccionado]){
+                       esta=1;
+                   }
+                }
+                if(esta==0){
+                    var combinacion = [];
+                    console.log("antes del push")
+                    combinacion.push(this.ots[this.otSeleccionada]);  //ot completa
+                    combinacion.push(this.productos[this.productoSeleccionado]); //producto completo
+                    //this.productosSeleccionados.push(this.productos[this.productoSeleccionado].id);
+                    console.log()
+                    //hacer un push  de las subproductos del producto seleccionado
+                    var subProductos= null;
+                    axios
+                        .get('http://localhost:8000/subProductos/'+this.productos[this.productoSeleccionado].id)
+                        .then(response => {
+                            console.log("post response");
+                            subProductos = response.data;
+                            combinacion.push([]);
+                            console.log(subProductos);
+                            this.otProducto.push(combinacion);
+                            
+                            this.subProductos.push(subProductos);
+                            console.log("hice todos los push:");})  //RECORDAR ELIMINAR ESTO MISMO CUANDO SE BORRE UN PRODUCTO, OT, ETC
+                }   
+               
+                     
             },
             onChangeEstación(){
                 this.estacionSeleccionadaBool = false;

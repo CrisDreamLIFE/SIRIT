@@ -59,7 +59,16 @@ class NumeroOtExport implements FromCollection, WithHeadings
             else{
                 $ot->abierta = "CERRADA";
             }
+            if($ot->estado_OT){
+                $ot->estado_OT = "A";
+            }
+            else{
+                $ot->estado_OT = "C";
+            }
         }
+
+
+
         $cerradas = $otCompleta->filter(function ($item) {
             error_log($item->abierta);
             if($item->abierta=="CERRADA"){
@@ -162,13 +171,14 @@ class NumeroOtExport implements FromCollection, WithHeadings
             'GUIA DE DESPACHO',
             'FACTURA',
             'CV',
-            'ESTADO OT',
+            'ESTADO',
             'TIPO DE OT',
             'CODIGO CENTRO DE COSTOS',
             'CENTRO DE COSTOS',
             'CATEGORIA',
             'RESPONSABLE',
-            'OBSERVACION'
+            'OBSERVACION',
+            'ESTADO GENERAL'
         ];
     }
 }

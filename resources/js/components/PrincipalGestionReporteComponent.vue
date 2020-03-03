@@ -1,8 +1,15 @@
 <template>  <!-- <button  @click="botonSobreOt" type="button" class="btn btn-info btn-lg btn-block">Function one</button> -->
     <div class="container">
-        <h3>Reportes: {{opcionSeleccionada}}</h3>  
         <br>
-        <button  @click="botonSobreOt" type="button" class="btn btn-secondary btn-lg btn-block">Reportes sobre OT</button>
+        <div class="row">
+            <div class="col-sm-2"><!--colorBoton-->
+                <button type="button" v-on:click="volverMenu" class="btn btn-secondary  btn-block colorBoton">Atrás</button>
+            </div>
+        </div>
+        <br>
+        <h3>Reportes:</h3>  
+        <br>
+        <button  @click="botonSobreOt" type="button" class="btn btn-primary btn-lg btn-block">Reportes sobre OT</button>
             <br> 
             <div v-if="otBool" class="row container color4">
                 <div class="col-md-2">
@@ -148,7 +155,7 @@
                     <button  @click="clickExportar" type="button" class="btn btn-success btn-lg btn-block">Exportar</button></div><br>    
                 </div>       
             </div>  
-        <button  @click="botonSobreSesiones" type="button" class="btn btn-secondary btn-lg btn-block">Reportes sobre Sesiones de Trabajo</button>
+        <button  @click="botonSobreSesiones" type="button" class="btn btn-primary btn-lg btn-block">Reportes sobre Sesiones de Trabajo</button>
             <br>
             <div v-if="sesionBool" class="row container color4">
                 <div class="col-md-4">
@@ -257,7 +264,7 @@
                     <button  @click="clickExportarSesion" type="button" class="btn btn-success btn-lg btn-block">Exportar</button></div><br>    
                 </div>  
             </div>
-        <button  @click="botonSobreTrabajadores" type="button" class="btn btn-secondary btn-lg btn-block">Listado de Trabajadores</button>
+        <button  @click="botonSobreTrabajadores" type="button" class="btn btn-primary btn-lg btn-block">Listado de Trabajadores</button>
             <br>
             <div v-if="trabajadorBool" class="row container color4">
                 <div class="col-md-4">
@@ -289,7 +296,7 @@
                     </div> <br>   
                 </div>
             </div>
-        <button  @click="botonSobreEstaciones" type="button" class="btn btn-secondary btn-lg btn-block">Listado de Estaciones</button>
+        <button  @click="botonSobreEstaciones" type="button" class="btn btn-primary btn-lg btn-block">Listado de Estaciones</button>
             <br>
             <div v-if="estacionBool" class="row container color4">
                 <div class="col-md-4">
@@ -322,7 +329,7 @@
                     </div> <br>   
                 </div>
             </div>  
-        <button  @click="botonSobreUsuarios" type="button" class="btn btn-secondary btn-lg btn-block">Listado de Usuarios</button>
+        <button  @click="botonSobreUsuarios" type="button" class="btn btn-primary btn-lg btn-block">Listado de Usuarios</button>
             <br>
             <div v-if="usuarioBool" class="row container color4">
                 <div class="col-md-4">
@@ -452,6 +459,10 @@
             console.log('Component mounted.')
         },
         methods:{
+            volverMenu(){
+                console.log("atras de reporte")
+                this.$emit('botonAtrasReporte')
+            },
             nameWithLang ({nombre_tipo}) {
                 return `${nombre_tipo}`
                 },

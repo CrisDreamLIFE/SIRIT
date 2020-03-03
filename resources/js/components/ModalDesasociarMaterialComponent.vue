@@ -29,16 +29,16 @@
                                         <select id="ds" @change="onChangeProducto(productos[productoSeleccionado].id)" v-model="productoSeleccionado" class="form-control">
                                             <option disabled selected >Material</option>
                                             <option v-for="(producto,index) in productos" v-bind:key="index" v-bind:value="index">
-                                               {{ producto.nombre }}
+                                               {{ producto.nombre_producto }}
                                             </option>
                                         </select>  
                                     </div>
                                     <div class="col-md-7">
-                                        <div class="container color2">
+                                        <div class="container color5">
                                             <div v-for="(subProducto,indexA) in asociaciones" v-bind:key="indexA" v-bind:value="indexA">
                                                 <div class="row">
                                                     <div class="col-md-10">
-                                                        <div v-if="subProductos.length!=0">{{ subProductos[indexA].nombre}}</div>
+                                                        <div v-if="subProductos.length!=0">{{ subProductos[indexA].nombre_sub_producto}}</div>
                                                     </div>
                                                     <div class="col-md-2">
                                                             <button type="button" v-on:click="quitarAsociacion(indexA)" class="btn btn-danger">-</button>    

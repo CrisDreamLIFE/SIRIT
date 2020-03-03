@@ -1,10 +1,11 @@
 <template>
     <div class="container">
+        <br>
         <div class="row">
-            <div class="col-sm-8">
+            <div class="col-sm-9">
                 <h1>Funcionalidades:</h1>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-2">
                 <select @change="cambioPais" required v-model="paisX" class="form-control">
                 <option  value="chile">Chile</option>
                 <option  value="peru">Perú</option>
@@ -63,6 +64,7 @@
                     .then(response => {
                         console.log("respuesta");
                         console.log(response.data);})
+                this.$emit('cambioPais');
             },
             iniciarTrabajo(){
                 this.$emit('botonIniciarTrabajo')

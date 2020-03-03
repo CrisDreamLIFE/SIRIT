@@ -2,13 +2,19 @@
     <div class="margen">
         <br>
         <div class="row container">
+            <div class="col-sm-2"><!--colorBoton-->
+                <button type="button" v-on:click="volverMenu" class="btn btn-secondary  btn-block colorBoton">Atrás</button>
+            </div>
+        </div>
+        <br>
+        <div class="row container">
             <div class="col-sm-4">
                 <button type="button" @click="crearUsuario()" data-target="#modalCreateUsuario" data-toggle="modal" class="btn btn-success">Nuevo Usuario</button>
             </div>
             <div class="com-sm-6">
                 <div class="row"> <!-- este es el buscador, lo vemos mas tarde o altiro mejor-->
                     <div class="col-sm">
-                        <input id="7" class="form-control form-control-lg form-control-borderless" placeholder="Nombre" type="search" v-model="searchUsuario" @input="onChangueUsuario"/>
+                        <input id="7" class="form-control form-control-lg form-control-borderless" placeholder="Nombre Usuario" type="search" v-model="searchUsuario" @input="onChangueUsuario"/>
                     </div>
                     <!--end of col-->
                 </div>
@@ -109,6 +115,9 @@
             console.log('Component mounted.')
         },
         methods:{
+             volverMenu(){
+                this.$emit('botonAtrasUsuario')
+            },
             onChangueUsuario(){
                         console.log("usuarios:");
                         console.log(this.usuarios);

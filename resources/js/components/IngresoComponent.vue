@@ -46,6 +46,7 @@
             @botonGestionarSubMaterial="iniciarGestionSubMaterial"
             @botonGestionarReporte="iniciarGestionReporte"
             @botonGestionarUsuario="iniciarGestionUsuario"
+            @cambioPais="cambioPais"
             :usuario = "usuario"
             :roles = "roles"
             :pais = "pais">
@@ -72,7 +73,8 @@
                 :key="gestionOtN"
                 @botonGuardarCreacionOt="recargarOt"
                 @botonEliminarOt="recargarOt"
-                @botonGuardarEdicionOt="recargarOt">
+                @botonGuardarEdicionOt="recargarOt"
+                @botonAtrasOt="botonAtrasOt">
                 </principal-gestion-ot-component>
             </div>
             <!--------MATERIAL--------------------------->
@@ -83,7 +85,9 @@
                 :subProductos="subProductos"
                 @botonGuardarEdicionMaterial="recargarMateriales"
                 @botonGuardarCreacionMaterial="recargarMateriales"
-                @botonEliminarCreacionMaterial="recargarMateriales">
+                @botonEliminarCreacionMaterial="recargarMateriales"
+                @botonAtrasMaterial="botonAtrasMaterial"
+                @botonEliminarProducto="recargarMateriales">
                 </principal-gestion-material-component>
             </div>
             <!----------SUB-MATERIAL------------------------->
@@ -93,7 +97,9 @@
                 :subProductos="subProductos"
                 @botonGuardarEdicionSubMaterial="recargarSubMateriales"
                 @botonGuardarCreacionSubMaterial="recargarSubMateriales"
-                @botonEliminarCreacionSubMaterial="recargarSubMateriales">
+                @botonEliminarCreacionSubMaterial="recargarSubMateriales"
+                @botonAtrasSubMaterial="botonAtrasSubMaterial"
+                @botonEliminarSubProducto="recargarSubMateriales">
                 </principal-gestion-sub-material-component>
             </div>
             <!----------------USUARIOS------------------------->
@@ -101,13 +107,15 @@
                 <principal-gestion-usuario-component
                 :key="gestionUsuarioN"
                 :usuarios="usuarios"
-                @botonGuardarEdicionUsuario="recargarUsuarios">
+                @botonGuardarEdicionUsuario="recargarUsuarios"
+                @botonAtrasUsuario="botonAtrasUsuario">
                 </principal-gestion-usuario-component>
             </div> 
             <!----------REPORTABILIDAD------------------------->
             <div v-if="iniciarGestionReporteBool">
                 <principal-gestion-reporte-component
                 :items="['julio','chico perez','el mismisimo','don este']"
+                :key="gestionReporteN"
                 :productos="productos"
                 :ots="otsTodas[0]"
                 :clientes="clientes"
@@ -115,7 +123,8 @@
                 :tipos="tipos"
                 :estaciones="estaciones"
                 :areas="areas"
-                :naves="naves">
+                :naves="naves"
+                @botonAtrasReporte="botonAtrasReporte">
                 </principal-gestion-reporte-component>
             </div> 
             <!----------------------------------->
@@ -134,6 +143,7 @@ export default {
                 gestionSubMaterialN:0,
                 gestionUsuarioN:0,
                 gestionOtN:0,
+                gestionReporteN:0,
                 roles:[],
                 logeado: false,
                 rut: "19.313.751-2",
@@ -178,6 +188,31 @@ export default {
             console.log('Component mounted.')
         },
         methods:{ 
+            cambioPais(){
+                axios
+            .get('http://localhost:8000/otAbierta')
+            .then(response => (this.ots = response.data))
+            },
+            botonAtrasUsuario(){
+                this.iniciarGestionUsuarioBool = false;
+                this.algoSeleccionado = false;
+            },
+            botonAtrasReporte(){
+                this.iniciarGestionReporteBool = false;
+                this.algoSeleccionado = false;
+            },
+            botonAtrasSubMaterial(){
+                this.iniciarGestionSubMaterialBool = false;
+                this.algoSeleccionado = false;
+            },
+            botonAtrasMaterial(){
+                this.iniciarGestionMaterialBool = false;
+                this.algoSeleccionado = false;
+            },
+            botonAtrasOt(){
+                this.iniciarGestionOTBool = false;
+                this.algoSeleccionado = false;
+            },
             recargarUsuarios(){
                 console.log("ksi");
                 axios

@@ -51,9 +51,6 @@
                                 <br>
                         </form>
                     </div>
-                    {{areasSeleccionadas}} <br>
-                    -----------------------------------------------------------------------
-                    <br>{{rolesSeleccionados}}
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                         <button type="button" @click="guardarCambios" class="btn btn-primary">Guardar Usuario</button>

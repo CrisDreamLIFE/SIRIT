@@ -17,6 +17,15 @@ class FechaOcExport implements FromCollection, WithHeadings
     public $globalCuerpo;
     public $globalAbierta;
     public $globalCerrada;
+    public $idCompleta1 = array();
+    public $idAbierta1 = array();
+    public $idCerrada1 = array();
+    public $idCompleta2 = array();
+    public $idAbierta2 = array();
+    public $idCerrada2 = array();
+    public $idCompleta3 = array();
+    public $idAbierta3 = array();
+    public $idCerrada3 = array();
     function __construct($abierta, $cerrada,$operacion,$cuerpo)
     {
         error_log("antes");
@@ -62,99 +71,136 @@ class FechaOcExport implements FromCollection, WithHeadings
             else{
                 $ot->abierta = "CERRADA";
             }
+            if($ot->estado_OT){
+                $ot->estado_OT = "A";
+            }
+            else{
+                $ot->estado_OT = "C";
+            }
+            if($ot->fecha_entrega_oC==date("d-m-Y", strtotime($this->globalCuerpo))){
+                $this->idCompleta1[] = $ot->id; 
+            }
+            $aux1 = Carbon::parse($ot->fecha_entrega_oC);
+            $aux2 = Carbon::parse(date("d-m-Y", strtotime($this->globalCuerpo)));
+            if($aux1->gte($aux2)){
+                $this->idCompleta2[] = $ot->id; 
+            }
+            if($aux1->lte($aux2)){
+                $this->idCompleta3[] = $ot->id; 
+            }
         }
+
+
         $cerradas = $otCompleta->filter(function ($item) {
-            error_log($item->abierta);
             if($item->abierta=="CERRADA"){
+                if($item->fecha_entrega_oC==date("d-m-Y", strtotime($this->globalCuerpo))){
+                    $this->idCerrada1[] = $item->id; 
+                }
+                $aux1 = Carbon::parse($item->fecha_entrega_oC);
+                $aux2 = Carbon::parse(date("d-m-Y", strtotime($this->globalCuerpo)));
+                if($aux1->gte($aux2)){
+                    $this->idCerrada2[] = $item->id; 
+                }
+                if($aux1->lte($aux2)){
+                    $this->idCerrada3[] = $item->id; 
+                }
                 return $item;
             }  
         })->values();
+
+
         $abiertas = $otCompleta->filter(function ($item) {
             if($item->abierta== "ABIERTA"){
+                if($item->fecha_entrega_oC==date("d-m-Y", strtotime($this->globalCuerpo))){
+                    $this->idAbierta1[] = $item->id; 
+                }
+                $aux1 = Carbon::parse($item->fecha_entrega_oC);
+                $aux2 = Carbon::parse(date("d-m-Y", strtotime($this->globalCuerpo)));
+                if($aux1->gte($aux2)){
+                    $this->idAbierta2[] = $item->id; 
+                }
+                if($aux1->lte($aux2)){
+                    $this->idAbierta3[] = $item->id; 
+                }
                 return $item;
             }  
         })->values();
 
 
-
-
+//////////////////////////////////////////////////////////////////////////////////
+        error_log($this->globalOperacion);
         if($this->globalOperacion==1){
             error_log("la 1");
             if($this->globalAbierta && $this->globalCerrada){
                 $return = $otCompleta->filter(function ($item) {
-                    if($item->fecha_entrega_Oc== date("d-m-Y", strtotime($this->globalCuerpo))){
+                    if($item->fecha_entrega_oC!=null && in_array($item->id, $this->idCompleta1)){
                         return $item;
                     }})->values(); 
                 return $return;
             }  
             elseif($this->globalAbierta){
-                $return = $abiertas->filter(function ($item) {
-                    if($item->fecha_entrega_Oc== date("d-m-Y", strtotime($this->globalCuerpo))){
+                $return = $abierts->filter(function ($item) {
+                    if($item->fecha_entrega_oC!=null && in_array($item->id, $this->idAbierta1)){
                         return $item;
                     }})->values(); 
                 return $return;
             }
             else{
                 $return = $cerradas->filter(function ($item) {
-                    if($item->fecha_entrega_Oc== date("d-m-Y", strtotime($this->globalCuerpo))){
+                    if($item->fecha_entrega_oC!=null && in_array($item->id, $this->idCerrada1)){
                         return $item;
                     }})->values(); 
                 return $return;   
             }
         }
+
+
         if($this->globalOperacion==2){
+            error_log("opcion 2");
             if($this->globalAbierta && $this->globalCerrada){
+                error_log("ambas");
                 $return = $otCompleta->filter(function ($item) {
-                    $aux1 = Carbon::parse($item->fecha_entrega_Oc);
-                    $aux2 = Carbon::parse(date("d-m-Y", strtotime($this->globalCuerpo)));
-                    if($aux1->gte($aux2)){
+                    if($item->fecha_entrega_oC!=null && in_array($item->id, $this->idCompleta2)){
                         return $item;
                     }})->values(); 
                 return $return;
             }  
             elseif($this->globalAbierta){
+                error_log("abiertas");
                 $return = $abiertas->filter(function ($item) {
-                    $aux1 = Carbon::parse($item->fecha_entrega_Oc);
-                    $aux2 = Carbon::parse(date("d-m-Y", strtotime($this->globalCuerpo)));
-                    if($aux1->gte($aux2)){
+                    if($item->fecha_entrega_oC!=null && in_array($item->id, $this->idAbierta2)){
                         return $item;
                     }})->values(); 
                 return $return;
             }
             else{
+                error_log("cerradas");
                 $return = $cerradas->filter(function ($item) {
-                    $aux1 = Carbon::parse($item->fecha_entrega_Oc);
-                    $aux2 = Carbon::parse(date("d-m-Y", strtotime($this->globalCuerpo)));
-                    if($aux1->gte($aux2)){
+                    if($item->fecha_entrega_oC!=null && in_array($item->id, $this->idCerrada2)){
                         return $item;
                     }})->values(); 
                 return $return;   
             }
         }
         if($this->globalOperacion==3){
+            error_log("entre a la ultima opcion");
             if($this->globalAbierta && $this->globalCerrada){
                 $return = $otCompleta->filter(function ($item) {
-                    $aux1 = Carbon::parse($item->fecha_entrega_Oc);
-                    $aux2 = Carbon::parse(date("d-m-Y", strtotime($this->globalCuerpo)));
-                    if($aux1->lte($aux2)){
+                    if($item->fecha_entrega_oC!=null && in_array($item->id, $this->idCompleta3)){
                         return $item;
                     }})->values(); 
                 return $return;
             }  
             elseif($this->globalAbierta){
                 $return = $abiertas->filter(function ($item) {
-                    $aux1 = Carbon::parse($item->fecha_entrega_Oc);
-                    $aux2 = Carbon::parse(date("d-m-Y", strtotime($this->globalCuerpo)));
-                    if($aux1->lte($aux2)){
+                    if($item->fecha_entrega_oC!=null && in_array($item->id, $this->idAbierta3)){
                         return $item;
                     }})->values(); 
                 return $return;
             }
             else{
                 $return = $cerradas->filter(function ($item) {
-                    $aux1 = Carbon::parse($item->fecha_entrega_Oc);
-                    $aux2 = Carbon::parse(date("d-m-Y", strtotime($this->globalCuerpo)));
-                    if($aux1->lte($aux2)){
+                    if($item->fecha_entrega_oC!=null && in_array($item->id, $this->idCerrada3)){
                         return $item;
                     }})->values(); 
                 return $return;    
@@ -182,13 +228,14 @@ class FechaOcExport implements FromCollection, WithHeadings
             'GUIA DE DESPACHO',
             'FACTURA',
             'CV',
-            'ESTADO OT',
+            'ESTADO',
             'TIPO DE OT',
             'CODIGO CENTRO DE COSTOS',
             'CENTRO DE COSTOS',
             'CATEGORIA',
             'RESPONSABLE',
-            'OBSERVACION'
+            'OBSERVACION',
+            'ESTADO GENERAL'
         ];
     }
 }

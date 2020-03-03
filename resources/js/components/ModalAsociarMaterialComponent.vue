@@ -28,7 +28,7 @@
                                         <select id="ds" @change="onChangeAsociados()" v-model="productoSeleccionado" class="form-control">
                                             <option disabled selected >Material</option>
                                             <option v-for="(producto,index) in productos" v-bind:key="index" v-bind:value="index">
-                                                {{ producto.nombre }}
+                                                {{ producto.nombre_producto }}
                                             </option>
                                         </select>  
                                     </div>
@@ -36,7 +36,7 @@
                                         <select id="dds" v-model="subProductoSeleccionado"  class="form-control">
                                             <option disabled selected >Sub-Material</option>
                                             <option v-for="(subProducto,indexA) in subProductos" v-bind:key="indexA" v-bind:value="indexA">
-                                                {{ subProducto.nombre }}
+                                                {{ subProducto.nombre_sub_producto }}
                                             </option>
                                         </select>  
                                     </div>
@@ -49,14 +49,14 @@
                             <div class="container row">
                                 <label class= "lavelFont font-weight-bold">Asociaciones:</label>   
                             </div>
-                            <div class="container color2">
+                            <div class="container color5">
                                 <div v-for="(linea,indexZ) in asociacionesEnteras" v-bind:key="indexZ">
                                     <div class="row">
                                         <div class="col-md-5">
-                                            <p>* {{linea[0].nombre}}</p>
+                                            <p>* {{linea[0].nombre_producto}}</p>
                                         </div>
                                         <div class="col-md-5">
-                                            <p>{{linea[1].nombre}}</p>
+                                            <p>{{linea[1].nombre_sub_producto}}</p>
                                         </div>
                                         <div class="col-md-2">
                                             <button type="button"  v-on:click="quitarAsociacion(indexZ)" class="btn btn-danger">-</button>
@@ -101,7 +101,7 @@
                /* console.log("dsfssa");
                 var aux3=[]
                 axios
-                    .get('http://localhost:8000/subProductos/'+this.productos[this.productoSeleccionado].id)
+                    .get('http://192.168.1.50/SIRIT/public/subProductos/'+this.productos[this.productoSeleccionado].id)
                     .then(response => {  
                         aux3 = response.data;
                         for(var i=0;i<aux3.length;i++){

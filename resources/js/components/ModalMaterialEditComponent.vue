@@ -1,6 +1,6 @@
 <template>
 <div>
-    <div  class="modal " id="modalEditMaterial" tabindex="-1" role="dialog" aria-labelledby="modalEditMaterialLabel" aria-hidden="true">
+    <div  class="modal " data-backdrop="static" id="modalEditMaterial" tabindex="-1" role="dialog" aria-labelledby="modalEditMaterialLabel" aria-hidden="true">
                 <div class="modal-dialog-xl" role="document">
                     <div class="modal-content">
                     <div class="modal-header">
@@ -64,7 +64,7 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="button" @click="cerrar" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                         <button type="button" @click="guardarCambios" class="btn btn-primary">Guardar Cambios</button>
                     </div>
                 </div>
@@ -86,7 +86,7 @@
             }
         },
         mounted() { 
-            this.nombreMaterial= this.materialSeleccionado.nombre;
+            this.nombreMaterial= this.materialSeleccionado.nombre_producto;
             this.codigoSiomMaterial= this.materialSeleccionado.codigo_siom;
             this.numeroPlanoMaterial=this.materialSeleccionado.numero_plano;
             this.descripcionMaterial=this.materialSeleccionado.descripcion;
@@ -94,6 +94,9 @@
             console.log('Component mounted.')
         },
         methods:{
+            cerrar(){
+                this.$emit('botonGuardarEdicionMaterial');    
+            },
             guardarCambios(){
                 var params={
                     nombre: this.nombreMaterial,

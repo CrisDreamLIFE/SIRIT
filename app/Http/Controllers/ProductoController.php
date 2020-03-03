@@ -77,7 +77,7 @@ class ProductoController extends Controller
         #creamos el nuevo producto
         $producto = new Producto;
         #asigamos los atributos al producto
-        $producto->nombre = $nombreSend;
+        $producto->nombre_producto = $nombreSend;
         $producto->codigo_siom = $codigoSiomSend;
         $producto->numero_plano = $numeroPlanoSend;
         $producto->descripcion = $descripcionSend;
@@ -135,7 +135,7 @@ class ProductoController extends Controller
         $producto = Producto::find($producto->id);
         #$producto = $producto[0];
         #editamos el producto
-        $producto->nombre = $nombreSend;
+        $producto->nombre_producto = $nombreSend;
         $producto->codigo_siom = $codigoSiomSend;
         $producto->numero_plano = $numeroPlanoSend;
         $producto->descripcion = $descripcionSend;
@@ -155,6 +155,19 @@ class ProductoController extends Controller
     {
         $prod = Producto::find($producto->id);
         $prod->delete();
+        return "CORRECTO";
+    }
+
+    public function cerrarProducto($id){
+        $ot = Producto::find($id);
+        $ot->activo= false;
+        $ot->save();
+        return "CORRECTO";
+    }
+    public function abrirProducto($id){
+        $ot = Producto::find($id);
+        $ot->activo= true;
+        $ot->save();
         return "CORRECTO";
     }
 }
