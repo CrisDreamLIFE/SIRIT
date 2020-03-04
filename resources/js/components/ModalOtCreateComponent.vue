@@ -133,14 +133,14 @@
                                     <div class="col-md-3">
                                         <button type="button" @click="crearCliente()" data-target="#modalCreateCliente" data-toggle="modal" class="btn btn-sm btn-block btn-secondary">CREAR CLIENTE</button>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-4">                                
                                         <input id="Sesion2-1" class="form-control" type="text" v-model="searchCodigo" @input="onChangueCodigo"/>
-                                        <ul @mouseleave="isOpenCodigo=false" v-show="isOpenCodigo" class="autocomplete-results">
+                                        <ul @="isOpenCodigo=false" v-show="isOpenCodigo" class="autocomplete-results">
                                             <li  @click="setResultCodigo(result,i)" v-for="(result,i) in resultsCodigo" :key="i" class="autocomplete-result">{{result}}</li>
                                         </ul>
                                     </div>
                                     <div class="col-md-4">
-                                        <select required v-model="producto"  class="form-control">
+                                        <select @change="seleccionProducto" :disabled="codigoSeleccionadoBool" required v-model="producto"  class="form-control">
                                                 <option disabled selected >Material:</option>
                                                 <option v-for="(producto,index) in productos" v-bind:key="index" v-bind:value="index">
                                                     {{ productos[index].nombre_producto }}
@@ -149,12 +149,13 @@
                                     </div>                                         
                                     <div class="col-md-1">
                                        
-                                        <button type="button"  v-on:click= "agregarProducto()" :disabled="1==3" class="btn btn-success">+</button>
+                                        <button type="button"  v-on:click= "agregarProducto()" :disabled="productoSeleccionadoBool" class="btn btn-success">+</button>
                                     </div>
                                     <div class="col-md-3">
                                         <button type="button" @click="crearMaterial()" data-target="#modalCreateMaterial" data-toggle="modal" class="btn btn-sm btn-block btn-secondary">CREAR MATERIAL</button>
                                     </div>
                                     <div class="col-md-12">
+                                        {{seleccionados}}
                                         <br><br>
                                         <div v-for="(producto,index) in seleccionados" v-bind:key="index">
                                             <div class="container color3">
@@ -224,6 +225,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                         <button type="button" @click="guardarCambios" class="btn btn-primary">Guardar Cambios</button>
+                    {{seleccionados}}
                     </div>
                 </div>
             </div>
@@ -237,41 +239,142 @@
         data(){
             return {
                 otPeru: false,
-                orden: "",
-                numero: "",
-                guia:"",
-                factura:"",
-                fecha:"",
-                recepcion:"",
-                tipo:"",
-                categoria:"",
-                cliente:"",
-                canal:"",
-                centro:"",
-                responsable:"",
-                producto: "",
+                orden: null,
+                numero: null,
+                guia:null,
+                factura:null,
+                fecha:null,
+                recepcion:null,
+                tipo:null,
+                categoria:null,
+                cliente:null,
+                canal:null,
+                centro:null,
+                responsable:null,
+                producto: null,
                 seleccionados:[],
-                observacion:"",
-                codigoCliente:"",
+                observacion:null,
+                codigoCliente:'',
                 codigosCliente:[],
-                cantidad: "",
+                cantidad: null,
                 aux:[],
-                categoriaEscogida:"",
+                categoriaEscogida:null,
                 crearMaterialBool:false,
                 crearClienteBool:false,
-                tipoMaterial:"",
+                tipoMaterial:null,
                 creacionN:0,
                 creacionNC:0,
                 searchCodigo: '',
                 resultsCodigo: '',
                 isOpenCodigo: false,
+                codigoSeleccionadoBool:false,
+                productoSeleccionadoBool:true
             }
         },
         mounted() { 
             console.log('Component mounted.')
         },
         methods:{
-             onChangueCodigo(){
+            seleccionProducto(){
+                this.productoSeleccionadoBool=false;
+            },
+            guardarCambios(){
+                if(this.cliente==null ){
+                    alert('Debe ingresar un Cliente');
+                    return false;
+                }
+                if(this.tipo==null ){
+                    alert('Debe ingresar un Tipo de OT');
+                    return false;
+                }
+                if(this.recepcion==null ){
+                    alert('Debe ingresar una Fecha de Recepción');
+                    return false;
+                }
+                if(this.responsable==null){
+                    console.log(this.responsable);
+                    alert('Debe ingresar un Responsable');
+                    return false;
+                }
+                if(this.centro==null ){
+                    alert('Debe ingresar un Centro de Costos');
+                    return false;
+                }
+                if(this.canal==null){
+                    alert('Debe ingresar un Canal de Ventas');
+                    return false;
+                }
+                for(var k=0; k< this.seleccionados.length;k++){
+                    if(this.seleccionados[k][2]==undefined){
+                        alert("Debe ingresar el Código Cliente del Producto")
+                        return false;
+                    }
+                    if(this.seleccionados[k][1]==undefined){
+                        alert("Debe ingresar la Cantidad de Unidades del Producto")
+                        return false;
+                    }
+                    if(this.seleccionados[k][0].codigo_siom==""){
+                        alert("Debe ingresar el Código Siom del Producto")
+                        return false;
+                    }
+                    if(this.seleccionados[k][0].numero_plano==""){
+                        alert("Debe ingresar el Número de Plano del Producto")
+                        return false;
+                    }
+                    console.log("categoria = ");
+                    console.log(this.seleccionados[k][3]);
+                    if(this.seleccionados[k][3]== undefined){
+                        alert("Debe ingresar la Categoría del Producto")
+                        return false;
+                    }
+                    if(this.seleccionados[k][4]== undefined){
+                        alert("Debe ingresar la Fecha de Entrega del Producto")
+                        return false;
+                    }
+                }
+        
+                var params={
+                    otPeru: this.otPeru,
+                    orden: this.orden,
+                    numero: this.numero,
+                    guia: this.guia,
+                    factura: this.factura,
+                    fecha:  this.fecha,
+                    recepcion: this.recepcion,
+                    tipo: this.tipos[this.tipo],
+                    categoria: this.categoria,
+                    cliente: this.clientes[this.cliente],
+                    canal: this.canales[this.canal],
+                    centro: this.centros[this.centro],
+                    responsable: this.usuarios[this.responsable],
+                    seleccionados: this.seleccionados,
+                    observacion: this.observacion
+                }
+                console.log(params);
+                axios
+                    .post('http://localhost:8000/ot/', params)
+                    .then(response => {
+                        //actualizar los data con defecto, o algo asi quizas o ek key
+                        console.log(response.data);
+                        $('#modalCreateOt').modal('hide');
+                        $('.modal-backdrop').hide();
+                        this.$emit('botonGuardarCreacionOt');
+                        alert("OT creada exitosamente");
+                    })
+            },
+            onInputCodigo(){
+
+            },
+            onChangueCodigo(){
+                console.log("this.searchCodigo")
+                console.log(this.searchCodigo);
+                if(this.searchCodigo!=''){
+                    this.codigoSeleccionadoBool = true;
+                    console.log("lo bloquie");
+                }
+                else{
+                    this.codigoSeleccionadoBool = false
+                }
                         this.isOpenCodigo=true;
                         this.filterResultsCodigo();
                     },
@@ -280,11 +383,21 @@
                         //esta hay que cambiarla.
                     },
                     setResultCodigo(result,i){
+                        console.log("this.searchCodigo")
+                        console.log(this.searchCodigo);
                         console.log("result");
                         console.log(result);
                         this.searchCodigo = result;
                         this.isOpenCodigo = false;
                         this.codigoCliente = result;
+                        if(this.searchCodigo!=''){
+                            this.codigoSeleccionadoBool = true;
+                            console.log("lo bloquie");
+                        }
+                        else{
+                            this.codigoSeleccionadoBool = false
+                        }
+                        this.productoSeleccionadoBool=false;
                         this.cambiarCodigo(result,i);
                     },
             guardarCreacionMaterial(){
@@ -356,45 +469,21 @@
                     }) */  
             },
             agregarProducto(){
+                for(var i=0;i<this.seleccionados.length;i++){
+                    if(this.seleccionados[i][0]==this.productos[this.producto]){
+                        return false;
+                    }
+                }
                 var aux = [];
                 aux.push(this.productos[this.producto]);
                 aux.push(this.cantidad);
-                aux.push(this.codigosCliente[this.codigoCliente]);
+                aux.push(this.searchCodigo);
                 this.seleccionados.push(aux);
             },
             quitarProducto(index){
                 this.seleccionados.splice(index,1);
             },
-            guardarCambios(){
-                var params={
-                    otPeru: this.otPeru,
-                    orden: this.orden,
-                    numero: this.numero,
-                    guia: this.guia,
-                    factura: this.factura,
-                    fecha:  this.fecha,
-                    recepcion: this.recepcion,
-                    tipo: this.tipos[this.tipo],
-                    categoria: this.categoria,
-                    cliente: this.clientes[this.cliente],
-                    canal: this.canales[this.canal],
-                    centro: this.centros[this.centro],
-                    responsable: this.usuarios[this.responsable],
-                    seleccionados: this.seleccionados,
-                    observacion: this.observacion
-                }
-                console.log(params);
-                axios
-                    .post('http://localhost:8000/ot/', params)
-                    .then(response => {
-                        //actualizar los data con defecto, o algo asi quizas o ek key
-                        console.log(response.data);
-                        $('#modalCreateOt').modal('hide');
-                        $('.modal-backdrop').hide();
-                        this.$emit('botonGuardarCreacionOt');
-                        alert("OT creada exitosamente");
-                    })
-            }
+            
         }
     }
 </script>

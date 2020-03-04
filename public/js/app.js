@@ -3711,62 +3711,189 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['centros', 'canales', 'usuarios', 'tipos', 'categorias', 'clientes', 'productos'],
   data: function data() {
     return {
       otPeru: false,
-      orden: "",
-      numero: "",
-      guia: "",
-      factura: "",
-      fecha: "",
-      recepcion: "",
-      tipo: "",
-      categoria: "",
-      cliente: "",
-      canal: "",
-      centro: "",
-      responsable: "",
-      producto: "",
+      orden: null,
+      numero: null,
+      guia: null,
+      factura: null,
+      fecha: null,
+      recepcion: null,
+      tipo: null,
+      categoria: null,
+      cliente: null,
+      canal: null,
+      centro: null,
+      responsable: null,
+      producto: null,
       seleccionados: [],
-      observacion: "",
-      codigoCliente: "",
+      observacion: null,
+      codigoCliente: '',
       codigosCliente: [],
-      cantidad: "",
+      cantidad: null,
       aux: [],
-      categoriaEscogida: "",
+      categoriaEscogida: null,
       crearMaterialBool: false,
       crearClienteBool: false,
-      tipoMaterial: "",
+      tipoMaterial: null,
       creacionN: 0,
       creacionNC: 0,
       searchCodigo: '',
       resultsCodigo: '',
-      isOpenCodigo: false
+      isOpenCodigo: false,
+      codigoSeleccionadoBool: false,
+      productoSeleccionadoBool: true
     };
   },
   mounted: function mounted() {
     console.log('Component mounted.');
   },
   methods: {
+    seleccionProducto: function seleccionProducto() {
+      this.productoSeleccionadoBool = false;
+    },
+    guardarCambios: function guardarCambios() {
+      var _this = this;
+
+      if (this.cliente == null) {
+        alert('Debe ingresar un Cliente');
+        return false;
+      }
+
+      if (this.tipo == null) {
+        alert('Debe ingresar un Tipo de OT');
+        return false;
+      }
+
+      if (this.recepcion == null) {
+        alert('Debe ingresar una Fecha de Recepción');
+        return false;
+      }
+
+      if (this.responsable == null) {
+        console.log(this.responsable);
+        alert('Debe ingresar un Responsable');
+        return false;
+      }
+
+      if (this.centro == null) {
+        alert('Debe ingresar un Centro de Costos');
+        return false;
+      }
+
+      if (this.canal == null) {
+        alert('Debe ingresar un Canal de Ventas');
+        return false;
+      }
+
+      for (var k = 0; k < this.seleccionados.length; k++) {
+        if (this.seleccionados[k][2] == undefined) {
+          alert("Debe ingresar el Código Cliente del Producto");
+          return false;
+        }
+
+        if (this.seleccionados[k][1] == undefined) {
+          alert("Debe ingresar la Cantidad de Unidades del Producto");
+          return false;
+        }
+
+        if (this.seleccionados[k][0].codigo_siom == "") {
+          alert("Debe ingresar el Código Siom del Producto");
+          return false;
+        }
+
+        if (this.seleccionados[k][0].numero_plano == "") {
+          alert("Debe ingresar el Número de Plano del Producto");
+          return false;
+        }
+
+        console.log("categoria = ");
+        console.log(this.seleccionados[k][3]);
+
+        if (this.seleccionados[k][3] == undefined) {
+          alert("Debe ingresar la Categoría del Producto");
+          return false;
+        }
+
+        if (this.seleccionados[k][4] == undefined) {
+          alert("Debe ingresar la Fecha de Entrega del Producto");
+          return false;
+        }
+      }
+
+      var params = {
+        otPeru: this.otPeru,
+        orden: this.orden,
+        numero: this.numero,
+        guia: this.guia,
+        factura: this.factura,
+        fecha: this.fecha,
+        recepcion: this.recepcion,
+        tipo: this.tipos[this.tipo],
+        categoria: this.categoria,
+        cliente: this.clientes[this.cliente],
+        canal: this.canales[this.canal],
+        centro: this.centros[this.centro],
+        responsable: this.usuarios[this.responsable],
+        seleccionados: this.seleccionados,
+        observacion: this.observacion
+      };
+      console.log(params);
+      axios.post('http://localhost:8000/ot/', params).then(function (response) {
+        //actualizar los data con defecto, o algo asi quizas o ek key
+        console.log(response.data);
+        $('#modalCreateOt').modal('hide');
+        $('.modal-backdrop').hide();
+
+        _this.$emit('botonGuardarCreacionOt');
+
+        alert("OT creada exitosamente");
+      });
+    },
+    onInputCodigo: function onInputCodigo() {},
     onChangueCodigo: function onChangueCodigo() {
+      console.log("this.searchCodigo");
+      console.log(this.searchCodigo);
+
+      if (this.searchCodigo != '') {
+        this.codigoSeleccionadoBool = true;
+        console.log("lo bloquie");
+      } else {
+        this.codigoSeleccionadoBool = false;
+      }
+
       this.isOpenCodigo = true;
       this.filterResultsCodigo();
     },
     filterResultsCodigo: function filterResultsCodigo() {
-      var _this = this;
+      var _this2 = this;
 
       this.resultsCodigo = this.codigosCliente.filter(function (item) {
-        return item.toLowerCase().indexOf(_this.searchCodigo.toLowerCase()) > -1;
+        return item.toLowerCase().indexOf(_this2.searchCodigo.toLowerCase()) > -1;
       }); //esta hay que cambiarla.
     },
     setResultCodigo: function setResultCodigo(result, i) {
+      console.log("this.searchCodigo");
+      console.log(this.searchCodigo);
       console.log("result");
       console.log(result);
       this.searchCodigo = result;
       this.isOpenCodigo = false;
       this.codigoCliente = result;
+
+      if (this.searchCodigo != '') {
+        this.codigoSeleccionadoBool = true;
+        console.log("lo bloquie");
+      } else {
+        this.codigoSeleccionadoBool = false;
+      }
+
+      this.productoSeleccionadoBool = false;
       this.cambiarCodigo(result, i);
     },
     guardarCreacionMaterial: function guardarCreacionMaterial() {
@@ -3775,12 +3902,12 @@ __webpack_require__.r(__webpack_exports__);
       this.$emit('botonGuardarCreacionMaterial');
     },
     guardarCreacionCliente: function guardarCreacionCliente() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.creacionNC += 1;
       axios.get('http://localhost:8000/cliente') //solicitar tipo material
       .then(function (response) {
-        _this2.clientes = response.data;
+        _this3.clientes = response.data;
       });
     },
     crearCliente: function crearCliente() {
@@ -3790,27 +3917,27 @@ __webpack_require__.r(__webpack_exports__);
       this.crearClienteBool = true;
     },
     crearMaterial: function crearMaterial() {
-      var _this3 = this;
+      var _this4 = this;
 
       $('#modalCreateOt').modal('hide');
       $('.modal-backdrop').hide();
       axios.get('http://localhost:8000/tipoMaterial') //solicitar tipo material
       .then(function (response) {
-        _this3.tipoMaterial = response.data;
+        _this4.tipoMaterial = response.data;
       });
       this.crearMaterialBool = true;
     },
     cambiarCliente: function cambiarCliente() {
-      var _this4 = this;
+      var _this5 = this;
 
       console.log("entre a cambiar cliente");
       axios.get('http://localhost:8000/obtenerCodigosCliente/' + this.clientes[this.cliente].id).then(function (response) {
-        _this4.aux = response.data;
-        console.log(_this4.aux);
-        _this4.codigosCliente = [];
+        _this5.aux = response.data;
+        console.log(_this5.aux);
+        _this5.codigosCliente = [];
 
-        for (var j = 0; j < _this4.aux.length; j++) {
-          _this4.codigosCliente.push(_this4.aux[j].codigo_cliente);
+        for (var j = 0; j < _this5.aux.length; j++) {
+          _this5.codigosCliente.push(_this5.aux[j].codigo_cliente);
         }
       });
     },
@@ -3843,46 +3970,20 @@ __webpack_require__.r(__webpack_exports__);
 
     },
     agregarProducto: function agregarProducto() {
+      for (var i = 0; i < this.seleccionados.length; i++) {
+        if (this.seleccionados[i][0] == this.productos[this.producto]) {
+          return false;
+        }
+      }
+
       var aux = [];
       aux.push(this.productos[this.producto]);
       aux.push(this.cantidad);
-      aux.push(this.codigosCliente[this.codigoCliente]);
+      aux.push(this.searchCodigo);
       this.seleccionados.push(aux);
     },
     quitarProducto: function quitarProducto(index) {
       this.seleccionados.splice(index, 1);
-    },
-    guardarCambios: function guardarCambios() {
-      var _this5 = this;
-
-      var params = {
-        otPeru: this.otPeru,
-        orden: this.orden,
-        numero: this.numero,
-        guia: this.guia,
-        factura: this.factura,
-        fecha: this.fecha,
-        recepcion: this.recepcion,
-        tipo: this.tipos[this.tipo],
-        categoria: this.categoria,
-        cliente: this.clientes[this.cliente],
-        canal: this.canales[this.canal],
-        centro: this.centros[this.centro],
-        responsable: this.usuarios[this.responsable],
-        seleccionados: this.seleccionados,
-        observacion: this.observacion
-      };
-      console.log(params);
-      axios.post('http://localhost:8000/ot/', params).then(function (response) {
-        //actualizar los data con defecto, o algo asi quizas o ek key
-        console.log(response.data);
-        $('#modalCreateOt').modal('hide');
-        $('.modal-backdrop').hide();
-
-        _this5.$emit('botonGuardarCreacionOt');
-
-        alert("OT creada exitosamente");
-      });
     }
   }
 });
@@ -3898,10 +3999,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
 //
 //
 //
@@ -4211,7 +4308,9 @@ __webpack_require__.r(__webpack_exports__);
       despachada: "",
       searchCodigo: '',
       resultsCodigo: '',
-      isOpenCodigo: false
+      isOpenCodigo: false,
+      codigoSeleccionadoBool: false,
+      productoSeleccionadoBool: true
     };
   },
   mounted: function mounted() {
@@ -4230,8 +4329,42 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
+    seleccionProducto: function seleccionProducto() {
+      this.productoSeleccionadoBool = false;
+    },
     guardarCambios: function guardarCambios() {
       var _this2 = this;
+
+      if (this.cliente == null || this.cliente == '') {
+        alert('Debe ingresar un Cliente');
+        return false;
+      }
+
+      if (this.tipo == null || this.tipo == '') {
+        alert('Debe ingresar un Tipo de OT');
+        return false;
+      }
+
+      if (this.recepcion == null || this.recepcion == '') {
+        alert('Debe ingresar una Fecha de Recepción');
+        return false;
+      }
+
+      if (this.responsable == null || this.responsable == '') {
+        console.log(this.responsable);
+        alert('Debe ingresar un Responsable');
+        return false;
+      }
+
+      if (this.centro == null || this.centro == '') {
+        alert('Debe ingresar un Centro de Costos');
+        return false;
+      }
+
+      if (this.canal == null || this.canal == '') {
+        alert('Debe ingresar un Canal de Ventas');
+        return false;
+      }
 
       for (var i = 0; i < this.seleccionados.length; i++) {
         this.seleccionados[i][12] = null;
@@ -4250,6 +4383,41 @@ __webpack_require__.r(__webpack_exports__);
 
         if (this.seleccionados[i][11] == undefined) {
           this.seleccionados[i][11] = false;
+        }
+
+        for (var k = 0; k < this.seleccionados.length; k++) {
+          if (this.seleccionados[k][2] == undefined) {
+            alert("Debe ingresar el Código Cliente del Producto");
+            return false;
+          }
+
+          if (this.seleccionados[k][1] == undefined) {
+            alert("Debe ingresar la Cantidad de Unidades del Producto");
+            return false;
+          }
+
+          if (this.seleccionados[k][0].codigo_siom == "") {
+            alert("Debe ingresar el Código Siom del Producto");
+            return false;
+          }
+
+          if (this.seleccionados[k][0].numero_plano == "") {
+            alert("Debe ingresar el Número de Plano del Producto");
+            return false;
+          }
+
+          console.log("categoria = ");
+          console.log(this.seleccionados[k][3]);
+
+          if (this.seleccionados[k][3] == undefined) {
+            alert("Debe ingresar la Categoría del Producto");
+            return false;
+          }
+
+          if (this.seleccionados[k][4] == undefined) {
+            alert("Debe ingresar la Fecha de Entrega del Producto");
+            return false;
+          }
         }
       }
 
@@ -4292,6 +4460,16 @@ __webpack_require__.r(__webpack_exports__);
       this.$emit('botonGuardarEdicionOt');
     },
     onChangueCodigo: function onChangueCodigo() {
+      console.log("this.searchCodigo");
+      console.log(this.searchCodigo);
+
+      if (this.searchCodigo != '') {
+        this.codigoSeleccionadoBool = true;
+        console.log("lo bloquie");
+      } else {
+        this.codigoSeleccionadoBool = false;
+      }
+
       this.isOpenCodigo = true;
       this.filterResultsCodigo();
     },
@@ -4308,6 +4486,15 @@ __webpack_require__.r(__webpack_exports__);
       this.searchCodigo = result;
       this.isOpenCodigo = false;
       this.codigoCliente = result;
+
+      if (this.searchCodigo != '') {
+        this.codigoSeleccionadoBool = true;
+        console.log("lo bloquie");
+      } else {
+        this.codigoSeleccionadoBool = false;
+      }
+
+      this.productoSeleccionadoBool = false;
       this.cambiarCodigo(result, i);
     },
     guardarCreacionMaterial: function guardarCreacionMaterial() {
@@ -4370,10 +4557,16 @@ __webpack_require__.r(__webpack_exports__);
 
     },
     agregarProducto: function agregarProducto() {
+      for (var i = 0; i < this.seleccionados.length; i++) {
+        if (this.seleccionados[i][0] == this.productos[this.producto]) {
+          return false;
+        }
+      }
+
       var aux = [];
       aux.push(this.productos[this.producto]);
       aux.push(this.cantidad);
-      aux.push(this.codigosCliente[this.codigoCliente]);
+      aux.push(this.searchCodigo);
       this.seleccionados.push(aux);
     },
     quitarProducto: function quitarProducto(index) {
@@ -5122,6 +5315,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -7391,10 +7585,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
  // register globally
 //  Vue.component('multiselect', Multiselect)
 // Example starter JavaScript for disabling form submissions if there are invalid fields
@@ -7678,6 +7868,16 @@ __webpack_require__.r(__webpack_exports__);
     continuarClick: function continuarClick() {
       var _this3 = this;
 
+      if (this.trabajadoresSeleccionados.length < 1) {
+        alert("Seleccione al menos un Operador");
+        return "break";
+      }
+
+      if (this.otProducto.length < 1) {
+        alert("Seleccione al menos un Producto");
+        return "break";
+      }
+
       axios.get('http://localhost:8000/tipoMaterialFiltrador').then(function (response) {
         _this3.filtradoMaterial = response.data;
         _this3.botonContinuar = true;
@@ -7686,7 +7886,21 @@ __webpack_require__.r(__webpack_exports__);
       console.log(this.otProducto.length); //esto debe ser por subProducto :V       
     },
     continuarResumen: function continuarResumen() {
+      //aqui hacemos el validador de que seleccione sub productos y procesos
+      console.log("procesosSeleccionados");
+      console.log(this.procesosSeleccionados.length);
+
       for (var i = 0; i < this.otProducto.length; i++) {
+        if (this.procesosSeleccionados.length < 1) {
+          alert("Seleccione al menos un proceso");
+          return "break";
+        }
+
+        if (this.otProducto[i][2].length < 1) {
+          alert("Seleccione al menos un Sub-Material para cada Material");
+          return "break";
+        }
+
         console.log("for1");
         this.inputValido.push([]); // this.mensajeError.push([])
 
@@ -47471,7 +47685,7 @@ var render = function() {
                             ],
                             staticClass: "autocomplete-results",
                             on: {
-                              mouseleave: function($event) {
+                              "": function($event) {
                                 _vm.isOpenCodigo = false
                               }
                             }
@@ -47508,21 +47722,28 @@ var render = function() {
                               }
                             ],
                             staticClass: "form-control",
-                            attrs: { required: "" },
+                            attrs: {
+                              disabled: _vm.codigoSeleccionadoBool,
+                              required: ""
+                            },
                             on: {
-                              change: function($event) {
-                                var $$selectedVal = Array.prototype.filter
-                                  .call($event.target.options, function(o) {
-                                    return o.selected
-                                  })
-                                  .map(function(o) {
-                                    var val = "_value" in o ? o._value : o.value
-                                    return val
-                                  })
-                                _vm.producto = $event.target.multiple
-                                  ? $$selectedVal
-                                  : $$selectedVal[0]
-                              }
+                              change: [
+                                function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.producto = $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                },
+                                _vm.seleccionProducto
+                              ]
                             }
                           },
                           [
@@ -47557,7 +47778,10 @@ var render = function() {
                           "button",
                           {
                             staticClass: "btn btn-success",
-                            attrs: { type: "button", disabled: 1 == 3 },
+                            attrs: {
+                              type: "button",
+                              disabled: _vm.productoSeleccionadoBool
+                            },
                             on: {
                               click: function($event) {
                                 return _vm.agregarProducto()
@@ -47592,6 +47816,11 @@ var render = function() {
                         "div",
                         { staticClass: "col-md-12" },
                         [
+                          _vm._v(
+                            "\r\n                                        " +
+                              _vm._s(_vm.seleccionados) +
+                              "\r\n                                        "
+                          ),
                           _c("br"),
                           _c("br"),
                           _vm._v(" "),
@@ -48006,6 +48235,11 @@ var render = function() {
                     on: { click: _vm.guardarCambios }
                   },
                   [_vm._v("Guardar Cambios")]
+                ),
+                _vm._v(
+                  "\r\n                    " +
+                    _vm._s(_vm.seleccionados) +
+                    "\r\n                    "
                 )
               ])
             ])
@@ -48244,54 +48478,6 @@ var render = function() {
                       _vm._m(3),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-4" }, [
-                        _c(
-                          "select",
-                          {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.otPeru,
-                                expression: "otPeru"
-                              }
-                            ],
-                            staticClass: "form-control",
-                            attrs: { type: "Boolean", required: "" },
-                            on: {
-                              change: function($event) {
-                                var $$selectedVal = Array.prototype.filter
-                                  .call($event.target.options, function(o) {
-                                    return o.selected
-                                  })
-                                  .map(function(o) {
-                                    var val = "_value" in o ? o._value : o.value
-                                    return val
-                                  })
-                                _vm.otPeru = $event.target.multiple
-                                  ? $$selectedVal
-                                  : $$selectedVal[0]
-                              }
-                            }
-                          },
-                          [
-                            _c(
-                              "option",
-                              { attrs: { disabled: "", selected: "" } },
-                              [_vm._v("Países")]
-                            ),
-                            _vm._v(" "),
-                            _c("option", { domProps: { value: false } }, [
-                              _vm._v("Chile")
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { domProps: { value: true } }, [
-                              _vm._v("Perú")
-                            ])
-                          ]
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "col-md-4" }, [
                         _c("input", {
                           directives: [
                             {
@@ -48343,6 +48529,61 @@ var render = function() {
                             }
                           }
                         })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-4" }, [
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.canal,
+                                expression: "canal"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: { required: "" },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.canal = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              }
+                            }
+                          },
+                          [
+                            _c(
+                              "option",
+                              { attrs: { disabled: "", selected: "" } },
+                              [_vm._v("Canales de Venta")]
+                            ),
+                            _vm._v(" "),
+                            _vm._l(_vm.canales, function(canal, index) {
+                              return _c(
+                                "option",
+                                { key: index, domProps: { value: canal } },
+                                [
+                                  _vm._v(
+                                    "\r\n                                                " +
+                                      _vm._s(canal.nombre_canal) +
+                                      "\r\n                                            "
+                                  )
+                                ]
+                              )
+                            })
+                          ],
+                          2
+                        )
                       ])
                     ]),
                     _vm._v(" "),
@@ -48507,7 +48748,7 @@ var render = function() {
                       _vm._v(" "),
                       _vm._m(8),
                       _vm._v(" "),
-                      _vm._m(9),
+                      _c("div", { staticClass: "col-md-4" }),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-4" }, [
                         _c(
@@ -48622,60 +48863,7 @@ var render = function() {
                         )
                       ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "col-md-4" }, [
-                        _c(
-                          "select",
-                          {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.canal,
-                                expression: "canal"
-                              }
-                            ],
-                            staticClass: "form-control",
-                            attrs: { required: "" },
-                            on: {
-                              change: function($event) {
-                                var $$selectedVal = Array.prototype.filter
-                                  .call($event.target.options, function(o) {
-                                    return o.selected
-                                  })
-                                  .map(function(o) {
-                                    var val = "_value" in o ? o._value : o.value
-                                    return val
-                                  })
-                                _vm.canal = $event.target.multiple
-                                  ? $$selectedVal
-                                  : $$selectedVal[0]
-                              }
-                            }
-                          },
-                          [
-                            _c(
-                              "option",
-                              { attrs: { disabled: "", selected: "" } },
-                              [_vm._v("Canales de Venta")]
-                            ),
-                            _vm._v(" "),
-                            _vm._l(_vm.canales, function(canal, index) {
-                              return _c(
-                                "option",
-                                { key: index, domProps: { value: canal } },
-                                [
-                                  _vm._v(
-                                    "\r\n                                                " +
-                                      _vm._s(canal.nombre_canal) +
-                                      "\r\n                                            "
-                                  )
-                                ]
-                              )
-                            })
-                          ],
-                          2
-                        )
-                      ])
+                      _c("div", { staticClass: "col-md-4" })
                     ])
                   ]),
                   _vm._v(" "),
@@ -48683,9 +48871,9 @@ var render = function() {
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group" }, [
                     _c("div", { staticClass: "row" }, [
-                      _vm._m(10),
+                      _vm._m(9),
                       _vm._v(" "),
-                      _vm._m(11),
+                      _vm._m(10),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-1" }),
                       _vm._v(" "),
@@ -48769,19 +48957,23 @@ var render = function() {
                             staticClass: "form-control",
                             attrs: { required: "" },
                             on: {
-                              change: function($event) {
-                                var $$selectedVal = Array.prototype.filter
-                                  .call($event.target.options, function(o) {
-                                    return o.selected
-                                  })
-                                  .map(function(o) {
-                                    var val = "_value" in o ? o._value : o.value
-                                    return val
-                                  })
-                                _vm.producto = $event.target.multiple
-                                  ? $$selectedVal
-                                  : $$selectedVal[0]
-                              }
+                              change: [
+                                function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.producto = $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                },
+                                _vm.seleccionProducto
+                              ]
                             }
                           },
                           [
@@ -48816,7 +49008,10 @@ var render = function() {
                           "button",
                           {
                             staticClass: "btn btn-success",
-                            attrs: { type: "button", disabled: 1 == 3 },
+                            attrs: {
+                              type: "button",
+                              disabled: _vm.productoSeleccionadoBool
+                            },
                             on: {
                               click: function($event) {
                                 return _vm.agregarProducto()
@@ -49600,7 +49795,7 @@ var render = function() {
                   _vm._v(" "),
                   _c("div", { staticClass: "form-group" }, [
                     _c("div", { staticClass: "row" }, [
-                      _vm._m(12),
+                      _vm._m(11),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-12" }, [
                         _c("textarea", {
@@ -49682,16 +49877,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-4" }, [
       _c("label", { staticClass: "lavelFont font-weight-bold" }, [
-        _vm._v("País de Ot:")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-4" }, [
-      _c("label", { staticClass: "lavelFont font-weight-bold" }, [
         _vm._v("Orden de Compra:")
       ])
     ])
@@ -49703,6 +49888,16 @@ var staticRenderFns = [
     return _c("div", { staticClass: "col-md-4" }, [
       _c("label", { staticClass: "lavelFont font-weight-bold" }, [
         _vm._v("Número de Cotización")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-4" }, [
+      _c("label", { staticClass: "lavelFont font-weight-bold" }, [
+        _vm._v("Canal de Venta:")
       ])
     ])
   },
@@ -49753,16 +49948,6 @@ var staticRenderFns = [
     return _c("div", { staticClass: "col-md-4" }, [
       _c("label", { staticClass: "lavelFont font-weight-bold" }, [
         _vm._v("Centro de Costo:")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-4" }, [
-      _c("label", { staticClass: "lavelFont font-weight-bold" }, [
-        _vm._v("Canal de Venta:")
       ])
     ])
   },
@@ -51126,7 +51311,7 @@ var render = function() {
         _c(
           "button",
           {
-            staticClass: "btn btn-success btn-block",
+            staticClass: "btn btn-success btn-lg btn-block",
             attrs: {
               type: "button",
               "data-target": "#modalCreateMaterial",
@@ -51474,11 +51659,11 @@ var render = function() {
     _c("br"),
     _vm._v(" "),
     _c("div", { staticClass: "row container" }, [
-      _c("div", { staticClass: "col-sm-4" }, [
+      _c("div", { staticClass: "col-sm-2" }, [
         _c(
           "button",
           {
-            staticClass: "btn btn-success",
+            staticClass: "btn btn-lg btn-block btn-success",
             attrs: {
               type: "button",
               "data-target": "#modalCreateOt",
@@ -51494,9 +51679,11 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
+      _c("div", { staticClass: "col-sm-2" }),
+      _vm._v(" "),
       _c("div", { staticClass: "com-sm-6" }, [
         _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-sm" }, [
+          _c("div", { staticClass: "col-sm-12" }, [
             _c("input", {
               directives: [
                 {
@@ -51508,7 +51695,7 @@ var render = function() {
               ],
               staticClass:
                 "form-control form-control-lg form-control-borderless",
-              attrs: { id: "7", placeholder: "N° OT", type: "search" },
+              attrs: { id: "7", placeholder: "Buscar OT", type: "search" },
               domProps: { value: _vm.searchOT },
               on: {
                 input: [
@@ -53812,7 +53999,7 @@ var render = function() {
         _c(
           "button",
           {
-            staticClass: "btn btn-block btn-success",
+            staticClass: "btn btn-lg btn-block btn-success",
             attrs: {
               type: "button",
               "data-target": "#modalCreateSubMaterial",
@@ -54143,7 +54330,7 @@ var render = function() {
         _c(
           "button",
           {
-            staticClass: "btn btn-success",
+            staticClass: "btn btn-lg btn-block btn-success",
             attrs: {
               type: "button",
               "data-target": "#modalCreateUsuario",
@@ -54767,7 +54954,7 @@ var render = function() {
               "button",
               {
                 staticClass: "btn btn-secondary btn-lg colorBoton",
-                attrs: { type: "button" },
+                attrs: { type: "button", disabled: _vm.botonTrabajoComenzado },
                 on: {
                   click: function($event) {
                     return _vm.atrasResumen()
@@ -54856,13 +55043,7 @@ var render = function() {
                                     { staticClass: "modal-content" },
                                     [
                                       _vm._m(3),
-                                      _vm._v(
-                                        " \n                            " +
-                                          _vm._s(_vm.procesosSeleccionados) +
-                                          "\n                            " +
-                                          _vm._s(_vm.procesos) +
-                                          "\n                            "
-                                      ),
+                                      _vm._v(" "),
                                       _vm._l(_vm.otProducto, function(
                                         linea,
                                         indexG
@@ -55471,9 +55652,9 @@ var render = function() {
                         return _c("div", { key: indexG }, [
                           _c("h3", { staticClass: "h3" }, [
                             _vm._v(
-                              "Seleccion sub-productos de: OT " +
+                              "Seleccion Sub-Material de: OT " +
                                 _vm._s(_vm.otProducto[indexG][0].id) +
-                                "- " +
+                                " - " +
                                 _vm._s(
                                   _vm.otProducto[indexG][1].nombre_producto
                                 )
@@ -55908,11 +56089,6 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-sm-5" }, [
-                          _vm._v(
-                            "\n                                    " +
-                              _vm._s(_vm.otProducto) +
-                              "\n                                    "
-                          ),
                           _c(
                             "select",
                             {
@@ -73463,10 +73639,10 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\dreamLIFE\Desktop\SIRIT\resources\js\app.js */"./resources/js/app.js");
-__webpack_require__(/*! C:\Users\dreamLIFE\Desktop\SIRIT\resources\sass\app.scss */"./resources/sass/app.scss");
-__webpack_require__(/*! C:\Users\dreamLIFE\Desktop\SIRIT\node_modules\bootstrap-select\sass\bootstrap-select.scss */"./node_modules/bootstrap-select/sass/bootstrap-select.scss");
-module.exports = __webpack_require__(/*! C:\Users\dreamLIFE\Desktop\SIRIT\node_modules\bootstrap-select\sass\variables.scss */"./node_modules/bootstrap-select/sass/variables.scss");
+__webpack_require__(/*! C:\Users\usuario\Desktop\SIRIT\resources\js\app.js */"./resources/js/app.js");
+__webpack_require__(/*! C:\Users\usuario\Desktop\SIRIT\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\usuario\Desktop\SIRIT\node_modules\bootstrap-select\sass\bootstrap-select.scss */"./node_modules/bootstrap-select/sass/bootstrap-select.scss");
+module.exports = __webpack_require__(/*! C:\Users\usuario\Desktop\SIRIT\node_modules\bootstrap-select\sass\variables.scss */"./node_modules/bootstrap-select/sass/variables.scss");
 
 
 /***/ })

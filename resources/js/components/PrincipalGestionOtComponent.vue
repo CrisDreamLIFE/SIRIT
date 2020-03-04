@@ -8,13 +8,14 @@
         </div>
         <br>
         <div class="row container">
-            <div class="col-sm-4">
-                <button type="button" @click="crearOT()" data-target="#modalCreateOt" data-toggle="modal" class="btn btn-success">Nueva OT</button>
+            <div class="col-sm-2">
+                <button type="button" @click="crearOT()" data-target="#modalCreateOt" data-toggle="modal" class="btn btn-lg btn-block btn-success">Nueva OT</button>
             </div>
+            <div class="col-sm-2"></div>
             <div class="com-sm-6">
                 <div class="row">
-                    <div class="col-sm">
-                        <input id="7" class="form-control form-control-lg form-control-borderless" placeholder="N° OT" type="search" v-model="searchOT" @input="onChangueOT"/>
+                    <div class="col-sm-12">
+                        <input id="7" class="form-control form-control-lg form-control-borderless" placeholder="Buscar OT" type="search" v-model="searchOT" @input="onChangueOT"/>
                     </div>
                     <!--end of col-->
                 </div>

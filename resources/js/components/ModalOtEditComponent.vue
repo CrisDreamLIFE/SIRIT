@@ -22,27 +22,28 @@
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <label class= "lavelFont font-weight-bold">País de Ot:</label>
-                                    </div>
-                                    <div class="col-md-4">
                                         <label class= "lavelFont font-weight-bold">Orden de Compra:</label>
                                     </div>
                                     <div class="col-md-4">
                                         <label class= "lavelFont font-weight-bold">Número de Cotización</label>
                                     </div>
                                     <div class="col-md-4">
-                                     <select type="Boolean" required v-model="otPeru" class="form-control">
-                                            <option disabled selected >Países</option>
-                                            <option  v-bind:value="false">Chile</option>
-                                            <option  v-bind:value="true">Perú</option>
-                                        </select>     
-                                    </div>  
+                                        <label class= "lavelFont font-weight-bold">Canal de Venta:</label>   
+                                    </div>
                                     <div class="col-md-4">
                                         <input type="text"  class="form-control" aria-describedby="emailHelp" v-model="orden">
                                     </div>
                                     <div class="col-md-4">
                                         <input type="text"  class="form-control" aria-describedby="emailHelp" v-model="numero">
                                     </div>
+                                    <div class="col-md-4">
+                                        <select required v-model="canal"  class="form-control">
+                                            <option disabled selected >Canales de Venta</option>
+                                            <option v-for="(canal,index) in canales" v-bind:key="index" v-bind:value="canal">
+                                                {{ canal.nombre_canal }}
+                                            </option>
+                                        </select>   
+                                    </div>  
                                 </div>  
                                 <br>     
                                 <div class="row">               
@@ -86,7 +87,7 @@
                                         <label class= "lavelFont font-weight-bold">Centro de Costo:</label>
                                     </div>
                                     <div class="col-md-4">
-                                        <label class= "lavelFont font-weight-bold">Canal de Venta:</label>
+                                        
                                     </div>
                                     <div class="col-md-4">
                                         <select required v-model="responsable"  class="form-control">
@@ -105,12 +106,7 @@
                                         </select>
                                     </div>
                                     <div class="col-md-4">
-                                        <select required v-model="canal"  class="form-control">
-                                            <option disabled selected >Canales de Venta</option>
-                                            <option v-for="(canal,index) in canales" v-bind:key="index" v-bind:value="canal">
-                                                {{ canal.nombre_canal }}
-                                            </option>
-                                        </select>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -140,7 +136,7 @@
                                         </select> -->
                                     </div>
                                     <div class="col-md-4">
-                                        <select required v-model="producto"  class="form-control">
+                                        <select @change="seleccionProducto" required v-model="producto"  class="form-control">
                                                 <option disabled selected >Material:</option>
                                                 <option v-for="(producto,index) in productos" v-bind:key="index" v-bind:value="index">
                                                     {{ productos[index].nombre_producto }}
@@ -149,7 +145,7 @@
                                     </div>                                         
                                     <div class="col-md-1">
                                        
-                                        <button type="button"  v-on:click= "agregarProducto()" :disabled="1==3" class="btn btn-success">+</button>
+                                        <button type="button"  v-on:click= "agregarProducto()" :disabled="productoSeleccionadoBool" class="btn btn-success">+</button>
                                     </div>
                                     <div class="col-md-3">
                                         <button type="button" @click="crearMaterial()" data-target="#modalCreateMaterial" data-toggle="modal" class="btn btn-lg btn-block btn-secondary">Crear Material</button>
@@ -313,6 +309,8 @@
                 searchCodigo: '',
                 resultsCodigo: '',
                 isOpenCodigo: false,
+                codigoSeleccionadoBool:false,
+                productoSeleccionadoBool: true
             }
         },
         mounted() { 
@@ -329,7 +327,35 @@
                     })
         },
         methods:{
+            seleccionProducto(){
+                this.productoSeleccionadoBool=false;
+            },
             guardarCambios(){
+                if(this.cliente==null || this.cliente==''){
+                    alert('Debe ingresar un Cliente');
+                    return false;
+                }
+                if(this.tipo==null || this.tipo=='' ){
+                    alert('Debe ingresar un Tipo de OT');
+                    return false;
+                }
+                if(this.recepcion==null || this.recepcion==''){
+                    alert('Debe ingresar una Fecha de Recepción');
+                    return false;
+                }
+                if(this.responsable==null || this.responsable==''){
+                    console.log(this.responsable);
+                    alert('Debe ingresar un Responsable');
+                    return false;
+                }
+                if(this.centro==null || this.centro==''){
+                    alert('Debe ingresar un Centro de Costos');
+                    return false;
+                }
+                if(this.canal==null || this.canal==''){
+                    alert('Debe ingresar un Canal de Ventas');
+                    return false;
+                }
                 for(var i=0;i<this.seleccionados.length;i++){
                     this.seleccionados[i][12] = null;
                     if(this.seleccionados[i][9]==undefined){
@@ -342,6 +368,34 @@
                     if(this.seleccionados[i][11]==undefined){
                         this.seleccionados[i][11] = false; 
                     }
+                    for(var k=0; k< this.seleccionados.length;k++){
+                    if(this.seleccionados[k][2]==undefined){
+                        alert("Debe ingresar el Código Cliente del Producto")
+                        return false;
+                    }
+                    if(this.seleccionados[k][1]==undefined){
+                        alert("Debe ingresar la Cantidad de Unidades del Producto")
+                        return false;
+                    }
+                    if(this.seleccionados[k][0].codigo_siom==""){
+                        alert("Debe ingresar el Código Siom del Producto")
+                        return false;
+                    }
+                    if(this.seleccionados[k][0].numero_plano==""){
+                        alert("Debe ingresar el Número de Plano del Producto")
+                        return false;
+                    }
+                    console.log("categoria = ");
+                    console.log(this.seleccionados[k][3]);
+                    if(this.seleccionados[k][3]== undefined){
+                        alert("Debe ingresar la Categoría del Producto")
+                        return false;
+                    }
+                    if(this.seleccionados[k][4]== undefined){
+                        alert("Debe ingresar la Fecha de Entrega del Producto")
+                        return false;
+                    }
+                }
                 }
                 console.log("en guardar:")
                 console.log(this.responsable);
@@ -382,6 +436,15 @@
                 this.$emit('botonGuardarEdicionOt');   
             },
              onChangueCodigo(){
+                 console.log("this.searchCodigo")
+                console.log(this.searchCodigo);
+                if(this.searchCodigo!=''){
+                    this.codigoSeleccionadoBool = true;
+                    console.log("lo bloquie");
+                }
+                else{
+                    this.codigoSeleccionadoBool = false
+                }
                         this.isOpenCodigo=true;
                         this.filterResultsCodigo();
                     },
@@ -395,6 +458,14 @@
                         this.searchCodigo = result;
                         this.isOpenCodigo = false;
                         this.codigoCliente = result;
+                        if(this.searchCodigo!=''){
+                            this.codigoSeleccionadoBool = true;
+                            console.log("lo bloquie");
+                        }
+                        else{
+                            this.codigoSeleccionadoBool = false
+                        }
+                        this.productoSeleccionadoBool=false;
                         this.cambiarCodigo(result,i);
                     },
             guardarCreacionMaterial(){
@@ -452,10 +523,15 @@
                     }) */  
             },
             agregarProducto(){
+                for(var i=0;i<this.seleccionados.length;i++){
+                    if(this.seleccionados[i][0]==this.productos[this.producto]){
+                        return false;
+                    }
+                }
                 var aux = [];
                 aux.push(this.productos[this.producto]);
                 aux.push(this.cantidad);
-                aux.push(this.codigosCliente[this.codigoCliente]);
+                aux.push(this.searchCodigo);
                 this.seleccionados.push(aux);
             },
             quitarProducto(index){

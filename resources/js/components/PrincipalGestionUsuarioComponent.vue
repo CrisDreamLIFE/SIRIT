@@ -9,7 +9,7 @@
         <br>
         <div class="row container">
             <div class="col-sm-4">
-                <button type="button" @click="crearUsuario()" data-target="#modalCreateUsuario" data-toggle="modal" class="btn btn-success">Nuevo Usuario</button>
+                <button type="button" @click="crearUsuario()" data-target="#modalCreateUsuario" data-toggle="modal" class="btn btn-lg btn-block btn-success">Nuevo Usuario</button>
             </div>
             <div class="com-sm-6">
                 <div class="row"> <!-- este es el buscador, lo vemos mas tarde o altiro mejor-->

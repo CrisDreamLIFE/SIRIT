@@ -32,7 +32,7 @@
         <br>
         <div class="row container">   
             <div class="col-sm-2">
-                <button type="button" @click="crearSubMaterial()" data-target="#modalCreateSubMaterial" data-toggle="modal" class="btn btn-block btn-success">Crear Sub-Material</button>
+                <button type="button" @click="crearSubMaterial()" data-target="#modalCreateSubMaterial" data-toggle="modal" class="btn btn-lg btn-block btn-success">Crear Sub-Material</button>
                 <br><br>
                 <div v-if="crearSubMaterialBool"> <!-- CREATE -->
                     <modal-sub-material-create-component

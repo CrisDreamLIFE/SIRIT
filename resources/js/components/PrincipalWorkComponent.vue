@@ -71,7 +71,7 @@
             </div>
             <br>
             <div class="row  colorBoton">
-                <button type="button" v-on:click= "atrasResumen()" class="btn btn-secondary btn-lg colorBoton">Atrás</button>
+                <button type="button" v-on:click= "atrasResumen()" :disabled="botonTrabajoComenzado" class="btn btn-secondary btn-lg colorBoton">Atrás</button>
             </div>
             <br>
             <div>
@@ -97,8 +97,6 @@
                                     <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div> 
-                                {{procesosSeleccionados}}
-                                {{procesos}}
                                 <div class="modal-body form-group" v-for="(linea,indexG) in otProducto" v-bind:key="indexG">
                                     <label for="">OT {{otProducto[indexG][0].id}} PRODUCTO {{otProducto[indexG][1].nombre_producto}}</label>
 
@@ -173,11 +171,10 @@
             <br>
             <h2 class="h2">Especificaciones del Trabajo:</h2>
             <div v-if="botonContinuar">
-               
                 <form>
                     <div class="form-group">
                         <div v-for="(combinacion,indexG) in otProducto" v-bind:key="indexG">
-                            <h3 class="h3">Seleccion sub-productos de: OT {{otProducto[indexG][0].id}}- {{otProducto[indexG][1].nombre_producto}}</h3>
+                            <h3 class="h3">Seleccion Sub-Material de: OT {{otProducto[indexG][0].id}} - {{otProducto[indexG][1].nombre_producto}}</h3>
                             <div class="container color">  <!-- este 0 deberia ser el index del for de arriba -->
                                 <div v-for="(sub,index) in subProductos[indexG]" v-bind:key="index" class="form-check-inline">  <!--aqui va el otro for -->
                                     <input class="form-check-input" type="checkbox" :id="index+indexG*sub.id+sub.nombre_sub_producto" :value="subProductos[indexG][index]" v-model="otProducto[indexG][2]"> <!--valor for mas arriba -->
@@ -263,7 +260,6 @@
                                     </select>     
                                 </div>
                                     <div class="col-sm-5">
-                                        {{otProducto}}
                                         <select id="selectProducto" :disabled="!otSeleccionadaBool" @change="onChangeProducto()" v-model="productoSeleccionado" class="form-control" >
                                         <option disabled selected >Productos</option>
                                         <option v-for="(producto, index) in productos" v-bind:key="index" v-bind:value="index">
@@ -583,6 +579,14 @@ import Multiselect from 'vue-multiselect'
                 this.botonResumen = false;
             },
             continuarClick(){ 
+                if(this.trabajadoresSeleccionados.length < 1){
+                    alert("Seleccione al menos un Operador");
+                        return "break";
+                }
+                if(this.otProducto.length<1){
+                    alert("Seleccione al menos un Producto");
+                    return "break";    
+                }
                 axios
                 .get('http://localhost:8000/tipoMaterialFiltrador')
                 .then(response => {
@@ -594,7 +598,18 @@ import Multiselect from 'vue-multiselect'
                 //esto debe ser por subProducto :V       
             },
             continuarResumen(){
+                //aqui hacemos el validador de que seleccione sub productos y procesos
+                console.log("procesosSeleccionados");
+                console.log(this.procesosSeleccionados.length);
                 for (var i = 0; i < this.otProducto.length; i++) {
+                    if(this.procesosSeleccionados.length<1){
+                        alert("Seleccione al menos un proceso");
+                        return "break";
+                    }  
+                    if(this.otProducto[i][2].length <1){
+                        alert("Seleccione al menos un Sub-Material para cada Material");
+                        return "break";    
+                    }
                     console.log("for1");
                     this.inputValido.push([])
                    // this.mensajeError.push([])
@@ -623,7 +638,6 @@ import Multiselect from 'vue-multiselect'
 
                     }
                 }
-                    
                 this.botonResumen = true;
             },
             agregarTrabajador(){ 
