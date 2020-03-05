@@ -8,6 +8,12 @@
                     @botonGuardarCreacionMaterial="guardarCreacionMaterial">
                     </modal-material-create-component> 
     </div> 
+    <div v-if="crearClienteBool"> <!-- CREATE CLIENTE -->
+                    <modal-cliente-create-component
+                    :key="creacionNC"
+                    @botonGuardarCreacionCliente="guardarCreacionCliente">
+                    </modal-cliente-create-component> 
+    </div>
     <div  class="modal " id="modalEditOt" tabindex="-1" role="dialog" aria-labelledby="modalEditOtLabel" aria-hidden="true">
                 <div class="modal-dialog-xl" role="document">
                     <div class="modal-content">
@@ -17,7 +23,7 @@
                         <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body">
+                    <div @click="isOpenCodigo=false" class="modal-body">
                         <form>
                             <div class="form-group">
                                 <div class="row">
@@ -120,11 +126,12 @@
                                         <label class= "lavelFont font-weight-bold">Producto:</label>
                                     </div>
                                     <div class="col-md-1"></div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-3">
+                                        <button type="button" @click="crearCliente()" data-target="#modalCreateCliente" data-toggle="modal" class="btn btn-sm btn-block btn-secondary">CREAR CLIENTE</button>
                                     </div>
                                     <div class="col-md-4">
                                         <input id="Sesion2-1" class="form-control" type="text" v-model="searchCodigo" @input="onChangueCodigo"/>
-                                            <ul @mouseleave="isOpenCodigo=false" v-show="isOpenCodigo" class="autocomplete-results">
+                                            <ul v-show="isOpenCodigo" class="autocomplete-results">
                                                 <li  @click="setResultCodigo(result,i)" v-for="(result,i) in resultsCodigo" :key="i" class="autocomplete-result">{{result}}</li>
                                             </ul>   
                                         <!--
@@ -148,7 +155,7 @@
                                         <button type="button"  v-on:click= "agregarProducto()" :disabled="productoSeleccionadoBool" class="btn btn-success">+</button>
                                     </div>
                                     <div class="col-md-3">
-                                        <button type="button" @click="crearMaterial()" data-target="#modalCreateMaterial" data-toggle="modal" class="btn btn-lg btn-block btn-secondary">Crear Material</button>
+                                        <button type="button" @click="crearMaterial()" data-target="#modalCreateMaterial" data-toggle="modal" class="btn btn-sm btn-block btn-secondary">CREAR MATERIAL</button>
                                     </div>
                                     <div class="col-md-12">
                                         <br><br>
@@ -301,8 +308,10 @@
                 cantidad: "",
                 aux:[],
                 crearMaterialBool:false,
+                crearClienteBool:false,
                 tipoMaterial:"",
                 creacionN:0,
+                creacionNC:0,
                 abierta:"",
                 recepcionada:"",
                 despachada:"",
@@ -468,11 +477,25 @@
                         this.productoSeleccionadoBool=false;
                         this.cambiarCodigo(result,i);
                     },
+            guardarCreacionCliente(){
+                this.creacionNC +=1;
+                axios
+                .get('http://localhost:8000/cliente') //solicitar tipo material
+                            .then(response => {
+                                this.clientes = response.data;
+                                })
+            },
             guardarCreacionMaterial(){
 
                 this.creacionN +=1;
                 this.cambiarCliente();
                 this.$emit('botonGuardarCreacionMaterial')
+            },
+            crearCliente(){
+                $('#modalEditOt').modal('hide');
+                $('.modal-backdrop').hide();
+                console.log("sdfsd");
+                this.crearClienteBool = true;
             },
             crearMaterial(){
                 $('#modalEditOt').modal('hide');
@@ -528,11 +551,25 @@
                         return false;
                     }
                 }
-                var aux = [];
-                aux.push(this.productos[this.producto]);
-                aux.push(this.cantidad);
-                aux.push(this.searchCodigo);
-                this.seleccionados.push(aux);
+                //trael el codigo de cliente
+                var params ={
+                    producto: this.productos[this.producto].id,
+                    cliente: this.clientes[this.cliente].id
+                }
+                axios
+                    .post('http://localhost:8000/obtenerClienteCodigo/',params)
+                    .then(response => { 
+                        console.log("respuesta:");
+                        console.log(response.data);
+                        if(response.data != 0){
+                            this.searchCodigo = response.data
+                        }  
+                        var aux = [];
+                        aux.push(this.productos[this.producto]);
+                        aux.push(this.cantidad);
+                        aux.push(this.searchCodigo);
+                        this.seleccionados.push(aux);     
+                    })   
             },
             quitarProducto(index){
                 this.seleccionados.splice(index,1);

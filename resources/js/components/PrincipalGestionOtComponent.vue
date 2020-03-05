@@ -1,6 +1,12 @@
 <template>
     <div class="margen">
         <br>
+        <div v-if="crearClienteBool"> <!-- CREATE CLIENTE -->
+                    <modal-cliente-create-component
+                    :key="creacionNC"
+                    @botonGuardarCreacionCliente="guardarCreacionCliente">
+                    </modal-cliente-create-component> 
+        </div>
         <div class="row container">
             <div class="col-sm-2"><!--colorBoton-->
                 <button type="button" v-on:click="volverMenu" class="btn btn-secondary  btn-block colorBoton">Atrás</button>
@@ -28,6 +34,9 @@
                         <label style="font-size:18px" for = "abierta">{{'   Abiertas'}}</label> 
                     </div>
                  </div>    
+            </div>
+            <div class="col-sm-2">
+                <button type="button" @click="crearCliente()" data-target="#modalCreateCliente" data-toggle="modal" class="btn btn-lg btn-block btn-primary">Crear Cliente</button>
             </div>
         </div>
         <br>
@@ -164,7 +173,9 @@
                 abierta: true,
                 searchOT:"",
                 resultsOt: this.otsTodas[0],
-                peru:null
+                peru:null,
+                crearClienteBool:false,
+                creacionNC:0
 
             }
         },
@@ -172,6 +183,15 @@
             console.log('Component mounted.')
         },
         methods:{
+            crearCliente(){
+                $('#modalCreateOt').modal('hide');
+                $('.modal-backdrop').hide();
+                console.log("sdfsd");
+                this.crearClienteBool = true;
+            },
+            guardarCreacionCliente(){
+                this.creacionNC +=1;
+            },
             volverMenu(){
                 this.$emit('botonAtrasOt')
             },

@@ -11,6 +11,7 @@ class TodasExport implements FromCollection, WithHeadings
 
     public function collection()
     {
+        error_log("1");
         $usuarioCompleto = Usuario::join("rol_usuarios","usuarios.id","=","rol_usuarios.usuario_id")
                         ->join("rols", "rols.id","=","rol_usuarios.rol_id")
                         ->select('usuarios.nombre_usuario','usuarios.rut','usuarios.activo','usuarios.area',
@@ -25,13 +26,15 @@ class TodasExport implements FromCollection, WithHeadings
                 $usuario->activo = "INACTIVO";
             }
         }
-
+        error_log("2");
         $return = $usuarioCompleto->filter(function ($item) {
                 if($item->nombre_rol=="operador"){
                     $item->nombre_rol=null;
                     return $item;
-                }})->values(); 
-            return $return;
+                }
+            })->values(); 
+            error_log("3");
+                return $return;
 
        }
 

@@ -254,9 +254,10 @@ class OtController extends Controller
         error_log("entre al index");
         $ots = Ot::orderBy('id','desc')->get();
         error_log("1");
+        $tot = array();
         if(count($ots)>0){
             error_log("2");
-            $tot = array();
+            
             foreach($ots as $ot){
                 $ot->usuario;
                 $ot->cliente;

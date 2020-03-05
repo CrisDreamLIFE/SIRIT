@@ -23,7 +23,7 @@
                         <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body">
+                    <div @click="isOpenCodigo=false" class="modal-body">
                         <form>
                             <div class="form-group">
                                 <div class="row">
@@ -135,7 +135,7 @@
                                     </div>
                                     <div class="col-md-4">                                
                                         <input id="Sesion2-1" class="form-control" type="text" v-model="searchCodigo" @input="onChangueCodigo"/>
-                                        <ul @="isOpenCodigo=false" v-show="isOpenCodigo" class="autocomplete-results">
+                                        <ul v-show="isOpenCodigo" class="autocomplete-results">
                                             <li  @click="setResultCodigo(result,i)" v-for="(result,i) in resultsCodigo" :key="i" class="autocomplete-result">{{result}}</li>
                                         </ul>
                                     </div>
@@ -155,7 +155,6 @@
                                         <button type="button" @click="crearMaterial()" data-target="#modalCreateMaterial" data-toggle="modal" class="btn btn-sm btn-block btn-secondary">CREAR MATERIAL</button>
                                     </div>
                                     <div class="col-md-12">
-                                        {{seleccionados}}
                                         <br><br>
                                         <div v-for="(producto,index) in seleccionados" v-bind:key="index">
                                             <div class="container color3">
@@ -474,11 +473,27 @@
                         return false;
                     }
                 }
-                var aux = [];
-                aux.push(this.productos[this.producto]);
-                aux.push(this.cantidad);
-                aux.push(this.searchCodigo);
-                this.seleccionados.push(aux);
+                //trael el codigo de cliente
+                var params ={
+                    producto: this.productos[this.producto].id,
+                    cliente: this.clientes[this.cliente].id
+                }
+                axios
+                    .post('http://localhost:8000/obtenerClienteCodigo/',params)
+                    .then(response => { 
+                        console.log("respuesta:");
+                        console.log(response.data);
+                        if(response.data != 0){
+                            this.searchCodigo = response.data
+                        }  
+                        var aux = [];
+                        aux.push(this.productos[this.producto]);
+                        aux.push(this.cantidad);
+                        aux.push(this.searchCodigo);
+                        this.seleccionados.push(aux);     
+                    })   
+                    //poner en el them
+                
             },
             quitarProducto(index){
                 this.seleccionados.splice(index,1);

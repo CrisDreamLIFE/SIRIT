@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\ProductoSubProducto;
+use App\Producto;
+use App\SubProducto;
 use Illuminate\Http\Request;
+use phpDocumentor\Reflection\Types\Object_;
 
 class ProductoSubProductoController extends Controller
 {
@@ -15,7 +18,14 @@ class ProductoSubProductoController extends Controller
     public function subProductosOP($id)
     {
         $asociaciones = ProductoSubProducto::where('producto_id',$id)->get();
-        return $asociaciones;
+        $retornar = array();
+        foreach($asociaciones as $as){
+            $allData = new Object_();
+            $allData->producto = Producto::find($as->producto_id);
+            $allData->subProducto = SubProducto::find($as->sub_producto_id);
+            $retornar[] = $allData;
+        }
+        return $retornar;
     }
     public function index()
     {

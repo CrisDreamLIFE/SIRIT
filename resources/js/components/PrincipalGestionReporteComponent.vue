@@ -281,7 +281,7 @@
                             <div class="md-form col-md-6">
                                 <label  class= "color4" for="trabajador2">Área:</label>   
                                 <input id="trabajador2" class="form-control" type="text" v-model="searchTrabajadorArea" @input="onChangueTrabajadorArea" />
-                                <ul v-show="isTrabajadorArea" class="autocomplete-results">
+                                <ul v-show="isOpenTrabajadorArea" class="autocomplete-results">
                                     <li @click="setResultTrabajadorArea(result)" v-for="(result,i) in resultsTrabajadorArea" :key="i" class="autocomplete-result">{{result.nombre_area}}</li>
                                 </ul>
                             </div>

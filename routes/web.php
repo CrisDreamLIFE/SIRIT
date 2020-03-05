@@ -109,10 +109,7 @@ Route::resource('categoriaMaterial','CategoriaOtController');
 #Cliente
 Route::resource('cliente','ClienteController'); 
 Route::get('obtenerCodigosCliente/{id}','ClienteProductoController@obtenerCodigosCliente');
-/*  <!--@foreach ($clientes as $cliente)
-            <p>{{ $cliente->nombre }}</p>
-            <p>{{ $cliente->codigo }}</p>
-        @endforeach--> */
+Route::post('obtenerClienteCodigo','ClienteProductoController@obtenerClienteCodigo');
 
 Auth::routes();
 

@@ -2,8 +2,12 @@
     <div class="container">
         <br>
         <div class="row">
+            <h1>Bienvenido {{usuario.nombre_usuario}}</h1>
+        </div>
+        <br>
+        <div class="row">
             <div class="col-sm-9">
-                <h1>Funcionalidades:</h1>
+                <h3>Funcionalidades:</h3>
             </div>
             <div class="col-sm-2">
                 <select @change="cambioPais" required v-model="paisX" class="form-control">
@@ -12,6 +16,7 @@
             </select> 
             </div>
         </div>
+        <br>
         <div class="container">
             <div v-if="roles.includes('gestor')||roles.includes('administrador')" class="row">
                 <iniciar-trabajo-component @botonIniciarTrabajo="iniciarTrabajo"></iniciar-trabajo-component>

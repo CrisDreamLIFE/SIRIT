@@ -17,6 +17,24 @@ class ClienteProductoController extends Controller
         return $codigos;
     }
 
+    public function obtenerClienteCodigo(Request $request){
+        $cliente_id = $request->input('cliente');
+        $producto_id = $request->input('producto');
+        $codigo =  ClienteProducto::where('cliente_id',$cliente_id)->where('producto_id', $producto_id)->get();
+        error_log("cliete;");
+        error_log($cliente_id);
+        error_log("producto;");
+        error_log($producto_id);
+        error_log("codigo;");
+        error_log($codigo);
+        if(count($codigo)==0){
+            return 0;
+        }
+        else{
+            return $codigo[0]->codigo_cliente;
+        }
+    }
+
     public function index()
     {
         //

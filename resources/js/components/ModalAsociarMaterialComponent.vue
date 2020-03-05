@@ -80,7 +80,7 @@
 
 <script>
     export default {
-        props: ['productos','subProductos'],
+        props: ['productos','subProductos','asociados'],
         data(){
             return {
                 nombreSubMaterial: "",
@@ -116,6 +116,23 @@
 
                         }  
                     })*/
+            axios
+                .get('http://localhost:8000/subProductosOP/'+this.productos[this.productoSeleccionado].id)
+                .then(response => {
+                    console.log(response.data)
+                    for(var i=0;i<response.data.length;i++){
+                        var aux2 = [];
+                        aux2.push(response.data[i].producto);
+                        aux2.push(response.data[i].subProducto);
+                        this.asociacionesEnteras.push(aux2);
+                        var aux= [];
+                        aux.push(response.data[i].producto.id)
+                        aux.push(response.data[i].subProducto.id);
+                        this.asociaciones.push(aux)    
+                    }
+                })
+
+
             },
             quitarAsociacion(index){
                 this.asociacionesEnteras.splice( index, 1 );
