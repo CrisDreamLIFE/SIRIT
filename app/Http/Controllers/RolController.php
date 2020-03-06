@@ -14,7 +14,7 @@ class RolController extends Controller
      */
     public function index()
     {
-        $roles = Rol::all();
+        $roles = Rol::orderBy('nombre_rol')->get();
         return $roles;
     }
 

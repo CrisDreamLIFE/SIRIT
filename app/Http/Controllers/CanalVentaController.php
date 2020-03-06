@@ -14,7 +14,7 @@ class CanalVentaController extends Controller
      */
     public function index()
     {
-        $todos = CanalVenta::all();
+        $todos = CanalVenta::orderBy('nombre_canal')->get();
         return $todos;
     }
 

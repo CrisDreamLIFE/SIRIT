@@ -14,7 +14,7 @@ class CentroCostoController extends Controller
      */
     public function index()
     {
-        $todo = CentroCosto::all();
+        $todo = CentroCosto::orderBy('nombre_centro')->get();
         return $todo;
     }
 

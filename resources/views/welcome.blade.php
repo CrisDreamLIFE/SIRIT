@@ -40,6 +40,9 @@
 
 
 <style scoped>
+    .marginTop{
+        margin-top: 25px;
+    }
     .tit{
         font-size: 10%
     }

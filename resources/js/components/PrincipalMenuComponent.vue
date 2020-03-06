@@ -2,7 +2,13 @@
     <div class="container">
         <br>
         <div class="row">
-            <h1>Bienvenido {{usuario.nombre_usuario}}</h1>
+            <div class="col-md-6">
+                <h1>Bienvenido {{usuario.nombre_usuario}}</h1>
+            </div>
+            <div class="col-md-3"></div>
+            <div class="col-md">
+                <button type="button" v-on:click="volverLogin" class="btn btn-secondary  btn-block colorBoton">Cerrar Sesión</button>
+            </div>
         </div>
         <br>
         <div class="row">
@@ -16,30 +22,35 @@
             </select> 
             </div>
         </div>
-        <br>
         <div class="container">
-            <div v-if="roles.includes('gestor')||roles.includes('administrador')" class="row">
+            <div v-if="roles.includes('gestor')||roles.includes('administrador')" class="row marginTop">
                 <iniciar-trabajo-component @botonIniciarTrabajo="iniciarTrabajo"></iniciar-trabajo-component>
+                <br>
             </div>
-            <br>
-            <div v-if="roles.includes('gestor')||roles.includes('administrador')" class="row">
+            
+            <div v-if="roles.includes('gestor')||roles.includes('administrador')" class="row marginTop">
                 <gestionar-ot-component @botonGestionarOT="iniciarGestionarOT"></gestionar-ot-component>
+                <br>
             </div>
-            <br>
-            <div v-if="roles.includes('gestor')||roles.includes('administrador')" class="row">
+            
+            <div v-if="roles.includes('gestor')||roles.includes('administrador')" class="row marginTop">
                 <gestionar-material-component @botonGestionarMaterial="iniciarGestionarMateriales"></gestionar-material-component>
+                <br>
             </div>
-            <br>
-            <div v-if="roles.includes('gestor')||roles.includes('administrador')" class="row">
+            
+            <div v-if="roles.includes('gestor')||roles.includes('administrador')" class="row marginTop">
                 <gestionar-sub-material-component @botonGestionarSubMaterial="iniciarGestionarSubMateriales"></gestionar-sub-material-component>
+                <br>
             </div>
-            <br>
-            <div v-if="roles.includes('administrador')" class="row">
+            
+            <div v-if="roles.includes('administrador')" class="row marginTop">
                 <gestionar-usuario-component @botonGestionarUsuario="iniciarGestionarUsuarios"></gestionar-usuario-component>
+                <br>
+                <p></p>
             </div>
-            <br>
+            
             <div v-if="roles.includes('gestor')||roles.includes('administrador')
-            ||roles.includes('visualizador')" class="row">
+            ||roles.includes('visualizador')" class="row marginTop">
                 <gestionar-reporte-component @botonGestionarReporte="iniciarGestionarReporte"></gestionar-reporte-component>
             </div>
         </div>
@@ -59,6 +70,9 @@
             console.log('Component mounted.')
         },
         methods:{ 
+            volverLogin(){
+            this.$emit('logout');    
+            },
             cambioPais(){
                 console.log("entre al evento");
                 var params = {
@@ -95,3 +109,9 @@
         }
     }
 </script>
+
+<style scoped>
+    .marginTop{
+        margin-top: 25px;
+    }
+</style>

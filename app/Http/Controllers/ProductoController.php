@@ -45,7 +45,7 @@ class ProductoController extends Controller
 
     public function index()
     {
-        $productos = Producto::all();
+        $productos = Producto::orderBy('nombre_producto')->get();
         return $productos;
     }
 

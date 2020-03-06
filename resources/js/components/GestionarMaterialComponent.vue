@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <button  @click="accionGestionar" type="button" class="btn btn-secondary btn-lg btn-block">Gestionar Materiales</button>        
+        <button  @click="accionGestionar" type="button" class="btn btn-primary btn-lg btn-block">Gestionar Materiales</button>        
     </div>
 </template>
 

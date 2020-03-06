@@ -14,7 +14,7 @@ class NaveController extends Controller
      */
     public function index()
     {
-        return Nave::all();
+        return Nave::orderBy('nombre_nave')->get();
     }
 
     /**

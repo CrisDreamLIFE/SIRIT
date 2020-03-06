@@ -47,6 +47,7 @@
             @botonGestionarReporte="iniciarGestionReporte"
             @botonGestionarUsuario="iniciarGestionUsuario"
             @cambioPais="cambioPais"
+            @logout="logout"
             :usuario = "usuario"
             :roles = "roles"
             :pais = "pais">
@@ -188,6 +189,9 @@ export default {
             console.log('Component mounted.')
         },
         methods:{ 
+            logout(){
+                this.logeado = false;
+            },
             cambioPais(){
                 axios
             .get('http://localhost:8000/otAbierta')

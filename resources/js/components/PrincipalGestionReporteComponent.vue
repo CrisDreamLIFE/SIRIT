@@ -264,7 +264,7 @@
                     <button  @click="clickExportarSesion" type="button" class="btn btn-success btn-lg btn-block">Exportar</button></div><br>    
                 </div>  
             </div>
-        <button  @click="botonSobreTrabajadores" type="button" class="btn btn-primary btn-lg btn-block">Listado de Trabajadores</button>
+        <button  @click="botonSobreTrabajadores" type="button" class="btn btn-primary btn-lg btn-block">Listado de Operadores</button>
             <br>
             <div v-if="trabajadorBool" class="row container color4">
                 <div class="col-md-4">

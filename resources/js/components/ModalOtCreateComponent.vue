@@ -224,7 +224,6 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                         <button type="button" @click="guardarCambios" class="btn btn-primary">Guardar Cambios</button>
-                    {{seleccionados}}
                     </div>
                 </div>
             </div>
@@ -447,12 +446,19 @@
                 console.log("valor index: " )
                 console.log(index);
                 console.log(this.aux);
+                var indi = -1;
+                //primer debo encontrar el indice del codigo cliente
+                for(var j=0; j< this.aux.length;j++){
+                    if(this.aux[j].codigo_cliente==this.codigoCliente){
+                        indi = j;
+                    }
+                }
                 console.log(this.codigoCliente);
                 if(this.codigoCliente!= -1){
                     for(var i =0;i<this.productos.length;i++){
                         console.log("i = ");
                         console.log(i);
-                        if(this.aux[index].producto_id == this.productos[i].id){
+                        if(this.aux[indi].producto_id == this.productos[i].id){
                             console.log("lo pille");
                             this.producto = i;    
                             break;

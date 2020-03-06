@@ -16,7 +16,7 @@
                         <h3 class="h3">Producto:</h3>
                     </div>
                     <div class="col-sm-5">
-                        <h3 class="h3">Sub-Producto:</h3>
+                        <h3 class="h3">Sub-Material:</h3>
                     </div>
             </div>
             <div class="container color2">
@@ -177,8 +177,8 @@
                             <h3 class="h3">Seleccion Sub-Material de: OT {{otProducto[indexG][0].id}} - {{otProducto[indexG][1].nombre_producto}}</h3>
                             <div class="container color">  <!-- este 0 deberia ser el index del for de arriba -->
                                 <div v-for="(sub,index) in subProductos[indexG]" v-bind:key="index" class="form-check-inline">  <!--aqui va el otro for -->
-                                    <input class="form-check-input" type="checkbox" :id="index+indexG*sub.id+sub.nombre_sub_producto" :value="subProductos[indexG][index]" v-model="otProducto[indexG][2]"> <!--valor for mas arriba -->
-                                    <label class="form-check-label lavelFont2" :for="index+indexG*sub.id+sub.nombre_sub_producto" >
+                                    <input class="form-check-input" type="checkbox" :id="index+indexG+sub.id+sub.nombre_sub_producto" :value="subProductos[indexG][index]" v-model="otProducto[indexG][2]"> <!--valor for mas arriba -->
+                                    <label class="form-check-label lavelFont2" :for="index+indexG+sub.id+sub.nombre_sub_producto" >
                                         {{sub.nombre_sub_producto}} 
                                     </label>
                                     <br>

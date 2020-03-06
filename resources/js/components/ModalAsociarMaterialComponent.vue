@@ -71,6 +71,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                         <button type="button" @click="guardarCambios" class="btn btn-primary">Guardar Cambios</button>
+                        {{asociaciones}}
                     </div>
                 </div>
             </div>
@@ -116,6 +117,8 @@
 
                         }  
                     })*/
+            this.asociacionesEnteras=[];
+            this.asociaciones=[];
             axios
                 .get('http://localhost:8000/subProductosOP/'+this.productos[this.productoSeleccionado].id)
                 .then(response => {
@@ -128,6 +131,7 @@
                         var aux= [];
                         aux.push(response.data[i].producto.id)
                         aux.push(response.data[i].subProducto.id);
+                          //revisar esto
                         this.asociaciones.push(aux)    
                     }
                 })
@@ -135,6 +139,11 @@
 
             },
             quitarAsociacion(index){
+                console.log("asociaciones:");
+                console.log(this.asociacionesEnteras);
+                console.log(this.asociaciones);
+                console.log("index");
+                console.log(index);
                 this.asociacionesEnteras.splice( index, 1 );
                 this.asociaciones.splice( index, 1 );
             },

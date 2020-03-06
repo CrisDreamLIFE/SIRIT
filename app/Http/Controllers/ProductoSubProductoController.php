@@ -51,7 +51,12 @@ class ProductoSubProductoController extends Controller
      */
     public function store(Request $request)
     {
-        $asociacionesArray = $request->input('asociaciones');
+        $asociacionesArray = $request->input('asociaciones');   
+
+        $antiguas = ProductoSubProducto::where('producto_id', $asociacionesArray[0][0])->get();
+        foreach($antiguas as $ant){
+            $ant->delete();
+        }
 
         foreach($asociacionesArray as $linea ){
             $nuevo = new ProductoSubProducto;

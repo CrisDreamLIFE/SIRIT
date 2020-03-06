@@ -45,7 +45,7 @@ class UsuarioController extends Controller
     public function buscarConRut(Request $request){
         $rut = $request->input('rut');
         $pass = $request->input('contraseña');
-        $usuario = Usuario::where('rut', $rut)->get();
+        $usuario = Usuario::where('rut', $rut)->where('activo',1)->get();
         if($usuario->isEmpty()){
             return 0;
         }
@@ -72,10 +72,12 @@ class UsuarioController extends Controller
         $trabajadores = array();
         $idRol = 4; //ojo con esto, queda estatico.
         foreach ($usuarios as $usuario){
-            $rolesUsuario = RolUsuario::where('usuario_id',$usuario->id)->get();
-            foreach($rolesUsuario as $rolUsuario){
-                if($rolUsuario->rol_id == 4){ 
-                    $trabajadores[] = $usuario;
+            if($usuario->activo==1){
+                $rolesUsuario = RolUsuario::where('usuario_id',$usuario->id)->get();
+                foreach($rolesUsuario as $rolUsuario){
+                    if($rolUsuario->rol_id == 4){ 
+                        $trabajadores[] = $usuario;
+                    }
                 }
             }
         }
@@ -147,7 +149,7 @@ class UsuarioController extends Controller
     }
     public function index()
     {
-        $usuarios =Usuario::all();
+        $usuarios =Usuario::orderBy('nombre_usuario')->get();
         foreach($usuarios as $usu){
             $usu->roles;
             $usu->areas;

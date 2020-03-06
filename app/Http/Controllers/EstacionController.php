@@ -24,7 +24,7 @@ class EstacionController extends Controller
 
     public function index()
     {
-        $estaciones = Estacion::all();
+        $estaciones = Estacion::orderBy('codigo')->get();
         /*return view('principal')->with([
             'estaciones'=>$estaciones
         ]);*/

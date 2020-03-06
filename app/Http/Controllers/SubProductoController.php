@@ -24,7 +24,7 @@ class SubProductoController extends Controller
 
     public function index()
     {
-        $subproductos = SubProducto::all();
+        $subproductos = SubProducto::orderBy('nombre_sub_producto')->get();
         return $subproductos;
     }
 

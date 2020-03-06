@@ -14,7 +14,7 @@ class ClienteController extends Controller
      */
     public function index()
     {
-        $clientes = Cliente::all();
+        $clientes = Cliente::orderBy('nombre_cliente')->get();
         return $clientes;
     }
 
