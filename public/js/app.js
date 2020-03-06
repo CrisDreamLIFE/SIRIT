@@ -4018,7 +4018,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var params = {
         producto: this.productos[this.producto].id,
-        cliente: this.clientes[this.cliente].id
+        cliente: this.cliente.id
       };
       axios.post('http://localhost:8000/obtenerClienteCodigo/', params).then(function (response) {
         console.log("respuesta:");
@@ -4654,7 +4654,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var params = {
         producto: this.productos[this.producto].id,
-        cliente: this.clientes[this.cliente].id
+        cliente: this.cliente.id
       };
       axios.post('http://localhost:8000/obtenerClienteCodigo/', params).then(function (response) {
         console.log("respuesta:");
