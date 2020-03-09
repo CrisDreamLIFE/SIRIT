@@ -301,6 +301,7 @@ class OtController extends Controller
         $aRetornar = array();
         $aRetornar[] = $ots;
         $aRetornar[] = $tot;
+        error_log($ots);
         return $aRetornar;
       
     }
@@ -413,12 +414,15 @@ class OtController extends Controller
                 error_log("?");
             }
                 error_log("entre");
+                error_log($prod[0]['categoria_id']);
+                error_log("aa");
                 $otProducto->cantidad = (int)$prod[1];
                 $otProducto->ot_id = $ot->id;
                 $otProducto->producto_id = $prod[0]['id'];
-                $otProducto->categoria_id = $prod[3]['id'];
+                $otProducto->categoria_id = $prod[0]['categoria_id'];
                 error_log("antes de categoria");
-                $otProducto->categoria_nombre_aux = $prod[3]['nombre_categoria'];
+                $categoriaTodo = Categoria::find($prod[0]['categoria_id']);
+                $otProducto->categoria_nombre_aux = $categoriaTodo->nombre_categoria;
                 error_log("despues de categoria");
                 //$otProducto->guia_despacho = $prod[7];
                 error_log("aaa");
@@ -447,6 +451,7 @@ class OtController extends Controller
             if($prod[0]['numero_plano']!= ""){
                 $producto->numero_plano = $prod[0]['numero_plano'];
             }
+            $producto->categoria_id = $prod[0]['categoria_id'];
             $producto->save();
 
             #para cliente si es que no lo tiene
@@ -605,7 +610,7 @@ class OtController extends Controller
                 $otProducto->cantidad = (int)$prod[1];
                 $otProducto->ot_id = $ot->id;
                 $otProducto->producto_id = $prod[0]['id'];
-                $otProducto->categoria_id = $prod[3]['id'];
+                $otProducto->categoria_id = $prod[0]['categoria_id'];
                 $otProducto->categoria_nombre_aux = $prod[3]['nombre_categoria'];
                 $otProducto->guia_despacho = $prod[7];
                 error_log("aaa");
@@ -635,6 +640,7 @@ class OtController extends Controller
             if($prod[0]['numero_plano']!= ""){
                 $producto->numero_plano = $prod[0]['numero_plano'];
             }
+            $producto->categoria_id = $prod[0]['categoria_id'];
             $producto->save();
             error_log("d");
 

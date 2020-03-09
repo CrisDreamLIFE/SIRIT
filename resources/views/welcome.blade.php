@@ -20,7 +20,7 @@
         <div id="app">
             <div class="todo">
                 <nav class="navbar navbar-light  colorNav">
-                    <a class="navbar-brand" href="#">
+                    <a  class="navbar-brand" href="http://localhost:8000/">
                     <img src="https://siom.bigscience.cl/wp-content/uploads/2019/10/LOGO-SIOM-OFICIAL-2018_Mesa-de-trabajo-1.png" width="50" height="50" alt="">
                     </a>
                 </nav>
@@ -37,7 +37,6 @@
         
     </body>
 </html>
-
 
 <style scoped>
     .marginTop{

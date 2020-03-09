@@ -214,8 +214,23 @@ export default {
                 this.algoSeleccionado = false;
             },
             botonAtrasOt(){
-                this.iniciarGestionOTBool = false;
-                this.algoSeleccionado = false;
+                axios
+            .get('http://localhost:8000/estacion')
+            .then(response => (this.estaciones = response.data))
+            console.log('Component mounted.')  
+
+            axios
+            .get('http://localhost:8000/otAbierta')
+            .then(response => {this.ots = response.data
+            this.iniciarGestionOTBool = false;
+                this.algoSeleccionado = false;})
+            console.log('Component mounted.')
+
+            axios
+            .get('http://localhost:8000/obtenerPais')
+            .then(response => (this.pais = response.data.pais))
+            console.log('Component mounted.')
+                
             },
             recargarUsuarios(){
                 console.log("ksi");

@@ -2323,51 +2323,65 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.algoSeleccionado = false;
     },
     botonAtrasOt: function botonAtrasOt() {
-      this.iniciarGestionOTBool = false;
-      this.algoSeleccionado = false;
+      var _this3 = this;
+
+      axios.get('http://localhost:8000/estacion').then(function (response) {
+        return _this3.estaciones = response.data;
+      });
+      console.log('Component mounted.');
+      axios.get('http://localhost:8000/otAbierta').then(function (response) {
+        _this3.ots = response.data;
+        _this3.iniciarGestionOTBool = false;
+        _this3.algoSeleccionado = false;
+      });
+      console.log('Component mounted.');
+      axios.get('http://localhost:8000/obtenerPais').then(function (response) {
+        return _this3.pais = response.data.pais;
+      });
+      console.log('Component mounted.');
     },
     recargarUsuarios: function recargarUsuarios() {
-      var _this3 = this;
+      var _this4 = this;
 
       console.log("ksi");
       axios.get('http://localhost:8000/usuario').then(function (response) {
         console.log("respuesta de ot:");
         console.log(response.data);
-        _this3.usuarios = response.data;
-        _this3.gestionUsuarioN += 1;
-        _this3.iniciarGestionUsuarioBool = true;
+        _this4.usuarios = response.data;
+        _this4.gestionUsuarioN += 1;
+        _this4.iniciarGestionUsuarioBool = true;
       });
     },
     recargarOt: function recargarOt() {
-      var _this4 = this;
+      var _this5 = this;
 
       axios.get('http://localhost:8000/ot').then(function (response) {
         console.log("respuesta de ot:");
         console.log(response.data);
-        _this4.otsTodas = response.data;
-        _this4.gestionOtN += 1;
-        _this4.iniciarGestionOTBool = true;
+        _this5.otsTodas = response.data;
+        _this5.gestionOtN += 1;
+        _this5.iniciarGestionOTBool = true;
       });
     },
     recargarMateriales: function recargarMateriales() {
-      var _this5 = this;
+      var _this6 = this;
 
       axios.get('http://localhost:8000/producto').then(function (response) {
-        _this5.productos = response.data;
+        _this6.productos = response.data;
         console.log("recargue los materiales ;v");
-        _this5.gestionMaterialN += 1;
-        _this5.iniciarGestionMaterialBool = true;
-        console.log(_this5.gestionMaterialN);
+        _this6.gestionMaterialN += 1;
+        _this6.iniciarGestionMaterialBool = true;
+        console.log(_this6.gestionMaterialN);
       });
     },
     recargarSubMateriales: function recargarSubMateriales() {
-      var _this6 = this;
+      var _this7 = this;
 
       axios.get('http://localhost:8000/subProducto').then(function (response) {
-        _this6.subProductos = response.data;
+        _this7.subProductos = response.data;
         console.log("recargue los materiales ;v");
-        _this6.gestionSubMaterialN += 1;
-        _this6.iniciarGestionSubMaterialBool = true;
+        _this7.gestionSubMaterialN += 1;
+        _this7.iniciarGestionSubMaterialBool = true;
       });
     },
     auxMetodo: function auxMetodo() {
@@ -2375,94 +2389,94 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.componentKey += 1;
     },
     iniciarGestionReporte: function iniciarGestionReporte() {
-      var _this7 = this;
+      var _this8 = this;
 
       axios.get('http://localhost:8000/nave').then(function (response) {
         console.log(response.data);
-        _this7.naves = response.data;
-        _this7.algoSeleccionado = true;
-        _this7.iniciarGestionReporteBool = true;
+        _this8.naves = response.data;
+        _this8.algoSeleccionado = true;
+        _this8.iniciarGestionReporteBool = true;
       });
       axios.get('http://localhost:8000/area').then(function (response) {
         console.log(response.data);
-        _this7.areas = response.data;
-        _this7.algoSeleccionado = true;
-        _this7.iniciarGestionReporteBool = true;
+        _this8.areas = response.data;
+        _this8.algoSeleccionado = true;
+        _this8.iniciarGestionReporteBool = true;
       });
-      axios.get('http://localhost:8000/producto').then(function (response) {
-        console.log(response.data);
-        _this7.productos = response.data;
-        _this7.algoSeleccionado = true;
-        _this7.iniciarGestionReporteBool = true;
-      });
-      axios.get('http://localhost:8000/ot').then(function (response) {
-        console.log("respuesta de ot:");
-        console.log(response.data);
-        _this7.otsTodas = response.data;
-        _this7.algoSeleccionado = true;
-        _this7.iniciarGestionReporteBool = true;
-      });
-      axios.get('http://localhost:8000/cliente').then(function (response) {
-        console.log("respuesta de ot:");
-        console.log(response.data);
-        _this7.clientes = response.data;
-        _this7.algoSeleccionado = true;
-        _this7.iniciarGestionReporteBool = true;
-      });
-      axios.get('http://localhost:8000/obtenerGestores').then(function (response) {
-        console.log("respuesta de ot:");
-        console.log(response.data);
-        _this7.responsables = response.data;
-        _this7.algoSeleccionado = true;
-        _this7.iniciarGestionReporteBool = true;
-      });
-      axios.get('http://localhost:8000/otTipo').then(function (response) {
-        console.log("respuesta de ot:");
-        console.log(response.data);
-        _this7.tipos = response.data;
-        _this7.algoSeleccionado = true;
-        _this7.iniciarGestionReporteBool = true;
-      });
-    },
-    iniciarGestionMaterial: function iniciarGestionMaterial() {
-      var _this8 = this;
-
       axios.get('http://localhost:8000/producto').then(function (response) {
         console.log(response.data);
         _this8.productos = response.data;
         _this8.algoSeleccionado = true;
-        _this8.iniciarGestionMaterialBool = true;
+        _this8.iniciarGestionReporteBool = true;
+      });
+      axios.get('http://localhost:8000/ot').then(function (response) {
+        console.log("respuesta de ot:");
+        console.log(response.data);
+        _this8.otsTodas = response.data;
+        _this8.algoSeleccionado = true;
+        _this8.iniciarGestionReporteBool = true;
+      });
+      axios.get('http://localhost:8000/cliente').then(function (response) {
+        console.log("respuesta de ot:");
+        console.log(response.data);
+        _this8.clientes = response.data;
+        _this8.algoSeleccionado = true;
+        _this8.iniciarGestionReporteBool = true;
+      });
+      axios.get('http://localhost:8000/obtenerGestores').then(function (response) {
+        console.log("respuesta de ot:");
+        console.log(response.data);
+        _this8.responsables = response.data;
+        _this8.algoSeleccionado = true;
+        _this8.iniciarGestionReporteBool = true;
+      });
+      axios.get('http://localhost:8000/otTipo').then(function (response) {
+        console.log("respuesta de ot:");
+        console.log(response.data);
+        _this8.tipos = response.data;
+        _this8.algoSeleccionado = true;
+        _this8.iniciarGestionReporteBool = true;
+      });
+    },
+    iniciarGestionMaterial: function iniciarGestionMaterial() {
+      var _this9 = this;
+
+      axios.get('http://localhost:8000/producto').then(function (response) {
+        console.log(response.data);
+        _this9.productos = response.data;
+        _this9.algoSeleccionado = true;
+        _this9.iniciarGestionMaterialBool = true;
       });
     },
     iniciarGestionSubMaterial: function iniciarGestionSubMaterial() {
-      var _this9 = this;
+      var _this10 = this;
 
       axios.get('http://localhost:8000/subProducto').then(function (response) {
         console.log(response.data);
-        _this9.subProductos = response.data;
-        _this9.algoSeleccionado = true;
-        _this9.iniciarGestionSubMaterialBool = true;
+        _this10.subProductos = response.data;
+        _this10.algoSeleccionado = true;
+        _this10.iniciarGestionSubMaterialBool = true;
       });
     },
     iniciarGestionUsuario: function iniciarGestionUsuario() {
-      var _this10 = this;
+      var _this11 = this;
 
       axios.get('http://localhost:8000/usuariosConRol').then(function (response) {
         console.log(response.data);
-        _this10.usuarios = response.data;
-        _this10.algoSeleccionado = true;
-        _this10.iniciarGestionUsuarioBool = true;
+        _this11.usuarios = response.data;
+        _this11.algoSeleccionado = true;
+        _this11.iniciarGestionUsuarioBool = true;
       });
     },
     iniciarGestionOT: function iniciarGestionOT() {
-      var _this11 = this;
+      var _this12 = this;
 
       axios.get('http://localhost:8000/ot').then(function (response) {
         console.log("respuesta de ot:");
         console.log(response.data);
-        _this11.otsTodas = response.data;
-        _this11.algoSeleccionado = true;
-        _this11.iniciarGestionOTBool = true;
+        _this12.otsTodas = response.data;
+        _this12.algoSeleccionado = true;
+        _this12.iniciarGestionOTBool = true;
       });
     },
     iniciarTrabajo: function iniciarTrabajo() {
@@ -2470,7 +2484,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.iniciarTrabajoBool = true;
     },
     logear: function logear() {
-      var _this12 = this;
+      var _this13 = this;
 
       console.log("ahora me logeo:v");
 
@@ -2491,15 +2505,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           } else if (response.data == 1) {
             console.log("contraseña invalida");
           } else {
-            _this12.usuario = response.data.usuario;
+            _this13.usuario = response.data.usuario;
             var aux = [];
 
             for (var i = 0; i < response.data.usuario.roles.length; i++) {
               aux.push(response.data.usuario.roles[i].nombre_rol);
             }
 
-            _this12.roles = aux;
-            _this12.logeado = true;
+            _this13.roles = aux;
+            _this13.logeado = true;
           }
         });
       }
@@ -2605,7 +2619,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
 //
 //
 //
@@ -3821,6 +3834,9 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       for (var k = 0; k < this.seleccionados.length; k++) {
+        console.log("el producto:");
+        console.log(this.seleccionados[k]);
+
         if (this.seleccionados[k][2] == undefined) {
           alert("Debe ingresar el Código Cliente del Producto");
           return false;
@@ -3841,13 +3857,19 @@ __webpack_require__.r(__webpack_exports__);
           return false;
         }
 
-        console.log("categoria = ");
-        console.log(this.seleccionados[k][3]);
-
-        if (this.seleccionados[k][3] == undefined) {
+        if (this.seleccionados[k][0].categoria_id == "") {
           alert("Debe ingresar la Categoría del Producto");
           return false;
         }
+        /*console.log("categoria = ");
+        console.log(this.seleccionados[k][3]);
+        
+        if(this.seleccionados[k][3]== undefined){
+            alert("Debe ingresar la Categoría del Producto")
+            return false;
+        }
+        this.seleccionados[k][0].categoria_id = this.seleccionados[k][3]*/
+
 
         if (this.seleccionados[k][4] == undefined) {
           alert("Debe ingresar la Fecha de Entrega del Producto");
@@ -4009,32 +4031,35 @@ __webpack_require__.r(__webpack_exports__);
     agregarProducto: function agregarProducto() {
       var _this6 = this;
 
-      for (var i = 0; i < this.seleccionados.length; i++) {
-        if (this.seleccionados[i][0] == this.productos[this.producto]) {
-          return false;
-        }
-      } //trael el codigo de cliente
+      //porsión de código que evita agregar productos iguales.
 
+      /*
+      for(var i=0;i<this.seleccionados.length;i++){
+          if(this.seleccionados[i][0]==this.productos[this.producto]){
+              return false;
+          }
+      }*/
+      //trael el codigo de cliente
+      if (this.cliente != null) {
+        var params = {
+          producto: this.productos[this.producto].id,
+          cliente: this.cliente.id
+        };
+        axios.post('http://localhost:8000/obtenerClienteCodigo/', params).then(function (response) {
+          console.log("respuesta:");
+          console.log(response.data);
 
-      var params = {
-        producto: this.productos[this.producto].id,
-        cliente: this.cliente.id
-      };
-      axios.post('http://localhost:8000/obtenerClienteCodigo/', params).then(function (response) {
-        console.log("respuesta:");
-        console.log(response.data);
+          if (response.data != 0) {
+            _this6.searchCodigo = response.data;
+          }
+        });
+      }
 
-        if (response.data != 0) {
-          _this6.searchCodigo = response.data;
-        }
-
-        var aux = [];
-        aux.push(_this6.productos[_this6.producto]);
-        aux.push(_this6.cantidad);
-        aux.push(_this6.searchCodigo);
-
-        _this6.seleccionados.push(aux);
-      }); //poner en el them
+      var aux = [];
+      aux.push(this.productos[this.producto]);
+      aux.push(this.cantidad);
+      aux.push(this.searchCodigo);
+      this.seleccionados.push(aux); //poner en el them
     },
     quitarProducto: function quitarProducto(index) {
       this.seleccionados.splice(index, 1);
@@ -4469,13 +4494,17 @@ __webpack_require__.r(__webpack_exports__);
             return false;
           }
 
-          console.log("categoria = ");
-          console.log(this.seleccionados[k][3]);
-
-          if (this.seleccionados[k][3] == undefined) {
+          if (this.seleccionados[k][0].categoria_id == "") {
             alert("Debe ingresar la Categoría del Producto");
             return false;
           }
+          /* console.log("categoria = ");
+           console.log(this.seleccionados[k][3]);
+           if(this.seleccionados[k][3]== undefined){
+               alert("Debe ingresar la Categoría del Producto")
+               return false;
+           }*/
+
 
           if (this.seleccionados[k][4] == undefined) {
             alert("Debe ingresar la Fecha de Entrega del Producto");
@@ -4519,8 +4548,7 @@ __webpack_require__.r(__webpack_exports__);
         alert("OT actualizada exitosamente");
       });
     },
-    cerrar: function cerrar() {
-      this.$emit('botonGuardarEdicionOt');
+    cerrar: function cerrar() {// this.$emit('botonGuardarEdicionOt');   
     },
     onChangueCodigo: function onChangueCodigo() {
       console.log("this.searchCodigo");
@@ -45290,11 +45318,6 @@ var render = function() {
                     on: { click: _vm.guardarCambios }
                   },
                   [_vm._v("Guardar Cambios")]
-                ),
-                _vm._v(
-                  "\r\n                        " +
-                    _vm._s(_vm.asociaciones) +
-                    "\r\n                    "
                 )
               ])
             ])
@@ -47154,6 +47177,7 @@ var render = function() {
                         [
                           _vm._m(10),
                           _c("br"),
+                          _c("br"),
                           _vm._v(" "),
                           _vm._l(_vm.cantidadXProducto, function(
                             cantidad,
@@ -48276,8 +48300,9 @@ var render = function() {
                                             {
                                               name: "model",
                                               rawName: "v-model",
-                                              value: producto[3],
-                                              expression: "producto[3]"
+                                              value: producto[0].categoria_id,
+                                              expression:
+                                                "producto[0].categoria_id"
                                             }
                                           ],
                                           staticClass: "form-control",
@@ -48299,8 +48324,8 @@ var render = function() {
                                                   return val
                                                 })
                                               _vm.$set(
-                                                producto,
-                                                3,
+                                                producto[0],
+                                                "categoria_id",
                                                 $event.target.multiple
                                                   ? $$selectedVal
                                                   : $$selectedVal[0]
@@ -48328,7 +48353,9 @@ var render = function() {
                                               "option",
                                               {
                                                 key: index,
-                                                domProps: { value: categoria }
+                                                domProps: {
+                                                  value: categoria.id
+                                                }
                                               },
                                               [
                                                 _vm._v(
@@ -49779,8 +49806,9 @@ var render = function() {
                                             {
                                               name: "model",
                                               rawName: "v-model",
-                                              value: producto[3],
-                                              expression: "producto[3]"
+                                              value: producto[0].categoria_id,
+                                              expression:
+                                                "producto[0].categoria_id"
                                             }
                                           ],
                                           staticClass: "form-control",
@@ -49802,8 +49830,8 @@ var render = function() {
                                                   return val
                                                 })
                                               _vm.$set(
-                                                producto,
-                                                3,
+                                                producto[0],
+                                                "categoria_id",
                                                 $event.target.multiple
                                                   ? $$selectedVal
                                                   : $$selectedVal[0]
@@ -49831,7 +49859,9 @@ var render = function() {
                                               "option",
                                               {
                                                 key: index,
-                                                domProps: { value: categoria }
+                                                domProps: {
+                                                  value: categoria.id
+                                                }
                                               },
                                               [
                                                 _vm._v(
@@ -55942,7 +55972,7 @@ var render = function() {
                                                 "data-dismiss": "modal"
                                               }
                                             },
-                                            [_vm._v("Close")]
+                                            [_vm._v("Cerrar")]
                                           ),
                                           _vm._v(" "),
                                           _c(
@@ -55958,7 +55988,7 @@ var render = function() {
                                               },
                                               on: { click: _vm.guardarTrabajo }
                                             },
-                                            [_vm._v("Save changes")]
+                                            [_vm._v("Guardar")]
                                           )
                                         ]
                                       )

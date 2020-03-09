@@ -190,9 +190,9 @@
                                                     </div>
                                                     <div class="col-sm-2">
                                                         <label class= "lavelFont2 font-weight-bold">Categoría:</label>
-                                                        <select required v-model="producto[3]"  class="form-control">
-                                                            <option disabled selected >Categorías</option>
-                                                            <option v-for="(categoria,index) in categorias" v-bind:key="index" v-bind:value="categoria">
+                                                        <select required v-model="producto[0].categoria_id"  class="form-control">
+                                                            <option disabled selected >Categorías</option> 
+                                                            <option v-for="(categoria,index) in categorias" v-bind:key="index" v-bind:value="categoria.id">
                                                                 {{ categoria.nombre_categoria }}
                                                             </option>
                                                         </select>
@@ -303,6 +303,8 @@
                     return false;
                 }
                 for(var k=0; k< this.seleccionados.length;k++){
+                    console.log("el producto:");
+                    console.log(this.seleccionados[k]);
                     if(this.seleccionados[k][2]==undefined){
                         alert("Debe ingresar el Código Cliente del Producto")
                         return false;
@@ -319,12 +321,18 @@
                         alert("Debe ingresar el Número de Plano del Producto")
                         return false;
                     }
-                    console.log("categoria = ");
+                    if(this.seleccionados[k][0].categoria_id==""){
+                        alert("Debe ingresar la Categoría del Producto")
+                        return false;
+                    }
+                    /*console.log("categoria = ");
                     console.log(this.seleccionados[k][3]);
+                    
                     if(this.seleccionados[k][3]== undefined){
                         alert("Debe ingresar la Categoría del Producto")
                         return false;
                     }
+                    this.seleccionados[k][0].categoria_id = this.seleccionados[k][3]*/
                     if(this.seleccionados[k][4]== undefined){
                         alert("Debe ingresar la Fecha de Entrega del Producto")
                         return false;
@@ -474,30 +482,34 @@
                     }) */  
             },
             agregarProducto(){
+                //porsión de código que evita agregar productos iguales.
+                /*
                 for(var i=0;i<this.seleccionados.length;i++){
                     if(this.seleccionados[i][0]==this.productos[this.producto]){
                         return false;
                     }
-                }
+                }*/
                 //trael el codigo de cliente
-                var params ={
-                    producto: this.productos[this.producto].id,
-                    cliente: this.cliente.id
-                }
-                axios
-                    .post('http://localhost:8000/obtenerClienteCodigo/',params)
-                    .then(response => { 
-                        console.log("respuesta:");
-                        console.log(response.data);
-                        if(response.data != 0){
-                            this.searchCodigo = response.data
-                        }  
-                        var aux = [];
+                if(this.cliente!=null){
+                    var params ={
+                        producto: this.productos[this.producto].id,
+                        cliente: this.cliente.id
+                    }
+                    axios
+                        .post('http://localhost:8000/obtenerClienteCodigo/',params)
+                        .then(response => { 
+                            console.log("respuesta:");
+                            console.log(response.data);
+                            if(response.data != 0){
+                                this.searchCodigo = response.data
+                            }       
+                        })  
+                } 
+                var aux = [];
                         aux.push(this.productos[this.producto]);
                         aux.push(this.cantidad);
                         aux.push(this.searchCodigo);
-                        this.seleccionados.push(aux);     
-                    })   
+                        this.seleccionados.push(aux);
                     //poner en el them
                 
             },

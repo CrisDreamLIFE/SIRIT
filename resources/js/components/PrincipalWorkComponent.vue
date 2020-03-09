@@ -156,8 +156,8 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer"><!--data-dismiss="modal" -->
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button  type="submit" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" class="btn btn-primary"  v-on:click="guardarTrabajo" >Save changes</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                    <button  type="submit" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" class="btn btn-primary"  v-on:click="guardarTrabajo" >Guardar</button>
                                 </div>
                                 </div>
                             </div>

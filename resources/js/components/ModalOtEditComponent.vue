@@ -215,9 +215,9 @@
                                                     </div>
                                                     <div class="col-sm-2">
                                                         <label class= "lavelFont2 font-weight-bold">Categoría:</label>
-                                                        <select required v-model="producto[3]"  class="form-control">
+                                                        <select required v-model="producto[0].categoria_id"  class="form-control">
                                                             <option disabled selected >Categorías</option>
-                                                            <option v-for="(categoria,index) in categorias" v-bind:key="index" v-bind:value="categoria">
+                                                            <option v-for="(categoria,index) in categorias" v-bind:key="index" v-bind:value="categoria.id">
                                                                 {{ categoria.nombre_categoria }}
                                                             </option>
                                                         </select>
@@ -394,12 +394,16 @@
                         alert("Debe ingresar el Número de Plano del Producto")
                         return false;
                     }
-                    console.log("categoria = ");
+                    if(this.seleccionados[k][0].categoria_id==""){
+                        alert("Debe ingresar la Categoría del Producto")
+                        return false;
+                    }
+                   /* console.log("categoria = ");
                     console.log(this.seleccionados[k][3]);
                     if(this.seleccionados[k][3]== undefined){
                         alert("Debe ingresar la Categoría del Producto")
                         return false;
-                    }
+                    }*/
                     if(this.seleccionados[k][4]== undefined){
                         alert("Debe ingresar la Fecha de Entrega del Producto")
                         return false;
@@ -442,7 +446,7 @@
                     })
             },
             cerrar(){
-                this.$emit('botonGuardarEdicionOt');   
+               // this.$emit('botonGuardarEdicionOt');   
             },
              onChangueCodigo(){
                  console.log("this.searchCodigo")

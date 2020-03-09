@@ -144,7 +144,7 @@
                                             </div>
                                     </div>
                                     <div class="col-sm-1">
-                                        <div class="row"><h6>Fecha Despacho</h6></div><br>
+                                        <div class="row"><h6>Fecha Despacho</h6></div><br><br>
                                             <div v-for="(cantidad,indexC) in cantidadXProducto" :key="indexC">
                                                 <div class="row">
                                                     {{cantidad.fecha_despachO}} 
